@@ -34,7 +34,15 @@ shinyUI(dashboardPage(skin = "black",
                                 actionButton("dash_load_btn", "Load data")
                             ),
                             width = 6
-                        )
+                        ),
+                        
+                        box(title = "Target system",
+                            conditionalPanel(
+                                condition = "output.dbConnection",
+                                tableOutput("dash_summary")
+                            ),
+                            width = 6
+                    )
                     )
             ),
             
@@ -82,7 +90,7 @@ shinyUI(dashboardPage(skin = "black",
                             width = 4
                         ),
                         box(
-                            title = "Raw data",
+                            title = "Review raw data",
                             dataTableOutput("rawdata1_table"),
                             width = 8
                         )

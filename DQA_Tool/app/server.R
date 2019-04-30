@@ -2,14 +2,19 @@ shinyServer(function(input, output, session) {
 
     # if you want to source any files with functions, do it inside the server-function, so the information will not be shared across sessions
     source("./_utilities/functions.R", encoding = "UTF-8")
+    source("./_utilities/statistics.R", encoding = "UTF-8")
     
     # define reactive values here
     rv <- reactiveValues(
         file = NULL,
         db_settings = NULL,
         db_con = NULL,
-        db_getdata = FALSE,
-        data_objects = list()
+        db_getdata = NULL,
+        data_objects = list(),
+        dash_summary = data.table("variable" = character(), 
+                                  "distinct" = integer(), 
+                                  "valids" = integer(),
+                                  "missings" = integer())
     )
     
     
@@ -129,34 +134,58 @@ shinyServer(function(input, output, session) {
             
             output$menu <- renderMenu({
                 sidebarMenu(
-                    menuItem("Raw data", tabName = "tab_rawdata1", icon = icon("table"))
+                    menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table"))
                 )
             })
             updateTabItems(session, "tabs", "tab_rawdata1")
             
+            # render select input here
             output$rawdata1_uiout <- renderUI({
                 selectInput("rawdata1_sel", "Data object", rv$data_objects, multiple=TRUE, selectize=FALSE)
             })
             
-            shinyjs::disable("dash_load_btn")
+            # hide load data button
+            shinyjs::hide("dash_load_btn")
             
         } else {
             cat("\nSQL not loaded yet\n")
         }
     })
     
-    # TODO overview: count encounter ids, count begleitlieger, count patient ids
+    # calculate number of distinct patient ids
+    observe({
+        req(rv$dt_patient.db)
+        if (!("patient_id" %in% rv$dash_summary[,variable])){
+            rv[["dt_patient.db_summary"]] <- countUnique(rv$dt_patient.db, "patient_id", input$config_targetdb_rad)
+            rv$dash_summary <- rbind(rv$dash_summary, rv$dt_patient.db_summary[,.(variable, distinct, valids, missings)])
+        }
+    })
+    observe({
+        req(rv$dt_visit.db)
+        if (!("encounter_id" %in% rv$dash_summary[,variable])){
+            rv[["dt_visit.db_summary"]] <- countUnique(rv$dt_visit.db, "encounter_id", input$config_targetdb_rad)
+            rv$dash_summary <- rbind(rv$dash_summary, rv$dt_visit.db_summary[,.(variable, distinct, valids, missings)])
+        }
+    })
+
+    # render dashboard summary
+    observe({
+        if(nrow(rv$dash_summary) > 0) {
+            output$dash_summary <- renderTable({
+                rv$dash_summary
+            })
+        }
+    })
     
     ########################
     # tab_rawdata1
     ########################
-    # dt_patient.db
     observe({
         req(rv$db_getdata)
-        vec <- c("dt_patient.db", "dt_visit.db", "dt_aitaa.db", "dt_aijaa.db",
-                 "dt_aufnan.db", "dt_aufngr.db", "dt_entlgr.db", "dt_beatmst.db",
-                 "dt_icd.db", "dt_ops.db", "dt_fab.db",
-                 "dt_pl_c5x.db", "dt_pl_c6x.db", "dt_pl_05xx.db", "dt_pl_o0099.db")
+        vec <- c("dt_patient.db", "dt_visit.db", "dt_aufnan.db") #, 
+                 #"dt_aitaa.db", "dt_aijaa.db", "dt_aufngr.db", "dt_entlgr.db", "dt_beatmst.db") #,
+                 # "dt_icd.db", "dt_ops.db", "dt_fab.db",
+                 # "dt_pl_c5x.db", "dt_pl_c6x.db", "dt_pl_05xx.db", "dt_pl_o0099.db")
         
         for (i in vec){
             if (is.null(eval(parse(text=paste0("rv$", i))))){

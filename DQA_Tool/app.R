@@ -5,9 +5,15 @@ library(shinyFiles)
 library(DT)
 library(data.table)
 library(ggplot2)
-library(config)
+#library(config) ##!! do not make config available in namespace --> otherwise confusion with data.table's "get"-function
 library(jsonlite)
 library(RPostgres)
 
 # app entrypoint here
 shinyAppDir("app")
+
+
+
+# TODO overview: count begleitlieger --> only source system
+# TODO create metadata csv-table (to e.g. map variable names)
+

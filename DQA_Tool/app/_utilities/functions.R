@@ -38,8 +38,6 @@ testDBcon <- function(rv){
       user = rv$db_settings$user,
       password = rv$db_settings$password
     )
-    
-    print(RPostgres::dbGetInfo(rv$db_con))
   }, error = function(e){
     showModal(modalDialog(
       title = "Error occured during testing database connection",
