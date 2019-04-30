@@ -1,10 +1,6 @@
-# docker-shiny_baser
+# Shiny DQA Tool
 
-- this is a basic Shiny container  
-
-- put your Shiny app to the folder "shiny_app"
-
-- add your required R packages to the Dockerfile before building the image 
+- this is the shiny DQA tool's repository  
 
 - to build your image:
 ```
