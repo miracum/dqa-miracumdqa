@@ -111,8 +111,10 @@ shinyServer(function(input, output, session) {
         
         if (is.null(rv$sql)){
             if (input$config_targetdb_rad == "i2b2"){
+                cat("\nLoading i2b2 SQLs\n")
                 rv$sql <- fromJSON("./_utilities/SQL_i2b2.JSON")
             } else if (input$config_targetdb_rad == "omop"){
+                cat("\nLoading omop SQLs\n")
                 rv$sql <- fromJSON("./_utilities/SQL_omop.JSON")
             }
         }
@@ -128,6 +130,16 @@ shinyServer(function(input, output, session) {
     
     observeEvent(input$dash_load_btn, {
         testDBcon(rv)
+        
+        if (input$config_sitename == "" || any(grepl("\\s", input$config_sitename))){
+            showModal(modalDialog(
+                title = "Invalid values",
+                "No empty strings or spaces allowed in the site name configuration"
+            ))
+            rv$sql <- NULL
+        } else {
+            rv[["sitename"]] <- input$config_sitename
+        }
         
         if (!is.null(rv$sql)){
             rv$db_getdata <- TRUE

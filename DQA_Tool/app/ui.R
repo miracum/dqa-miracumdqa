@@ -27,7 +27,7 @@ shinyUI(dashboardPage(skin = "black",
         tabItems(
             tabItem(tabName = "tab_dashboard",
                     fluidRow(
-                        box(title = "Overview",
+                        box(title = "Welcome to your shiny dashboard",
                             verbatimTextOutput("dash_instruction"),
                             conditionalPanel(
                                 condition = "output.dbConnection",
@@ -36,7 +36,7 @@ shinyUI(dashboardPage(skin = "black",
                             width = 6
                         ),
                         
-                        box(title = "Target system",
+                        box(title = "Target system overview",
                             conditionalPanel(
                                 condition = "output.dbConnection",
                                 tableOutput("dash_summary")
@@ -48,37 +48,48 @@ shinyUI(dashboardPage(skin = "black",
             
             tabItem(tabName = "tab_config",
                     fluidRow(
-                        box(
-                            title = "Target Database Configuration",
-                            radioButtons(inputId = "config_targetdb_rad", 
-                                         label = "Pleas select the target database",
-                                         choices = list("i2b2" = "i2b2", 
-                                                        "OMOP" = "omop"), 
-                                         selected = NULL, 
-                                         inline = TRUE),
-                            textInput("config_targetdb_dbname", label = "Database name"),
-                            textInput("config_targetdb_hostname", label = "Host name"),
-                            textInput("config_targetdb_port", label = "Port"),
-                            textInput("config_targetdb_user", label = "Username"),
-                            textInput("config_targetdb_password", label = "Password"),
-                            div(class = "row", style = "text-align: center;",
-                                actionButton("config_targetdb_save_btn", "Save settings"),
-                                actionButton("config_targetdb_test_btn", "Test connection")),
-                            width = 6
-                        ),
-                        
-                        box(title = "Source File Directory",
-                            div(class = "row",
-                                div(class="col-sm-4", shinyDirButton("config_sourcedir_in", 
-                                                                     "Source Dir", 
-                                                                     "Please select the source file directory", 
-                                                                     buttonType = "default", 
-                                                                     class = NULL, 
-                                                                     icon = NULL, 
-                                                                     style = NULL)),
-                                div(class = "col-sm-8", verbatimTextOutput("config_sourcedir_out"))
-                            ),
-                            width = 6
+                        column(6,
+                            box(
+                                title = "Target Database Configuration",
+                                radioButtons(inputId = "config_targetdb_rad", 
+                                             label = "Pleas select the target database",
+                                             choices = list("i2b2" = "i2b2", 
+                                                            "OMOP" = "omop"), 
+                                             selected = NULL, 
+                                             inline = TRUE),
+                                textInput("config_targetdb_dbname", label = "Database name"),
+                                textInput("config_targetdb_hostname", label = "Host name"),
+                                textInput("config_targetdb_port", label = "Port"),
+                                textInput("config_targetdb_user", label = "Username"),
+                                textInput("config_targetdb_password", label = "Password"),
+                                div(class = "row", style = "text-align: center;",
+                                    actionButton("config_targetdb_save_btn", "Save settings"),
+                                    actionButton("config_targetdb_test_btn", "Test connection")),
+                                width = 12
+                            )),
+                        column(6,
+                            
+                               box(title = "Sitename",
+                                   div(class = "row",
+                                       div(class = "col-sm-8", textInput("config_sitename", "Please enter the name of your site")),
+                                       div(class = "col-sm-4")
+                                   ),
+                                   width = 12
+                               ),
+                               box(title = "Source File Directory",
+                                    h5(tags$b("Please choose the directory of your §21 source data in csv format")),
+                                    div(class = "row",
+                                        div(class="col-sm-4", shinyDirButton("config_sourcedir_in", 
+                                                                             "Source Dir", 
+                                                                             "Please select the source file directory", 
+                                                                             buttonType = "default", 
+                                                                             class = NULL, 
+                                                                             icon = NULL, 
+                                                                             style = NULL)),
+                                        div(class = "col-sm-8", verbatimTextOutput("config_sourcedir_out"))
+                                    ),
+                                    width = 12
+                                )
                         )
                     )
             ), 
