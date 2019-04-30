@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  shiny:
+    container_name: dqa-app
+    image: dqa-shiny-web-app
+    restart: unless-stopped
+    ports:
+    - "3838:3838"
+    networks:
+    - shiny_app_net
+
+networks:
+  shiny_app_net: 

@@ -1,0 +1,14 @@
+default:
+  i2b2:
+    dbname: "i2b2"
+    host: "i2b2-pg"
+    port: 5432
+    user: "i2b2"
+    password: "demouser"
+  omop:
+    dbname: "OHDSI"
+    host: "omop-pg"
+    port: 5432
+    user: "ohdsi_admin_user"
+    password: "admin1"
+    

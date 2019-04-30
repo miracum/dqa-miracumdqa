@@ -1,0 +1,17 @@
+/*
+/*/
+
+*.log
+
+!/.gitignore
+!/README.md
+!/FAQ.md
+!/docker/
+/docker/addfolder/
+!/DQA_Tool/
+!/DQA_Tool/app/
+/DQA_Tool/app/_settings/
+.Rproj.user
+*.Rproj
+.RData
+.Rhistory

@@ -1,0 +1,1 @@
+# assign global variable here
