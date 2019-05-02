@@ -3,34 +3,34 @@
 library(jsonlite)
 
 
-dt_patient.db <- 
-  "SELECT
-	patient_num       AS    patient_id, 
-  birth_date::date  AS    birth_date, 
-  sex_cd            AS    gender, 
-  zip_cd            AS    zip_code
+dt.patient_target <- 
+"SELECT
+	patient_num       AS    patient_identifier_value, 
+  birth_date::date  AS    patient_birthDate, 
+  sex_cd            AS    patient_gender, 
+  zip_cd            AS    address_postalCode
 FROM
 	i2b2miracum.patient_dimension
 ORDER BY 
 	patient_num;"
 
 
-dt_visit.db <- 
-  "SELECT
-	patient_num       AS    patient_id,
-  encounter_num     AS    encounter_id, 
-  start_date::date  AS    encounter_start_date, 
-  end_date::date    AS    encounter_end_date
+dt.encounter_target <- 
+"SELECT
+	patient_num       AS    subject_patient_identifier_value,
+  encounter_num     AS    encounter_identifier_value, 
+  start_date::date  AS    encounter_period_start, 
+  end_date::date    AS    encounter_period_end
 FROM
   i2b2miracum.visit_dimension
 ORDER BY 
   patient_num;"
 
 
-dt_aitaa.db <- 
-  "SELECT 
-  encounter_num     AS    encounter_id, 
-  nval_num          AS    age
+dt.ageindays_target <- 
+"SELECT 
+  encounter_num     AS    subject_patient_identifier_value, 
+  nval_num          AS    patient_age_days
 FROM 
   i2b2miracum.observation_fact
 WHERE 
@@ -41,10 +41,10 @@ ORDER BY
   encounter_num;"
 
 
-dt_aijaa.db <- 
-  "SELECT 
-  encounter_num     AS    encounter_id, 
-  nval_num          AS    age
+dt.ageinyears_target <- 
+"SELECT 
+  encounter_num     AS    subject_patient_identifier_value, 
+  nval_num          AS    patient_age_years
 FROM 
   i2b2miracum.observation_fact
 WHERE 
@@ -55,10 +55,10 @@ ORDER BY
   encounter_num;"
 
 
-dt_aufnan.db <- 
-  "SELECT
-	encounter_num     AS    encounter_id, 
-  concept_cd        AS    admission_occasion
+dt.admission_target <- 
+"SELECT
+	encounter_num     AS    subject_patient_identifier_value, 
+  concept_cd        AS    encounter_hospitalization_admitSource
 FROM 
   i2b2miracum.observation_fact
 WHERE 
@@ -67,10 +67,10 @@ ORDER BY
   encounter_num;"
 
 
-dt_aufngr.db <- 
-  "SELECT 
-  encounter_num     AS    encounter_id, 
-  concept_cd        AS    admission_reason
+dt.hospitalization_target <- 
+"SELECT 
+  encounter_num     AS    subject_patient_identifier_value, 
+  concept_cd        AS    encounter_hospitalization_class
 FROM 
   i2b2miracum.observation_fact
 WHERE 
@@ -79,10 +79,10 @@ ORDER BY
   encounter_num;"
 
 
-dt_entlgr.db <- 
-  "SELECT 
-  encounter_num     AS    encounter_id, 
-  concept_cd        AS    discharge_reason
+dt.discharge_target <- 
+"SELECT 
+  encounter_num     AS    subject_patient_identifier_value, 
+  concept_cd        AS    encounter_hospitalization_dischargeDisposition
 FROM 
   i2b2miracum.observation_fact
 WHERE 
@@ -91,10 +91,10 @@ ORDER BY
   encounter_num;"
 
 
-dt_beatmst.db <- 
-  "SELECT 
-  encounter_num     AS    encounter_id, 
-  nval_num          AS    ventilation_hours
+dt.ventilation_target <- 
+"SELECT 
+  encounter_num     AS    subject_patient_identifier_value, 
+  nval_num          AS    procedure_code_40617009
 FROM 
 	i2b2miracum.observation_fact 
 WHERE 
@@ -207,14 +207,14 @@ ORDER BY
 string_list <- list()
 
 
-for (i in c("dt_patient.db", "dt_visit.db", "dt_aitaa.db", "dt_aijaa.db", "dt_aufnan.db", "dt_aufngr.db", "dt_entlgr.db", "dt_beatmst.db",
+for (i in c("dt.patient_target", "dt.encounter_target", "dt.ageindays_target", "dt.ageinyears_target", "dt.admission_target", "dt.hospitalization_target", "dt.discharge_target", "dt.ventilation_target",
             "dt_icd.db", "dt_ops.db", "dt_fab.db", "dt_pl_c5x.db", "dt_pl_c6x.db", "dt_pl_05xx.db", "dt_pl_o0099.db")){
   print(i)
   string_list[[i]] <- eval(parse(text=i))
 }
 
 jsonlist <- toJSON(string_list, pretty = T, auto_unbox = F)
-writeLines(jsonlist, "./_utilities/sql.JSON")
+writeLines(jsonlist, "./DQA_Tool/app/_utilities/SQL/SQL_i2b2.JSON")
 
 
 # # debugging

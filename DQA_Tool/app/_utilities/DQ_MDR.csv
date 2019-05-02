@@ -1,0 +1,21 @@
+source_variable_name,source_table_name,modifier,source_system,key,variable_name,variable_type,category,dqa_assessment
+patient_num,patient_dimension,,i2b2,dt.patient_target,patient_identifier_value,factor,demographics,1
+birth_date,patient_dimension,,i2b2,dt.patient_target,patient_birthDate,date,demographics,1
+sex_cd,patient_dimension,,i2b2,dt.patient_target,patient_gender,factor,demographics,1
+zip_cd,patient_dimension,,i2b2,dt.patient_target,address_postalCode,factor,demographics,1
+patient_num,visit_dimension,,i2b2,dt.encounter_target,subject_patient_identifier_value,factor,demographics,0
+encounter_num,visit_dimension,,i2b2,dt.encounter_target,encounter_identifier_value,factor,encounter,1
+start_date,visit_dimension,,i2b2,dt.encounter_target,encounter_period_start,date,encounter,1
+end_date,visit_dimension,,i2b2,dt.encounter_target,encounter_period_end,date,encounter,1
+encounter_num,observation_fact,concept_cd LIKE 'FALL:AITAA',i2b2,dt.ageindays_target,observation_encounter_identifier_value,factor,encounter,0
+nval_num,observation_fact,concept_cd LIKE 'FALL:AITAA',i2b2,dt.ageindays_target,patient_age_days,integer,demographics,1
+encounter_num,observation_fact,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,subject_patient_identifier_value,factor,encounter,0
+nval_num,observation_fact,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,patient_age_years,integer,demographics,1
+encounter_num,observation_fact,concept_cd LIKE 'AUFNAN%',i2b2,dt.admission_target,subject_patient_identifier_value,factor,encounter,0
+concept_cd,observation_fact,concept_cd LIKE 'AUFNAN%',i2b2,dt.admission_target,encounter_hospitalization_admitSource,factor,encounter,1
+encounter_num,observation_fact,concept_cd LIKE 'AUFNGR%',i2b2,dt.hospitalization_target,subject_patient_identifier_value,factor,encounter,0
+concept_cd,observation_fact,concept_cd LIKE 'AUFNGR%',i2b2,dt.hospitalization_target,encounter_hospitalization_class,factor,encounter,1
+encounter_num,observation_fact,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,subject_patient_identifier_value,factor,encounter,0
+concept_cd,observation_fact,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,encounter_hospitalization_dischargeDisposition,factor,encounter,1
+encounter_num,observation_fact,concept_cd LIKE 'FALL:BEATMST',i2b2,dt.ventilation_target,subject_patient_identifier_value,factor,encounter,0
+nval_num,observation_fact,concept_cd LIKE 'FALL:BEATMST',i2b2,dt.ventilation_target,procedure_code_40617009,integer,procedure,1

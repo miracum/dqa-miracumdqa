@@ -13,7 +13,7 @@ getDBsettings <- function(input, rv){
   if ("" %in% rv$tab[,value] || any(rv$tab[,grepl("\\s", value)])){
     showModal(modalDialog(
       title = "Invalid values",
-      "No empty strings or spaces allowed in database configurations"
+      "No empty strings or spaces allowed in database configurations."
     ))
     return(NULL)
     
@@ -48,6 +48,7 @@ testDBcon <- function(rv){
   })
 }
 
+# fire SQL to database
 fireSQL <- function(rv, jsonobj){
   withProgress(
     message = paste0("Getting ", jsonobj, " data from server"), value = 0, {
@@ -61,8 +62,20 @@ fireSQL <- function(rv, jsonobj){
   })
 }
 
+# load csv files
+loadCSV <- function(rv, file){
+  withProgress(
+    message = paste0("Reading ", file, " file from directory"), value = 0, {
+      incProgress(1/1, detail = "... working hard to read data ...")
+      # get data
+      rv$data_objects[[file]] <- paste0("rv$", file)
+      cat("\nFile path:", paste0(rv$sourcefiledir, "/", file))
+      return(fread(paste0(rv$sourcefiledir, "/", file), header = T))
+    })
+}
 
-onStart <- function(session, rv, output){
+# function to run on startup
+onStart <- function(session, rv, input, output){
   if (file.exists("./_settings/global_settings.JSON")){
     cat("\nglobal_settings.JSON present\n")
     user_settings <- fromJSON("./_settings/global_settings.JSON")
@@ -72,9 +85,20 @@ onStart <- function(session, rv, output){
     
     cat("\nUpdate source file path:", user_settings[["source_path"]], "\n")
     rv$sourcefiledir <- user_settings[["source_path"]]
+    shinyDirChoose(input, "config_sourcedir_in", updateFreq = 0, session = session, defaultPath = user_settings[["source_path"]], roots = c(home="/home/"), defaultRoot = "home")
     
     cat("\nUpdate site name:", user_settings[["site_name"]], "\n")
     rv$sitename <- user_settings[["site_name"]]
     updateTextInput(session, "config_sitename", value = user_settings[["site_name"]])
-  }
+    
+    rv[["user_settings"]] <- user_settings
+  } 
+}
+
+# create summary tables
+summaryTable <- function(){
+  return(data.table("variable" = character(), 
+                    "distinct" = integer(), 
+                    "valids" = integer(),
+                    "missings" = integer()))
 }

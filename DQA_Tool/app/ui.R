@@ -1,7 +1,7 @@
 shinyUI(dashboardPage(skin = "black",
                       
                       # Application title
-                      dashboardHeader(title = "Shiny DQA Tool"),
+                      dashboardHeader(title = "MIRACUM DQA Tool"),
                       
                       dashboardSidebar(
                           
@@ -11,9 +11,10 @@ shinyUI(dashboardPage(skin = "black",
                           
                           #Sidebar Panel
                           sidebarMenu(id = "tabs",
-                                      menuItem("Dashboard", tabName = "tab_dashboard", icon = icon("file")),
+                                      menuItem("Dashboard", tabName = "tab_dashboard", icon = icon("tachometer-alt")),
                                       sidebarMenuOutput("menu"),
-                                      menuItem("Settings", tabName = "tab_config", icon = icon("file")),
+                                      menuItem("Settings", tabName = "tab_config", icon = icon("cogs")),
+                                      menuItem("DQ MDR", tabName = "tab_mdr", icon = icon("database")),
                                       actionButton("reset", "Reset DQA Tool")
                           )),
                       
@@ -30,7 +31,7 @@ shinyUI(dashboardPage(skin = "black",
                               tabItem(tabName = "tab_dashboard",
                                       fluidRow(
                                           column(6,
-                                                 box(title = "Welcome to your shiny dashboard",
+                                                 box(title = "Welcome to your MIRACUM Data-Quality-Analysis dashboard",
                                                      verbatimTextOutput("dash_instruction"),
                                                      conditionalPanel(
                                                          condition = "output.dbConnection",
@@ -118,7 +119,14 @@ shinyUI(dashboardPage(skin = "black",
                                               width = 8
                                           )
                                       )
-                              )
+                              ),
+                              
+                              tabItem(tabName = "tab_mdr",
+                                      box(
+                                        title = "DQ Metadatarepository",
+                                        dataTableOutput("mdr_table"),
+                                        width = 12
+                                      ))
                           )
                       )
 ))

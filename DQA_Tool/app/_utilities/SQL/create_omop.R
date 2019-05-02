@@ -342,7 +342,7 @@ for (i in c("dt_patient.db", "dt_visit.db", "dt_aitaa.db", "dt_aijaa.db", "dt_au
 }
 
 jsonlist <- toJSON(string_list, pretty = T, auto_unbox = F)
-writeLines(jsonlist, "./_utilities/sql.JSON")
+writeLines(jsonlist, "./app/DQA_Tool/_utilities/SQL/SQL_omop.JSON")
 
 
 # # debugging
