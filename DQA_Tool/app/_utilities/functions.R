@@ -60,3 +60,21 @@ fireSQL <- function(rv, jsonobj){
     return(data.table(dbGetQuery(rv$db_con, sql), stringsAsFactors = TRUE))
   })
 }
+
+
+onStart <- function(session, rv, output){
+  if (file.exists("./_settings/global_settings.JSON")){
+    cat("\nglobal_settings.JSON present\n")
+    user_settings <- fromJSON("./_settings/global_settings.JSON")
+    
+    cat("\nUpdate radio button:", user_settings[["db"]], "\n")
+    updateRadioButtons(session, "config_targetdb_rad", selected = user_settings[["db"]])
+    
+    cat("\nUpdate source file path:", user_settings[["source_path"]], "\n")
+    rv$sourcefiledir <- user_settings[["source_path"]]
+    
+    cat("\nUpdate site name:", user_settings[["site_name"]], "\n")
+    rv$sitename <- user_settings[["site_name"]]
+    updateTextInput(session, "config_sitename", value = user_settings[["site_name"]])
+  }
+}
