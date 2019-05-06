@@ -9,11 +9,10 @@ library(ggplot2)
 library(jsonlite)
 library(RPostgres)
 
+
 # app entrypoint here
 shinyAppDir("app")
 
 
-
-# TODO overview: count begleitlieger --> only source system
 # TODO create metadata csv-table (to e.g. map variable names)
 
