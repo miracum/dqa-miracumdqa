@@ -1,8 +1,8 @@
 #!/bin/bash
 
 mkdir -p addfolder/
-cp -R ../shiny_app/* addfolder/
+cp -R ../DQA_Tool/* addfolder/
 
-docker build -f Dockerfile -t dqa-shiny-web-app .
+docker build -f Dockerfile -t dqa-miracum .
 
 rm -rf addfolder/

@@ -2,13 +2,15 @@ version: '3'
 
 services:
   shiny:
-    container_name: dqa-app
-    image: dqa-shiny-web-app
+    container_name: dqa-miracum
+    image: dqa-miracum
     restart: unless-stopped
     ports:
     - "3838:3838"
     networks:
-    - shiny_app_net
+    - i2b2net
 
 networks:
-  shiny_app_net: 
+    i2b2net:
+       driver: bridge
+
