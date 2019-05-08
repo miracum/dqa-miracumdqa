@@ -4,8 +4,9 @@ getDBsettings <- function(input, rv){
   vec <- c("dbname", "host", "port", "user", "password")
   
   tab <- lapply(vec, function(g) {
-    data.table("keys" = vec[g], "value" = eval(parse(text=paste0("input[['moduleConfig-config_targetdb_", g, "']]"))))
+    data.table("keys" = g, "value" = eval(parse(text=paste0("input[['moduleConfig-config_targetdb_", g, "']]"))))
   })
+  print(tab)
   
   rv$tab <- do.call(rbind, tab)
   

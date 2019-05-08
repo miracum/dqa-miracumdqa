@@ -41,7 +41,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
     }
     
     updateTextInput(session, "config_targetdb_dbname", value = rv$db_settings$dbname)
-    updateTextInput(session, "config_targetdb_hostname", value = rv$db_settings$host)
+    updateTextInput(session, "config_targetdb_host", value = rv$db_settings$host)
     updateTextInput(session, "config_targetdb_port", value = rv$db_settings$port)
     updateTextInput(session, "config_targetdb_user", value = rv$db_settings$user)
     updateTextInput(session, "config_targetdb_password", value = rv$db_settings$password)
@@ -123,7 +123,7 @@ moduleConfigUI <- function(id){
                              selected = NULL, 
                              inline = TRUE),
                 textInput(ns("config_targetdb_dbname"), label = "Database name"),
-                textInput(ns("config_targetdb_hostname"), label = "Host name"),
+                textInput(ns("config_targetdb_host"), label = "Host name"),
                 textInput(ns("config_targetdb_port"), label = "Port"),
                 textInput(ns("config_targetdb_user"), label = "Username"),
                 passwordInput(ns("config_targetdb_password"), label = "Password"),
