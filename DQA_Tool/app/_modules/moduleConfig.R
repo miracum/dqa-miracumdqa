@@ -117,7 +117,7 @@ moduleConfigUI <- function(id){
              box(
                title = "Target Database Configuration",
                 radioButtons(inputId = ns("config_targetdb_rad"), 
-                             label = "Pleas select the target database",
+                             label = "Please select the target database",
                              choices = list("i2b2" = "i2b2", 
                                             "OMOP" = "omop"), 
                              selected = NULL, 
