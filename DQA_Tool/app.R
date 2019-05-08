@@ -15,4 +15,3 @@ shinyAppDir("app")
 
 
 # TODO create metadata csv-table (to e.g. map variable names)
-

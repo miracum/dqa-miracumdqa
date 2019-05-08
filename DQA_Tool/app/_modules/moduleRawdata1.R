@@ -15,10 +15,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
     if (isTRUE(rv$target_getdata)){
       # get data from database
       
-      # get keys from our mdr
-      rv$db_keys <- rv$mdr[source_system==rv$target_db,unique(key)][1:3]
-      
-      rv$list_target <- sapply(rv$db_keys, function(i){
+      rv$list_target <- sapply(rv$target_keys, function(i){
         fireSQL(rv, i)
       }, simplify = F, USE.NAMES = T)
       rv$target_getdata <- FALSE
@@ -31,7 +28,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
       # get data from csv files
       cat("\nReading from csv\n")
       
-      rv$list_source <- sapply(rv$csv_keys, function(i){
+      rv$list_source <- sapply(rv$source_keys, function(i){
         loadCSV(rv, i)
       }, simplify = F, USE.NAMES = T)
       rv$source_getdata <- FALSE

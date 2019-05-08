@@ -3,6 +3,8 @@ shinyServer(function(input, output, session) {
     # define reactive values here
     rv <- reactiveValues(
         mdr = NULL,
+        target_keys = NULL,
+        source_keys = NULL,
         file = NULL,
         sourcefiledir = NULL,
         sitename = NULL,
@@ -16,8 +18,7 @@ shinyServer(function(input, output, session) {
         list_source = NULL,
         list_target = NULL,
         dash_summary_target = summaryTable(),
-        dash_summary_source = summaryTable(),
-        csv_keys = c("FALL.CSV", "FAB.CSV", "ICD.CSV", "OPS.CSV")
+        dash_summary_source = summaryTable()
     )
     
     
@@ -29,6 +30,12 @@ shinyServer(function(input, output, session) {
         if (is.null(rv$mdr)){
             cat("\nRead MDR\n")
             rv$mdr <- fread("./_utilities/DQ_MDR.csv", header = T)
+            
+            # get target keys from our mdr
+            rv$target_keys <- rv$mdr[source_system==rv$target_db,unique(key)][1:3]
+            
+            # get source keys from our mdr
+            rv$source_keys <- rv$mdr[source_system=="csv",unique(source_table_name)][1:3]
         }
     })
     

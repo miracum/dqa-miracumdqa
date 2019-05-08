@@ -8,7 +8,7 @@ dt.patient_target <-
 	patient_num       AS    patient_identifier_value, 
   birth_date::date  AS    patient_birthDate, 
   sex_cd            AS    patient_gender, 
-  zip_cd            AS    address_postalCode
+  zip_cd            AS    patient_address_postalCode
 FROM
 	i2b2miracum.patient_dimension
 ORDER BY 
@@ -17,7 +17,7 @@ ORDER BY
 
 dt.encounter_target <- 
 "SELECT
-	patient_num       AS    subject_patient_identifier_value,
+	patient_num       AS    encounter_subject_patient_identifier_value,
   encounter_num     AS    encounter_identifier_value, 
   start_date::date  AS    encounter_period_start, 
   end_date::date    AS    encounter_period_end
@@ -29,8 +29,8 @@ ORDER BY
 
 dt.ageindays_target <- 
 "SELECT 
-  encounter_num     AS    subject_patient_identifier_value, 
-  nval_num          AS    patient_age_days
+  encounter_num     AS    encounter_identifier_value, 
+  nval_num          AS    encounter_subject_patient_age_days
 FROM 
   i2b2miracum.observation_fact
 WHERE 
@@ -43,8 +43,8 @@ ORDER BY
 
 dt.ageinyears_target <- 
 "SELECT 
-  encounter_num     AS    subject_patient_identifier_value, 
-  nval_num          AS    patient_age_years
+  encounter_num     AS    encounter_identifier_value, 
+  nval_num          AS    encounter_subject_patient_age_days
 FROM 
   i2b2miracum.observation_fact
 WHERE 
@@ -57,7 +57,7 @@ ORDER BY
 
 dt.admission_target <- 
 "SELECT
-	encounter_num     AS    subject_patient_identifier_value, 
+	encounter_num     AS    encounter_identifier_value, 
   concept_cd        AS    encounter_hospitalization_admitSource
 FROM 
   i2b2miracum.observation_fact
@@ -69,7 +69,7 @@ ORDER BY
 
 dt.hospitalization_target <- 
 "SELECT 
-  encounter_num     AS    subject_patient_identifier_value, 
+  encounter_num     AS    encounter_identifier_value, 
   concept_cd        AS    encounter_hospitalization_class
 FROM 
   i2b2miracum.observation_fact
@@ -81,7 +81,7 @@ ORDER BY
 
 dt.discharge_target <- 
 "SELECT 
-  encounter_num     AS    subject_patient_identifier_value, 
+  encounter_num     AS    encounter_identifier_value, 
   concept_cd        AS    encounter_hospitalization_dischargeDisposition
 FROM 
   i2b2miracum.observation_fact
@@ -93,7 +93,7 @@ ORDER BY
 
 dt.ventilation_target <- 
 "SELECT 
-  encounter_num     AS    subject_patient_identifier_value, 
+  encounter_num     AS    procedure_encounter_identifier_value, 
   nval_num          AS    procedure_code_40617009
 FROM 
 	i2b2miracum.observation_fact 
@@ -105,7 +105,7 @@ ORDER BY
 
 dt_icd.db <- 
   "SELECT 
-  encounter_num     AS    encounter_id, 
+  encounter_num     AS    encounter_identifier_value, 
   concept_cd        AS    icd_code,
 	modifier_cd       AS    diagnosis_type
 FROM 
