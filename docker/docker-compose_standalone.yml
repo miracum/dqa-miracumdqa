@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  shiny:
+  dqatool:
     container_name: dqa-miracum
     image: dqa-miracum
     restart: unless-stopped

@@ -1,13 +1,13 @@
 # get db_settings
 getDBsettings <- function(input, rv){
-  rv$tab <- data.table("keys" = character(), "value" = character())
   # create description of column selections
   vec <- c("dbname", "host", "port", "user", "password")
-  selections <- c("config_targetdb_dbname", "config_targetdb_hostname", "config_targetdb_port", "config_targetdb_user", "config_targetdb_password")
   
-  lapply(1:length(vec), function(g) {
-    rv$tab <- rbind(rv$tab, cbind("keys" = vec[g], "value" = eval(parse(text=paste0("input[['moduleConfig-", selections[g], "']]")))))
+  tab <- lapply(vec, function(g) {
+    data.table("keys" = vec[g], "value" = eval(parse(text=paste0("input[['moduleConfig-config_targetdb_", g, "']]"))))
   })
+  
+  rv$tab <- do.call(rbind, tab)
   
   # if one column is selected multiple times
   if ("" %in% rv$tab[,value] || any(rv$tab[,grepl("\\s", value)])){
