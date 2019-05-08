@@ -40,6 +40,8 @@ services:
     container_name: dqa-miracum
     image: dqa-miracum
     restart: unless-stopped
+    volumes:
+      - /home/i2b2/start:/home/i2b2/start
     ports:
     - "3838:3838"
     networks:
@@ -47,4 +49,4 @@ services:
 
 networks:
     i2b2net:
-       driver
+       driver: bridge
