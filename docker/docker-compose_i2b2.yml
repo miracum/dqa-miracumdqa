@@ -1,41 +1,6 @@
 version: '3'
 
 services:
-  i2b2-2web:
-    container_name: i2b2web
-    image: i2b2/i2b2-web:p1
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /home/i2b2/docker-share/i2b2-web/html:/var/www/html
-    command: /run-httpd.sh localhost
-    networks:
-      - i2b2net
-    depends_on:
-      - i2b2-wildfly
-  i2b2-wildfly:
-    container_name: i2b2wildfly
-    image: i2b2/i2b2-wildfly:0.1
-    ports:
-      - "8080:8080"
-      - "9990:9990"
-    volumes:
-      - /home/i2b2/docker-share/i2b2-wildfly/standalone:/opt/jboss/wildfly/standalone
-    networks:
-      - i2b2net
-    depends_on:
-      - i2b2-pg
-  i2b2-pg:
-    container_name: i2b2pg
-    image: i2b2/i2b2-pg:p1
-    ports:
-      - "5432:5432"
-    volumes:
-      - /home/i2b2/docker-share/i2b2-pg/main:/var/lib/postgresql/9.3/main
-      - /home/i2b2/start:/home/i2b2/start
-    networks:
-      - i2b2net
   dqatool:
     container_name: dqa-miracum
     image: dqa-miracum
@@ -45,8 +10,8 @@ services:
     ports:
     - "3838:3838"
     networks:
-    - i2b2net
+    - i2b2_i2b2net
 
 networks:
-    i2b2net:
-       driver: bridge
+    i2b2_i2b2net:
+       external: true
