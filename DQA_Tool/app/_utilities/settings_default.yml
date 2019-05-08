@@ -11,4 +11,3 @@ default:
     port: 5432
     user: "ohdsi_admin_user"
     password: "admin1"
-    

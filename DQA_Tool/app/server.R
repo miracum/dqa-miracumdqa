@@ -25,21 +25,6 @@ shinyServer(function(input, output, session) {
     # run onStart here
     onStart(session, rv, input, output)
     
-    # read mdr
-    observe({
-        if (is.null(rv$mdr)){
-            cat("\nRead MDR\n")
-            rv$mdr <- fread("./_utilities/DQ_MDR.csv", header = T)
-            
-            # get target keys from our mdr
-            rv$target_keys <- rv$mdr[source_system==rv$target_db,unique(key)][1:3]
-            
-            # get source keys from our mdr
-            rv$source_keys <- rv$mdr[source_system=="csv",unique(source_table_name)][1:3]
-        }
-    })
-    
-    
     # handle reset
     observeEvent(input$reset, {
         js$reset()
