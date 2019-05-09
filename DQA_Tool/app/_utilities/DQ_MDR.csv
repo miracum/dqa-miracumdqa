@@ -3,7 +3,7 @@ AUFNAHMEANLASS,FALL.CSV,,,,,,csv,dt.admission_source,encounter_hospitalization_a
 ALTER_IN_TAGEN_AM_AUFNAHMETAG,FALL.CSV,,,,,,csv,dt.ageindays_source,encounter_subject_patient_age_days,undefined,integer,,1
 ALTER_IN_JAHREN_AM_AUFNAHMETAG,FALL.CSV,,,,,,csv,dt.ageinyears_source,encounter_subject_patient_age_years,undefined,integer,,1
 KH_internes_Kennzeichen,ICD.CSV,,,,,,csv,dt.condition_source,condition_encounter_identifier_value,condition.encounter.identifier.value,factor,,0
-Diagnoseart,ICD.CSV,,,,,,csv,dt.condition_source,condition_category_encounter-diagnosis,condition.category.encounter-diagnosis,factor,,1
+Diagnoseart,ICD.CSV,,,,,,csv,dt.condition_source,condition_category_encounter_diagnosis,condition.category.encounter.diagnosis,factor,,1
 ICD_Kode,ICD.CSV,,,,,,csv,dt.condition_source,condition_code_coding_code,condition.code.coding.code,factor,,1
 ENTLASSUNGSGRUND,FALL.CSV,,,,,,csv,dt.discharge_source,encounter_hospitalization_dischargeDisposition,encounter.hospitalization.dischargeDisposition,factor,,1
 KH_INTERNES_KENNZEICHEN,FALL.CSV,,,,,,csv,dt.encounter_source,encounter_identifier_value,encounter.identifier.value,factor,,1
@@ -39,7 +39,7 @@ nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AITAA',i2b2,
 encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,encounter_identifier_value,encounter.identifier.value,factor,,0
 nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,encounter_subject_patient_age_years,undefined,integer,,1
 encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_encounter_identifier_value,condition.encounter.identifier.value,factor,,0
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_category_encounter-diagnosis,condition.category.encounter-diagnosis,factor,,1
+concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_category_encounter_diagnosis,condition.category.encounter_diagnosis,factor,,1
 modifier_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_code_coding_code,condition.code.coding.code,factor,,1
 encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,encounter_identifier_value,encounter.identifier.value,factor,,0
 concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,encounter_hospitalization_dischargeDisposition,encounter.hospitalization.dischargeDisposition,factor,,1

@@ -107,7 +107,7 @@ dt.condition_target <-
 "SELECT 
   encounter_num     AS    condition_encounter_identifier_value, 
   concept_cd        AS    condition_code_coding_code,
-	modifier_cd       AS    condition_category_encounter-diagnosis
+	modifier_cd       AS    condition_category_encounter_diagnosis
 FROM 
   i2b2miracum.observation_fact
 WHERE 
