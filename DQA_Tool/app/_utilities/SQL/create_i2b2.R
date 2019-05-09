@@ -19,8 +19,8 @@ dt.encounter_target <-
 "SELECT
 	patient_num       AS    encounter_subject_patient_identifier_value,
   encounter_num     AS    encounter_identifier_value, 
-  start_date::date  AS    encounter_period_start, 
-  end_date::date    AS    encounter_period_end
+  start_date::date  AS    EpisodeOfCare_period_start, 
+  end_date::date    AS    EpisodeOfCare_period_end
 FROM
   i2b2miracum.visit_dimension
 ORDER BY 
@@ -94,7 +94,7 @@ ORDER BY
 dt.ventilation_target <- 
 "SELECT 
   encounter_num     AS    procedure_encounter_identifier_value, 
-  nval_num          AS    procedure_code_40617009
+  nval_num          AS    procedure_code_coding_code_40617009
 FROM 
 	i2b2miracum.observation_fact 
 WHERE 
@@ -103,11 +103,11 @@ ORDER BY
 	encounter_num;"
 
 
-dt_icd.db <- 
-  "SELECT 
-  encounter_num     AS    encounter_identifier_value, 
-  concept_cd        AS    icd_code,
-	modifier_cd       AS    diagnosis_type
+dt.condition_target <- 
+"SELECT 
+  encounter_num     AS    condition_encounter_identifier_value, 
+  concept_cd        AS    condition_code_coding_code,
+	modifier_cd       AS    condition_category_encounter-diagnosis
 FROM 
   i2b2miracum.observation_fact
 WHERE 
@@ -116,11 +116,12 @@ ORDER BY
   encounter_num;"
 
 
-dt_ops.db <- 
-  "SELECT 
-  encounter_num     AS    encounter_id, 
-  concept_cd        AS    ops_code,
-  start_date::date  AS    ops_date
+dt.procedure_target <- 
+"SELECT 
+  encounter_num     AS    procedure_encounter_identifier_value, 
+  concept_cd        AS    procedure_code_coding_code,
+  start_date::date  AS    procedure_performedDateTime
+  
 FROM 
   i2b2miracum.observation_fact
 WHERE 
@@ -129,12 +130,12 @@ ORDER BY
   encounter_num;"
 
 
-dt_fab.db <- 
-  "SELECT 
-  encounter_num     AS    encounter_id, 
-  tval_char         AS    department,
-  start_date::date  AS    department_start_date, 
-  end_date::date    AS    department_end_date
+dt.provider_target <- 
+"SELECT 
+  encounter_num     AS    encounter_identifier_value, 
+  tval_char         AS    encounter_serviceProvider_type_Organization_name,
+  start_date::date  AS    encounter_period_start, 
+  end_date::date    AS    encounter_period_end
 FROM 
 	i2b2miracum.observation_fact
 WHERE 
@@ -143,64 +144,69 @@ ORDER BY
 	encounter_num;"
 
 
-dt_pl_c5x.db <- 
-  "SELECT 
-  ob.encounter_num    AS    encounter_id, 
-  ob.patient_num      AS    patient_id,
-  ob.concept_cd       AS    icd_code,
-  pa.sex_cd           AS    gender,
-  regexp_matches(ob.concept_cd, 'ICD10:C5[1-8]', 'g') AS regex
+pl.item02_target <-
+"SELECT 
+  ob.encounter_num    AS    encounter_identifier_value, 
+  ob.patient_num      AS    patient_identifier_value,
+  ob.concept_cd       AS    condition_code_coding_code,
+  pa.sex_cd           AS    patient_gender
 FROM 
   i2b2miracum.observation_fact AS ob
 LEFT OUTER JOIN 
   i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
+WHERE
+  ob.concept_cd ~ 'ICD10:O[0-9]'
 ORDER BY
   ob.encounter_num;"
 
 
-dt_pl_c6x.db <- 
-  "SELECT 
-  ob.encounter_num    AS    encounter_id, 
-  ob.patient_num      AS    patient_id,
-  ob.concept_cd       AS    icd_code,
-  pa.sex_cd           AS    gender,
-  regexp_matches(ob.concept_cd, 'ICD10:C6[0-3]', 'g') AS regex
+pl.item03_target <- 
+"SELECT 
+  ob.encounter_num    AS    encounter_identifier_value, 
+  ob.patient_num      AS    patient_identifier_value,
+  ob.concept_cd       AS    condition_code_coding_code,
+  pa.sex_cd           AS    patient_gender
 FROM 
   i2b2miracum.observation_fact AS ob
 LEFT OUTER JOIN 
   i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
+WHERE
+  ob.concept_cd ~ 'ICD10:C5[1-8]'
 ORDER BY
   ob.encounter_num;"
 
 
-dt_pl_05xx.db <-
+pl.item04_target <- 
   "SELECT 
-  ob.encounter_num    AS    encounter_id, 
-  ob.patient_num      AS    patient_id,
-  ob.concept_cd       AS    admission_reason,
-  pa.sex_cd           AS    gender,
-  regexp_matches(ob.concept_cd, 'AUFNGR:05', 'g') AS regex
+  ob.encounter_num    AS    encounter_identifier_value, 
+  ob.patient_num      AS    patient_identifier_value,
+  ob.concept_cd       AS    condition_code_coding_code,
+  pa.sex_cd           AS    patient_gender
 FROM 
   i2b2miracum.observation_fact AS ob
 LEFT OUTER JOIN 
   i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
+WHERE
+  ob.concept_cd ~ 'ICD10:C6[0-3]'
 ORDER BY
   ob.encounter_num;"
 
 
-dt_pl_o0099.db <-
-  "SELECT 
-  ob.encounter_num    AS    encounter_id, 
-  ob.patient_num      AS    patient_id,
-  ob.concept_cd       AS    icd_code,
-  pa.sex_cd           AS    gender,
-  regexp_matches(ob.concept_cd, 'ICD10:O[0-9]', 'g') AS regex
+pl.item05_target <-
+"SELECT 
+  ob.encounter_num    AS    encounter_identifier_value, 
+  ob.patient_num      AS    patient_identifier_value,
+  ob.concept_cd       AS    condition_code_coding_code,
+  pa.sex_cd           AS    patient_gender
 FROM 
   i2b2miracum.observation_fact AS ob
 LEFT OUTER JOIN 
   i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
+WHERE
+  ob.concept_cd ~ 'AUFNGR:05'
 ORDER BY
   ob.encounter_num;"
+
 
 
 
@@ -208,7 +214,7 @@ string_list <- list()
 
 
 for (i in c("dt.patient_target", "dt.encounter_target", "dt.ageindays_target", "dt.ageinyears_target", "dt.admission_target", "dt.hospitalization_target", "dt.discharge_target", "dt.ventilation_target",
-            "dt_icd.db", "dt_ops.db", "dt_fab.db", "dt_pl_c5x.db", "dt_pl_c6x.db", "dt_pl_05xx.db", "dt_pl_o0099.db")){
+            "dt.condition_target", "dt.procedure_target", "dt.provider_target", "pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")){
   print(i)
   string_list[[i]] <- eval(parse(text=i))
 }
