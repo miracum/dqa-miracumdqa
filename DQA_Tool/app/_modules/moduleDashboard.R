@@ -59,6 +59,10 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       rv$target_getdata <- TRUE
       rv$source_getdata <- TRUE
       
+      if (!dir.exists("./_settings/")){
+        dir.create("./_settings/")
+      }
+      
       # save user settings
       writeLines(toJSON(list("db" = rv$target_db,
                              "source_path" = rv$sourcefiledir,

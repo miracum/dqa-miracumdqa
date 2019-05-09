@@ -1,9 +1,9 @@
-source_variable_name,source_table_name,modifier,source_system,key,variable_name,FHIR,variable_type,value_set,category,dqa_assessment
+source_variable_name,source_table_name,modifier,source_system,key,variable_name,fhir,variable_type,value_set,category,dqa_assessment
 patient_num,patient_dimension,,i2b2,dt.patient_target,patient_identifier_value,patient.identifier.value,factor,,demographics,1
 birth_date,patient_dimension,,i2b2,dt.patient_target,patient_birthDate,patient.birthDate,factor,,demographics,1
 sex_cd,patient_dimension,,i2b2,dt.patient_target,patient_gender,patient.gender,factor,,demographics,1
-zip_cd,patient_dimension,,i2b2,dt.patient_target,patient_address_postalCode,patient_address.postalCode,factor,,demographics,1
-patient_num,visit_dimension,,i2b2,dt.encounter_target,encounter_subject_patient_identifier_value,encounter_subject.patient.identifier.value,factor,,demographics,0
+zip_cd,patient_dimension,,i2b2,dt.patient_target,patient_address_postalCode,patient.address.postalCode,factor,,demographics,1
+patient_num,visit_dimension,,i2b2,dt.encounter_target,encounter_subject_patient_identifier_value,encounter.subject.patient.identifier.value,factor,,demographics,0
 encounter_num,visit_dimension,,i2b2,dt.encounter_target,encounter_identifier_value,encounter.identifier.value,factor,,encounter,1
 start_date,visit_dimension,,i2b2,dt.encounter_target,encounter_period_start,encounter.period.start,date,,encounter,1
 end_date,visit_dimension,,i2b2,dt.encounter_target,encounter_period_end,encounter.period.end,date,,encounter,1
@@ -26,7 +26,7 @@ KH_INTERNES_KENNZEICHEN,FALL.CSV,,csv,,encounter_identifier_value,encounter.iden
 GEBURTSJAHR,FALL.CSV,,csv,,patient_birthDate,patient.birthDate,factor,,,
 GEBURTSMONAT,FALL.CSV,,csv,,,,factor,,,
 GESCHLECHT,FALL.CSV,,csv,,patient_gender,patient.gender,factor,,,
-PLZ,FALL.CSV,,csv,,patient_address_postalCode,patient_address.postalCode,factor,,,
+PLZ,FALL.CSV,,csv,,patient_address_postalCode,patient.address.postalCode,factor,,,
 AUFNAHMEDATUM,FALL.CSV,,csv,,encounter_period_start,encounter.period.start,date,,,
 AUFNAHMEANLASS,FALL.CSV,,csv,,encounter_hospitalization_admitSource,encounter.hospitalization.admitSource,factor,,,
 AUFNAHMEGRUND,FALL.CSV,,csv,,encounter_hospitalization_class,encounter.hospitalization.class,factor,,,
