@@ -90,7 +90,7 @@ onStart <- function(session, rv, input, output){
     
     cat("\nUpdate site name:", user_settings[["site_name"]], "\n")
     rv$sitename <- user_settings[["site_name"]]
-    updateTextInput(session, "moduleConfig-config_sitename", value = user_settings[["site_name"]])
+    updateSelectInput(session, "moduleConfig-config_sitename", selected = user_settings[["site_name"]])
     
     rv[["user_settings"]] <- user_settings
   } 

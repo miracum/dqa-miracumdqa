@@ -11,7 +11,8 @@ moduleVisualizationsUI <- function(id){
   ns <- NS(id)
   
   tagList(
-    plotOutput(ns("visualizations_plot"))
+    tagList(
+      plotOutput(ns("visualizations_plot"))
+    )
   )
 }
-

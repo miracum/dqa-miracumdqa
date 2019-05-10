@@ -16,6 +16,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
       # get data from database
       
       rv$list_target <- sapply(rv$target_keys, function(i){
+        logjs(paste("Getting", i, "from database."))
         fireSQL(rv, i)
       }, simplify = F, USE.NAMES = T)
       rv$target_getdata <- FALSE

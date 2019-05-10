@@ -2,11 +2,13 @@ shinyServer(function(input, output, session) {
     
     # define reactive values here
     rv <- reactiveValues(
+        started = NULL,
         mdr = NULL,
         target_keys = NULL,
         source_keys = NULL,
         file = NULL,
         sourcefiledir = NULL,
+        sitenames = NULL,
         sitename = NULL,
         user_settings = NULL,
         db_settings = NULL,

@@ -105,6 +105,16 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
     }
   })
   outputOptions(output, 'dbConnection', suspendWhenHidden=FALSE)
+  
+  
+  observe({
+    if (is.null(rv$sitenames)){
+      rv$sitenames <- fromJSON("./_utilities/CSV/sitenames.JSON")
+      
+      updateSelectInput(session, "config_sitename", choices = rv$sitenames, 
+                        selected = ifelse(!is.null(rv$sitename), rv$sitename, NULL))
+    }
+  })
 }
 
 # moduleConfigUI
@@ -136,7 +146,8 @@ moduleConfigUI <- function(id){
              
              box(title = "Sitename",
                  div(class = "row",
-                     div(class = "col-sm-8", textInput(ns("config_sitename"), "Please enter the name of your site")),
+                     div(class = "col-sm-8", selectInput(ns("config_sitename"), "Please enter the name of your site",
+                                                         selected = F, choices = NULL, multiple = F)),
                      div(class = "col-sm-4")
                  ),
                  width = 12

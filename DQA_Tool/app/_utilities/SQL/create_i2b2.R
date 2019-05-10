@@ -209,15 +209,9 @@ ORDER BY
 
 
 
-
-string_list <- list()
-
-
-for (i in c("dt.patient_target", "dt.encounter_target", "dt.ageindays_target", "dt.ageinyears_target", "dt.admission_target", "dt.hospitalization_target", "dt.discharge_target", "dt.ventilation_target",
-            "dt.condition_target", "dt.procedure_target", "dt.provider_target", "pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")){
-  print(i)
-  string_list[[i]] <- eval(parse(text=i))
-}
+vec <- c("dt.patient_target", "dt.encounter_target", "dt.ageindays_target", "dt.ageinyears_target", "dt.admission_target", "dt.hospitalization_target", "dt.discharge_target", "dt.ventilation_target",
+         "dt.condition_target", "dt.procedure_target", "dt.provider_target", "pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")
+string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)
 
 jsonlist <- toJSON(string_list, pretty = T, auto_unbox = F)
 writeLines(jsonlist, "./DQA_Tool/app/_utilities/SQL/SQL_i2b2.JSON")
