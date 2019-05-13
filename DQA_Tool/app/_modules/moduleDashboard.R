@@ -1,3 +1,4 @@
+# by Lorenz Kapsner
 # moduleDashboardServer
 moduleDashboardServer <- function(input, output, session, rv, input_re){
   output$dash_instruction <- renderText({
@@ -103,23 +104,26 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   observe({
     req(rv$list_source$FALL.CSV)
     if (nrow(rv$dash_summary_source) < 2){
-      cat("\nBuild rv$dash_summary_source")
-      if (!("PATIENTENNUMMER" %in% rv$dash_summary_source[,variable])){
-        rv[["ov.patient_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "PATIENTENNUMMER", "csv")
-        rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.patient_source.summary[,.(variable, distinct, valids, missings)])
-      }
-      if (!("KH_INTERNES_KENNZEICHEN" %in% rv$dash_summary_source[,variable])){
-        rv[["ov.encounter_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "KH_INTERNES_KENNZEICHEN", "csv")
-        rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.encounter_source.summary[,.(variable, distinct, valids, missings)])
-      }
-      if (!("Begleitpersonen" %in% rv$dash_summary_source[,variable])){
-        tab <- countUnique(rv$list_source$FALL.CSV[AUFNAHMEANLASS=="B",], "KH_INTERNES_KENNZEICHEN", "csv")
-        if (nrow(tab) == 0){
-          cat("\nThere are no chaperones present in your data.\n")
-        } 
-        rv[["ov.chaperone_source.summary"]] <- tab[1,variable:="Begleitpersonen"]
-        rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.chaperone_source.summary[,.(variable, distinct, valids, missings)])
-      }
+      withProgress(message = "Creating dashboard summary", value = 0, {
+        incProgress(1/1, detail = "... calculating overview counts ...")
+        
+        if (!("PATIENTENNUMMER" %in% rv$dash_summary_source[,variable])){
+          rv[["ov.patient_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "patient_identifier_value", "csv")
+          rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.patient_source.summary[,.(variable, distinct, valids, missings)])
+        }
+        if (!("KH_INTERNES_KENNZEICHEN" %in% rv$dash_summary_source[,variable])){
+          rv[["ov.encounter_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "encounter_identifier_value", "csv")
+          rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.encounter_source.summary[,.(variable, distinct, valids, missings)])
+        }
+        if (!("Begleitpersonen" %in% rv$dash_summary_source[,variable])){
+          tab <- countUnique(rv$list_source$FALL.CSV[encounter_hospitalization_admitSource=="B",], "encounter_identifier_value", "csv")
+          if (nrow(tab) == 0){
+            cat("\nThere are no chaperones present in your data.\n")
+          } 
+          rv[["ov.chaperone_source.summary"]] <- tab[1,variable:="Begleitpersonen"]
+          rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.chaperone_source.summary[,.(variable, distinct, valids, missings)])
+        }
+      })
     }
   })
   
@@ -160,7 +164,7 @@ moduleDashboardUI <- function(id){
   tagList(
     fluidRow(
       column(6,
-             box(title = "Welcome to your MIRACUM Data-Quality-Analysis dashboard",
+             box(title = "Welcome to your MIRACUM Data-Quality-Analysis Dashboard",
                  verbatimTextOutput(ns("dash_instruction")),
                  conditionalPanel(
                    condition = "output['moduleConfig-dbConnection']",

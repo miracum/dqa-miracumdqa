@@ -1,3 +1,4 @@
+# by Lorenz Kapsner
 shinyServer(function(input, output, session) {
     
     # define reactive values here
@@ -66,6 +67,7 @@ shinyServer(function(input, output, session) {
             output$menu <- renderMenu({
                 sidebarMenu(
                     menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
+                    menuItem("Results Numerical Variables", tabName = "tab_numerical", icon = icon("table")),
                     menuItem("Plot", tabName = "tab_visualizations", icon = icon("chart-line"))
                 )
             })
@@ -83,6 +85,11 @@ shinyServer(function(input, output, session) {
     # tab_rawdata1
     ########################
     callModule(moduleRawdata1Server, "moduleRawdata1", rv, input_re=reactive({input}))
+    
+    ########################
+    # tab_numerical
+    ########################
+    callModule(moduleNumericalServer, "moduleNumerical", rv, input_re=reactive({input}))
     
     ########################
     # tab_visualization

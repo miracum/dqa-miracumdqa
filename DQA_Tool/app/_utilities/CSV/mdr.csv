@@ -1,82 +1,82 @@
-source_variable_name,source_table_name,sql_from,sql_join_table,sql_join_on,sql_join_type,sql_where,source_system,key,variable_name,fhir,variable_type,value_set,dqa_assessment
-AUFNAHMEANLASS,FALL.CSV,,,,,,csv,dt.admission_source,encounter_hospitalization_admitSource,encounter.hospitalization.admitSource,factor,,1
-ALTER_IN_TAGEN_AM_AUFNAHMETAG,FALL.CSV,,,,,,csv,dt.ageindays_source,encounter_subject_patient_age_days,undefined,integer,,1
-ALTER_IN_JAHREN_AM_AUFNAHMETAG,FALL.CSV,,,,,,csv,dt.ageinyears_source,encounter_subject_patient_age_years,undefined,integer,,1
-KH_internes_Kennzeichen,ICD.CSV,,,,,,csv,dt.condition_source,condition_encounter_identifier_value,condition.encounter.identifier.value,factor,,0
-Diagnoseart,ICD.CSV,,,,,,csv,dt.condition_source,condition_category_encounter_diagnosis,condition.category.encounter.diagnosis,factor,,1
-ICD_Kode,ICD.CSV,,,,,,csv,dt.condition_source,condition_code_coding_code,condition.code.coding.code,factor,,1
-ENTLASSUNGSGRUND,FALL.CSV,,,,,,csv,dt.discharge_source,encounter_hospitalization_dischargeDisposition,encounter.hospitalization.dischargeDisposition,factor,,1
-KH_INTERNES_KENNZEICHEN,FALL.CSV,,,,,,csv,dt.encounter_source,encounter_identifier_value,encounter.identifier.value,factor,,1
-AUFNAHMEDATUM,FALL.CSV,,,,,,csv,dt.encounter_source,EpisodeOfCare_period_start,EpisodeOfCare.period.start,date,,1
-ENTLASSUNGSDATUM,FALL.CSV,,,,,,csv,dt.encounter_source,EpisodeOfCare_period_end,EpisodeOfCare.period.end,date,,1
-AUFNAHMEGRUND,FALL.CSV,,,,,,csv,dt.hospitalization_source,encounter_hospitalization_class,encounter.hospitalization.class,factor,,1
-PATIENTENNUMMER,FALL.CSV,,,,,,csv,dt.patient_source,patient_identifier_value,patient.identifier.value,factor,,1
-GEBURTSJAHR,FALL.CSV,,,,,,csv,dt.patient_source,patient_birthDate,patient.birthDate,factor,,1
-GESCHLECHT,FALL.CSV,,,,,,csv,dt.patient_source,patient_gender,patient.gender,factor,,1
-PLZ,FALL.CSV,,,,,,csv,dt.patient_source,patient_address_postalCode,patient.address.postalCode,factor,,1
-KH_internes_Kennzeichen,OPS.CSV,,,,,,csv,dt.procedure_source,procedure_encounter_identifier_value,procedure.encounter.identifier.value,factor,,0
-OPS_Kode,OPS.CSV,,,,,,csv,dt.procedure_source,procedure_code_coding_code,procedure.code.coding.code,factor,,1
-OPD_Datum,OPS.CSV,,,,,,csv,dt.procedure_source,procedure_performedDateTime,procedure.performedDateTime,date,,1
-KH_INTERNES_KENNZEICHEN,FAB.CSV,,,,,,csv,dt.provider_source,encounter_identifier_value,encounter.identifier.value,factor,,0
-FAB,FAB.CSV,,,,,,csv,dt.provider_source,encounter_serviceProvider_type_Organization_name,encounter.serviceProvider.type.Organization.name,factor,,1
-FAB_AUFNAHMEDATUM,FAB.CSV,,,,,,csv,dt.provider_source,encounter_period_start,encounter.period.start,date,,1
-FAB_ENTLASSUNGSDATUM,FAB.CSV,,,,,,csv,dt.provider_source,encounter_period_end,encounter.period.end,date,,1
-BEATMUNGSSTUNDEN,FALL.CSV,,,,,,csv,dt.ventilation_source,procedure_code_coding_code_40617009,procedure.code.coding.code.40617009,integer,,1
-ENTGELTBEREICH,FALL.CSV,,,,,,csv,undefined,,,,,
-GEBURTSMONAT,FALL.CSV,,,,,,csv,undefined,,,,,
-BELEGUNGSTAGE_IN_ANDEREM_ENTGELTBEREICH,FALL.CSV,,,,,,csv,undefined,,,,,
-BEURLAUBUNGSTAGE_PSY,FALL.CSV,,,,,,csv,undefined,,,,,
-INTERKURRENTE_DIALYSEN,FALL.CSV,,,,,,csv,undefined,,,,,
-Lokalisation,ICD.CSV,,,,,,csv,undefined,condition_bodySite,condition.bodySite,factor,,
-Entgeltbereich,ICD.CSV,,,,,,csv,undefined,,,,,
-Sekundaer_Kode,ICD.CSV,,,,,,csv,undefined,,,,,
-Lokalisation,OPS.CSV,,,,,,csv,undefined,procedure_bodySite,procedure.bodySite,factor,,
-Entgeltbereich,OPS.CSV,,,,,,csv,undefined,,,,,
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNAN%',i2b2,dt.admission_target,encounter_identifier_value,encounter.identifier.value,factor,,0
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNAN%',i2b2,dt.admission_target,encounter_hospitalization_admitSource,encounter.hospitalization.admitSource,factor,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AITAA',i2b2,dt.ageindays_target,encounter_identifier_value,encounter.identifier.value,factor,,0
-nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AITAA',i2b2,dt.ageindays_target,encounter_subject_patient_age_days,undefined,integer,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,encounter_identifier_value,encounter.identifier.value,factor,,0
-nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,encounter_subject_patient_age_years,undefined,integer,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_encounter_identifier_value,condition.encounter.identifier.value,factor,,0
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_category_encounter_diagnosis,condition.category.encounter_diagnosis,factor,,1
-modifier_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_code_coding_code,condition.code.coding.code,factor,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,encounter_identifier_value,encounter.identifier.value,factor,,0
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,encounter_hospitalization_dischargeDisposition,encounter.hospitalization.dischargeDisposition,factor,,1
-patient_num,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,encounter_subject_patient_identifier_value,encounter.subject.patient.identifier.value,factor,,0
-encounter_num,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,encounter_identifier_value,encounter.identifier.value,factor,,1
-start_date,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,EpisodeOfCare_period_start,EpisodeOfCare.period.start,date,,1
-end_date,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,EpisodeOfCare_period_end,EpisodeOfCare.period.end,date,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNGR%',i2b2,dt.hospitalization_target,encounter_identifier_value,encounter.identifier.value,factor,,0
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNGR%',i2b2,dt.hospitalization_target,encounter_hospitalization_class,encounter.hospitalization.class,factor,,1
-patient_num,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_identifier_value,patient.identifier.value,factor,,1
-birth_date,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_birthDate,patient.birthDate,factor,,1
-sex_cd,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_gender,patient.gender,factor,,1
-zip_cd,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_address_postalCode,patient.address.postalCode,factor,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'OPS%',i2b2,dt.procedure_target,procedure_encounter_identifier_value,procedure.encounter.identifier.value,factor,,0
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'OPS%',i2b2,dt.procedure_target,procedure_code_coding_code,procedure.code.coding.code,factor,,1
-start_date,observation_fact,observation_fact,,,,concept_cd LIKE 'OPS%',i2b2,dt.procedure_target,procedure_performedDateTime,procedure.performedDateTime,date,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_identifier_value,encounter.identifier.value,factor,,0
-tval_char,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_serviceProvider_type_Organization_name,encounter.serviceProvider.type.Organization.name,factor,,1
-start_date,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_period_start,encounter.period.start,date,,1
-end_date,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_period_end,encounter.period.end,date,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:BEATMST',i2b2,dt.ventilation_target,procedure_encounter_identifier_value,procedure.encounter.identifier.value,factor,,0
-nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:BEATMST',i2b2,dt.ventilation_target,procedure_code_CodableConcept_code_40617009,procedure.code.CodableConcept.code.40617009,integer,,1
-encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,encounter_identifier_value,encounter.identifier.value,factor,,0
-patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,patient_identifier_value,patient_identifier_value,factor,,0
-concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,condition_code_coding_code,condition_code_coding_code,factor,,0
-sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,patient_gender,patient_gender,factor,,1
-encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,encounter_identifier_value,encounter_identifier_value,factor,,0
-patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,patient_identifier_value,patient_identifier_value,factor,,0
-concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,condition_code_coding_code,condition_code_coding_code,factor,,0
-sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,patient_gender,patient_gender,factor,,1
-encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,encounter_identifier_value,encounter_identifier_value,factor,,0
-patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,patient_identifier_value,patient_identifier_value,factor,,0
-concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,condition_code_coding_code,condition_code_coding_code,factor,,0
-sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,patient_gender,patient_gender,factor,,1
-encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,encounter_identifier_value,encounter_identifier_value,factor,,0
-patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,patient_identifier_value,patient_identifier_value,factor,,0
-concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,condition_code_coding_code,condition_code_coding_code,factor,,0
-sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,patient_gender,patient_gender,factor,,1
-,,,,,,,,undefined,condition_bodySite,condition_bodySite,factor,,
-,,,,,,,,undefined,procedure_bodySite,procedure_bodySite,factor,,
+source_variable_name,source_table_name,sql_from,sql_join_table,sql_join_on,sql_join_type,sql_where,source_system,key,variable_name,fhir,variable_type,value_set,value_threshold,missing_threshold,dqa_assessment
+AUFNAHMEANLASS,FALL.CSV,,,,,,csv,dt.admission_source,encounter_hospitalization_admitSource,encounter.hospitalization.admitSource,factor,,,,1
+concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNAN%',i2b2,dt.admission_target,encounter_hospitalization_admitSource,encounter.hospitalization.admitSource,factor,,,,1
+encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNAN%',i2b2,dt.admission_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+ALTER_IN_TAGEN_AM_AUFNAHMETAG,FALL.CSV,,,,,,csv,dt.ageindays_source,encounter_subject_patient_age_days,undefined,integer,,,,1
+nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AITAA',i2b2,dt.ageindays_target,encounter_subject_patient_age_days,undefined,integer,,,,1
+encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AITAA',i2b2,dt.ageindays_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+ALTER_IN_JAHREN_AM_AUFNAHMETAG,FALL.CSV,,,,,,csv,dt.ageinyears_source,encounter_subject_patient_age_years,undefined,integer,,,,1
+nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,encounter_subject_patient_age_years,undefined,integer,,,,1
+encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+Diagnoseart,ICD.CSV,,,,,,csv,dt.condition_source,condition_category_encounter_diagnosis,condition.category.encounter.diagnosis,factor,,,,1
+ICD_Kode,ICD.CSV,,,,,,csv,dt.condition_source,condition_code_coding_code,condition.code.coding.code,factor,,,,1
+KH_internes_Kennzeichen,ICD.CSV,,,,,,csv,dt.condition_source,condition_encounter_identifier_value,condition.encounter.identifier.value,factor,,,,0
+concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_category_encounter_diagnosis,condition.category.encounter.diagnosis,factor,,,,1
+modifier_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_code_coding_code,condition.code.coding.code,factor,,,,1
+encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_encounter_identifier_value,condition.encounter.identifier.value,factor,,,,0
+ENTLASSUNGSGRUND,FALL.CSV,,,,,,csv,dt.discharge_source,encounter_hospitalization_dischargeDisposition,encounter.hospitalization.dischargeDisposition,factor,,,,1
+concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,encounter_hospitalization_dischargeDisposition,encounter.hospitalization.dischargeDisposition,factor,,,,1
+encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+KH_INTERNES_KENNZEICHEN,FALL.CSV,,,,,,csv,dt.encounter_source,encounter_identifier_value,encounter.identifier.value,factor,,,,1
+ENTLASSUNGSDATUM,FALL.CSV,,,,,,csv,dt.encounter_source,EpisodeOfCare_period_end,EpisodeOfCare.period.end,date,,,,1
+AUFNAHMEDATUM,FALL.CSV,,,,,,csv,dt.encounter_source,EpisodeOfCare_period_start,EpisodeOfCare.period.start,date,,,,1
+encounter_num,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,encounter_identifier_value,encounter.identifier.value,factor,,,,1
+end_date,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,EpisodeOfCare_period_end,EpisodeOfCare.period.end,date,,,,1
+start_date,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,EpisodeOfCare_period_start,EpisodeOfCare.period.start,date,,,,1
+patient_num,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,encounter_subject_patient_identifier_value,encounter.subject.patient.identifier.value,factor,,,,0
+AUFNAHMEGRUND,FALL.CSV,,,,,,csv,dt.hospitalization_source,encounter_hospitalization_class,encounter.hospitalization.class,factor,,,,1
+concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNGR%',i2b2,dt.hospitalization_target,encounter_hospitalization_class,encounter.hospitalization.class,factor,,,,1
+encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNGR%',i2b2,dt.hospitalization_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+PLZ,FALL.CSV,,,,,,csv,dt.patient_source,patient_address_postalCode,patient.address.postalCode,factor,,,,1
+GEBURTSJAHR,FALL.CSV,,,,,,csv,dt.patient_source,patient_birthDate,patient.birthDate,factor,,,,1
+GESCHLECHT,FALL.CSV,,,,,,csv,dt.patient_source,patient_gender,patient.gender,factor,,,,1
+PATIENTENNUMMER,FALL.CSV,,,,,,csv,dt.patient_source,patient_identifier_value,patient.identifier.value,factor,,,,1
+zip_cd,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_address_postalCode,patient.address.postalCode,factor,,,,1
+birth_date,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_birthDate,patient.birthDate,factor,,,,1
+sex_cd,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_gender,patient.gender,factor,,,,1
+patient_num,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_identifier_value,patient.identifier.value,factor,,,,1
+OPS_Kode,OPS.CSV,,,,,,csv,dt.procedure_source,procedure_code_coding_code,procedure.code.coding.code,factor,,,,1
+OPS_Datum,OPS.CSV,,,,,,csv,dt.procedure_source,procedure_performedDateTime,procedure.performedDateTime,date,,,,1
+KH_internes_Kennzeichen,OPS.CSV,,,,,,csv,dt.procedure_source,procedure_encounter_identifier_value,procedure.encounter.identifier.value,factor,,,,0
+concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'OPS%',i2b2,dt.procedure_target,procedure_code_coding_code,procedure.code.coding.code,factor,,,,1
+start_date,observation_fact,observation_fact,,,,concept_cd LIKE 'OPS%',i2b2,dt.procedure_target,procedure_performedDateTime,procedure.performedDateTime,date,,,,1
+encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'OPS%',i2b2,dt.procedure_target,procedure_encounter_identifier_value,procedure.encounter.identifier.value,factor,,,,0
+FAB_ENTLASSUNGSDATUM,FAB.CSV,,,,,,csv,dt.provider_source,encounter_period_end,encounter.period.end,date,,,,1
+FAB_AUFNAHMEDATUM,FAB.CSV,,,,,,csv,dt.provider_source,encounter_period_start,encounter.period.start,date,,,,1
+FAB,FAB.CSV,,,,,,csv,dt.provider_source,encounter_serviceProvider_type_Organization_name,encounter.serviceProvider.type.Organization.name,factor,,,,1
+KH_INTERNES_KENNZEICHEN,FAB.CSV,,,,,,csv,dt.provider_source,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+end_date,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_period_end,encounter.period.end,date,,,,1
+start_date,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_period_start,encounter.period.start,date,,,,1
+tval_char,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_serviceProvider_type_Organization_name,encounter.serviceProvider.type.Organization.name,factor,,,,1
+encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+BEATMUNGSSTUNDEN,FALL.CSV,,,,,,csv,dt.ventilation_source,procedure_code_coding_code_40617009,procedure.code.coding.code.40617009,integer,,,,1
+nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:BEATMST',i2b2,dt.ventilation_target,procedure_code_coding_code_40617009,procedure.code.coding.code.40617009,integer,,,,1
+encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:BEATMST',i2b2,dt.ventilation_target,procedure_encounter_identifier_value,procedure.encounter.identifier.value,factor,,,,0
+sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,patient_gender,patient.gender,factor,,,,1
+concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,condition_code_coding_code,condition.code.coding.code,factor,,,,0
+encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,patient_identifier_value,patient.identifier.value,factor,,,,0
+sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,patient_gender,patient.gender,factor,,,,1
+concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,condition_code_coding_code,condition.code.coding.code,factor,,,,0
+encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,patient_identifier_value,patient.identifier.value,factor,,,,0
+sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,patient_gender,patient.gender,factor,,,,1
+concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,condition_code_coding_code,condition.code.coding.code,factor,,,,0
+encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,patient_identifier_value,patient.identifier.value,factor,,,,0
+sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,patient_gender,patient.gender,factor,,,,1
+concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,condition_code_coding_code,condition.code.coding.code,factor,,,,0
+encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
+patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,patient_identifier_value,patient.identifier.value,factor,,,,0
+Lokalisation,ICD.CSV,,,,,,csv,undefined,condition_bodySite,condition.bodySite,factor,,,,
+Lokalisation,OPS.CSV,,,,,,csv,undefined,procedure_bodySite,procedure.bodySite,factor,,,,
+ENTGELTBEREICH,FALL.CSV,,,,,,csv,undefined,,,,,,,
+GEBURTSMONAT,FALL.CSV,,,,,,csv,undefined,,,,,,,
+BELEGUNGSTAGE_IN_ANDEREM_ENTGELTBEREICH,FALL.CSV,,,,,,csv,undefined,,,,,,,
+BEURLAUBUNGSTAGE_PSY,FALL.CSV,,,,,,csv,undefined,,,,,,,
+INTERKURRENTE_DIALYSEN,FALL.CSV,,,,,,csv,undefined,,,,,,,
+Entgeltbereich,ICD.CSV,,,,,,csv,undefined,,,,,,,
+Sekundaer_Kode,ICD.CSV,,,,,,csv,undefined,,,,,,,
+Entgeltbereich,OPS.CSV,,,,,,csv,undefined,,,,,,,
+,,,,,,,,undefined,condition_bodySite,condition.bodySite,factor,,,,
+,,,,,,,,undefined,procedure_bodySite,procedure.bodySite,factor,,,,

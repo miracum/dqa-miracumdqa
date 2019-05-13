@@ -1,3 +1,5 @@
+# by Lorenz Kapsner
+
 library(jsonlite)
 
 sitenamelist <- list(

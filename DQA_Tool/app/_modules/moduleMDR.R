@@ -1,3 +1,4 @@
+# by Lorenz Kapsner
 # moduleMDRServer
 moduleMDRServer <- function(input, output, session, rv, input_re){
   
@@ -8,11 +9,6 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
       cat("\nRead MDR\n")
       rv$mdr <- fread("./_utilities/CSV/mdr.csv", header = T)
     }
-  })
-  
-  # read keys depending on selection of datasource
-  observe({
-    req(rv$target_db)
     
     if (rv$target_db %in% rv$mdr[,unique(source_system)]){
       # get target keys from our mdr
@@ -26,6 +22,32 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     
     # get source keys from our mdr
     rv$source_keys <- rv$mdr[key!="undefined"][source_system=="csv",unique(source_table_name)]
+  })
+  
+  # read variables of interest
+  observe({
+    req(rv$mdr)
+    
+    # get list of DQ-variables of interest
+    rv$dqa_assessment <- rv$mdr[source_system=="csv" & dqa_assessment == 1,][order(source_table_name),.(source_variable_name, 
+                                                                                                        variable_name, 
+                                                                                                        variable_type, 
+                                                                                                        key,
+                                                                                                        source_table_name)]
+    #print(rv$dqa_assessment)
+    
+    # get list of dqa_vars for catgeorical and numerical analyses
+    rv$dqa_vars <- rv$dqa_assessment[grepl("^dt\\.", key),]
+    # numerical
+    dqa_numerical <- rv$dqa_vars[variable_type %in% c("integer", "numerical", "date"),]
+    rv$dqa_numerical <- sapply(dqa_numerical[,source_variable_name], function(x){
+      dqa_numerical[source_variable_name==x, variable_name]
+    }, simplify = F, USE.NAMES = T)
+    # categorical
+    rv$dqa_categorical <- rv$dqa_vars[variable_type == "factor",]
+    
+    # get list of pl_vars for plausibility analyses
+    rv$pl_vars <- rv$dqa_assessment[grepl("^pl\\.", key),]
   })
   
   output$mdr_table <- DT::renderDataTable({

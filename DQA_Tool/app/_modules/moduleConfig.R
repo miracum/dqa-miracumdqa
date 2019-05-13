@@ -1,3 +1,4 @@
+# by Lorenz Kapsner
 # moduleConfigServer
 moduleConfigServer <- function(input, output, session, rv, input_re){
   roots = c(home="/home/")

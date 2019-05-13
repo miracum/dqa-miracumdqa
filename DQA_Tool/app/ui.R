@@ -1,3 +1,4 @@
+# by Lorenz Kapsner
 shinyUI(dashboardPage(skin = "black",
                       
                       # Application title
@@ -38,6 +39,10 @@ shinyUI(dashboardPage(skin = "black",
                               
                               tabItem(tabName = "tab_rawdata1",
                                       moduleRawdata1UI("moduleRawdata1")
+                              ), 
+                              
+                              tabItem(tabName = "tab_numerical",
+                                      moduleNumericalUI("moduleNumerical")
                               ),
                               
                               tabItem(tabName = "tab_mdr",
