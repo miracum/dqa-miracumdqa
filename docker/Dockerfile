@@ -86,7 +86,8 @@ RUN for package in $p_base; do \
     done
 
 ARG p_add="RPostgres \
-    config"
+    config \
+    e1071"
 
 RUN for package in $p_add; do \
     R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"https://ftp.fau.de/cran/\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \

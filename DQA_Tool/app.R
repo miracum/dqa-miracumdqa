@@ -8,6 +8,7 @@ library(ggplot2)
 #library(config) ##!! do not make config available in namespace --> otherwise confusion with data.table's "get"-function
 library(jsonlite)
 library(RPostgres)
+library(e1071)
 
 
 # app entrypoint here
