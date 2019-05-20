@@ -55,28 +55,33 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
     }
     
     if (isFALSE(rv$source_getdata)){
-      # rename colnames of source data and transform to dates
-      for (i in rv$source_keys){
-        # get column names
-        col_names <- colnames(rv$list_source[[i]])
-        # get date variables
-        date_vars <- rv$dqa_vars[variable_type == "date", get("variable_name")]
-        
-        # check, if column name in variables of interest
-        for (j in col_names){
-          # var_names of interest:
-          var_names <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),source_variable_name]
-          if (j %in% var_names){
-            vn <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),][source_variable_name==j,variable_name]
-            colnames(rv$list_source[[i]])[which(col_names==j)] <- vn
-            
-            # transform date_vars to dates
-            if (vn %in% date_vars){
-              rv$list_source[[i]][,(vn):=as.Date(substr(as.character(get(vn)), 1, 8), format="%Y%m%d")]
+      
+      withProgress(message = "Transform variables to date type", value = 0, {
+        # rename colnames of source data and transform to dates
+        for (i in rv$source_keys){
+          incProgress(1/length(rv$source_keys), detail = paste("... transforming to date:", i, "..."))
+          
+          # get column names
+          col_names <- colnames(rv$list_source[[i]])
+          # get date variables
+          date_vars <- rv$dqa_vars[variable_type == "date", get("variable_name")]
+          
+          # check, if column name in variables of interest
+          for (j in col_names){
+            # var_names of interest:
+            var_names <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),source_variable_name]
+            if (j %in% var_names){
+              vn <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),][source_variable_name==j,variable_name]
+              colnames(rv$list_source[[i]])[which(col_names==j)] <- vn
+              
+              # transform date_vars to dates
+              if (vn %in% date_vars){
+                rv$list_source[[i]][,(vn):=as.Date(substr(as.character(get(vn)), 1, 8), format="%Y%m%d")]
+              }
             }
           }
         }
-      }
+      })
     }
   })
   

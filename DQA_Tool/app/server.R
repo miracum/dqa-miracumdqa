@@ -68,6 +68,7 @@ shinyServer(function(input, output, session) {
                 sidebarMenu(
                     menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
                     menuItem("Results Numerical Variables", tabName = "tab_numerical", icon = icon("table")),
+                    menuItem("Results Categorical Variables", tabName = "tab_categorical", icon = icon("table")),
                     menuItem("Plot", tabName = "tab_visualizations", icon = icon("chart-line"))
                 )
             })
@@ -90,6 +91,11 @@ shinyServer(function(input, output, session) {
     # tab_numerical
     ########################
     callModule(moduleNumericalServer, "moduleNumerical", rv, input_re=reactive({input}))
+    
+    ########################
+    # tab_categorical
+    ########################
+    callModule(moduleCategoricalServer, "moduleCategorical", rv, input_re=reactive({input}))
     
     ########################
     # tab_visualization

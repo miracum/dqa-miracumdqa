@@ -7,7 +7,7 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
       
       # render select input here
       output$num_selection_uiout <- renderUI({
-        selectInput(session$ns("numerical_sel"), "Select variable", rv$dqa_numerical, multiple=FALSE, selectize=FALSE, size = 5)
+        selectInput(session$ns("numerical_sel"), "Select variable", rv$dqa_numerical, multiple=FALSE, selectize=FALSE, size = 10)
       })
       
       # calculate rv$dqa_numerical_results
@@ -32,7 +32,7 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$dqa_numerical)){
             incProgress(1/length(rv$dqa_numerical), detail = paste("... working at description of", i, "..."))
             # generate descriptions
-            desc_dat <- rv$mdr[dqa_assessment==1,][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, fhir)]
+            desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, fhir)]
             if (nrow(desc_dat)>1){
               rv$dqa_numerical_results$description[[rv$dqa_numerical[[i]]]]$source_data <- list(var_name = desc_dat[source_system=="csv", source_variable_name],
                                                                                                 table_name = desc_dat[source_system=="csv", source_table_name],
@@ -55,7 +55,7 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$dqa_numerical)){
             incProgress(1/length(rv$dqa_numerical), detail = paste("... calculating counts of", i, "..."))
             # generate counts
-            cnt_dat <- rv$mdr[dqa_assessment==1,][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
+            cnt_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
             # for source_data; our data is in rv$list_source$source_table_name
             tryCatch({
               rv$dqa_numerical_results$counts[[rv$dqa_numerical[[i]]]]$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system=="csv", source_table_name]]], rv$dqa_numerical[[i]])
@@ -78,7 +78,7 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$dqa_numerical)){
             incProgress(1/length(rv$dqa_numerical), detail = paste("... calculating statistics of", i, "..."))
             # generate counts
-            stat_dat <- rv$mdr[dqa_assessment==1,][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
+            stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
             if (stat_dat[source_system=="csv",variable_type!="date"]){
               tryCatch({
                 # for source_data; our data is in rv$list_source$source_table_name
@@ -124,17 +124,17 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
         # render source counts
         output$num_selection_counts_source <- renderTable({
           tryCatch({
-          o <- count_out$source_data$cnt[,.(variable, distinct, valids, missings)]
-          data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                     " " = c(o[,variable], count_out$source_data$type, o[,distinct], o[,valids], o[,missings]))
+            o <- count_out$source_data$cnt[,.(variable, distinct, valids, missings)]
+            data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
+                       " " = c(o[,variable], count_out$source_data$type, o[,distinct], o[,valids], o[,missings]))
           }, error=function(e){logjs(e)})
         })
         # render target counts
         output$num_selection_counts_target <- renderTable({
           tryCatch({
-          o <- count_out$target_data$cnt[,.(variable, distinct, valids, missings)]
-          data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                     " " = c(o[,variable], count_out$target_data$type, o[,distinct], o[,valids], o[,missings]))
+            o <- count_out$target_data$cnt[,.(variable, distinct, valids, missings)]
+            data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
+                       " " = c(o[,variable], count_out$target_data$type, o[,distinct], o[,valids], o[,missings]))
           }, error=function(e){logjs(e)})
         })
         
@@ -157,14 +157,12 @@ moduleNumericalUI <- function(id){
   
   tagList(
     fluidRow(
-      column(3,
+      column(4,
              box(title = "Select variable",
                  uiOutput(ns("num_selection_uiout")),
                  width = 12
              )
-      )
-    ),
-    fluidRow(
+      ),
       column(8,
              box(title="Results Source Data",
                  width = 12,
@@ -192,19 +190,16 @@ moduleNumericalUI <- function(id){
                    )
                  )
              )
+      )
+    ),
+    fluidRow(
+      box(title="Statistics Source",
+          tableOutput(ns("num_selection_source_table")),
+          width=6
       ),
-      column(4,
-             box(title="Statistics",
-                 width=12,
-                 column(6,
-                        h5(tags$b("Source")),
-                        tableOutput(ns("num_selection_source_table"))
-                 ),
-                 column(6,
-                        h5(tags$b("Target")),
-                        tableOutput(ns("num_selection_target_table"))
-                 )
-             )
+      box(title="Statistics Target",
+          tableOutput(ns("num_selection_target_table")),
+          width=6
       )
     )
   )

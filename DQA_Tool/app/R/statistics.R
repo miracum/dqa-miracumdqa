@@ -42,3 +42,21 @@ simpleSummary <- function(vector){
   colnames(ar) <- c(" ", " ")
   return(ar)
 }
+
+# categoricalAnalysis
+categoricalAnalysis <- function(data, var, sourcesystem=NULL, levellimit=25){
+  
+  # TODO we need to define variable types at the dataimport
+  data[,(var) := factor(get(var))]
+  
+  # if there are more levels than specified in levellimit (default = 20)
+  if (data[,nlevels(get(var))] > levellimit){
+    tabdat <- data[,.N,by=var][order(N, decreasing = T)]
+    tabdat_out <- tabdat[1:levellimit,]
+  } else {
+    tabdat_out <- data[,.N,by=var][order(N, decreasing = T)]
+  }
+  tabdat_out[,"% Valid" := (N/nrow(data)) * 100]
+  colnames(tabdat_out)[2] <- "Freq"
+  return(tabdat_out)
+}

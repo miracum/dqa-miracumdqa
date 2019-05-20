@@ -12,7 +12,7 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     
     if (rv$target_db %in% rv$mdr[,unique(source_system)]){
       # get target keys from our mdr
-      rv$target_keys <- rv$mdr[key!="undefined"][source_system==rv$target_db,unique(key)]
+      rv$target_keys <- rv$mdr[key!="undefined"][source_system==rv$target_db,unique(key)]#[1:4] # uncomment this for debugging purposes
     } else {
       showModal(modalDialog(
         "No keys for target database found in MDR.", 
@@ -43,8 +43,12 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     rv$dqa_numerical <- sapply(dqa_numerical[,source_variable_name], function(x){
       dqa_numerical[source_variable_name==x, variable_name]
     }, simplify = F, USE.NAMES = T)
+    
     # categorical
-    rv$dqa_categorical <- rv$dqa_vars[variable_type == "factor",]
+    dqa_categorical <- rv$dqa_vars[variable_type == "factor",]
+    rv$dqa_categorical <- sapply(dqa_categorical[,source_variable_name], function(x){
+      dqa_categorical[source_variable_name==x, variable_name]
+    }, simplify = F, USE.NAMES = T)
     
     # get list of pl_vars for plausibility analyses
     rv$pl_vars <- rv$dqa_assessment[grepl("^pl\\.", key),]

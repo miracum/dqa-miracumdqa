@@ -4,6 +4,7 @@ source("./_modules/moduleConfig.R", encoding = "UTF-8")
 source("./_modules/moduleDashboard.R", encoding = "UTF-8")
 source("./_modules/moduleRawdata1.R", encoding = "UTF-8")
 source("./_modules/moduleNumerical.R", encoding = "UTF-8")
+source("./_modules/moduleCategorical.R", encoding = "UTF-8")
 source("./_modules/moduleVisualizations.R", encoding = "UTF-8")
 source("./_modules/moduleMDR.R", encoding = "UTF-8")
 

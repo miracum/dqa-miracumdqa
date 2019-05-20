@@ -43,6 +43,10 @@ shinyUI(dashboardPage(skin = "black",
                               
                               tabItem(tabName = "tab_numerical",
                                       moduleNumericalUI("moduleNumerical")
+                              ), 
+                              
+                              tabItem(tabName = "tab_categorical",
+                                      moduleCategoricalUI("moduleCategorical")
                               ),
                               
                               tabItem(tabName = "tab_mdr",
