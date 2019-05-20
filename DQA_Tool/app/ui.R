@@ -16,6 +16,7 @@ shinyUI(dashboardPage(skin = "black",
                                       sidebarMenuOutput("menu"),
                                       menuItem("Settings", tabName = "tab_config", icon = icon("cogs")),
                                       menuItem("DQ MDR", tabName = "tab_mdr", icon = icon("database")),
+                                      tags$hr(),
                                       actionButton("reset", "Reset DQA Tool")
                           )),
                       
