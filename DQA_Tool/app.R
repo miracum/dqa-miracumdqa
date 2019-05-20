@@ -15,4 +15,6 @@ library(e1071)
 shinyAppDir("app")
 
 
-# TODO create metadata csv-table (to e.g. map variable names)
+# TODO populate metadata csv-table (to e.g. map variable names)
+# TODO parse variables to correct vartypes after import
+# TODO clean strings (regex) after import, e.g. source icd, ops, aufnahmeanlass, -grund, entlassgrund etc.
