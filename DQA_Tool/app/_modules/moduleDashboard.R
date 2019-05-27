@@ -81,6 +81,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   # target
   observe({
     req(rv$list_target$dt.patient_target)
+    
     if (nrow(rv$dash_summary_target) < 2){
       cat("\nBuild rv$dash_summary_target")
       if (!("patient.identifier.value" %in% rv$dash_summary_target[,variable])){
@@ -91,6 +92,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   })
   observe({
     req(rv$list_target$dt.encounter_target)
+    
     if (nrow(rv$dash_summary_target) < 2){
       cat("\nBuild rv$dash_summary_target2")
       if (!("encounter.identifier.value" %in% rv$dash_summary_target[,variable])){
@@ -107,11 +109,11 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       withProgress(message = "Creating dashboard summary", value = 0, {
         incProgress(1/1, detail = "... calculating overview counts ...")
         
-        if (!("PATIENTENNUMMER" %in% rv$dash_summary_source[,variable])){
+        if (!("patient_identifier_value" %in% rv$dash_summary_source[,variable])){
           rv[["ov.patient_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "patient_identifier_value", "csv")
           rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.patient_source.summary[,.(variable, distinct, valids, missings)])
         }
-        if (!("KH_INTERNES_KENNZEICHEN" %in% rv$dash_summary_source[,variable])){
+        if (!("encounter_identifier_value" %in% rv$dash_summary_source[,variable])){
           rv[["ov.encounter_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "encounter_identifier_value", "csv")
           rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.encounter_source.summary[,.(variable, distinct, valids, missings)])
         }

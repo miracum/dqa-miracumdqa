@@ -1,9 +1,31 @@
 # by Lorenz Kapsner
 countUnique <- function(data, var, sourcesystem=NULL){
+  
+  valids <- NULL
+  
+  if (!is.null(sourcesystem)){
+    
+    if (sourcesystem == "csv"){
+      # workaround to control for aggregated values in source system (CSV)
+      special_treatment_vars <- c("patient_identifier_value", "patient_address_postalCode", 
+                                  "patient_birthDate", "patient_gender")
+      
+      if (var %in% special_treatment_vars & sourcesystem == "csv"){
+        valids <- unique(data[!is.na(get(var)), get(var), by=patient_identifier_value])[,.N]
+        missings <- unique(data[is.na(get(var)), get(var), by=patient_identifier_value])[,.N]
+      }
+    }
+  }
+  
+  if (is.null(valids)){
+    valids <- data[!is.na(get(var)),][,.N]
+    missings <- data[is.na(get(var)),.N]
+  }
+  
   out <- data.table("variable" = var,
                     "distinct" = data[,nlevels(factor(get(var)))],
-                    "valids" = data[!is.na(get(var)),.N],
-                    "missings" = data[is.na(get(var)),.N],
+                    "valids" = valids,
+                    "missings" = missings,
                     "sourcesystem" = sourcesystem)
   return(out)
 }

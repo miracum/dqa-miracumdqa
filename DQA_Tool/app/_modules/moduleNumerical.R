@@ -59,7 +59,7 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
             cnt_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
             # for source_data; our data is in rv$list_source$source_table_name
             tryCatch({
-              rv$dqa_numerical_results$counts[[rv$dqa_numerical[[i]]]]$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system=="csv", source_table_name]]], rv$dqa_numerical[[i]])
+              rv$dqa_numerical_results$counts[[rv$dqa_numerical[[i]]]]$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system=="csv", source_table_name]]], rv$dqa_numerical[[i]], "csv")
               rv$dqa_numerical_results$counts[[rv$dqa_numerical[[i]]]]$source_data$type <- cnt_dat[source_system=="csv", variable_type]
             }, error=function(e){logjs(e)})
             
