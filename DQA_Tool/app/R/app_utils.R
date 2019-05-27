@@ -27,3 +27,13 @@ summaryTable <- function(){
                     "valids" = integer(),
                     "missings" = integer()))
 }
+
+# render quick ETL check tables
+renderQuickETL <- function(dat_table){
+  DT::datatable(dat_table, options=list(dom = "t"), rownames = F) %>% 
+    formatStyle(columns=2,
+                backgroundColor = styleEqual(c("passed", "failed"), c("lightgreen", "red"))) %>%
+    formatStyle(columns=3,
+                backgroundColor = styleEqual(c("passed", "failed"), c("lightgreen", "red")))
+}
+

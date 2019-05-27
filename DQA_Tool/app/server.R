@@ -72,7 +72,11 @@ shinyServer(function(input, output, session) {
                     menuItem("Plot", tabName = "tab_visualizations", icon = icon("chart-line"))
                 )
             })
-            updateTabItems(session, "tabs", "tab_rawdata1")
+            #updateTabItems(session, "tabs", "tab_rawdata1")
+            
+            # for debugging purposes
+            # numerical_out <<- rv$dqa_numerical_results
+            # categorical_out <<- rv$dqa_categorical_results
         }
     })
     

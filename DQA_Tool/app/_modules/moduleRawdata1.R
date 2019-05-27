@@ -23,23 +23,31 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
       rv$target_getdata <- FALSE
     }
     
-    # if (isFALSE(rv$target_getdata)){
-    #   # transform date_vars to dates
-    #   for (i in rv$target_keys){
-    #     # get column names
-    #     col_names <- colnames(rv$list_target[[i]])
-    #     # get date variables
-    #     date_vars <- rv$dqa_vars[variable_type == "date", get("variable_name")]
-    #     
-    #     # check, if column name in variables of interest
-    #     for (j in col_names){
-    #       # transform date_vars to dates
-    #       if (j %in% date_vars){
-    #         rv$list_target[[i]][,(j):=as.Date(substr(as.character(get(j)), 1, 8), format="%Y%m%d")]
-    #       }
-    #     }
-    #   }
-    # }
+    
+    if (isFALSE(rv$target_getdata)){
+      # transform to categorical
+      withProgress(message = "Transforming target variable types", value = 0, {
+        for (i in rv$target_keys){
+          incProgress(1/length(rv$target_keys), detail = paste("... transforming", i, "..."))
+          
+          # get column names
+          col_names <- colnames(rv$list_target[[i]])
+          
+          # check, if column name in variables of interest
+          for (j in col_names){
+            
+            if (j %in% rv$trans_vars){
+              rv$list_target[[i]][,(j):=transformFactor(get(j), j)]
+            }
+            
+            # transform cat_vars to factor
+            if (j %in% rv$cat_vars){
+              rv$list_target[[i]][,(j):=factor(get(j))]
+            }
+          }
+        }
+      })
+    }
   })
   
   observe({
@@ -56,27 +64,36 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
     
     if (isFALSE(rv$source_getdata)){
       
-      withProgress(message = "Transform variables to date type", value = 0, {
-        # rename colnames of source data and transform to dates
+      # transform to date
+      withProgress(message = "Transforming source variable types", value = 0, {
+        # rename colnames of source data to fhir (variable_names) and transform to dates
         for (i in rv$source_keys){
-          incProgress(1/length(rv$source_keys), detail = paste("... transforming to date:", i, "..."))
+          incProgress(1/length(rv$source_keys), detail = paste("... transforming", i, "..."))
           
           # get column names
           col_names <- colnames(rv$list_source[[i]])
-          # get date variables
-          date_vars <- rv$dqa_vars[variable_type == "date", get("variable_name")]
           
           # check, if column name in variables of interest
+          # var_names of interest:
+          var_names <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),source_variable_name]
+          
           for (j in col_names){
-            # var_names of interest:
-            var_names <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),source_variable_name]
             if (j %in% var_names){
               vn <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),][source_variable_name==j,variable_name]
               colnames(rv$list_source[[i]])[which(col_names==j)] <- vn
               
               # transform date_vars to dates
-              if (vn %in% date_vars){
+              if (vn %in% rv$date_vars){
                 rv$list_source[[i]][,(vn):=as.Date(substr(as.character(get(vn)), 1, 8), format="%Y%m%d")]
+              }
+              
+              if (vn %in% rv$trans_vars){
+                rv$list_source[[i]][,(vn):=transformFactor(get(vn), vn)]
+              }
+              
+              # transform cat_vars to factor
+              if (vn %in% rv$cat_vars){
+                rv$list_source[[i]][,(vn):=factor(get(vn))]
               }
             }
           }

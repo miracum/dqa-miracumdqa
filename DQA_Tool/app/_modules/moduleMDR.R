@@ -21,7 +21,7 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     }
     
     # get source keys from our mdr
-    rv$source_keys <- rv$mdr[key!="undefined"][source_system=="csv",unique(source_table_name)]
+    rv$source_keys <- rv$mdr[key!="undefined"][source_system=="csv" & !grepl("^pl\\.", key), unique(source_table_name)]
   })
   
   # read variables of interest
@@ -52,10 +52,23 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     
     # get list of pl_vars for plausibility analyses
     rv$pl_vars <- rv$dqa_assessment[grepl("^pl\\.", key),]
+    
+    # get variables for type-transformations
+    # get categorical variables
+    rv$cat_vars <- rv$dqa_vars[variable_type == "factor", get("variable_name")]
+    
+    # get date variables
+    rv$date_vars <- rv$dqa_vars[variable_type == "date", get("variable_name")]
+    
+    # get variable names, that need to be transformed (cleaning neccessary due to i2b2-prefixes)
+    # this is yet hard-coded
+    rv$trans_vars <- c("encounter_hospitalization_dischargeDisposition", "encounter_hospitalization_class",
+                       "condition_code_coding_code", "procedure_code_coding_code", "encounter_hospitalization_admitSource",
+                       "condition_category_encounter_diagnosis")
   })
   
   output$mdr_table <- DT::renderDataTable({
-    DT::datatable(rv$mdr, options = list(scrollX = TRUE, pageLength = 20))
+    DT::datatable(rv$mdr, options = list(scrollX = TRUE, pageLength = 20, dom="ltip"))
   })
 }
 

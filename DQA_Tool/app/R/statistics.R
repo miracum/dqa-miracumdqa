@@ -10,7 +10,6 @@ countUnique <- function(data, var, sourcesystem=NULL){
 
 # extensive summary
 extensiveSummary <- function(vector){
-  vector <- as.numeric(as.character(vector))
   
   Q <- stats::quantile(vector, probs=c(.25, .75), na.rm=T, names=F)
   I_out <- stats::IQR(vector, na.rm=T)*1.5

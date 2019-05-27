@@ -20,7 +20,38 @@ loadCSV <- function(rv, filename){
       incProgress(1/1, detail = "...name working hard to read data ...")
       # get data
       rv$data_objects[[filename]] <- filename
-      cat("\nFile path:", paste0(rv$sourcefiledir, "/", filename))
-      return(fread(paste0(rv$sourcefiledir, "/", filename), header = T))
+      
+      if (filename == "FALL.CSV"){
+        # only import necessary columns
+        select_cols <- c(ENTLASSENDER_STANDORT = "factor",
+                         KH_INTERNES_KENNZEICHEN = "factor",
+                         GEBURTSJAHR = "factor",
+                         GEBURTSMONAT = "factor",
+                         GESCHLECHT = "factor",
+                         PLZ = "factor",
+                         AUFNAHMEDATUM = "integer64",
+                         AUFNAHMEANLASS = "factor",
+                         AUFNAHMEGRUND = "factor",
+                         ENTLASSUNGSDATUM = "integer64",
+                         ENTLASSUNGSGRUND = "factor",
+                         ALTER_IN_TAGEN_AM_AUFNAHMETAG = "integer",
+                         ALTER_IN_JAHREN_AM_AUFNAHMETAG = "integer",
+                         PATIENTENNUMMER = "factor",
+                         BEATMUNGSSTUNDEN = "integer")
+      } else if (filename == "FAB.CSV"){
+        select_cols <- c(KH_INTERNES_KENNZEICHEN = "factor",
+                         FAB = "factor",
+                         FAB_AUFNAHMEDATUM = "integer64",
+                         FAB_ENTLASSUNGSDATUM = "integer64")
+      } else if (filename == "ICD.CSV"){
+        select_cols <- c(KH_internes_Kennzeichen = "factor",
+                         Diagnoseart = "factor",
+                         ICD_Kode = "factor")
+      } else if (filename == "OPS.CSV"){
+        select_cols <- c(KH_internes_Kennzeichen = "factor",
+                         OPS_Kode = "factor",
+                         OPS_Datum = "integer64")
+      } 
+      return(fread(paste0(rv$sourcefiledir, "/", filename), select = names(select_cols), colClasses = select_cols, header = T, na.strings = "", stringsAsFactors = TRUE))
     })
 }

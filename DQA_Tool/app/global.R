@@ -14,4 +14,6 @@ source("./R/database.R", encoding = "UTF-8")
 source("./R/dataloading.R", encoding = "UTF-8")
 source("./R/app_utils.R", encoding = "UTF-8")
 source("./R/statistics.R", encoding = "UTF-8")
+source("./R/utils.R", encoding = "UTF-8")
+source("./R/checks.R", encoding = "UTF-8")
 

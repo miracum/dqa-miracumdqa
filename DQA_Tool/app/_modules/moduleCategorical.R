@@ -32,11 +32,12 @@ moduleCategoricalServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$dqa_categorical)){
             incProgress(1/length(rv$dqa_categorical), detail = paste("... working at description of", i, "..."))
             # generate descriptions
-            desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(source_system, source_variable_name, source_table_name, fhir)]
+            desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(source_system, source_variable_name, source_table_name, fhir, description)]
             if (nrow(desc_dat)>1){
               rv$dqa_categorical_results$description[[rv$dqa_categorical[[i]]]]$source_data <- list(var_name = desc_dat[source_system=="csv", source_variable_name],
                                                                                                 table_name = desc_dat[source_system=="csv", source_table_name],
-                                                                                                fhir_name = desc_dat[source_system=="csv", fhir])
+                                                                                                fhir_name = desc_dat[source_system=="csv", fhir],
+                                                                                                description = desc_dat[source_system=="csv", description])
               
               rv$dqa_categorical_results$description[[rv$dqa_categorical[[i]]]]$target_data <- list(var_name = desc_dat[source_system==rv$target_db, source_variable_name],
                                                                                                 table_name = desc_dat[source_system==rv$target_db, source_table_name],
@@ -105,6 +106,15 @@ moduleCategoricalServer <- function(input, output, session, rv, input_re){
                      " " = c(o$var_name, o$table_name, o$fhir))
           
         })
+        
+        output$cat_description <- renderText({
+          d <- desc_out$source_data$description
+          # https://community.rstudio.com/t/rendering-markdown-text/11588
+          out <- knitr::knit2html(text = d, fragment.only = TRUE)
+          # output non-escaped HTML string 
+          HTML(out)
+        })
+        
         # render target description
         output$cat_selection_description_target <- renderTable({
           o <- desc_out$target_data
@@ -152,6 +162,10 @@ moduleCategoricalUI <- function(id){
       column(4,
              box(title = "Select variable",
                  uiOutput(ns("cat_selection_uiout")),
+                 width = 12
+             ),
+             box(title = "Description",
+                 htmlOutput(ns("cat_description")),
                  width = 12
              )
       ),

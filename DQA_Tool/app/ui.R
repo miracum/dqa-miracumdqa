@@ -2,7 +2,7 @@
 shinyUI(dashboardPage(skin = "black",
                       
                       # Application title
-                      dashboardHeader(title = "MIRACUM DQA Tool"),
+                      dashboardHeader(title = "MIRACUM DQA"),
                       
                       dashboardSidebar(
                           

@@ -153,6 +153,30 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       })
     }
   })
+  
+  observe({
+    req(rv$dqa_numerical_results)
+    
+    # workaround to tell ui, that db_connection is there
+    output$dqa_results <- reactive({
+      return(TRUE)
+    })
+    outputOptions(output, 'dqa_results', suspendWhenHidden=FALSE)
+    
+    output$dash_quick_numerical <- renderDataTable({
+      dat <- quickETLChecks(rv$dqa_numerical_results)
+      renderQuickETL(dat)
+    })
+  })
+  
+  observe({
+    req(rv$dqa_categorical_results)
+    
+    output$dash_quick_categorical <- renderDataTable({
+      dat <- quickETLChecks(rv$dqa_categorical_results)
+      renderQuickETL(dat)
+    })
+  })
 }
 
 
@@ -171,6 +195,17 @@ moduleDashboardUI <- function(id){
                    actionButton(ns("dash_load_btn"), "Load data")
                  ),
                  width = 12
+             ),
+             conditionalPanel(
+               condition = "output['moduleDashboard-dqa_results']",
+               box(title = "Quick ETL-Check: Numerical Variables",
+                   dataTableOutput(ns("dash_quick_numerical")),
+                   width = 12
+               ),
+               box(title = "Quick ETL-Check: Categorical Variables",
+                   dataTableOutput(ns("dash_quick_categorical")),
+                   width = 12
+               )
              )
       ),
       column(6,
