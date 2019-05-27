@@ -1,82 +1,159 @@
-source_variable_name,source_table_name,sql_from,sql_join_table,sql_join_on,sql_join_type,sql_where,source_system,key,variable_name,fhir,variable_type,value_set,value_threshold,missing_threshold,dqa_assessment
-AUFNAHMEANLASS,FALL.CSV,,,,,,csv,dt.admission_source,encounter_hospitalization_admitSource,encounter.hospitalization.admitSource,factor,,,,1
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNAN%',i2b2,dt.admission_target,encounter_hospitalization_admitSource,encounter.hospitalization.admitSource,factor,,,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNAN%',i2b2,dt.admission_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-ALTER_IN_TAGEN_AM_AUFNAHMETAG,FALL.CSV,,,,,,csv,dt.ageindays_source,encounter_subject_patient_age_days,undefined,integer,,,,1
-nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AITAA',i2b2,dt.ageindays_target,encounter_subject_patient_age_days,undefined,integer,,,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AITAA',i2b2,dt.ageindays_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-ALTER_IN_JAHREN_AM_AUFNAHMETAG,FALL.CSV,,,,,,csv,dt.ageinyears_source,encounter_subject_patient_age_years,undefined,integer,,,,1
-nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,encounter_subject_patient_age_years,undefined,integer,,,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:AIJAA',i2b2,dt.ageinyears_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-Diagnoseart,ICD.CSV,,,,,,csv,dt.condition_source,condition_category_encounter_diagnosis,condition.category.encounter.diagnosis,factor,,,,1
-ICD_Kode,ICD.CSV,,,,,,csv,dt.condition_source,condition_code_coding_code,condition.code.coding.code,factor,,,,1
-KH_internes_Kennzeichen,ICD.CSV,,,,,,csv,dt.condition_source,condition_encounter_identifier_value,condition.encounter.identifier.value,factor,,,,0
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_category_encounter_diagnosis,condition.category.encounter.diagnosis,factor,,,,1
-modifier_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_code_coding_code,condition.code.coding.code,factor,,,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'ICD%',i2b2,dt.condition_target,condition_encounter_identifier_value,condition.encounter.identifier.value,factor,,,,0
-ENTLASSUNGSGRUND,FALL.CSV,,,,,,csv,dt.discharge_source,encounter_hospitalization_dischargeDisposition,encounter.hospitalization.dischargeDisposition,factor,,,,1
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,encounter_hospitalization_dischargeDisposition,encounter.hospitalization.dischargeDisposition,factor,,,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'ENTLGR%',i2b2,dt.discharge_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-KH_INTERNES_KENNZEICHEN,FALL.CSV,,,,,,csv,dt.encounter_source,encounter_identifier_value,encounter.identifier.value,factor,,,,1
-ENTLASSUNGSDATUM,FALL.CSV,,,,,,csv,dt.encounter_source,EpisodeOfCare_period_end,EpisodeOfCare.period.end,date,,,,1
-AUFNAHMEDATUM,FALL.CSV,,,,,,csv,dt.encounter_source,EpisodeOfCare_period_start,EpisodeOfCare.period.start,date,,,,1
-encounter_num,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,encounter_identifier_value,encounter.identifier.value,factor,,,,1
-end_date,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,EpisodeOfCare_period_end,EpisodeOfCare.period.end,date,,,,1
-start_date,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,EpisodeOfCare_period_start,EpisodeOfCare.period.start,date,,,,1
-patient_num,visit_dimension,visit_dimension,,,,,i2b2,dt.encounter_target,encounter_subject_patient_identifier_value,encounter.subject.patient.identifier.value,factor,,,,0
-AUFNAHMEGRUND,FALL.CSV,,,,,,csv,dt.hospitalization_source,encounter_hospitalization_class,encounter.hospitalization.class,factor,,,,1
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNGR%',i2b2,dt.hospitalization_target,encounter_hospitalization_class,encounter.hospitalization.class,factor,,,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'AUFNGR%',i2b2,dt.hospitalization_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-PLZ,FALL.CSV,,,,,,csv,dt.patient_source,patient_address_postalCode,patient.address.postalCode,factor,,,,1
-GEBURTSJAHR,FALL.CSV,,,,,,csv,dt.patient_source,patient_birthDate,patient.birthDate,factor,,,,1
-GESCHLECHT,FALL.CSV,,,,,,csv,dt.patient_source,patient_gender,patient.gender,factor,,,,1
-PATIENTENNUMMER,FALL.CSV,,,,,,csv,dt.patient_source,patient_identifier_value,patient.identifier.value,factor,,,,1
-zip_cd,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_address_postalCode,patient.address.postalCode,factor,,,,1
-birth_date,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_birthDate,patient.birthDate,factor,,,,1
-sex_cd,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_gender,patient.gender,factor,,,,1
-patient_num,patient_dimension,patient_dimension,,,,,i2b2,dt.patient_target,patient_identifier_value,patient.identifier.value,factor,,,,1
-OPS_Kode,OPS.CSV,,,,,,csv,dt.procedure_source,procedure_code_coding_code,procedure.code.coding.code,factor,,,,1
-OPS_Datum,OPS.CSV,,,,,,csv,dt.procedure_source,procedure_performedDateTime,procedure.performedDateTime,date,,,,1
-KH_internes_Kennzeichen,OPS.CSV,,,,,,csv,dt.procedure_source,procedure_encounter_identifier_value,procedure.encounter.identifier.value,factor,,,,0
-concept_cd,observation_fact,observation_fact,,,,concept_cd LIKE 'OPS%',i2b2,dt.procedure_target,procedure_code_coding_code,procedure.code.coding.code,factor,,,,1
-start_date,observation_fact,observation_fact,,,,concept_cd LIKE 'OPS%',i2b2,dt.procedure_target,procedure_performedDateTime,procedure.performedDateTime,date,,,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'OPS%',i2b2,dt.procedure_target,procedure_encounter_identifier_value,procedure.encounter.identifier.value,factor,,,,0
-FAB_ENTLASSUNGSDATUM,FAB.CSV,,,,,,csv,dt.provider_source,encounter_period_end,encounter.period.end,date,,,,1
-FAB_AUFNAHMEDATUM,FAB.CSV,,,,,,csv,dt.provider_source,encounter_period_start,encounter.period.start,date,,,,1
-FAB,FAB.CSV,,,,,,csv,dt.provider_source,encounter_serviceProvider_type_Organization_name,encounter.serviceProvider.type.Organization.name,factor,,,,1
-KH_INTERNES_KENNZEICHEN,FAB.CSV,,,,,,csv,dt.provider_source,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-end_date,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_period_end,encounter.period.end,date,,,,1
-start_date,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_period_start,encounter.period.start,date,,,,1
-tval_char,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_serviceProvider_type_Organization_name,encounter.serviceProvider.type.Organization.name,factor,,,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FACHABT%',i2b2,dt.provider_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-BEATMUNGSSTUNDEN,FALL.CSV,,,,,,csv,dt.ventilation_source,procedure_code_coding_code_40617009,procedure.code.coding.code.40617009,integer,,,,1
-nval_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:BEATMST',i2b2,dt.ventilation_target,procedure_code_coding_code_40617009,procedure.code.coding.code.40617009,integer,,,,1
-encounter_num,observation_fact,observation_fact,,,,concept_cd LIKE 'FALL:BEATMST',i2b2,dt.ventilation_target,procedure_encounter_identifier_value,procedure.encounter.identifier.value,factor,,,,0
-sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,patient_gender,patient.gender,factor,,,,1
-concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,condition_code_coding_code,condition.code.coding.code,factor,,,,0
-encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:O[0-9]',i2b2,pl.item02_target,patient_identifier_value,patient.identifier.value,factor,,,,0
-sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,patient_gender,patient.gender,factor,,,,1
-concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,condition_code_coding_code,condition.code.coding.code,factor,,,,0
-encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C5[1-8]',i2b2,pl.item03_target,patient_identifier_value,patient.identifier.value,factor,,,,0
-sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,patient_gender,patient.gender,factor,,,,1
-concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,condition_code_coding_code,condition.code.coding.code,factor,,,,0
-encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'ICD10:C6[0-3]',i2b2,pl.item04_target,patient_identifier_value,patient.identifier.value,factor,,,,0
-sex_cd,patient_dimension ,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,patient_gender,patient.gender,factor,,,,1
-concept_cd,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,condition_code_coding_code,condition.code.coding.code,factor,,,,0
-encounter_num,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,encounter_identifier_value,encounter.identifier.value,factor,,,,0
-patient_num ,observation_fact,observation_fact,patient_dimension ,patient_num = patient_num,left outer,concept_cd ~ 'AUFNGR:05',i2b2,pl.item05_target,patient_identifier_value,patient.identifier.value,factor,,,,0
-Lokalisation,ICD.CSV,,,,,,csv,undefined,condition_bodySite,condition.bodySite,factor,,,,
-Lokalisation,OPS.CSV,,,,,,csv,undefined,procedure_bodySite,procedure.bodySite,factor,,,,
-ENTGELTBEREICH,FALL.CSV,,,,,,csv,undefined,,,,,,,
-GEBURTSMONAT,FALL.CSV,,,,,,csv,undefined,,,,,,,
-BELEGUNGSTAGE_IN_ANDEREM_ENTGELTBEREICH,FALL.CSV,,,,,,csv,undefined,,,,,,,
-BEURLAUBUNGSTAGE_PSY,FALL.CSV,,,,,,csv,undefined,,,,,,,
-INTERKURRENTE_DIALYSEN,FALL.CSV,,,,,,csv,undefined,,,,,,,
-Entgeltbereich,ICD.CSV,,,,,,csv,undefined,,,,,,,
-Sekundaer_Kode,ICD.CSV,,,,,,csv,undefined,,,,,,,
-Entgeltbereich,OPS.CSV,,,,,,csv,undefined,,,,,,,
-,,,,,,,,undefined,condition_bodySite,condition.bodySite,factor,,,,
-,,,,,,,,undefined,procedure_bodySite,procedure.bodySite,factor,,,,
+source_variable_name	source_table_name	source_system	key	variable_name	fhir	variable_type	value_set	value_threshold	missing_threshold	dqa_assessment	description	sql_from	sql_join_table	sql_join_on	sql_join_type	sql_where
+AUFNAHMEANLASS	FALL.CSV	csv	dt.admission_source	encounter_hospitalization_admitSource	encounter.hospitalization.admitSource	factor				1	"- E Einweisung durch einen Arzt 
+- Z Einweisung durch einen Zahnarzt 
+- N Notfall 
+- R Aufnahme nach vorausgehender Behandlung in einer Rehabilitationseinrichtung 
+- V Verlegung mit Behandlungsdauer im verlegenden Krankenhaus länger als 24 Stunden 
+- A Verlegung mit Behandlungsdauer im verlegenden Krankenhaus bis zu 24 Stunden  
+
+Zusatzschlüssel für besondere Kalkulationsanforderungen: 
+    - G Geburt (siehe Hinweis Neugeborene) 
+    - B Begleitperson oder mitaufgenommene Pflegekraft  
+
+Hinweise:  
+Einweisung durch einen Arzt ist im § 301-Aufnahmesatz im Segment Aufnahme durch die Arztnummer des einweisenden Arztes, Einweisung durch einen Zahnarzt durch die Zahnarztnummer des einweisenden Zahnarztes dokumentiert.  
+Verlegung ist im § 301-Aufnahmesatz durch das IK des die Aufnahme veranlassenden Krankenhauses dokumentiert. Wenn die Behandlungsdauer im verlegenden Krankenhaus nicht länger als 24 Stunden betrug ist als Aufnahmeanlass ‚A’, wenn sie länger als 24 Stunden betrug, ist ‚V’ anzugeben. Der Aufnahmeanlass ‚R’ wird in der § 301-Datenübermittlung nicht abgebildet, er soll übermittelt werden, wenn die Patientendatenhaltung dieses Zusatzmerkmal enthält.  
+Interne Verlegung mit Wechsel aus einem Entgeltbereich in einen anderen Entgeltbereich wird durch das eigene IK als IK des veranlassenden Krankenhauses dokumentiert.  
+Für DRG-Fälle, bei denen nach Rückverlegung eine Neueinstufung anhand der Daten beider Krankenhausaufenthalte durchgeführt wird, ist der Aufnahmeanlass bei Behandlungsbeginn in einer Fachabteilung, die zu dem Entgeltbereich der DRG-Fallpauschalen zählt, anzugeben.  "					
+ALTER_IN_TAGEN_AM_AUFNAHMETAG	FALL.CSV	csv	dt.ageindays_source	encounter_subject_patient_age_days	undefined	integer				1	Die Angabe erfolgt nur bei Kindern bis zur Vollendung des 1. Lebensjahrs. Sie wird für die DRG-Zuordnung benötigt. Bei Neugeborenen mit Aufnahmetag=Geburtsdatum ist „1“ anzugeben.  					
+ALTER_IN_JAHREN_AM_AUFNAHMETAG	FALL.CSV	csv	dt.ageinyears_source	encounter_subject_patient_age_years	undefined	integer				1	Die Altersangabe wird für die DRG-Zuordnung benötigt.  					
+Diagnoseart	ICD.CSV	csv	dt.condition_source	condition_category_encounter_diagnosis	condition.category.encounter.diagnosis	factor				1	Die Diagnosen sind im KHEntgG-Entgeltbereich entsprechend den Deutschen Kodierrichtlinien (DKR) anzugeben. Bei nur vorstationär behandelten Fällen sind die Begriffe Haupt- und Nebendiagnose nicht definiert und die Aufnahmediagnosen können mit einer beliebigen Diagnoseart übermittelt werden. Bei PIA-Fällen wird für alle Diagnosen immer die Diagnoseart ‚ND’ übermittelt.  					
+ICD_Kode	ICD.CSV	csv	dt.condition_source	condition_code_coding_code	condition.code.coding.code	factor				1	"Diagnoseschlüssel sind in der gültigen ICD-10GM-Version analog zur § 301-Vereinbarung zu übermitteln: d.h. mit Sonderzeichen.  
+Als erste Diagnose soll die Hauptdiagnose (Diagnoseart: ‚HD’) übermittelt werden.  "					
+KH_internes_Kennzeichen	ICD.CSV	csv	dt.condition_source	condition_encounter_identifier_value	condition.encounter.identifier.value	factor				0						
+ENTLASSUNGSGRUND	FALL.CSV	csv	dt.discharge_source	encounter_hospitalization_dischargeDisposition	encounter.hospitalization.dischargeDisposition	factor				1	"- 01x Behandlung regulär beendet 
+- 02x Behandlung regulär beendet, nachstationäre Behandlung vorgesehen 
+- 03x Behandlung aus sonstigen Gründen beendet 
+- 04x Behandlung gegen ärztlichen Rat beendet 
+- 059 Zuständigkeitswechsel des Kostenträgers (bei tagesbezogenen Entgelten) 
+- 069 Verlegung in ein anderes Krankenhaus 
+- 079 Tod 
+- 089 Verlegung in ein anderes Krankenhaus im Rahmen einer Kooperation 
+- 099 Entlassung in eine Rehabilitationseinrichtung 
+- 109 Entlassung in eine Pflegeeinrichtung 
+- 119 Entlassung in ein Hospiz 
+- 139 externe Verlegung zur psychiatrischen Behandlung 
+- 14x Behandlung aus sonstigen Gründen beendet, nachstationäre Behandlung vorgesehen 
+- 15x Behandlung gegen ärztlichen Rat beendet, nachstationäre Behandlung vorgesehen 
+- 179 interne Verlegung mit Wechsel zwischen den Entgeltbereichen der DRG-Fallpauschalen, nach der BPflV oder für besondere Einrichtungen nach § 17b Abs. 1 Satz 15 KHG 
+- 229 Fallabschluss (interne Verlegung) bei Wechsel zwischen voll- und teilstationärer Behandlung 
+- 239 Beginn eines externen Aufenthalts mit Abwesenheit über Mitternacht (BPflV-Bereich, für verlegende Fachabteilung) 
+- 249 Beendigung eines externen Aufenthalts mit Abwesenheit über Mitternacht (BPflV-Bereich, für Pseudo-Fachabteilung 0003) 
+- 259 Entlassung zum Jahresende bei Aufnahme im Vorjahr (für Zwecke der Abrechnung, § 4 PEPPV)  
+
+Hinweise:  
+Es ist der Entlassungs-/Verlegungsgrund entsprechend Schlüssel 5 der Anlage 2 zur § 301-Vereinbarung anzugeben. Als 3. Stelle (‚x’) sind die nach Schlüssel 5 möglichen Werte (‚1’, ‚2’ oder ‚9’) anzugeben.  
+Der Entlassungs-/Verlegungsgrund kann entfallen bei Begleitpersonen und mitaufgenommenen Pflegekräften (Aufnahmeanlass ‚B’). In allen anderen Fällen ist der Entlassungs-/Verlegungsgrund eine Muss-Angabe (bei Neugeborenen mit Aufnahmeanlass ‚G’ ist z.B. ‚019’ anzugeben).  
+Der Entlassungsgrund ‚179’ (interne Verlegung mit Wechsel …) dokumentiert, dass der Krankenhausfall als DRG-Fall abgeschlossen ist.  "					
+KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	dt.encounter_source	encounter_identifier_value	encounter.identifier.value	factor				1	"Das KH-interne Kennzeichen des Behandlungsfalls dient der eindeutigen Identifikation des Behandlungs-falls (Primärschlüssel). 
+Das KH-interne Kennzeichen darf von der Datenstelle nicht weiter übermittelt werden. 
+Wurden für einen Behandlungsfall im Verfahren nach § 301 SGB V unter identischem krankenhausinter-nen Kennzeichen des Behandlungsfalls mehrere Rechnungen in einem Entgeltbereich gestellt (z.B. quar-talsweise Abrechnung), ist bei der Datenlieferung nach § 21 KHEntgG nur ein Fall mit den Angaben des Gesamtaufenthalts im entsprechenden Entgeltbereich zu übermitteln.   
+
+Besondere Behandlungsfälle/Konstellationen:  
+Neugeborene sind stets als eigenständige Fälle mit allen zugehörigen fallbezogenen Daten getrennt von der Mutter zu dokumentieren. 
+Für gesunde Neugeborene ist ‚0601’ (Geburt) als Aufnahmegrund und der Aufnahmeanlass ‚G’ anzuge-ben. 
+Für krankheitsbedingt behandlungsbedürftige Neugeborene ist der Aufnahmegrund ‚01..’ (siehe Aufnahmegrund) und der Aufnahmeanlass ‚G’ anzugeben. 
+Zur Kodierung der Diagnosen bei Neugeborenen siehe DKR.   
+
+Begleitpersonen und mitaufgenommene Pflegekräfte, die im § 301-Verfahren kein KH-internes Kennzeichen erhalten, sind mit einem eindeutigen Kennzeichen und mit dem Aufnahmeanlass „B“ zu dokumentieren. Die Angabe von Geburtsjahr, Geschlecht, PLZ, Wohnort, Aufnahmegrund, Entlassungs-/Verlegungsgrund, Alter, Fachabteilungs-, Diagnosen- und Prozedurenangaben entfällt.   
+
+Nur vorstationär behandelte Fälle:  
+Für nur vorstationär behandelte Fälle werden von den Falldaten der entlassende Standort, das KH-interne Kennzeichen, Geburtsjahr, Geschlecht, PLZ, Wohnort, Aufnahmeanlass, Aufnahmegrund, Fachabteilung und ggf. Diagnose- und Prozedurenangaben übermittelt. Für das Aufnahmedatum ist der erste, für das Entlassungsdatum der letzte vorstationäre Behandlungstag anzugeben.    
+
+Teilstationäre Fälle:  
+Im § 301-Verfahren werden teilstationäre Fälle mit tagesbezogenen Entgelten quartalsbezogen abgerechnet, dabei sind die Prozeduren jeweils mit dem jeweiligen Kalenderdatum der Leistungserbringung anzugeben. Fehlerhafte Angaben zu Prozeduren und zum Prozedurendatum werden im Datenannahmeverfahren als Fehler gewertet!  
+Krankenhäuser, die an der Kalkulationserhebung teilnehmen, dokumentieren die teilstationären Fälle mit fallbezogenen Angaben in den Dateien „Fall“, „FAB“, „ICD“, „OPS“ und „Entgelte“. Die Datei „Kosten“ enthält die tagesbezogenen Angaben der teilstationären Behandlungskosten und die Datumsangabe des je-weiligen Behandlungstags im Datenfeld „Pflegetag“. Es gibt keine kontaktbezogene Übermittlung von teilstationären Fällen im KHEntgG-Entgeltbereich.  "					
+ENTLASSUNGSDATUM	FALL.CSV	csv	dt.encounter_source	EpisodeOfCare_period_end	EpisodeOfCare.period.end	date				1	Es ist das Entlassungs-/Verlegungsdatum (Tag und Uhrzeit) aus der vollstationären oder teilstationären Behandlung anzugeben. (Bei interner Verlegung in einen anderen Entgeltbereich ohne nachfolgende Rückverlegung wird das Verlegungsdatum angegeben; die Behandlungsepisode in dem anderen Entgeltbereich wird als gesonderter Fall dokumentiert.) Bei nur vorstationär behandelten Fällen ist das Entlassungsdatum der letzte vorstationäre Behandlungstag.  					
+AUFNAHMEDATUM	FALL.CSV	csv	dt.encounter_source	EpisodeOfCare_period_start	EpisodeOfCare.period.start	date				1	"Es ist das Aufnahmedatum (Aufnahmetag und Aufnahmeuhrzeit) zur vollstationären oder teilstationären Behandlung anzugeben.  
+Bei nur vorstationär behandelten Fällen ist das Aufnahmedatum der erste vorstationäre Behandlungstag.  "					
+AUFNAHMEGRUND	FALL.CSV	csv	dt.hospitalization_source	encounter_hospitalization_class	encounter.hospitalization.class	factor				1	"- 01xx Krankenhausbehandlung, vollstationär 
+- 02xx Krankenhausbehandlung, vollstationär mit vorausgegangener vorstationärer Behandlung 
+- 03xx Krankenhausbehandlung, teilstationär 
+- 04xx vorstationäre Behandlung ohne anschließende vollstationäre Behandlung 
+- 05xx stationäre Entbindung 
+- 06xx Geburt 
+- 08xx Stationäre Aufnahme zur Organentnahme  
+
+Hinweise:  
+Es ist der Aufnahmegrund entsprechend Schlüssel 1 der Anlage 2 zur § 301-Vereinbarung anzugeben. Als 3. und 4. Stelle (xx) sind die nach Schlüssel 1 möglichen Werte (01 bis 07, bei tagesbezogenen Entgelten auch 21 bis 27) anzugeben. Fälle mit den Werten „41“ bis „47“ in der 3. und 4. Stelle (Behandlungen im Rahmen von Verträgen zur integrierten Versorgung) können übermittelt werden.  
+Der Aufnahmegrund kann bei Begleitpersonen und mitaufgenommenen Pflegekräften (Aufnahmeanlass „B“) entfallen. In allen anderen Fällen ist der Aufnahmegrund eine Muss-Angabe.  "					
+PLZ	FALL.CSV	csv	dt.patient_source	patient_address_postalCode	patient.address.postalCode	factor				1	"Die Postleitzahl der Anschrift des Versicherten ist vollständig mit 5 Ziffern anzugeben.  
+Bei ausländischen oder wohnsitzlosen Patienten: ‚00000’.   "					
+GEBURTSJAHR	FALL.CSV	csv	dt.patient_source	patient_birthDate	patient.birthDate	factor				1	Das Geburtsjahr ist im Format JJJJ anzugeben.  					
+GESCHLECHT	FALL.CSV	csv	dt.patient_source	patient_gender	patient.gender	factor				1	"- m männlich  
+- w weiblich  
+- x unbestimmt  "					
+PATIENTENNUMMER	FALL.CSV	csv	dt.patient_source	patient_identifier_value	patient.identifier.value	factor				1	Die Patientennummer dient im Rahmen der Kalkulation der Zusammenführung von Fällen (mit unter-schiedlichen KH-internen Kennzeichen), bei denen die Patientennummer angegeben werden muss, zu einem Behandlungsblock. Bei Patienten, die im Datenjahr sowohl im Entgeltbereich „PSY“ als auch im Entgeltbereich „PIA“ behandelt wurden, muss in den jeweiligen Falldaten die Patientennummer angegeben werden. Die Patientennummer ist eine eindeutige und über die Zeit stabile Patienten-Identifikationsnummer.  					
+OPS_Kode	OPS.CSV	csv	dt.procedure_source	procedure_code_coding_code	procedure.code.coding.code	factor				1	"Prozedurenschlüssel sind in der gültigen OPS-Version analog zur § 301-Vereinbarung zu übermitteln: d.h. ohne Sonderzeichen.  
+Zur Reihenfolge der Prozedurenschlüssel für Fälle im KHEntgG-Entgeltbereich siehe DKR.  "					
+OPS_Datum	OPS.CSV	csv	dt.procedure_source	procedure_performedDateTime	procedure.performedDateTime	date				1	Es ist der Beginn der Prozedur anzugeben. Bei Prozeduren, für die keine Startzeit (HHMM) erfasst ist, kann ‚JJJJMMTT0000’ angegeben werden.  					
+KH_internes_Kennzeichen	OPS.CSV	csv	dt.procedure_source	procedure_encounter_identifier_value	procedure.encounter.identifier.value	factor				0						
+FAB_ENTLASSUNGSDATUM	FAB.CSV	csv	dt.provider_source	encounter_period_end	encounter.period.end	date				1	Bei nachstationärer Behandlung ist der letzte vollstationäre Behandlungstag (Entlassungsdatum) anzugeben. Der Wechsel von vollstationär zu nachstationär innerhalb der gleichen Fachabteilung muss nicht durch eine gesonderte Wiederholung der Fachabteilungsangabe dokumentiert werden. Die nachstationären Behandlungstage sind bei den Falldaten gesondert anzugeben.  					
+FAB_AUFNAHMEDATUM	FAB.CSV	csv	dt.provider_source	encounter_period_start	encounter.period.start	date				1	Bei vorstationärer Behandlung ist der erste vollstationäre Behandlungstag (Aufnahmedatum) anzugeben. Der Wechsel von vorstationär zu vollstationär innerhalb der gleichen Fachabteilung muss nicht durch eine gesonderte Wiederholung der Fachabteilungsangabe dokumentiert werden.  					
+FAB	FAB.CSV	csv	dt.provider_source	encounter_serviceProvider_type_Organization_name	encounter.serviceProvider.type.Organization.name	factor				1	"Die Fachabteilung ist an dieser Stelle analog der Übermittlung nach § 301 SGB V einschließlich der Pseudofachabteilungen ‚0001’ (Rückverlegung) oder ‚0002’ (Wiederaufnahme) oder‚0003‘ (externer Aufenthalt mit Abwesenheit über Mitternacht im BPflV-Bereich) anzugeben.  
+Dem Fachabteilungsschlüssel ist bei Fachabteilungen das Präfix ‚HA’ (Hauptabteilung) oder ‚BA’ (Belegabteilung), bei Besonderen Einrichtungen das Präfix ‚BE’ voranzustellen.  
+Bei Angabe der Pseudofachabteilungen ‚0001’, ‚0002’ und ‚0003‘ ist als Präfix ‚HA’ anzugeben.  "					
+KH_INTERNES_KENNZEICHEN	FAB.CSV	csv	dt.provider_source	encounter_identifier_value	encounter.identifier.value	factor				0						
+BEATMUNGSSTUNDEN	FALL.CSV	csv	dt.ventilation_source	procedure_code_coding_code_40617009	procedure.code.coding.code.40617009	integer				1	Die Beatmungsstunden sind als Gesamtbeatmungszeit für den Krankenhausfall entsprechend DKR anzugeben. Der Wert entspricht der Angabe „Beatmungsstunden“ in der Entlassungsanzeige (Segment DAU).  					
+Lokalisation	ICD.CSV	csv	undefined	condition_bodySite	condition.bodySite	factor										
+Lokalisation	OPS.CSV	csv	undefined	procedure_bodySite	procedure.bodySite	factor										
+ENTGELTBEREICH	FALL.CSV	csv	undefined													
+GEBURTSMONAT	FALL.CSV	csv	undefined								Der Geburtsmonat ist nur bei Kindern bis zur Vollendung des 1. Lebensjahrs anzugeben.					
+BELEGUNGSTAGE_IN_ANDEREM_ENTGELTBEREICH	FALL.CSV	csv	undefined													
+BEURLAUBUNGSTAGE_PSY	FALL.CSV	csv	undefined													
+INTERKURRENTE_DIALYSEN	FALL.CSV	csv	undefined													
+Entgeltbereich	ICD.CSV	csv	undefined													
+Sekundaer_Kode	ICD.CSV	csv	undefined													
+Entgeltbereich	OPS.CSV	csv	undefined													
+concept_cd	observation_fact	i2b2	dt.admission_target	encounter_hospitalization_admitSource	encounter.hospitalization.admitSource	factor				1		observation_fact				concept_cd LIKE 'AUFNAN%'
+encounter_num	observation_fact	i2b2	dt.admission_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact				concept_cd LIKE 'AUFNAN%'
+nval_num	observation_fact	i2b2	dt.ageindays_target	encounter_subject_patient_age_days	undefined	integer				1		observation_fact				concept_cd LIKE 'FALL:AITAA'
+encounter_num	observation_fact	i2b2	dt.ageindays_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact				concept_cd LIKE 'FALL:AITAA'
+nval_num	observation_fact	i2b2	dt.ageinyears_target	encounter_subject_patient_age_years	undefined	integer				1		observation_fact				concept_cd LIKE 'FALL:AIJAA'
+encounter_num	observation_fact	i2b2	dt.ageinyears_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact				concept_cd LIKE 'FALL:AIJAA'
+concept_cd	observation_fact	i2b2	dt.condition_target	condition_category_encounter_diagnosis	condition.category.encounter.diagnosis	factor				1		observation_fact				concept_cd LIKE 'ICD%'
+modifier_cd	observation_fact	i2b2	dt.condition_target	condition_code_coding_code	condition.code.coding.code	factor				1		observation_fact				concept_cd LIKE 'ICD%'
+encounter_num	observation_fact	i2b2	dt.condition_target	condition_encounter_identifier_value	condition.encounter.identifier.value	factor				0		observation_fact				concept_cd LIKE 'ICD%'
+concept_cd	observation_fact	i2b2	dt.discharge_target	encounter_hospitalization_dischargeDisposition	encounter.hospitalization.dischargeDisposition	factor				1		observation_fact				concept_cd LIKE 'ENTLGR%'
+encounter_num	observation_fact	i2b2	dt.discharge_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact				concept_cd LIKE 'ENTLGR%'
+encounter_num	visit_dimension	i2b2	dt.encounter_target	encounter_identifier_value	encounter.identifier.value	factor				1		visit_dimension				
+end_date	visit_dimension	i2b2	dt.encounter_target	EpisodeOfCare_period_end	EpisodeOfCare.period.end	date				1		visit_dimension				
+start_date	visit_dimension	i2b2	dt.encounter_target	EpisodeOfCare_period_start	EpisodeOfCare.period.start	date				1		visit_dimension				
+patient_num	visit_dimension	i2b2	dt.encounter_target	encounter_subject_patient_identifier_value	encounter.subject.patient.identifier.value	factor				0		visit_dimension				
+concept_cd	observation_fact	i2b2	dt.hospitalization_target	encounter_hospitalization_class	encounter.hospitalization.class	factor				1		observation_fact				concept_cd LIKE 'AUFNGR%'
+encounter_num	observation_fact	i2b2	dt.hospitalization_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact				concept_cd LIKE 'AUFNGR%'
+zip_cd	patient_dimension	i2b2	dt.patient_target	patient_address_postalCode	patient.address.postalCode	factor				1		patient_dimension				
+birth_date	patient_dimension	i2b2	dt.patient_target	patient_birthDate	patient.birthDate	factor				1		patient_dimension				
+sex_cd	patient_dimension	i2b2	dt.patient_target	patient_gender	patient.gender	factor				1		patient_dimension				
+patient_num	patient_dimension	i2b2	dt.patient_target	patient_identifier_value	patient.identifier.value	factor				1		patient_dimension				
+concept_cd	observation_fact	i2b2	dt.procedure_target	procedure_code_coding_code	procedure.code.coding.code	factor				1		observation_fact				concept_cd LIKE 'OPS%'
+start_date	observation_fact	i2b2	dt.procedure_target	procedure_performedDateTime	procedure.performedDateTime	date				1		observation_fact				concept_cd LIKE 'OPS%'
+encounter_num	observation_fact	i2b2	dt.procedure_target	procedure_encounter_identifier_value	procedure.encounter.identifier.value	factor				0		observation_fact				concept_cd LIKE 'OPS%'
+end_date	observation_fact	i2b2	dt.provider_target	encounter_period_end	encounter.period.end	date				1		observation_fact				concept_cd LIKE 'FACHABT%'
+start_date	observation_fact	i2b2	dt.provider_target	encounter_period_start	encounter.period.start	date				1		observation_fact				concept_cd LIKE 'FACHABT%'
+tval_char	observation_fact	i2b2	dt.provider_target	encounter_serviceProvider_type_Organization_name	encounter.serviceProvider.type.Organization.name	factor				1		observation_fact				concept_cd LIKE 'FACHABT%'
+encounter_num	observation_fact	i2b2	dt.provider_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact				concept_cd LIKE 'FACHABT%'
+nval_num	observation_fact	i2b2	dt.ventilation_target	procedure_code_coding_code_40617009	procedure.code.coding.code.40617009	integer				1		observation_fact				concept_cd LIKE 'FALL:BEATMST'
+encounter_num	observation_fact	i2b2	dt.ventilation_target	procedure_encounter_identifier_value	procedure.encounter.identifier.value	factor				0		observation_fact				concept_cd LIKE 'FALL:BEATMST'
+sex_cd	patient_dimension 	i2b2	pl.item02_target	patient_gender	patient.gender	factor				1		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:O[0-9]'
+concept_cd	observation_fact	i2b2	pl.item02_target	condition_code_coding_code	condition.code.coding.code	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:O[0-9]'
+encounter_num	observation_fact	i2b2	pl.item02_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:O[0-9]'
+patient_num 	observation_fact	i2b2	pl.item02_target	patient_identifier_value	patient.identifier.value	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:O[0-9]'
+sex_cd	patient_dimension 	i2b2	pl.item03_target	patient_gender	patient.gender	factor				1		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:C5[1-8]'
+concept_cd	observation_fact	i2b2	pl.item03_target	condition_code_coding_code	condition.code.coding.code	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:C5[1-8]'
+encounter_num	observation_fact	i2b2	pl.item03_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:C5[1-8]'
+patient_num 	observation_fact	i2b2	pl.item03_target	patient_identifier_value	patient.identifier.value	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:C5[1-8]'
+sex_cd	patient_dimension 	i2b2	pl.item04_target	patient_gender	patient.gender	factor				1		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:C6[0-3]'
+concept_cd	observation_fact	i2b2	pl.item04_target	condition_code_coding_code	condition.code.coding.code	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:C6[0-3]'
+encounter_num	observation_fact	i2b2	pl.item04_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:C6[0-3]'
+patient_num 	observation_fact	i2b2	pl.item04_target	patient_identifier_value	patient.identifier.value	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'ICD10:C6[0-3]'
+sex_cd	patient_dimension 	i2b2	pl.item05_target	patient_gender	patient.gender	factor				1		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'AUFNGR:05'
+concept_cd	observation_fact	i2b2	pl.item05_target	condition_code_coding_code	condition.code.coding.code	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'AUFNGR:05'
+encounter_num	observation_fact	i2b2	pl.item05_target	encounter_identifier_value	encounter.identifier.value	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'AUFNGR:05'
+patient_num 	observation_fact	i2b2	pl.item05_target	patient_identifier_value	patient.identifier.value	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'AUFNGR:05'
+			undefined	condition_bodySite	condition.bodySite	factor										
+			undefined	procedure_bodySite	procedure.bodySite	factor										
+		csv	pl.item02_source							1	Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.  					
+		csv	pl.item03_source							1	Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.  					
+		csv	pl.item04_source							1	Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.  					
+		csv	pl.item05_source							1	Nur bei weiblichen Patientinnen ist 'stationäre Entbindung' als Aufnahmegrund (05) erlaubt.  					
