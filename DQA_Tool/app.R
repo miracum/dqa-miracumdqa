@@ -9,6 +9,7 @@ library(ggplot2)
 library(jsonlite)
 library(RPostgres)
 library(e1071)
+library(knitr)
 
 
 # app entrypoint here
