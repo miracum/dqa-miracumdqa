@@ -79,10 +79,11 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   
   # calculate overview
   # target
+  # patient_identifier_value
   observe({
     req(rv$list_target$dt.patient_target)
     
-    if (nrow(rv$dash_summary_target) < 2){
+    if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target")
       if (!("patient.identifier.value" %in% rv$dash_summary_target[,variable])){
         rv[["ov.patient_target.summary"]] <- countUnique(rv$list_target$dt.patient_target, "patient_identifier_value", rv$target_db)
@@ -90,14 +91,39 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       }
     }
   })
+  # encounter_identifier_value
   observe({
     req(rv$list_target$dt.encounter_target)
     
-    if (nrow(rv$dash_summary_target) < 2){
+    if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target2")
       if (!("encounter.identifier.value" %in% rv$dash_summary_target[,variable])){
         rv[["ov.encounter_target.summary"]] <- countUnique(rv$list_target$dt.encounter_target, "encounter_identifier_value", rv$target_db)
         rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.encounter_target.summary[,.(variable, distinct, valids, missings)])
+      }
+    }
+  })
+  # condition_code_coding_code
+  observe({
+    req(rv$list_target$dt.condition_target)
+    
+    if (nrow(rv$dash_summary_target) < 4){
+      cat("\nBuild rv$dash_summary_target3")
+      if (!("condition.code.coding.code" %in% rv$dash_summary_target[,variable])){
+        rv[["ov.condition_target.summary"]] <- countUnique(rv$list_target$dt.condition_target, "condition_code_coding_code", rv$target_db)
+        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.condition_target.summary[,.(variable, distinct, valids, missings)])
+      }
+    }
+  })
+  # procedure_code_coding_code
+  observe({
+    req(rv$list_target$dt.procedure_target)
+    
+    if (nrow(rv$dash_summary_target) < 4){
+      cat("\nBuild rv$dash_summary_target3")
+      if (!("procedure.code.coding.code" %in% rv$dash_summary_target[,variable])){
+        rv[["ov.procedure_target.summary"]] <- countUnique(rv$list_target$dt.procedure_target, "procedure_code_coding_code", rv$target_db)
+        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.procedure_target.summary[,.(variable, distinct, valids, missings)])
       }
     }
   })
