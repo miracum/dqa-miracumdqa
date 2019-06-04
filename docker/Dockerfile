@@ -126,9 +126,6 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
 # add TeX-installation to R_ENVIRON Path
 RUN echo "PATH=/home/user/bin:${PATH}" >> /etc/R/Renviron.site 
 
-# fix hyphenation patterns
-RUN ./home/user/bin/fmtutil --all
-
 # server configuration
 ADD shiny-server.conf /etc/shiny-server/shiny-server.conf
 
