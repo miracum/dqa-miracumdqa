@@ -44,16 +44,16 @@ renderResults <- function(results){
 
 renderRepresentation <- function(desc_out, source){
   # source either "source_data" or "target_data"
-  cat(paste0("\n- Variable: ", desc_out[[source]]$var_name, "  "))
-  cat(paste0("\n- Tabelle: ", desc_out[[source]]$table_name, "  \n"))
+  cat(paste0("\n- Variable: ", desc_out[[source]]$var_name, "  \n"))
+  cat(paste0("- Tabelle: ", desc_out[[source]]$table_name, "  \n  \n"))
 }
 
 renderCounts <- function(count_out, source){
   # source either "source_data" or "target_data"
-  cat(paste0("\n- Variablename: ", count_out[[source]]$cnt$variable, "  "))
-  cat(paste0("\n- Variablentyp: ", count_out[[source]]$type, "  \n"))
-  cat(paste0("\n  + Merkmalsausprägungen: ", count_out[[source]]$cnt$distinct, "  "))
-  cat(paste0("\n  + Gültige Werte: ", count_out[[source]]$cnt$valids, "  "))
-  cat(paste0("\n  + Fehlende Werte: ", count_out[[source]]$cnt$missings, "  \n"))
+  cat(paste0("\n- Variablename: ", count_out[[source]]$cnt$variable, "  \n"))
+  cat(paste0("\n- Variablentyp: ", count_out[[source]]$type, "  \n  \n"))
+  cat(paste0("    + Merkmalsausprägungen: ", count_out[[source]]$cnt$distinct, "  \n"))
+  cat(paste0("    + Gültige Werte: ", count_out[[source]]$cnt$valids, "  \n"))
+  cat(paste0("    + Fehlende Werte: ", count_out[[source]]$cnt$missings, "  \n  \n"))
 }
 
