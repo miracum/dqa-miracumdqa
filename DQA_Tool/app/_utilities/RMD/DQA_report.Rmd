@@ -1,11 +1,12 @@
 ---
+# script by Lorenz Kapsner
 title: |
+  | Datenqualitätsanalyse des §21-Datensatzes: 
   | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (i2b2 Datenbank) 
   | Zeitraum `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[1,])[2], 1, 4)` bis `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[5,])[2], 1, 4)` 
   | 
-  |
-  | Datenqualitätsanalyse des §21-Datensatzes: 
   | Standort: `r rv$sitename` 
+  | 
 date: '`r format(Sys.time(), "%d %B %Y")`' 
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
 output: 
