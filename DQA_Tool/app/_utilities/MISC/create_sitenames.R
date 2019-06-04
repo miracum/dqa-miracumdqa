@@ -17,4 +17,4 @@ sitenamelist <- list(
 )
 
 jsonlist <- toJSON(sitenamelist, pretty = T, auto_unbox = F)
-writeLines(jsonlist, "./DQA_Tool/app/_utilities/CSV/sitenames.JSON")
+writeLines(jsonlist, "./DQA_Tool/app/_utilities/MISC/sitenames.JSON")

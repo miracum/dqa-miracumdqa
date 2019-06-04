@@ -1,0 +1,29 @@
+% by Lorenz Kapsner
+
+\usepackage{titling}
+\usepackage{caption}
+\captionsetup[figure]{labelformat=empty}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx,grffile}
+\usepackage{float}
+\usepackage{pdflscape}
+\usepackage{longtable}
+
+\pretitle{
+  \begin{center}
+  \LARGE
+  \begin{figure}[h]
+    \centering
+    \noindent\begin{minipage}{0.3\textwidth}
+      \includegraphics[width=\linewidth]{./_header/MII.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.3\linewidth}
+      \includegraphics[width=\textwidth]{./_header/BMBF.jpg}\\[\bigskipamount]
+    \end{minipage}
+  \end{figure}
+  \vspace{4cm}
+  \includegraphics[width=.4\linewidth]{./_header/MIRACUM.jpg}\\[\bigskipamount]
+  \vspace{2cm}
+}
+\posttitle{\end{center}}

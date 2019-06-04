@@ -88,11 +88,42 @@ RUN for package in $p_base; do \
 ARG p_add="RPostgres \
     config \
     e1071 \
-    knitr"
+    markdown \
+    knitr \
+    tinytex \
+    kableExtra"
 
 RUN for package in $p_add; do \
     R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"https://ftp.fau.de/cran/\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
+
+# install tinytex
+USER user 
+RUN R -q -e 'tinytex::install_tinytex()' 
+# switch back for other users
+USER root
+
+# install required LaTeX-Packages
+RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr update --self
+RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
+    multirow \
+    xcolor \
+    colortbl \
+    wrapfig \
+    float \
+    tabu \
+    varwidth \
+    threeparttable \
+    threeparttablex \
+    environ \
+    trimspaces \
+    ulem \
+    makecell \
+    babel \
+    babel-german
+
+# add TeX-installation to R_ENVIRON Path
+RUN echo "PATH=/home/user/bin:${PATH}" >> /etc/R/Renviron.site 
 
 # server configuration
 ADD shiny-server.conf /etc/shiny-server/shiny-server.conf

@@ -110,7 +110,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
   
   observe({
     if (is.null(rv$sitenames)){
-      rv$sitenames <- fromJSON("./_utilities/CSV/sitenames.JSON")
+      rv$sitenames <- fromJSON("./_utilities/MISC/sitenames.JSON")
       
       updateSelectInput(session, "config_sitename", choices = rv$sitenames, 
                         selected = ifelse(!is.null(rv$sitename), rv$sitename, character(0)))

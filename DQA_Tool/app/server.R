@@ -69,14 +69,15 @@ shinyServer(function(input, output, session) {
                     menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
                     menuItem("Results Numerical Variables", tabName = "tab_numerical", icon = icon("table")),
                     menuItem("Results Categorical Variables", tabName = "tab_categorical", icon = icon("table")),
-                    menuItem("Plot", tabName = "tab_visualizations", icon = icon("chart-line"))
+                    menuItem("Plot", tabName = "tab_visualizations", icon = icon("chart-line")),
+                    menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
                 )
             })
             #updateTabItems(session, "tabs", "tab_rawdata1")
             
             # for debugging purposes
-            # numerical_out <<- rv$dqa_numerical_results
-            # categorical_out <<- rv$dqa_categorical_results
+            numerical_out <<- rv$dqa_numerical_results
+            categorical_out <<- rv$dqa_categorical_results
         }
     })
     
@@ -105,6 +106,32 @@ shinyServer(function(input, output, session) {
     # tab_visualization
     ########################
     callModule(moduleVisualizationsServer, "moduleVisulizations", rv, input_re=reactive({input}))
+    
+    ########################
+    # tab_report
+    ########################
+    callModule(moduleReportServer, "moduleReport", rv, input_re=reactive({input}))
+    
+    observeEvent(input[["moduleReport-create_report"]], {
+        shinyjs::disable("moduleReport-create_report")
+        
+        withProgress(
+            message = paste0("Creating report ..."), value = 0, {
+                incProgress(1/1, detail = "... working hard to create pdf ...")
+                # create pdf from shiny:
+                # https://stackoverflow.com/questions/34029611/how-to-use-objects-from-global-environment-in-rstudio-markdown
+                knitr::knit(input="./_utilities/RMD/DQA_report.Rmd", output=paste0(tempdir(), "/DQA_report.md"), encoding = "UTF-8")
+                # copy header-folder to tempdir to make files available for the next command
+                file.copy("./_utilities/RMD/_header", tempdir(), recursive=TRUE)
+                rmarkdown::render(input=paste0(tempdir(), "/DQA_report.md"), output_file = paste0(tempdir(), "/DQA_report.pdf"), encoding = "UTF-8")
+            })
+        
+        # workaround to get conditionalpanel in moduleReport working!
+        output$reportCreated <- reactive({
+            return(TRUE)
+        })
+        outputOptions(output, 'reportCreated', suspendWhenHidden=FALSE)
+    })
     
     ########################
     # tab_mdr

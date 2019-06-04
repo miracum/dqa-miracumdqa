@@ -9,8 +9,13 @@ library(ggplot2)
 library(jsonlite)
 library(RPostgres)
 library(e1071)
+library(rmarkdown)
 library(knitr)
 
+# this is necessary to build tables in latex-code
+options(kableExtra.auto_format = FALSE)
+library(kableExtra)
+options(knitr.table.format = "latex")
 
 # app entrypoint here
 shinyAppDir("app")

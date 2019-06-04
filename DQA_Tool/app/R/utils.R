@@ -32,3 +32,10 @@ transformFactor <- function(object, transform){
   return(factor(trans_out))
   invisible(gc())
 }
+
+
+kableTable <- function(data){
+  kable(data, digits = 3, format = "latex") %>%
+    kable_styling(full_width = F)
+}
+

@@ -80,11 +80,11 @@ moduleCategoricalServer <- function(input, output, session, rv, input_re){
             incProgress(1/length(rv$dqa_categorical), detail = paste("... calculating statistics of", i, "..."))
             # generate counts
             stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
-              tryCatch({
-                # for source_data; our data is in rv$list_source$source_table_name
-                rv$dqa_categorical_results$statistics[[rv$dqa_categorical[[i]]]]$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[source_system=="csv", source_table_name]]], rv$dqa_categorical[[i]])
-                rv$dqa_categorical_results$statistics[[rv$dqa_categorical[[i]]]]$target_data <- categoricalAnalysis(rv$list_target[[stat_dat[source_system==rv$target_db, key]]], rv$dqa_categorical[[i]])
-              }, error=function(e){logjs(e)})
+            tryCatch({
+              # for source_data; our data is in rv$list_source$source_table_name
+              rv$dqa_categorical_results$statistics[[rv$dqa_categorical[[i]]]]$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[source_system=="csv", source_table_name]]], rv$dqa_categorical[[i]])
+              rv$dqa_categorical_results$statistics[[rv$dqa_categorical[[i]]]]$target_data <- categoricalAnalysis(rv$list_target[[stat_dat[source_system==rv$target_db, key]]], rv$dqa_categorical[[i]])
+            }, error=function(e){logjs(e)})
             # for target_data; our data is in rv$list_target$key
           }
         })
@@ -92,6 +92,7 @@ moduleCategoricalServer <- function(input, output, session, rv, input_re){
       
       # generate output tables
       observeEvent(input_re()[["moduleCategorical-categorical_sel"]], {
+        
         # get description object
         desc_out <- rv$dqa_categorical_results$description[[input_re()[["moduleCategorical-categorical_sel"]]]]
         count_out <- rv$dqa_categorical_results$counts[[input_re()[["moduleCategorical-categorical_sel"]]]]
@@ -141,7 +142,7 @@ moduleCategoricalServer <- function(input, output, session, rv, input_re){
         })
         
         
-        # render target counts
+        # render target statistics
         output$cat_selection_target_table <- renderTable({
           stat_out$target_data
         })

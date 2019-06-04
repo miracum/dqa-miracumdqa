@@ -7,7 +7,7 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     req(rv$target_db)
     if (is.null(rv$mdr)){
       cat("\nRead MDR\n")
-      rv$mdr <- fread("./_utilities/CSV/mdr.csv", header = T)
+      rv$mdr <- fread("./_utilities/MDR/mdr.csv", header = T)
     }
     
     if (rv$target_db %in% rv$mdr[,unique(source_system)]){

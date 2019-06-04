@@ -6,6 +6,7 @@ source("./_modules/moduleRawdata1.R", encoding = "UTF-8")
 source("./_modules/moduleNumerical.R", encoding = "UTF-8")
 source("./_modules/moduleCategorical.R", encoding = "UTF-8")
 source("./_modules/moduleVisualizations.R", encoding = "UTF-8")
+source("./_modules/moduleReport.R", encoding = "UTF-8")
 source("./_modules/moduleMDR.R", encoding = "UTF-8")
 
 # source external functions here
@@ -16,4 +17,5 @@ source("./R/app_utils.R", encoding = "UTF-8")
 source("./R/statistics.R", encoding = "UTF-8")
 source("./R/utils.R", encoding = "UTF-8")
 source("./R/checks.R", encoding = "UTF-8")
+source("./R/report.R", encoding = "UTF-8")
 

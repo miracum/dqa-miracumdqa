@@ -100,6 +100,7 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
       
       # generate output tables
       observeEvent(input_re()[["moduleNumerical-numerical_sel"]], {
+        
         # get description object
         desc_out <- rv$dqa_numerical_results$description[[input_re()[["moduleNumerical-numerical_sel"]]]]
         count_out <- rv$dqa_numerical_results$counts[[input_re()[["moduleNumerical-numerical_sel"]]]]
@@ -149,7 +150,7 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
         })
         
         
-        # render target counts
+        # render target statistics
         output$num_selection_target_table <- renderTable({
           stat_out$target_data
         })
