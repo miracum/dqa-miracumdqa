@@ -1,16 +1,16 @@
 ---
-# script by Lorenz Kapsner
 title: |
-  | Datenqualitätsanalyse des §21-Datensatzes: 
   | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (i2b2 Datenbank) 
   | Zeitraum 20[XX] bis 20[XX] 
   | 
-  | Standort: `r rv$sitename` 
   |
+  | Datenqualitätsanalyse des §21-Datensatzes: 
+  | Standort: `r rv$sitename` 
 date: '`r format(Sys.time(), "%d %B %Y")`' 
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
 output: 
   pdf_document:
+                  ]
     toc: true
     toc_depth: 2
     number_sections: true
@@ -21,9 +21,8 @@ output:
     pandoc_args:  [
                     "--variable", "graphics=yes",
                     "--variable", "compact-title:yes"
-                  ]
 editor_options:
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 
@@ -40,6 +39,8 @@ options(tinytex.verbose = TRUE)
 # numerical results
 renderResults(rv$dqa_numerical_results)
 ```
+
+
 # Analyse der kategorialen Variablen  
 
 ```{r results='asis'}
