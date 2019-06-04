@@ -18,17 +18,16 @@ output:
       in_header: "./_header/header.tex"
     template: "./_header/miracum.latex"
     keep_tex: true
-    pandoc_args: [
-      "--variable", "graphics=yes",
-      "--variable", "compact-title:yes"
-    ]
+    pandoc_args:  [
+                    "--variable", "graphics=yes",
+                    "--variable", "compact-title:yes"
+                  ]
 editor_options:
   chunk_output_type: inline
 ---
 
 
 ```{r global_options, include=FALSE}
-Sys.setlocale('LC_ALL','C')
 # include this to compile pdf
 knitr::opts_chunk$set(echo=F)
 options(tinytex.verbose = TRUE)
