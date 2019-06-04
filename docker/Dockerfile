@@ -104,8 +104,8 @@ RUN R -q -e 'tinytex::install_tinytex()'
 USER root
 
 # install required LaTeX-Packages
-RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr update --self
-RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
+RUN /home/user/.TinyTeX/bin/x86_64-linux/tlmgr update --self
+RUN /home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
     multirow \
     xcolor \
     colortbl \
@@ -127,7 +127,7 @@ RUN ./home/user/.TinyTeX/bin/x86_64-linux/tlmgr install \
 RUN echo "PATH=/home/user/bin:${PATH}" >> /etc/R/Renviron.site 
 
 # fix hyphenation patterns
-RUN fmtutil-sys --all
+RUN /home/user/bin/fmtutil --all
 
 # server configuration
 ADD shiny-server.conf /etc/shiny-server/shiny-server.conf
