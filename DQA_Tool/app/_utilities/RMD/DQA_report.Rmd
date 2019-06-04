@@ -3,7 +3,7 @@
 title: |
   | Datenqualitätsanalyse des §21-Datensatzes: 
   | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (i2b2 Datenbank) 
-  | Zeitraum `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[1,])[2], 1, 4)` bis `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[5,])[2], 1, 4)` 
+  | Zeitraum `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[1,])[2], 1, 4)` bis `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[6,])[2], 1, 4)` 
   | 
   | Standort: `r rv$sitename` 
   | 
@@ -26,13 +26,13 @@ editor_options:
   chunk_output_type: console
 ---
 
-
 ```{r global_options, include=FALSE}
 # include this to compile pdf
 knitr::opts_chunk$set(echo=F)
 options(tinytex.verbose = TRUE)
 ```
 
+\newpage
 
 # Analyse der numerischen Variablen  
 

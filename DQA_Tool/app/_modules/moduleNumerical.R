@@ -3,6 +3,8 @@
 moduleNumericalServer <- function(input, output, session, rv, input_re){
   
   observe({
+    # target_getdata is false, when data has loaded from database
+    # source_getdata is false, when csv files have been imported
     if (isFALSE(rv$target_getdata) && isFALSE(rv$source_getdata)){
       
       # render select input here
