@@ -153,7 +153,19 @@ encounter_num	observation_fact	i2b2	pl.item05_target	encounter_identifier_value	
 patient_num 	observation_fact	i2b2	pl.item05_target	patient_identifier_value	patient.identifier.value	factor				0		observation_fact	patient_dimension 	patient_num = patient_num	left outer	concept_cd ~ 'AUFNGR:05'
 			undefined	condition_bodySite	condition.bodySite	factor										
 			undefined	procedure_bodySite	procedure.bodySite	factor										
-		csv	pl.item02_source							1	Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.  					
-		csv	pl.item03_source							1	Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.  					
-		csv	pl.item04_source							1	Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.  					
-		csv	pl.item05_source							1	Nur bei weiblichen Patientinnen ist 'stationäre Entbindung' als Aufnahmegrund (05) erlaubt.  					
+GESCHLECHT	FALL.CSV	csv	pl.item02_source	patient_gender	patient.gender	factor				1	Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.  					
+ICD_Kode	ICD.CSV	csv	pl.item02_source	condition_code_coding_code	condition.code.coding.code	factor				0						
+KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	pl.item02_source	encounter_identifier_value	encounter.identifier.value	factor				0						
+PATIENTENNUMMER	FALL.CSV	csv	pl.item02_source	patient_identifier_value	patient.identifier.value	factor				0						
+GESCHLECHT	FALL.CSV	csv	pl.item03_source	patient_gender	patient.gender	factor				1	Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.  					
+ICD_Kode	ICD.CSV	csv	pl.item03_source	condition_code_coding_code	condition.code.coding.code	factor				0						
+KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	pl.item03_source	encounter_identifier_value	encounter.identifier.value	factor				0						
+PATIENTENNUMMER	FALL.CSV	csv	pl.item03_source	patient_identifier_value	patient.identifier.value	factor				0						
+GESCHLECHT	FALL.CSV	csv	pl.item04_source	patient_gender	patient.gender	factor				1	Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.  					
+ICD_Kode	ICD.CSV	csv	pl.item04_source	condition_code_coding_code	condition.code.coding.code	factor				0						
+KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	pl.item04_source	encounter_identifier_value	encounter.identifier.value	factor				0						
+PATIENTENNUMMER	FALL.CSV	csv	pl.item04_source	patient_identifier_value	patient.identifier.value	factor				0						
+GESCHLECHT	FALL.CSV	csv	pl.item05_source	patient_gender	patient.gender	factor				1	Nur bei weiblichen Patientinnen ist 'stationäre Entbindung' als Aufnahmegrund (05) erlaubt.  					
+ICD_Kode	ICD.CSV	csv	pl.item05_source	condition_code_coding_code	condition.code.coding.code	factor				0						
+KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	pl.item05_source	encounter_identifier_value	encounter.identifier.value	factor				0						
+PATIENTENNUMMER	FALL.CSV	csv	pl.item05_source	patient_identifier_value	patient.identifier.value	factor				0						

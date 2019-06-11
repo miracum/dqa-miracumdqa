@@ -50,7 +50,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
   
   # observe saving of settings
   observeEvent(input_re()[["moduleConfig-config_targetdb_save_btn"]],{
-    rv$db_settings <- getDBsettings(input_re(), rv)
+    rv$db_settings <- getDBsettings(input_re())
     
     if (!is.null(rv$db_settings)){
       print(rv$db_settings)
@@ -68,11 +68,11 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
   
   # test db-connection
   observeEvent(input_re()[["moduleConfig-config_targetdb_test_btn"]], {
-    rv$db_settings <- getDBsettings(input_re(), rv)
+    rv$db_settings <- getDBsettings(input_re())
     
     if (!is.null(rv$db_settings)){
       
-      testDBcon(rv)
+      rv$db_con <- testDBcon(rv$db_settings)
       
       if (!is.null(rv$db_con)){
         cat("\nDB connection successfully established\n")

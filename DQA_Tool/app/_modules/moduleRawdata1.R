@@ -21,6 +21,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
         fireSQL(rv, i)
       }, simplify = F, USE.NAMES = T)
       rv$target_getdata <- FALSE
+      RPostgres::dbDisconnect(rv$db_con)
     }
     
     

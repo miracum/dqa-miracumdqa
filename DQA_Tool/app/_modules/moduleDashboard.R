@@ -7,7 +7,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   
   observeEvent(input_re()[["moduleDashboard-dash_load_btn"]], {
     # check database connection
-    testDBcon(rv)
+    rv$db_con <- testDBcon(rv$db_settings)
     
     # check if sitename is present
     if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 || any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))){
