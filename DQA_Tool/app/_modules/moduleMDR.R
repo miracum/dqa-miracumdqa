@@ -12,7 +12,7 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     
     if (rv$target_db %in% rv$mdr[,unique(source_system)]){
       # get target keys from our mdr
-      rv$target_keys <- rv$mdr[key!="undefined"][source_system==rv$target_db,unique(key)]#[1:4] # uncomment this for debugging purposes
+      rv$target_keys <- rv$mdr[key!="undefined",][source_system==rv$target_db,unique(key)]#[1:4] # uncomment this for debugging purposes
     } else {
       showModal(modalDialog(
         "No keys for target database found in MDR.", 
@@ -21,7 +21,7 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     }
     
     # get source keys from our mdr
-    rv$source_keys <- rv$mdr[key!="undefined"][source_system=="csv" & !grepl("^pl\\.", key), unique(source_table_name)]
+    rv$source_keys <- rv$mdr[key!="undefined",][source_system=="csv" & !grepl("^pl\\.", key), unique(source_table_name)]
   })
   
   # read variables of interest

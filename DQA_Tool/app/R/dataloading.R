@@ -21,7 +21,7 @@ fireSQL <- function(rv, jsonobj, headless = FALSE){
 # load csv files
 loadCSV <- function(rv, filename, headless = FALSE){
   
-  if (filename == "FALL.CSV"){
+  if (tolower(filename) == "fall.csv"){
     # only import necessary columns
     select_cols <- c(ENTLASSENDER_STANDORT = "factor",
                      KH_INTERNES_KENNZEICHEN = "factor",
@@ -38,16 +38,16 @@ loadCSV <- function(rv, filename, headless = FALSE){
                      ALTER_IN_JAHREN_AM_AUFNAHMETAG = "integer",
                      PATIENTENNUMMER = "factor",
                      BEATMUNGSSTUNDEN = "integer")
-  } else if (filename == "FAB.CSV"){
+  } else if (tolower(filename) == "fab.csv"){
     select_cols <- c(KH_INTERNES_KENNZEICHEN = "factor",
                      FAB = "factor",
                      FAB_AUFNAHMEDATUM = "integer64",
                      FAB_ENTLASSUNGSDATUM = "integer64")
-  } else if (filename == "ICD.CSV"){
+  } else if (tolower(filename) == "icd.csv"){
     select_cols <- c(KH_internes_Kennzeichen = "factor",
                      Diagnoseart = "factor",
                      ICD_Kode = "factor")
-  } else if (filename == "OPS.CSV"){
+  } else if (tolower(filename) == "ops.csv"){
     select_cols <- c(KH_internes_Kennzeichen = "factor",
                      OPS_Kode = "factor",
                      OPS_Datum = "integer64")
