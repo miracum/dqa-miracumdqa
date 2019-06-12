@@ -12,6 +12,8 @@ test_that("correct sql statments",{
   
   rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(prefix, "../../_utilities/"), target_db = "i2b2")
   
+  expect_type(rv$sql, "list")
+  
   # Loop over target_keys and check for hash and type
   known_hashes <- list("dt.admission_target" = "55ca6562dc",
                  "dt.ageindays_target" = "d377f2fb66",

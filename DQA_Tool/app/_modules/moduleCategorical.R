@@ -35,7 +35,7 @@ moduleCategoricalServer <- function(input, output, session, rv, input_re){
             desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(source_system, source_variable_name, source_table_name, fhir, description)]
             
             if (nrow(desc_dat)>1){
-              rv$dqa_categorical_results$description[[rv$dqa_categorical[[i]]]] <- calcDescription(desc_dat, rv$dqa_categorical[[i]], rv, sourcesystem = "csv")
+              rv$dqa_categorical_results$description[[rv$dqa_categorical[[i]]]] <- calcDescription(desc_dat, rv, sourcesystem = "csv")
             } else {
               cat("\nError occured during creating descriptions of source system\n")
             }
@@ -51,17 +51,8 @@ moduleCategoricalServer <- function(input, output, session, rv, input_re){
             incProgress(1/length(rv$dqa_categorical), detail = paste("... calculating counts of", i, "..."))
             # generate counts
             cnt_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
-            # for source_data; our data is in rv$list_source$source_table_name
-            tryCatch({
-              rv$dqa_categorical_results$counts[[rv$dqa_categorical[[i]]]]$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system=="csv", source_table_name]]], rv$dqa_categorical[[i]], "csv")
-              rv$dqa_categorical_results$counts[[rv$dqa_categorical[[i]]]]$source_data$type <- cnt_dat[source_system=="csv", variable_type]
-            }, error=function(e){logjs(e)})
             
-            # for target_data; our data is in rv$list_target$key
-            tryCatch({
-              rv$dqa_categorical_results$counts[[rv$dqa_categorical[[i]]]]$target_data$cnt <- countUnique(rv$list_target[[cnt_dat[source_system==rv$target_db, key]]], rv$dqa_categorical[[i]])
-              rv$dqa_categorical_results$counts[[rv$dqa_categorical[[i]]]]$target_data$type <- cnt_dat[source_system==rv$target_db, variable_type]
-            }, error=function(e){logjs(e)})
+            rv$dqa_categorical_results$counts[[rv$dqa_categorical[[i]]]] <- calcCounts(cnt_dat, rv$dqa_categorical[[i]], rv, sourcesystem = "csv")
           }
         })
       }
@@ -74,11 +65,8 @@ moduleCategoricalServer <- function(input, output, session, rv, input_re){
             incProgress(1/length(rv$dqa_categorical), detail = paste("... calculating statistics of", i, "..."))
             # generate counts
             stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
-            tryCatch({
-              # for source_data; our data is in rv$list_source$source_table_name
-              rv$dqa_categorical_results$statistics[[rv$dqa_categorical[[i]]]]$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[source_system=="csv", source_table_name]]], rv$dqa_categorical[[i]])
-              rv$dqa_categorical_results$statistics[[rv$dqa_categorical[[i]]]]$target_data <- categoricalAnalysis(rv$list_target[[stat_dat[source_system==rv$target_db, key]]], rv$dqa_categorical[[i]])
-            }, error=function(e){logjs(e)})
+            
+            rv$dqa_categorical_results$statistics[[rv$dqa_categorical[[i]]]] <- calcCatStats(stat_dat, rv$dqa_categorical[[i]], rv, sourcesystem = "csv")
             # for target_data; our data is in rv$list_target$key
           }
         })

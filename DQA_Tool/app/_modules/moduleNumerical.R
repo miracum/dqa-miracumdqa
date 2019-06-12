@@ -35,15 +35,9 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
             incProgress(1/length(rv$dqa_numerical), detail = paste("... working at description of", i, "..."))
             # generate descriptions
             desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, fhir, description)]
+            
             if (nrow(desc_dat)>1){
-              rv$dqa_numerical_results$description[[rv$dqa_numerical[[i]]]]$source_data <- list(var_name = desc_dat[source_system=="csv", source_variable_name],
-                                                                                                table_name = desc_dat[source_system=="csv", source_table_name],
-                                                                                                fhir_name = desc_dat[source_system=="csv", fhir],
-                                                                                                description = desc_dat[source_system=="csv", description])
-              
-              rv$dqa_numerical_results$description[[rv$dqa_numerical[[i]]]]$target_data <- list(var_name = desc_dat[source_system==rv$target_db, source_variable_name],
-                                                                                                table_name = desc_dat[source_system==rv$target_db, source_table_name],
-                                                                                                fhir_name = desc_dat[source_system==rv$target_db, fhir])
+              rv$dqa_numerical_results$description[[rv$dqa_numerical[[i]]]] <- calcDescription(desc_dat, rv, sourcesystem = "csv")
             } else {
               cat("\nError occured during creating descriptions of source system\n")
             }
@@ -59,17 +53,8 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
             incProgress(1/length(rv$dqa_numerical), detail = paste("... calculating counts of", i, "..."))
             # generate counts
             cnt_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
-            # for source_data; our data is in rv$list_source$source_table_name
-            tryCatch({
-              rv$dqa_numerical_results$counts[[rv$dqa_numerical[[i]]]]$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system=="csv", source_table_name]]], rv$dqa_numerical[[i]], "csv")
-              rv$dqa_numerical_results$counts[[rv$dqa_numerical[[i]]]]$source_data$type <- cnt_dat[source_system=="csv", variable_type]
-            }, error=function(e){logjs(e)})
             
-            # for target_data; our data is in rv$list_target$key
-            tryCatch({
-              rv$dqa_numerical_results$counts[[rv$dqa_numerical[[i]]]]$target_data$cnt <- countUnique(rv$list_target[[cnt_dat[source_system==rv$target_db, key]]], rv$dqa_numerical[[i]])
-              rv$dqa_numerical_results$counts[[rv$dqa_numerical[[i]]]]$target_data$type <- cnt_dat[source_system==rv$target_db, variable_type]
-            }, error=function(e){logjs(e)})
+            rv$dqa_numerical_results$counts[[rv$dqa_numerical[[i]]]] <- calcCounts(cnt_dat, rv$dqa_numerical[[i]], rv, sourcesystem = "csv")
           }
         })
       }
@@ -82,18 +67,8 @@ moduleNumericalServer <- function(input, output, session, rv, input_re){
             incProgress(1/length(rv$dqa_numerical), detail = paste("... calculating statistics of", i, "..."))
             # generate counts
             stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_numerical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
-            if (stat_dat[source_system=="csv",variable_type!="date"]){
-              tryCatch({
-                # for source_data; our data is in rv$list_source$source_table_name
-                rv$dqa_numerical_results$statistics[[rv$dqa_numerical[[i]]]]$source_data <- extensiveSummary(rv$list_source[[stat_dat[source_system=="csv", source_table_name]]][, get(rv$dqa_numerical[[i]])])
-                rv$dqa_numerical_results$statistics[[rv$dqa_numerical[[i]]]]$target_data <- extensiveSummary(rv$list_target[[stat_dat[source_system==rv$target_db, key]]][, get(rv$dqa_numerical[[i]])])
-              }, error=function(e){logjs(e)})
-            } else {
-              tryCatch({
-                rv$dqa_numerical_results$statistics[[rv$dqa_numerical[[i]]]]$source_data <- simpleSummary(rv$list_source[[stat_dat[source_system=="csv", source_table_name]]][, get(rv$dqa_numerical[[i]])])
-                rv$dqa_numerical_results$statistics[[rv$dqa_numerical[[i]]]]$target_data <- simpleSummary(rv$list_target[[stat_dat[source_system==rv$target_db, key]]][, get(rv$dqa_numerical[[i]])])
-              }, error=function(e){logjs(e)})
-            }
+            
+            rv$dqa_numerical_results$statistics[[rv$dqa_numerical[[i]]]] <- calcNumStats(stat_dat, rv$dqa_numerical[[i]], rv, sourcesystem = "csv")
             
             # for target_data; our data is in rv$list_target$key
           }

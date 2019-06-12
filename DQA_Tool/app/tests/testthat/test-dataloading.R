@@ -19,19 +19,23 @@ test_that("correct functioning of loadCSV function",{
   expect_silent(rv$list_source[["FALL.CSV"]] <- loadCSV(rv, "FALL.CSV", headless = TRUE))
   expect_type(rv$list_source[["FALL.CSV"]], "list")
   expect_known_hash(rv$list_source[["FALL.CSV"]], "f8e29df3df")
+  expect_s3_class(rv$list_source[["FALL.CSV"]], "data.table")
   
   # Fab.csv
   expect_silent(rv$list_source[["FAB.CSV"]] <- loadCSV(rv, "FAB.CSV", headless = TRUE))
   expect_type(rv$list_source[["FAB.CSV"]], "list")
   expect_known_hash(rv$list_source[["FAB.CSV"]], "8722410009")
+  expect_s3_class(rv$list_source[["FAB.CSV"]], "data.table")
   
   # Ops.csv
   expect_silent(rv$list_source[["OPS.CSV"]] <- loadCSV(rv, "OPS.CSV", headless = TRUE))
   expect_type(rv$list_source[["OPS.CSV"]], "list")
   expect_known_hash(rv$list_source[["OPS.CSV"]], "d3cfad0b93")
+  expect_s3_class(rv$list_source[["OPS.CSV"]], "data.table")
   
   # Icd.csv
   expect_silent(rv$list_source[["ICD.CSV"]] <- loadCSV(rv, "ICD.CSV", headless = TRUE))
   expect_type(rv$list_source[["ICD.CSV"]], "list")
   expect_known_hash(rv$list_source[["ICD.CSV"]], "af30f9ac66")
+  expect_s3_class(rv$list_source[["ICD.CSV"]], "data.table")
 })

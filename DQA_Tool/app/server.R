@@ -7,7 +7,6 @@ shinyServer(function(input, output, session) {
         mdr = NULL,
         target_keys = NULL,
         source_keys = NULL,
-        file = NULL,
         sourcefiledir = NULL,
         sitenames = NULL,
         sitename = NULL,
