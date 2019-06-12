@@ -1,0 +1,9 @@
+IK;Entlassender-Standort;Entgeltbereich;KH-internes-Kennzeichen;Versicherten-ID;Vertragskennzeichen-64b-Modellvorhaben;IK-der-Krankenkasse;Geburtsjahr;Geburtsmonat;Geschlecht;PLZ;Wohnort;Aufnahmedatum;Aufnahmeanlass;Aufnahmegrund;Fallzusammenführung;Fallzusammenführungsgrund;Aufnahmegewicht;Entlassungsdatum;Entlassungsgrund;Alter-in-Tagen-am-Aufnahmetag;Alter-in-Jahren-am-Aufnahmetag;Patientennummer;interkurrente-Dialysen;Beatmungsstunden;Behandlungsbeginn-vorstationär;Behandlungstage-vorstationär;Behandlungsende-nachstationär;Behandlungstage-nachstationär;IK-Verlegungs-KH;Belegungstage-in-anderem-Entgeltbereich;Beurlaubungstage-PSY;Kennung Besonderer Fall Modellvorhaben;Verweildauer-intensiv
+260100012;01;DRG;1;9999999999;;111556856;1945;01;w;53121;Bonn;201805190800;E;0101;N;;;201806020800;019;;66;Pat7412;;;;;;;;;;;
+260100012;01;DRG;2;9999999999;;111556856;1945;01;w;53121;Bonn;201805190800;E;0101;J;OG;;201806020800;019;;66;Pat7413;;;;;;;;2;;;
+260100012;01;DRG;3;P000000004;;101556856;1945;01;w;53121;Bonn;201801010800;E;0301;N;;;201801050800;019;;66;Pat7414;;;;;;;;;;;
+260100012;01;PSY;4;P000000004;;101556856;1945;01;w;53121;Bonn;201801010800;E;0101;N;;;201801200800;019;;66;Pat7415;;;;;;;;;;;
+260100012;01;PSY;5;P000000004;;101556856;1945;01;w;53121;Bonn;201801010800;E;0101;N;;;201801200800;019;;66;Pat7415;;;;;;;;;2;;
+260100012;01;PSY;6;P000000004;;101556856;1945;01;w;53121;Bonn;201801010800;E;0301;N;;;201801200800;019;;66;Pat7415;;;;;;;;;;;
+260100012;01;PSY;7;P000000004;M17AC002;101556856;1945;01;w;53121;Bonn;201801010800;E;0101;N;;;201801051000;019;;66;Pat7415;;;;;;;;;;;
+260100012;01;PIA;11;P000000004;;101556856;1945;01;w;53121;Bonn;201804100800;E;0101;N;;;201804101200;019;;66;Pat7415;;;;;;;;;;;
