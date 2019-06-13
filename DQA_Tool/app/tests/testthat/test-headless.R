@@ -46,8 +46,5 @@ test_that("correct functioning of headless function",{
   expect_s3_class(rv$list_source[["OPS.CSV"]], "data.table")
   expect_known_hash(rv$list_source[["ICD.CSV"]], "8dda050b3d")
   expect_s3_class(rv$list_source[["ICD.CSV"]], "data.table")
-  
-  
-  
 
 })

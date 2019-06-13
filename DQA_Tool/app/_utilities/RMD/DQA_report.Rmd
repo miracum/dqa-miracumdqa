@@ -1,5 +1,5 @@
 ---
-# script by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 title: |
   | Datenqualitätsanalyse des §21-Datensatzes: 
   | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (i2b2 Datenbank) 
