@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # moduleCategoricalServer
 moduleCategoricalServer <- function(input, output, session, rv, input_re){
   
@@ -32,7 +32,7 @@ moduleCategoricalServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$dqa_categorical)){
             incProgress(1/length(rv$dqa_categorical), detail = paste("... working at description of", i, "..."))
             # generate descriptions
-            desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(source_system, source_variable_name, source_table_name, fhir, description)]
+            desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(name, source_system, source_variable_name, source_table_name, fhir, description)]
             
             if (nrow(desc_dat)>1){
               rv$dqa_categorical_results$description[[rv$dqa_categorical[[i]]]] <- calcDescription(desc_dat, rv, sourcesystem = "csv")

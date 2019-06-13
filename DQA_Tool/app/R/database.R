@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # get db_settings
 getDBsettings <- function(input){
   # create description of column selections

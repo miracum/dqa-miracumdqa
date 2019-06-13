@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # moduleRawdata1Server
 moduleRawdata1Server <- function(input, output, session, rv, input_re){
   

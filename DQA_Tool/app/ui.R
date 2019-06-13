@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 shinyUI(dashboardPage(skin = "black",
                       
                       # Application title
@@ -48,6 +48,14 @@ shinyUI(dashboardPage(skin = "black",
                               
                               tabItem(tabName = "tab_categorical",
                                       moduleCategoricalUI("moduleCategorical")
+                              ),
+                              
+                              tabItem(tabName = "tab_plausibility",
+                                      modulePlausibilityUI("modulePlausibility")
+                              ),
+                              
+                              tabItem(tabName = "tab_visualizations",
+                                      moduleVisualizationsUI("moduleVisulizations")
                               ), 
                               
                               tabItem(tabName = "tab_report",
@@ -56,10 +64,6 @@ shinyUI(dashboardPage(skin = "black",
                               
                               tabItem(tabName = "tab_mdr",
                                       moduleMDRUI("moduleMDR")
-                              ),
-                              
-                              tabItem(tabName = "tab_visualizations",
-                                      moduleVisualizationsUI("moduleVisulizations")
                               )
                               
                           )

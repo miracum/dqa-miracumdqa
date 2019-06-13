@@ -21,7 +21,8 @@ options(knitr.table.format = "latex")
 shinyAppDir("app")
 
 
-# TODO populate metadata csv-table (to e.g. map variable names)
-# TODO parse variables to correct vartypes after import
-# TODO clean strings (regex) after import, e.g. source icd, ops, aufnahmeanlass, -grund, entlassgrund etc.
-# TODO icd and ops in dashboard-übersicht mit aufnehmen
+# TODO create "dqa_datamap" element in mdr to generically include data-map vars into dashboard overview
+# TODO integrate plausibility checks
+# TODO integrate conformance checks
+# TODO populate value restrictions (value set in mdr)
+# TODO add checks based on value set

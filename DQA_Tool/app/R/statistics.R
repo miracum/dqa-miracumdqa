@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 countUnique <- function(data, var, sourcesystem=NULL){
   
   valids <- NULL

@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # moduleMDRServer
 moduleMDRServer <- function(input, output, session, rv, input_re){
   
@@ -28,43 +28,14 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
   observe({
     req(rv$mdr)
     
-    # get list of DQ-variables of interest
-    rv$dqa_assessment <- rv$mdr[source_system=="csv" & dqa_assessment == 1,][order(source_table_name),.(source_variable_name, 
-                                                                                                        variable_name, 
-                                                                                                        variable_type, 
-                                                                                                        key,
-                                                                                                        source_table_name)]
-    #print(rv$dqa_assessment)
-    
-    # get list of dqa_vars for catgeorical and numerical analyses
-    rv$dqa_vars <- rv$dqa_assessment[grepl("^dt\\.", key),]
-    # numerical
-    dqa_numerical <- rv$dqa_vars[variable_type %in% c("integer", "numerical", "date"),]
-    rv$dqa_numerical <- sapply(dqa_numerical[,source_variable_name], function(x){
-      dqa_numerical[source_variable_name==x, variable_name]
-    }, simplify = F, USE.NAMES = T)
-    
-    # categorical
-    dqa_categorical <- rv$dqa_vars[variable_type == "factor",]
-    rv$dqa_categorical <- sapply(dqa_categorical[,source_variable_name], function(x){
-      dqa_categorical[source_variable_name==x, variable_name]
-    }, simplify = F, USE.NAMES = T)
-    
-    # get list of pl_vars for plausibility analyses
-    rv$pl_vars <- rv$dqa_assessment[grepl("^pl\\.", key),]
-    
-    # get variables for type-transformations
-    # get categorical variables
-    rv$cat_vars <- rv$dqa_vars[variable_type == "factor", get("variable_name")]
-    
-    # get date variables
-    rv$date_vars <- rv$dqa_vars[variable_type == "date", get("variable_name")]
-    
-    # get variable names, that need to be transformed (cleaning neccessary due to i2b2-prefixes)
-    # this is yet hard-coded
-    rv$trans_vars <- c("encounter_hospitalization_dischargeDisposition", "encounter_hospitalization_class",
-                       "condition_code_coding_code", "procedure_code_coding_code", "encounter_hospitalization_admitSource",
-                       "condition_category_encounter_diagnosis")
+    # when mdr is there, let's create some useful variables
+    reactive_to_append <- createRVvars(rv$mdr)
+    # workaround, to keep "rv" an reactiveValues object
+    # (rv <- c(rv, reactive_to_append)) does not work!
+    for (i in names(reactive_to_append)){
+      rv[[i]] <- reactive_to_append[[i]]
+    }
+    cat("\nIs rv reactive?", is.reactivevalues(rv), "\n\n")
   })
   
   output$mdr_table <- DT::renderDataTable({

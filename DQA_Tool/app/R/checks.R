@@ -1,3 +1,4 @@
+# (c) 2019 Lorenz Kapsner
 # quick checks
 quickETLChecks <- function(results){
   

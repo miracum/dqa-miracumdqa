@@ -1,10 +1,12 @@
+# (c) 2019 Lorenz Kapsner
 calcDescription <- function(desc_dat, rv, sourcesystem){
   if (nrow(desc_dat)>1){
     description <- list()
-    description$source_data <- list(var_name = desc_dat[source_system==sourcesystem, source_variable_name],
+    description$source_data <- list(name = desc_dat[source_system==sourcesystem, name],
+                                    description = desc_dat[source_system==sourcesystem, description],
+                                    var_name = desc_dat[source_system==sourcesystem, source_variable_name],
                                     table_name = desc_dat[source_system==sourcesystem, source_table_name],
-                                    fhir_name = desc_dat[source_system==sourcesystem, fhir],
-                                    description = desc_dat[source_system==sourcesystem, description])
+                                    fhir_name = desc_dat[source_system==sourcesystem, fhir])
     
     description$target_data <- list(var_name = desc_dat[source_system==rv$target_db, source_variable_name],
                                     table_name = desc_dat[source_system==rv$target_db, source_table_name],

@@ -1,10 +1,11 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # moduleReportServer
 moduleReportServer <- function(input, output, session, rv, input_re){
   
   observe({
-      req(rv$dqa_numerical_results)
-      
+    req(rv$dqa_numerical_results)
+    
+    if (is.null(rv$report_created)){
       withProgress(
         message = paste0("Creating report ..."), value = 0, {
           incProgress(1/1, detail = "... working hard to create pdf ...")
@@ -14,7 +15,17 @@ moduleReportServer <- function(input, output, session, rv, input_re){
           # copy header-folder to tempdir to make files available for the next command
           file.copy("./_utilities/RMD/_header", tempdir(), recursive=TRUE)
           rmarkdown::render(input=paste0(tempdir(), "/DQA_report.md"), output_file = paste0(tempdir(), "/DQA_report.pdf"), encoding = "UTF-8")
+          
+          # debugging
+          # setwd(paste0(getwd(), "/DQA_Tool/app"))
+          # knitr::knit(input="./_utilities/RMD/DQA_report_debug.Rmd", output=paste0(tempdir(), "/DQA_report_debug.md"), encoding = "UTF-8")
+          # # copy header-folder to tempdir to make files available for the next command
+          # file.copy("./_utilities/RMD/_header", tempdir(), recursive=TRUE)
+          # rmarkdown::render(input=paste0(tempdir(), "/DQA_report_debug.md"), output_file = paste0(tempdir(), "/DQA_report_debug.pdf"), encoding = "UTF-8")
         })
+      
+      rv$report_created <- TRUE
+    }
   })
   
   

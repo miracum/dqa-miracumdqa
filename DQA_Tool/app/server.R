@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 shinyServer(function(input, output, session) {
     
     # define reactive values here
@@ -61,23 +61,34 @@ shinyServer(function(input, output, session) {
     })
     
     observe({
-        if (length(rv$data_objects) > 0){
-            # render menu
-            output$menu <- renderMenu({
-                sidebarMenu(
-                    menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
-                    menuItem("Results Numerical Variables", tabName = "tab_numerical", icon = icon("table")),
-                    menuItem("Results Categorical Variables", tabName = "tab_categorical", icon = icon("table")),
-                    menuItem("Plot", tabName = "tab_visualizations", icon = icon("chart-line")),
-                    menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
-                )
-            })
-            #updateTabItems(session, "tabs", "tab_rawdata1")
-            
-            # for debugging purposes
-            numerical_out <<- rv$dqa_numerical_results
-            categorical_out <<- rv$dqa_categorical_results
-        }
+        req(rv$report_created)
+        
+        # set end.time
+        rv$end.time <- Sys.time()
+        # calc time-diff
+        rv$duration <- difftime(rv$end.time, rv$start.time, units = "mins")
+        
+        # TODO one could remove raw-data here
+        # rv$list_source <- NULL
+        # rv$list_target <- NULL
+        # gc()
+        
+        # render menu
+        output$menu <- renderMenu({
+            sidebarMenu(
+                menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
+                menuItem("Results Numerical Variables", tabName = "tab_numerical", icon = icon("table")),
+                menuItem("Results Categorical Variables", tabName = "tab_categorical", icon = icon("table")),
+                menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle")),
+                menuItem("Visualizations", tabName = "tab_visualizations", icon = icon("chart-line")),
+                menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
+            )
+        })
+        updateTabItems(session, "tabs", "tab_dashboard")
+        
+        # for debugging purposes
+        numerical_out <<- rv$dqa_numerical_results
+        categorical_out <<- rv$dqa_categorical_results
     })
     
     ########################
@@ -100,6 +111,11 @@ shinyServer(function(input, output, session) {
     # tab_categorical
     ########################
     callModule(moduleCategoricalServer, "moduleCategorical", rv, input_re=reactive({input}))
+    
+    ########################
+    # tab_plausibility
+    ########################
+    callModule(modulePlausibilityServer, "modulePlausibility", rv, input_re=reactive({input}))
     
     ########################
     # tab_visualization

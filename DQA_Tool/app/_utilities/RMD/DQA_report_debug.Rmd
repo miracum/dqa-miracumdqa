@@ -1,11 +1,11 @@
 ---
-# script by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 title: |
   | Datenqualitätsanalyse des §21-Datensatzes: 
   | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (i2b2 Datenbank) 
-  | Zeitraum `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[1,])[2], 1, 4)` bis `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[6,])[2], 1, 4)` 
+  | Zeitraum 
   | 
-  | Standort: `r rv$sitename` 
+  | Standort: 
   | 
 date: '`r format(Sys.time(), "%d %B %Y")`' 
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
@@ -38,7 +38,8 @@ options(tinytex.verbose = TRUE)
 
 ```{r results='asis'}
 # numerical results
-renderResults(rv$dqa_numerical_results)
+#renderResults(rv$dqa_numerical_results)
+renderResults(numerical_out)
 ```
 
 
@@ -46,7 +47,8 @@ renderResults(rv$dqa_numerical_results)
 
 ```{r results='asis'}
 # categorical results
-renderResults(rv$dqa_categorical_results)
+#renderResults(rv$dqa_categorical_results)
+renderResults(categorical_out)
 ```
 
 
@@ -59,12 +61,14 @@ renderResults(rv$dqa_categorical_results)
 
 ```{r results='asis'}
 # categorical results
-kableTable(quickETLChecks(rv$dqa_numerical_results))
+#kableTable(quickETLChecks(rv$dqa_numerical_results))
+kableTable(quickETLChecks(numerical_out))
 ```
 
 ## Kategoriale Variablen
 
 ```{r results='asis'}
 # categorical results
-kableTable(quickETLChecks(rv$dqa_categorical_results))
+#kableTable(quickETLChecks(rv$dqa_categorical_results))
+kableTable(quickETLChecks(categorical_out))
 ```

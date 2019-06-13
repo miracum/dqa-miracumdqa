@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # fire SQL to database
 fireSQL <- function(rv, jsonobj, headless = FALSE){
   if (isFALSE(headless)){

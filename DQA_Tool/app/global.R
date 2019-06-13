@@ -1,10 +1,11 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # assign global variable here
 source("./_modules/moduleConfig.R", encoding = "UTF-8")
 source("./_modules/moduleDashboard.R", encoding = "UTF-8")
 source("./_modules/moduleRawdata1.R", encoding = "UTF-8")
 source("./_modules/moduleNumerical.R", encoding = "UTF-8")
 source("./_modules/moduleCategorical.R", encoding = "UTF-8")
+source("./_modules/modulePlausibility.R", encoding = "UTF-8")
 source("./_modules/moduleVisualizations.R", encoding = "UTF-8")
 source("./_modules/moduleReport.R", encoding = "UTF-8")
 source("./_modules/moduleMDR.R", encoding = "UTF-8")
@@ -19,4 +20,5 @@ source("./R/calc_stats.R", encoding = "UTF-8")
 source("./R/utils.R", encoding = "UTF-8")
 source("./R/checks.R", encoding = "UTF-8")
 source("./R/report.R", encoding = "UTF-8")
+source("./R/mdr_utils.R", encoding = "UTF-8")
 

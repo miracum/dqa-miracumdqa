@@ -1,4 +1,4 @@
-context("test dataloading")
+context("test functioning of headless.R")
 
 # debugging prefix
 #prefix <- "./DQA_Tool/app/tests/testthat/"

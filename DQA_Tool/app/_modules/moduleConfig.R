@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # moduleConfigServer
 moduleConfigServer <- function(input, output, session, rv, input_re){
   roots = c(home="/home/")

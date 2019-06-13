@@ -1,3 +1,4 @@
+# (c) 2019 Lorenz Kapsner
 # transform some factor variables
 transformFactor <- function(object, transform){
   
@@ -36,6 +37,7 @@ transformFactor <- function(object, transform){
 
 kableTable <- function(data){
   kable(data, digits = 3, format = "latex") %>%
+    row_spec(0,bold=TRUE) %>% 
     kable_styling(full_width = F)
 }
 

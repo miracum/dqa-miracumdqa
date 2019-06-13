@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # moduleDashboardServer
 moduleDashboardServer <- function(input, output, session, rv, input_re){
   output$dash_instruction <- renderText({
@@ -6,6 +6,10 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   })
   
   observeEvent(input_re()[["moduleDashboard-dash_load_btn"]], {
+    
+    # set start.time, when clicking the button
+    rv$start.time <- Sys.time()
+    
     # check database connection
     rv$db_con <- testDBcon(rv$db_settings)
     
@@ -85,7 +89,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target")
-      if (!("patient.identifier.value" %in% rv$dash_summary_target[,variable])){
+      if (isFALSE("patient.identifier.value" %in% rv$dash_summary_target[,variable])){
         rv[["ov.patient_target.summary"]] <- countUnique(rv$list_target$dt.patient_target, "patient_identifier_value", rv$target_db)
         rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.patient_target.summary[,.(variable, distinct, valids, missings)])
       }
@@ -97,7 +101,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target2")
-      if (!("encounter.identifier.value" %in% rv$dash_summary_target[,variable])){
+      if (isFALSE("encounter.identifier.value" %in% rv$dash_summary_target[,variable])){
         rv[["ov.encounter_target.summary"]] <- countUnique(rv$list_target$dt.encounter_target, "encounter_identifier_value", rv$target_db)
         rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.encounter_target.summary[,.(variable, distinct, valids, missings)])
       }
@@ -109,7 +113,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target3")
-      if (!("condition.code.coding.code" %in% rv$dash_summary_target[,variable])){
+      if (isFALSE("condition.code.coding.code" %in% rv$dash_summary_target[,variable])){
         rv[["ov.condition_target.summary"]] <- countUnique(rv$list_target$dt.condition_target, "condition_code_coding_code", rv$target_db)
         rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.condition_target.summary[,.(variable, distinct, valids, missings)])
       }
@@ -120,8 +124,8 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     req(rv$list_target$dt.procedure_target)
     
     if (nrow(rv$dash_summary_target) < 4){
-      cat("\nBuild rv$dash_summary_target3")
-      if (!("procedure.code.coding.code" %in% rv$dash_summary_target[,variable])){
+      cat("\nBuild rv$dash_summary_target4")
+      if (isFALSE("procedure.code.coding.code" %in% rv$dash_summary_target[,variable])){
         rv[["ov.procedure_target.summary"]] <- countUnique(rv$list_target$dt.procedure_target, "procedure_code_coding_code", rv$target_db)
         rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.procedure_target.summary[,.(variable, distinct, valids, missings)])
       }
@@ -135,15 +139,15 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       withProgress(message = "Creating dashboard summary", value = 0, {
         incProgress(1/1, detail = "... calculating overview counts ...")
         
-        if (!("patient_identifier_value" %in% rv$dash_summary_source[,variable])){
+        if (isFALSE("patient_identifier_value" %in% rv$dash_summary_source[,variable])){
           rv[["ov.patient_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "patient_identifier_value", "csv")
           rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.patient_source.summary[,.(variable, distinct, valids, missings)])
         }
-        if (!("encounter_identifier_value" %in% rv$dash_summary_source[,variable])){
+        if (isFALSE("encounter_identifier_value" %in% rv$dash_summary_source[,variable])){
           rv[["ov.encounter_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "encounter_identifier_value", "csv")
           rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.encounter_source.summary[,.(variable, distinct, valids, missings)])
         }
-        if (!("Begleitpersonen" %in% rv$dash_summary_source[,variable])){
+        if (isFALSE("Begleitpersonen" %in% rv$dash_summary_source[,variable])){
           tab <- countUnique(rv$list_source$FALL.CSV[encounter_hospitalization_admitSource=="B",], "encounter_identifier_value", "csv")
           if (nrow(tab) == 0){
             cat("\nThere are no chaperones present in your data.\n")
@@ -205,6 +209,18 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       renderQuickETL(dat)
     })
   })
+  
+  # observe rv$duration
+  observe({
+    req(rv$duration)
+    
+    output$dash_instruction <- renderText({
+      paste0("Started: ", rv$start.time, 
+             "\nFinished: ", rv$end.time,
+             "\nDuration: ", round(rv$duration, 2), " min.")
+    })
+    shinyjs::show("dash_instruction")
+  })
 }
 
 
@@ -238,14 +254,11 @@ moduleDashboardUI <- function(id){
       ),
       column(6,
              conditionalPanel(
-               condition = "output['moduleConfig-dbConnection']",
+               condition = "output['moduleDashboard-dqa_results']",
                box(title = "Target system overview",
                    tableOutput(ns("dash_summary_target")),
                    width = 12
-               )
-             ),
-             conditionalPanel(
-               condition = "output['moduleConfig-dbConnection']",
+               ),
                box(title = "Source system overview",
                    tableOutput(ns("dash_summary_source")),
                    width = 12

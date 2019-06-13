@@ -1,3 +1,4 @@
+# (c) 2019 Lorenz Kapsner
 # report
 renderResults <- function(results){
   
@@ -11,7 +12,7 @@ renderResults <- function(results){
     stat_out <- results$statistics[[i]]
     
     # title of variable
-    cat(paste0("\n## ", i, "  \n"))
+    cat(paste0("\n## ", desc_out$source_data$name, "  \n"))
     # description of variable
     cat(paste0("\n", desc_out$source_data$description, "  \n"))
     
@@ -56,4 +57,3 @@ renderCounts <- function(count_out, source){
   cat(paste0("    + Gültige Werte: ", count_out[[source]]$cnt$valids, "  \n"))
   cat(paste0("    + Fehlende Werte: ", count_out[[source]]$cnt$missings, "  \n  \n"))
 }
-

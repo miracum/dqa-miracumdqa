@@ -1,4 +1,4 @@
-# by Lorenz Kapsner
+# (c) 2019 Lorenz Kapsner
 # moduleVisualizationsServer
 moduleVisualizationsServer <- function(input, output, session, rv, input_re){
   
