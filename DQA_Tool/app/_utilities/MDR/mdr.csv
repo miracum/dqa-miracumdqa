@@ -153,19 +153,19 @@ Fallnummer	encounter_num	observation_fact	i2b2	pl.item05_target	encounter_identi
 Patientennummer	patient_num 	observation_fact	i2b2	pl.item05_target	patient_identifier_value	patient.identifier.value	factor				0						
 				undefined	condition_bodySite	condition.bodySite	factor										
 				undefined	procedure_bodySite	procedure.bodySite	factor										
-Item02	GESCHLECHT	FALL.CSV	csv	pl.item02_source	patient_gender	patient.gender	factor				1	Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.  	ICD.CSV	FALL.CSV	KH_internes_Kennzeichen = KH_INTERNES_KENNZEICHEN	left outer	"grepl(""O[0-9]"", ICD_Kode)"
+Item02	GESCHLECHT	FALL.CSV	csv	pl.item02_source	patient_gender	patient.gender	factor				1	Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.  	ICD.CSV	FALL.CSV	KH_internes_Kennzeichen = KH_INTERNES_KENNZEICHEN	left outer	grepl(‘O[0-9]’, ICD_Kode)
 ICD Code	ICD_Kode	ICD.CSV	csv	pl.item02_source	condition_code_coding_code	condition.code.coding.code	factor				0						
 Fallnummer	KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	pl.item02_source	encounter_identifier_value	encounter.identifier.value	factor				0						
 Patientennummer	PATIENTENNUMMER	FALL.CSV	csv	pl.item02_source	patient_identifier_value	patient.identifier.value	factor				0						
-Item03	GESCHLECHT	FALL.CSV	csv	pl.item03_source	patient_gender	patient.gender	factor				1	Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.  	ICD.CSV	FALL.CSV	KH_internes_Kennzeichen = KH_INTERNES_KENNZEICHEN	left outer	"grepl(""C5[1-8]"", ICD_Kode)"
+Item03	GESCHLECHT	FALL.CSV	csv	pl.item03_source	patient_gender	patient.gender	factor				1	Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.  	ICD.CSV	FALL.CSV	KH_internes_Kennzeichen = KH_INTERNES_KENNZEICHEN	left outer	grepl(‘C5[1-8]’, ICD_Kode)
 ICD Code	ICD_Kode	ICD.CSV	csv	pl.item03_source	condition_code_coding_code	condition.code.coding.code	factor				0						
 Fallnummer	KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	pl.item03_source	encounter_identifier_value	encounter.identifier.value	factor				0						
 Patientennummer	PATIENTENNUMMER	FALL.CSV	csv	pl.item03_source	patient_identifier_value	patient.identifier.value	factor				0						
-Item04	GESCHLECHT	FALL.CSV	csv	pl.item04_source	patient_gender	patient.gender	factor				1	Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.  	ICD.CSV	FALL.CSV	KH_internes_Kennzeichen = KH_INTERNES_KENNZEICHEN	left outer	"grepl(""C6[0-3]"", ICD_Kode)"
+Item04	GESCHLECHT	FALL.CSV	csv	pl.item04_source	patient_gender	patient.gender	factor				1	Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.  	ICD.CSV	FALL.CSV	KH_internes_Kennzeichen = KH_INTERNES_KENNZEICHEN	left outer	grepl(‘C6[0-3]’, ICD_Kode)
 ICD Code	ICD_Kode	ICD.CSV	csv	pl.item04_source	condition_code_coding_code	condition.code.coding.code	factor				0						
 Fallnummer	KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	pl.item04_source	encounter_identifier_value	encounter.identifier.value	factor				0						
 Patientennummer	PATIENTENNUMMER	FALL.CSV	csv	pl.item04_source	patient_identifier_value	patient.identifier.value	factor				0						
-Item05	GESCHLECHT	FALL.CSV	csv	pl.item05_source	patient_gender	patient.gender	factor				1	Nur bei weiblichen Patientinnen ist 'stationäre Entbindung' als Aufnahmegrund (05) erlaubt.  					"grepl(""05xx"", AUFNAHMEGRUND)"
-Aufnahmegrund	AUFNAHMEGRUND	FALL.CSV	csv	pl.item05_source	encounter_hospitalization_class	encounter.hospitalization.class	factor				0						"grepl(""05xx"", AUFNAHMEGRUND)"
-Fallnummer	KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	pl.item05_source	encounter_identifier_value	encounter.identifier.value	factor				0						"grepl(""05xx"", AUFNAHMEGRUND)"
-Patientennummer	PATIENTENNUMMER	FALL.CSV	csv	pl.item05_source	patient_identifier_value	patient.identifier.value	factor				0						"grepl(""05xx"", AUFNAHMEGRUND)"
+Item05	GESCHLECHT	FALL.CSV	csv	pl.item05_source	patient_gender	patient.gender	factor				1	Nur bei weiblichen Patientinnen ist 'stationäre Entbindung' als Aufnahmegrund (05) erlaubt.  					grepl(‘05xx’, AUFNAHMEGRUND)
+Aufnahmegrund	AUFNAHMEGRUND	FALL.CSV	csv	pl.item05_source	encounter_hospitalization_class	encounter.hospitalization.class	factor				0						
+Fallnummer	KH_INTERNES_KENNZEICHEN	FALL.CSV	csv	pl.item05_source	encounter_identifier_value	encounter.identifier.value	factor				0						
+Patientennummer	PATIENTENNUMMER	FALL.CSV	csv	pl.item05_source	patient_identifier_value	patient.identifier.value	factor				0						
