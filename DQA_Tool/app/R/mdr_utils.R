@@ -46,7 +46,7 @@ createRVvars <- function(mdr, target_db){
                        }, simplify = F, USE.NAMES = T))
   
   outlist$pl_vars_filter <- sapply(unique(pl_vars[,name]), function(x){
-    gsub("_source|_target", "", rv$pl_vars[unique(names(rv$pl_vars))][[x]])
+    gsub("_source|_target", "", outlist$pl_vars[unique(names(outlist$pl_vars))][[x]])
   }, simplify = F, USE.NAMES = T)
   
   
