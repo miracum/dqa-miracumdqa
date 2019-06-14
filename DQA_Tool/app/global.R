@@ -21,4 +21,5 @@ source("./R/utils.R", encoding = "UTF-8")
 source("./R/checks.R", encoding = "UTF-8")
 source("./R/report.R", encoding = "UTF-8")
 source("./R/mdr_utils.R", encoding = "UTF-8")
+source("./R/plausibilities.R", encoding = "UTF-8")
 

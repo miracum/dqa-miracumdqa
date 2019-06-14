@@ -29,7 +29,7 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     req(rv$mdr)
     
     # when mdr is there, let's create some useful variables
-    reactive_to_append <- createRVvars(rv$mdr)
+    reactive_to_append <- createRVvars(rv$mdr, rv$target_db)
     # workaround, to keep "rv" an reactiveValues object
     # (rv <- c(rv, reactive_to_append)) does not work!
     for (i in names(reactive_to_append)){

@@ -60,6 +60,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
       rv$list_source <- sapply(rv$source_keys, function(i){
         loadCSV(rv, i)
       }, simplify = F, USE.NAMES = T)
+      
       rv$source_getdata <- FALSE
     }
     
@@ -100,6 +101,18 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
           }
         }
       })
+      
+      # read source plausibilities after data transformation
+      withProgress(message = "Getting plausibilities", value = 0, {
+        for (i in unique(names(rv$pl_vars))){
+          if (grepl("_source", rv$pl_vars[[i]])){
+            j <- rv$pl_vars[[i]]
+            incProgress(1/length(rv$source_keys), detail = paste("... getting", j, "..."))
+            rv$list_source[[j]] <- loadSourcePlausibilities(j, rv, headless=TRUE)
+          }
+        }
+      })
+      
     }
   })
   

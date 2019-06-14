@@ -52,6 +52,10 @@ renderResults(rv$dqa_categorical_results)
 
 # Plausibilitätsprüfungen  
 
+```{r results='asis'}
+# plausi results
+renderPlausis(rv$dqa_plausibility_results)
+```
 
 # Einfache ETL-Checks
 

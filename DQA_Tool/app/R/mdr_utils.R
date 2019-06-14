@@ -1,6 +1,6 @@
 # (c) 2019 Lorenz Kapsner
 # create variables from mdr
-createRVvars <- function(mdr){
+createRVvars <- function(mdr, target_db){
   
   outlist <- list()
   
@@ -29,7 +29,26 @@ createRVvars <- function(mdr){
   }, simplify = F, USE.NAMES = T)
   
   # get list of pl_vars for plausibility analyses
-  outlist$pl_vars <- outlist$dqa_assessment[grepl("^pl\\.", key),]
+  pl_vars <- mdr[grepl("^pl\\.", key) & dqa_assessment == 1,][order(source_table_name),.(name,
+                                                                                         source_system,
+                                                                                         source_variable_name, 
+                                                                                         variable_name, 
+                                                                                         variable_type, 
+                                                                                         key,
+                                                                                         source_table_name)]
+  outlist$pl_vars <- sapply(unique(pl_vars[,name]), function(x){
+    pl_vars[name==x & source_system=="csv", key]
+  }, simplify = F, USE.NAMES = T)
+  
+  outlist$pl_vars <- c(outlist$pl_vars,
+                       sapply(unique(pl_vars[,name]), function(x){
+                         pl_vars[name==x & source_system==target_db, key]
+                       }, simplify = F, USE.NAMES = T))
+  
+  outlist$pl_vars_filter <- sapply(unique(pl_vars[,name]), function(x){
+    gsub("_source|_target", "", rv$pl_vars[unique(names(rv$pl_vars))][[x]])
+  }, simplify = F, USE.NAMES = T)
+  
   
   # get variables for type-transformations
   # get categorical variables

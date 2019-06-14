@@ -15,7 +15,7 @@ headless_initialization <- function(sourcefiledir, utilsdir, target_db){
   rv$source_keys <- rv$mdr[key!="undefined",][source_system=="csv" & !grepl("^pl\\.", key), unique(source_table_name)]
   
   # when mdr is there, let's create some useful variables
-  reactive_to_append <- createRVvars(rv$mdr)
+  reactive_to_append <- createRVvars(rv$mdr, rv$target_db)
   # workaround, to keep "rv" an reactiveValues object
   # (rv <- c(rv, reactive_to_append)) does not work!
   for (i in names(reactive_to_append)){
@@ -26,7 +26,6 @@ headless_initialization <- function(sourcefiledir, utilsdir, target_db){
   rv$list_source <- sapply(rv$source_keys, function(i){
     loadCSV(rv, i, headless = T)
   }, simplify = F, USE.NAMES = T)
-  
   
   # datatransformation source:
   for (i in rv$source_keys){
@@ -57,6 +56,14 @@ headless_initialization <- function(sourcefiledir, utilsdir, target_db){
           rv$list_source[[i]][,(vn):=factor(get(vn))]
         }
       }
+    }
+  }
+  
+  # read source plausibilities after data transformation
+  for (i in unique(names(rv$pl_vars))){
+    if (grepl("_source", rv$pl_vars[[i]])){
+      j <- rv$pl_vars[[i]]
+      rv$list_source[[j]] <- loadSourcePlausibilities(j, rv, headless=TRUE)
     }
   }
   

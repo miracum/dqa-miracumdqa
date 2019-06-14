@@ -12,7 +12,7 @@ test_that("correct functioning of headless function",{
   rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(prefix, "../../_utilities/"), target_db = "i2b2")
   
   expect_type(rv, "list")
-  expect_length(rv, 15)
+  expect_length(rv, 16)
   
   expect_type(rv$sourcefiledir, "character")
   expect_type(rv$target_db, "character")
@@ -35,7 +35,6 @@ test_that("correct functioning of headless function",{
   expect_type(rv$dqa_categorical, "list")
   
   expect_type(rv$pl_vars, "list")
-  expect_s3_class(rv$pl_vars, "data.table")
   
   # test files
   expect_known_hash(rv$list_source[["FALL.CSV"]], "c33125ce1c")
