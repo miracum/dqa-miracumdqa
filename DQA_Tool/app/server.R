@@ -89,6 +89,7 @@ shinyServer(function(input, output, session) {
         # for debugging purposes
         numerical_out <<- rv$dqa_numerical_results
         categorical_out <<- rv$dqa_categorical_results
+        plausi_out <<- rv$dqa_plausibility_results
         source_data <<- rv$list_source
         target_data <<- rv$list_target
     })

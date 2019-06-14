@@ -2,7 +2,7 @@
 # (c) 2019 Lorenz Kapsner
 title: |
   | Datenqualitätsanalyse des §21-Datensatzes: 
-  | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (i2b2 Datenbank) 
+  | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (`r rv$target_db` Forschungsdatenrepository) 
   | Zeitraum `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[1,])[2], 1, 4)` bis `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[6,])[2], 1, 4)` 
   | 
   | Standort: `r rv$sitename` 

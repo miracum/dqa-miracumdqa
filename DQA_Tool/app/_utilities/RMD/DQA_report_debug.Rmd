@@ -2,7 +2,7 @@
 # (c) 2019 Lorenz Kapsner
 title: |
   | Datenqualitätsanalyse des §21-Datensatzes: 
-  | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (i2b2 Datenbank) 
+  | Überprüfung der ETL-Strecken
   | Zeitraum 
   | 
   | Standort: 
@@ -54,6 +54,11 @@ renderResults(categorical_out)
 
 # Plausibilitätsprüfungen  
 
+```{r results='asis'}
+# plausi results
+#renderPlausis(rv$dqa_plausibility_results)
+renderPlausis(plausi_out)
+```
 
 # Einfache ETL-Checks
 
