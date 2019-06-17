@@ -28,46 +28,49 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
       if (is.null(rv$dqa_plausibility_results$description)){
         withProgress(message = "Populating descriptions of plausibility checks", value = 0, {
           
-          rv$j <- 1
           for (i in names(rv$pl_vars_filter)){
-            incProgress(1/length(rv$pl_vars), detail = paste("... working at description of", i, "..."))
+            incProgress(1/length(rv$pl_vars_filter), detail = paste("... working at description of", i, "..."))
             # generate descriptions
-            desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^pl\\.", key),][name==names(rv$pl_vars_filter)[rv$j],.(name, source_system, source_variable_name, source_table_name, description, sql_from, sql_join_on, sql_join_table, sql_join_type, sql_where)]
+            desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^pl\\.", key),][name==i,.(name, source_system, source_variable_name, source_table_name, description, sql_from, sql_join_on, sql_join_table, sql_join_type, sql_where)]
             
             if (nrow(desc_dat)>1){
               rv$dqa_plausibility_results$description[[rv$pl_vars_filter[[i]]]] <- calcPlausiDescription(desc_dat, rv, sourcesystem = "csv")
             } else {
               cat("\nError occured during creating descriptions of source system\n")
             }
-            rv$j <- rv$j + 1
           }
         })
       }
       
-      # # if there are no counts yet
-      # if (is.null(rv$dqa_plausibility_results$counts)){
-      #   withProgress(message = "Calculating counts of categorical variables", value = 0, {
-      #     
-      #     for (i in names(rv$dqa_categorical)){
-      #       incProgress(1/length(rv$dqa_categorical), detail = paste("... calculating counts of", i, "..."))
-      #       # generate counts
-      #       cnt_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
-      #       
-      #       rv$dqa_plausibility_results$counts[[rv$dqa_categorical[[i]]]] <- calcCounts(cnt_dat, rv$dqa_categorical[[i]], rv, sourcesystem = "csv")
-      #     }
-      #   })
-      # }
-      # 
+      # if there are no counts yet
+      if (is.null(rv$dqa_plausibility_results$counts)){
+        withProgress(message = "Calculating counts of categorical variables", value = 0, {
+
+          for (i in names(rv$pl_vars_filter)){
+            incProgress(1/length(rv$pl_vars_filter), detail = paste("... calculating counts of", i, "..."))
+            # generate counts
+            cnt_dat <- rv$mdr[dqa_assessment==1,][grepl("^pl\\.", key),][name==i,.(source_system, source_variable_name, source_table_name, variable_type, key, variable_name)]
+            
+            
+            if (length(cnt_dat[,unique(variable_name)]) == 1){
+              rv$dqa_plausibility_results$counts[[rv$pl_vars_filter[[i]]]] <- calcCounts(cnt_dat, cnt_dat[,unique(variable_name)], rv, sourcesystem = "csv", plausibility = TRUE)
+            } else {
+              cat("\nError occured during creating counts\n")
+            }
+          }
+        })
+      }
+      
       # # if there are no statistics yet
       # if (is.null(rv$dqa_plausibility_results$statistics)){
       #   withProgress(message = "Calculating statistics of categorical variables", value = 0, {
       #     
-      #     for (i in names(rv$dqa_categorical)){
-      #       incProgress(1/length(rv$dqa_categorical), detail = paste("... calculating statistics of", i, "..."))
+      #     for (i in names(rv$pl_vars_filter)){
+      #       incProgress(1/length(rv$pl_vars_filter), detail = paste("... calculating statistics of", i, "..."))
       #       # generate counts
-      #       stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$dqa_categorical[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
+      #       stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^pl\\.", key),][name==i,.(source_system, source_variable_name, source_table_name, variable_type, key)]
       #       
-      #       rv$dqa_plausibility_results$statistics[[rv$dqa_categorical[[i]]]] <- calcCatStats(stat_dat, rv$dqa_categorical[[i]], rv, sourcesystem = "csv")
+      #       rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcCatStats(stat_dat, rv$dqa_categorical[[i]], rv, sourcesystem = "csv")
       #       # for target_data; our data is in rv$list_target$key
       #     }
       #   })
@@ -78,7 +81,7 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
         
         # get description object
         desc_out <- rv$dqa_plausibility_results$description[[input_re()[["modulePlausibility-plausibility_sel"]]]]
-        # count_out <- rv$dqa_plausibility_results$counts[[input_re()[["modulePlausibility-plausibility_sel"]]]]
+        count_out <- rv$dqa_plausibility_results$counts[[input_re()[["modulePlausibility-plausibility_sel"]]]]
         # stat_out <- rv$dqa_plausibility_results$statistics[[input_re()[["modulePlausibility-plausibility_sel"]]]]
         
         
@@ -107,22 +110,22 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
           
         })
         
-        # # render source counts
-        # output$pl_selection_counts_source <- renderTable({
-        #   tryCatch({
-        #     o <- count_out$source_data$cnt[,.(variable, distinct, valids, missings)]
-        #     data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-        #                " " = c(o[,variable], count_out$source_data$type, o[,distinct], o[,valids], o[,missings]))
-        #   }, error=function(e){logjs(e)})
-        # })
-        # # render target counts
-        # output$pl_selection_counts_target <- renderTable({
-        #   tryCatch({
-        #     o <- count_out$target_data$cnt[,.(variable, distinct, valids, missings)]
-        #     data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-        #                " " = c(o[,variable], count_out$target_data$type, o[,distinct], o[,valids], o[,missings]))
-        #   }, error=function(e){logjs(e)})
-        # })
+        # render source counts
+        output$pl_selection_counts_source <- renderTable({
+          tryCatch({
+            o <- count_out$source_data$cnt[,.(variable, distinct, valids, missings)]
+            data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
+                       " " = c(o[,variable], count_out$source_data$type, o[,distinct], o[,valids], o[,missings]))
+          }, error=function(e){logjs(e)})
+        })
+        # render target counts
+        output$pl_selection_counts_target <- renderTable({
+          tryCatch({
+            o <- count_out$target_data$cnt[,.(variable, distinct, valids, missings)]
+            data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
+                       " " = c(o[,variable], count_out$target_data$type, o[,distinct], o[,valids], o[,missings]))
+          }, error=function(e){logjs(e)})
+        })
         
         
         # # render target statistics

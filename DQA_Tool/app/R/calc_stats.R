@@ -17,10 +17,14 @@ calcDescription <- function(desc_dat, rv, sourcesystem){
   }
 }
 
-calcCounts <- function(cnt_dat, count_key, rv, sourcesystem){
+calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALSE){
   counts <- list()
   tryCatch({
-    counts$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system==sourcesystem, source_table_name]]], count_key, sourcesystem)
+    if (isFALSE(plausibility)){
+      counts$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system==sourcesystem, source_table_name]]], count_key, sourcesystem, plausibility)
+    } else {
+      counts$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system==sourcesystem, key]]], count_key, sourcesystem, plausibility)
+    }
     counts$source_data$type <- cnt_dat[source_system==sourcesystem, variable_type]
   }, error=function(e){
     cat("\nError occured when counting source_data\n")
@@ -30,7 +34,7 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem){
   
   # for target_data; our data is in rv$list_target$key
   tryCatch({
-    counts$target_data$cnt <- countUnique(rv$list_target[[cnt_dat[source_system==rv$target_db, key]]], count_key)
+    counts$target_data$cnt <- countUnique(rv$list_target[[cnt_dat[source_system==rv$target_db, key]]], count_key, sourcesystem = rv$target_db, plausibility = plausibility)
     counts$target_data$type <- cnt_dat[source_system==rv$target_db, variable_type]
   }, error=function(e){
     cat("\nError occured when counting target_data\n")

@@ -79,9 +79,17 @@ renderPlausis <- function(results){
     cat("\n### Repräsentation im Quellsystem  \n")
     renderPlausiRepresentation(desc_out, "source_data")
     
+    # overview
+    cat("\n **Übersicht:**  \n")
+    renderCounts(count_out, "source_data")
+    
     # representation in the target system
     cat("\n### Repräsentation im Zielsystem  \n")
     renderPlausiRepresentation(desc_out, "target_data")
+    
+    # overview
+    cat("\n **Übersicht:**  \n")
+    renderCounts(count_out, "target_data")
   }
 }
 

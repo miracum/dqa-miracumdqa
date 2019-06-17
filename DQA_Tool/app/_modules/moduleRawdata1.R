@@ -108,7 +108,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
           if (grepl("_source", rv$pl_vars[[i]])){
             j <- rv$pl_vars[[i]]
             incProgress(1/length(rv$source_keys), detail = paste("... getting", j, "..."))
-            rv$list_source[[j]] <- loadSourcePlausibilities(j, rv, headless=TRUE)
+            rv$list_source[[j]] <- loadSourcePlausibilities(j, rv)
           }
         }
       })

@@ -1,16 +1,16 @@
 # (c) 2019 Lorenz Kapsner
-countUnique <- function(data, var, sourcesystem=NULL){
+countUnique <- function(data, var, sourcesystem=NULL, plausibility=FALSE){
   
   valids <- NULL
   
-  if (!is.null(sourcesystem)){
+  if (!is.null(sourcesystem) || isTRUE(plausibility)){
     
-    if (sourcesystem == "csv"){
+    if (sourcesystem == "csv" || isTRUE(plausibility)){
       # workaround to control for aggregated values in source system (CSV)
       special_treatment_vars <- c("patient_identifier_value", "patient_address_postalCode", 
                                   "patient_birthDate", "patient_gender")
       
-      if (var %in% special_treatment_vars & sourcesystem == "csv"){
+      if (var %in% special_treatment_vars){
         valids <- unique(data[!is.na(get(var)), get(var), by=patient_identifier_value])[,.N]
         missings <- unique(data[is.na(get(var)), get(var), by=patient_identifier_value])[,.N]
       }
