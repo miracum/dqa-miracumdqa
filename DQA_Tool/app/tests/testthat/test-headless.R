@@ -10,6 +10,7 @@ library(data.table)
 test_that("correct functioning of headless function",{
   
   rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(prefix, "../../_utilities/"), target_db = "i2b2")
+  rv$list_source <- headless_loadSource(rv)
   
   expect_type(rv, "list")
   expect_length(rv, 16)

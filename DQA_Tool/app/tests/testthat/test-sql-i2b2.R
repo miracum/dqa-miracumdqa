@@ -11,6 +11,7 @@ library(jsonlite)
 test_that("correct sql statments",{
   
   rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(prefix, "../../_utilities/"), target_db = "i2b2")
+  rv$list_source <- headless_loadSource(rv)
   
   expect_type(rv$sql, "list")
   
