@@ -28,7 +28,7 @@ getDBsettings <- function(input){
 }
 
 # test db connection
-testDBcon <- function(db_settings){
+testDBcon <- function(db_settings, headless = FALSE){
   drv <- RPostgres::Postgres()
   tryCatch({
     db_con <- dbConnect(
@@ -41,10 +41,12 @@ testDBcon <- function(db_settings){
     )
     return(db_con)
   }, error = function(e){
-    showModal(modalDialog(
-      title = "Error occured during testing database connection",
-      "An error occured during the test of the database connection. Please check your settings and try again."
-    ))
+    if (isFALSE(headless)){
+      showModal(modalDialog(
+        title = "Error occured during testing database connection",
+        "An error occured during the test of the database connection. Please check your settings and try again."
+      ))
+    }
     cat("\nDB connection error\n")
     return(NULL)
   })

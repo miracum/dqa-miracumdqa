@@ -1,13 +1,16 @@
 # (c) 2019 Lorenz Kapsner
 # fire SQL to database
 fireSQL <- function(rv, jsonobj, headless = FALSE){
+  
+  # avoid sql-injection
+  # https://db.rstudio.com/best-practices/run-queries-safely/
+  sql <- DBI::sqlInterpolate(rv$db_con, rv$sql[[jsonobj]])
+  
   if (isFALSE(headless)){
     withProgress(
       message = paste0("Getting ", jsonobj, " data from server"), value = 0, {
-        # avoid sql-injection
-        # https://db.rstudio.com/best-practices/run-queries-safely/
-        sql <- DBI::sqlInterpolate(rv$db_con, rv$sql[[jsonobj]])
         incProgress(1/1, detail = "... working hard to get data ...")
+        
         # get data
         rv$data_objects[[jsonobj]] <- jsonobj
         outdat <- data.table(dbGetQuery(rv$db_con, sql), stringsAsFactors = TRUE)

@@ -6,7 +6,7 @@ headless_initialization <- function(sourcefiledir, utilsdir, target_db){
   
   # initialize sourcefiledir
   rv$sourcefiledir <- sourcefiledir
-  rv$sql <- rv$sql <- fromJSON(paste0(utilsdir, "SQL/SQL_i2b2.JSON"))
+  rv$sql <- fromJSON(paste0(utilsdir, "SQL/SQL_i2b2.JSON"))
   rv$target_db <- target_db
   
   # stuff from moduleMDR.R
@@ -22,16 +22,28 @@ headless_initialization <- function(sourcefiledir, utilsdir, target_db){
     rv[[i]] <- reactive_to_append[[i]]
   }
   
+  return(rv)
+}
+
+headless_loadSource <- function(rv, keys_to_test = NULL, headless = TRUE){
+  
+  outlist <- list()
+  
   # read source_data
-  rv$list_source <- sapply(rv$source_keys, function(i){
-    loadCSV(rv, i, headless = T)
+  if (is.null(keys_to_test)){
+    # test all keys from mdr
+    keys_to_test <- rv$source_keys
+  }
+  
+  outlist <- sapply(keys_to_test, function(i){
+    loadCSV(rv, i, headless)
   }, simplify = F, USE.NAMES = T)
   
   # datatransformation source:
-  for (i in rv$source_keys){
+  for (i in keys_to_test){
     
     # get column names
-    col_names <- colnames(rv$list_source[[i]])
+    col_names <- colnames(outlist[[i]])
     
     # check, if column name in variables of interest
     # var_names of interest:
@@ -40,54 +52,77 @@ headless_initialization <- function(sourcefiledir, utilsdir, target_db){
     for (j in col_names){
       if (j %in% var_names){
         vn <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),][source_variable_name==j,variable_name]
-        colnames(rv$list_source[[i]])[which(col_names==j)] <- vn
+        colnames(outlist[[i]])[which(col_names==j)] <- vn
         
         # transform date_vars to dates
         if (vn %in% rv$date_vars){
-          rv$list_source[[i]][,(vn):=as.Date(substr(as.character(get(vn)), 1, 8), format="%Y%m%d")]
+          outlist[[i]][,(vn):=as.Date(substr(as.character(get(vn)), 1, 8), format="%Y%m%d")]
         }
         
         if (vn %in% rv$trans_vars){
-          rv$list_source[[i]][,(vn):=transformFactor(get(vn), vn)]
+          outlist[[i]][,(vn):=transformFactor(get(vn), vn)]
         }
         
         # transform cat_vars to factor
         if (vn %in% rv$cat_vars){
-          rv$list_source[[i]][,(vn):=factor(get(vn))]
+          outlist[[i]][,(vn):=factor(get(vn))]
         }
       }
     }
   }
   
+  return(outlist)
+}
+
+headless_loadPlausis <- function(rv, headless = TRUE){
+  
+  outlist <- list()
+  
   # read source plausibilities after data transformation
   for (i in unique(names(rv$pl_vars))){
     if (grepl("_source", rv$pl_vars[[i]])){
       j <- rv$pl_vars[[i]]
-      rv$list_source[[j]] <- loadSourcePlausibilities(j, rv, headless=TRUE)
+      outlist[[j]] <- loadSourcePlausibilities(j, rv, headless)
     }
   }
   
+  return(outlist)
+}
   
-  # TODO: yet to implement
-  # datatransformation target:
-  # for (i in rv$target_keys){
-  #   
-  #   # get column names
-  #   col_names <- colnames(rv$list_target[[i]])
-  #   
-  #   # check, if column name in variables of interest
-  #   for (j in col_names){
-  #     
-  #     if (j %in% rv$trans_vars){
-  #       rv$list_target[[i]][,(j):=transformFactor(get(j), j)]
-  #     }
-  #     
-  #     # transform cat_vars to factor
-  #     if (j %in% rv$cat_vars){
-  #       rv$list_target[[i]][,(j):=factor(get(j))]
-  #     }
-  #   }
-  # }
+
+headless_loadTarget <- function(rv, keys_to_test = NULL, headless = TRUE){
   
-  return(rv)
+  outlist <- list()
+  
+  # read target_data
+  if (is.null(keys_to_test)){
+    # test all keys from mdr
+    keys_to_test <- rv$target_keys
+  }
+  
+  outlist <- sapply(keys_to_test, function(i){
+    fireSQL(rv, i, headless)
+  }, simplify = F, USE.NAMES = T)
+  
+  
+  for (i in keys_to_test){
+    
+    # get column names
+    col_names <- colnames(outlist$list_target[[i]])
+    
+    # check, if column name in variables of interest
+    for (j in col_names){
+      
+      if (j %in% rv$trans_vars){
+        outlist[[i]][,(j):=transformFactor(get(j), j)]
+      }
+      
+      # transform cat_vars to factor
+      if (j %in% rv$cat_vars){
+        outlist[[i]][,(j):=factor(get(j))]
+      }
+    }
+  }
+  
+  return(outlist)
 }
