@@ -13,7 +13,7 @@ test_that("correct functioning of headless function",{
   rv$list_source <- headless_loadSource(rv)
   
   expect_type(rv, "list")
-  expect_length(rv, 16)
+  expect_length(rv, 15)
   
   expect_type(rv$sourcefiledir, "character")
   expect_type(rv$target_db, "character")
@@ -32,8 +32,7 @@ test_that("correct functioning of headless function",{
   expect_type(rv$dqa_vars, "list")
   expect_s3_class(rv$dqa_vars, "data.table")
   
-  expect_type(rv$dqa_numerical, "list")
-  expect_type(rv$dqa_categorical, "list")
+  expect_type(rv$variable_list, "list")
   
   expect_type(rv$pl_vars, "list")
   

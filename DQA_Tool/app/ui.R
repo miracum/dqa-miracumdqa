@@ -42,12 +42,8 @@ shinyUI(dashboardPage(skin = "black",
                                   moduleRawdata1UI("moduleRawdata1")
                           ), 
                           
-                          tabItem(tabName = "tab_numerical",
-                                  moduleNumericalUI("moduleNumerical")
-                          ), 
-                          
-                          tabItem(tabName = "tab_categorical",
-                                  moduleCategoricalUI("moduleCategorical")
+                          tabItem(tabName = "tab_descriptive",
+                                  moduleDescriptiveUI("moduleDescriptive")
                           ),
                           
                           tabItem(tabName = "tab_plausibility",

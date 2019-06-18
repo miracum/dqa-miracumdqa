@@ -34,21 +34,11 @@ options(tinytex.verbose = TRUE)
 
 \newpage
 
-# Analyse der numerischen Variablen  
+# Deskriptive Analyse    
 
 ```{r results='asis'}
-# numerical results
-#renderResults(rv$dqa_numerical_results)
-renderResults(numerical_out)
-```
-
-
-# Analyse der kategorialen Variablen  
-
-```{r results='asis'}
-# categorical results
-#renderResults(rv$dqa_categorical_results)
-renderResults(categorical_out)
+#renderResults(rv$dqa_descriptive_results)
+renderResults(descriptive_results)
 ```
 
 

@@ -3,7 +3,7 @@
 moduleReportServer <- function(input, output, session, rv, input_re){
   
   observe({
-    req(rv$dqa_numerical_results)
+    req(rv$dqa_descriptive_results)
     
     if (is.null(rv$report_created)){
       withProgress(

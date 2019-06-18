@@ -3,7 +3,7 @@
 title: |
   | Datenqualitätsanalyse des §21-Datensatzes: 
   | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (`r rv$target_db` Forschungsdatenrepository) 
-  | Zeitraum `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[1,])[2], 1, 4)` bis `r substr(as.character(rv$dqa_numerical_results$statistics$EpisodeOfCare_period_end$target_data[6,])[2], 1, 4)` 
+  | Zeitraum `r substr(as.character(rv$dqa_descriptive_results$statistics$EpisodeOfCare_period_end$target_data[1,])[2], 1, 4)` bis `r substr(as.character(rv$dqa_descriptive_results$statistics$EpisodeOfCare_period_end$target_data[6,])[2], 1, 4)` 
   | 
   | Standort: `r rv$sitename` 
   | 
@@ -34,21 +34,11 @@ options(tinytex.verbose = TRUE)
 
 \newpage
 
-# Analyse der numerischen Variablen  
+# Deskriptive Analyse    
 
 ```{r results='asis'}
-# numerical results
-renderResults(rv$dqa_numerical_results)
+renderResults(rv$dqa_descriptive_results)
 ```
-
-
-# Analyse der kategorialen Variablen  
-
-```{r results='asis'}
-# categorical results
-renderResults(rv$dqa_categorical_results)
-```
-
 
 # Plausibilitätsprüfungen  
 
@@ -59,16 +49,7 @@ renderPlausis(rv$dqa_plausibility_results)
 
 # Einfache ETL-Checks
 
-## Numerische Variablen
-
 ```{r results='asis'}
-# categorical results
-kableTable(quickETLChecks(rv$dqa_numerical_results))
+kableTable(quickETLChecks(rv$dqa_descriptive_results))
 ```
 
-## Kategoriale Variablen
-
-```{r results='asis'}
-# categorical results
-kableTable(quickETLChecks(rv$dqa_categorical_results))
-```

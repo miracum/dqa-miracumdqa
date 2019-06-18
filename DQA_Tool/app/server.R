@@ -77,8 +77,7 @@ shinyServer(function(input, output, session) {
         output$menu <- renderMenu({
             sidebarMenu(
                 menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
-                menuItem("Results Numerical Variables", tabName = "tab_numerical", icon = icon("table")),
-                menuItem("Results Categorical Variables", tabName = "tab_categorical", icon = icon("table")),
+                menuItem("Descriptive Results", tabName = "tab_descriptive", icon = icon("table")),
                 menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle")),
                 menuItem("Visualizations", tabName = "tab_visualizations", icon = icon("chart-line")),
                 menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
@@ -87,8 +86,7 @@ shinyServer(function(input, output, session) {
         updateTabItems(session, "tabs", "tab_dashboard")
         
         # for debugging purposes
-        numerical_out <<- rv$dqa_numerical_results
-        categorical_out <<- rv$dqa_categorical_results
+        descriptive_results <<- rv$dqa_descriptive_results
         plausi_out <<- rv$dqa_plausibility_results
         source_data <<- rv$list_source
         target_data <<- rv$list_target
@@ -106,14 +104,9 @@ shinyServer(function(input, output, session) {
     callModule(moduleRawdata1Server, "moduleRawdata1", rv, input_re=reactive({input}))
     
     ########################
-    # tab_numerical
+    # tab_descriptive
     ########################
-    callModule(moduleNumericalServer, "moduleNumerical", rv, input_re=reactive({input}))
-    
-    ########################
-    # tab_categorical
-    ########################
-    callModule(moduleCategoricalServer, "moduleCategorical", rv, input_re=reactive({input}))
+    callModule(moduleDescriptiveServer, "moduleDescriptive", rv, input_re=reactive({input}))
     
     ########################
     # tab_plausibility

@@ -15,17 +15,10 @@ createRVvars <- function(mdr, target_db){
   # get list of dqa_vars for catgeorical and numerical analyses
   outlist$dqa_vars <- outlist$dqa_assessment[grepl("^dt\\.", key),]
   
-  # numerical
-  dqa_numerical <- outlist$dqa_vars[variable_type %in% c("integer", "numerical", "date"),][order(name)]
-  outlist$dqa_numerical <- sapply(dqa_numerical[,name], function(x){
-    dqa_numerical[name==x, variable_name]
-  }, simplify = F, USE.NAMES = T)
-  
-  
-  # categorical
-  dqa_categorical <- outlist$dqa_vars[variable_type == "factor",][order(name)]
-  outlist$dqa_categorical <- sapply(dqa_categorical[,name], function(x){
-    dqa_categorical[name==x, variable_name]
+  # variable_list
+  variable_list <- outlist$dqa_vars[order(name)]
+  outlist$variable_list <- sapply(variable_list[,name], function(x){
+    variable_list[name==x, variable_name]
   }, simplify = F, USE.NAMES = T)
   
   # get list of pl_vars for plausibility analyses
