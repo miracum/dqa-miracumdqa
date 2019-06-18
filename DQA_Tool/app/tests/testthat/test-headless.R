@@ -38,13 +38,9 @@ test_that("correct functioning of headless function",{
   expect_type(rv$pl_vars, "list")
   
   # test files
-  expect_known_hash(rv$list_source[["FALL.CSV"]], "c33125ce1c")
   expect_s3_class(rv$list_source[["FALL.CSV"]], "data.table")
-  expect_known_hash(rv$list_source[["FAB.CSV"]], "2902b68a5a")
   expect_s3_class(rv$list_source[["FAB.CSV"]], "data.table")
-  expect_known_hash(rv$list_source[["OPS.CSV"]], "b100df4018")
   expect_s3_class(rv$list_source[["OPS.CSV"]], "data.table")
-  expect_known_hash(rv$list_source[["ICD.CSV"]], "8dda050b3d")
   expect_s3_class(rv$list_source[["ICD.CSV"]], "data.table")
 
 })

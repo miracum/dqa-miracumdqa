@@ -83,6 +83,10 @@ renderPlausis <- function(results){
     cat("\n **Übersicht:**  \n")
     renderCounts(count_out, "source_data")
     
+    # statistics
+    cat("\n **Ergebnisse:**  \n")
+    print(kableTable(stat_out$source_data))
+    
     # representation in the target system
     cat("\n### Repräsentation im Zielsystem  \n")
     renderPlausiRepresentation(desc_out, "target_data")
@@ -90,6 +94,10 @@ renderPlausis <- function(results){
     # overview
     cat("\n **Übersicht:**  \n")
     renderCounts(count_out, "target_data")
+    
+    # statistics
+    cat("\n **Ergebnisse:**  \n")
+    print(kableTable(stat_out$target_data))
   }
 }
 

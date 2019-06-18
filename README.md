@@ -1,6 +1,4 @@
-# Shiny DQA Tool
-
-- this is the shiny DQA tool's repository  
+# MIRACUM DQA Tool  
 
 - to build your image:
 ```

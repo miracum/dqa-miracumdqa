@@ -45,12 +45,16 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALS
   return(counts)
 }
 
-calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem){
+calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
   statistics <- list()
   
   tryCatch({
-    # for source_data; our data is in rv$list_source$source_table_name
-    statistics$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[source_system==sourcesystem, source_table_name]]], stat_key)
+    if (isFALSE(plausibility)){
+      # for source_data; our data is in rv$list_source$source_table_name
+      statistics$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[source_system==sourcesystem, source_table_name]]], stat_key)
+    } else {
+      statistics$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[source_system==sourcesystem, key]]], stat_key)
+    }
     statistics$target_data <- categoricalAnalysis(rv$list_target[[stat_dat[source_system==rv$target_db, key]]], stat_key)
     return(statistics)
   }, error=function(e){
@@ -60,13 +64,17 @@ calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem){
   })
 }
 
-calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem){
+calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
   statistics <- list()
   
   if (stat_dat[source_system==sourcesystem,variable_type!="date"]){
     tryCatch({
-      # for source_data; our data is in rv$list_source$source_table_name
-      statistics$source_data <- extensiveSummary(rv$list_source[[stat_dat[source_system==sourcesystem, source_table_name]]][, get(stat_key)])
+      if (isFALSE(plausibility)){
+        # for source_data; our data is in rv$list_source$source_table_name
+        statistics$source_data <- extensiveSummary(rv$list_source[[stat_dat[source_system==sourcesystem, source_table_name]]][, get(stat_key)])
+      } else {
+        statistics$source_data <- extensiveSummary(rv$list_source[[stat_dat[source_system==sourcesystem, key]]][, get(stat_key)])
+      }
       statistics$target_data <- extensiveSummary(rv$list_target[[stat_dat[source_system==rv$target_db, key]]][, get(stat_key)])
       return(statistics)
     }, error=function(e){
@@ -76,7 +84,11 @@ calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem){
     })
   } else {
     tryCatch({
-      statistics$source_data <- simpleSummary(rv$list_source[[stat_dat[source_system==sourcesystem, source_table_name]]][, get(stat_key)])
+      if (isFALSE(plausibility)){
+        statistics$source_data <- simpleSummary(rv$list_source[[stat_dat[source_system==sourcesystem, source_table_name]]][, get(stat_key)])
+      } else {
+        statistics$source_data <- simpleSummary(rv$list_source[[stat_dat[source_system==sourcesystem, key]]][, get(stat_key)])
+      }
       statistics$target_data <- simpleSummary(rv$list_target[[stat_dat[source_system==rv$target_db, key]]][, get(stat_key)])
       return(statistics)
     }, error=function(e){

@@ -44,7 +44,7 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
       
       # if there are no counts yet
       if (is.null(rv$dqa_plausibility_results$counts)){
-        withProgress(message = "Calculating counts of categorical variables", value = 0, {
+        withProgress(message = "Calculating counts of plausibility checks", value = 0, {
 
           for (i in names(rv$pl_vars_filter)){
             incProgress(1/length(rv$pl_vars_filter), detail = paste("... calculating counts of", i, "..."))
@@ -61,20 +61,24 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
         })
       }
       
-      # # if there are no statistics yet
-      # if (is.null(rv$dqa_plausibility_results$statistics)){
-      #   withProgress(message = "Calculating statistics of categorical variables", value = 0, {
-      #     
-      #     for (i in names(rv$pl_vars_filter)){
-      #       incProgress(1/length(rv$pl_vars_filter), detail = paste("... calculating statistics of", i, "..."))
-      #       # generate counts
-      #       stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^pl\\.", key),][name==i,.(source_system, source_variable_name, source_table_name, variable_type, key)]
-      #       
-      #       rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcCatStats(stat_dat, rv$dqa_categorical[[i]], rv, sourcesystem = "csv")
-      #       # for target_data; our data is in rv$list_target$key
-      #     }
-      #   })
-      # }
+      # if there are no statistics yet
+      if (is.null(rv$dqa_plausibility_results$statistics)){
+        withProgress(message = "Calculating statistics of plausibility checks", value = 0, {
+
+          for (i in names(rv$pl_vars_filter)){
+            incProgress(1/length(rv$pl_vars_filter), detail = paste("... calculating statistics of", i, "..."))
+            # generate counts
+            stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^pl\\.", key),][name==i,.(source_system, source_variable_name, source_table_name, variable_name, variable_type, key)]
+            
+            if (stat_dat[,unique(variable_type)] == "factor"){
+              rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcCatStats(stat_dat, stat_dat[,unique(variable_name)], rv, sourcesystem = "csv", plausibility = TRUE)
+            # for target_data; our data is in rv$list_target$key
+            } else {
+              rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcNumStats(stat_dat, stat_dat[,unique(variable_name)], rv, sourcesystem = "csv", plausibility = TRUE)
+            }
+          }
+        })
+      }
       
       # generate output tables
       observeEvent(input_re()[["modulePlausibility-plausibility_sel"]], {
@@ -82,7 +86,7 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
         # get description object
         desc_out <- rv$dqa_plausibility_results$description[[input_re()[["modulePlausibility-plausibility_sel"]]]]
         count_out <- rv$dqa_plausibility_results$counts[[input_re()[["modulePlausibility-plausibility_sel"]]]]
-        # stat_out <- rv$dqa_plausibility_results$statistics[[input_re()[["modulePlausibility-plausibility_sel"]]]]
+        stat_out <- rv$dqa_plausibility_results$statistics[[input_re()[["modulePlausibility-plausibility_sel"]]]]
         
         
         
@@ -128,14 +132,14 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
         })
         
         
-        # # render target statistics
-        # output$pl_selection_target_table <- renderTable({
-        #   stat_out$target_data
-        # })
-        # # render source statistics
-        # output$pl_selection_source_table <- renderTable({
-        #   stat_out$source_data
-        # })
+        # render target statistics
+        output$pl_selection_target_table <- renderTable({
+          stat_out$target_data
+        })
+        # render source statistics
+        output$pl_selection_source_table <- renderTable({
+          stat_out$source_data
+        })
       })
     }
   })
