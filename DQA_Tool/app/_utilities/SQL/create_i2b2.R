@@ -1,44 +1,54 @@
 # (c) 2019 Lorenz Kapsner
 
 library(jsonlite)
+library(data.table)
 
+mdr <- fread("./DQA_Tool/app/_utilities/MDR/mdr.csv", header = T)
+mdr <- mdr[source_system=="i2b2",]
+
+
+mdr.use <- mdr[key=="dt.patient_target",]
 
 dt.patient_target <- 
-"SELECT
-	patient_num       AS    patient_identifier_value, 
-  birth_date::date  AS    \"patient_birthDate\", 
-  sex_cd            AS    patient_gender, 
-  zip_cd            AS    \"patient_address_postalCode\"
+paste0("SELECT
+	patient_num       AS    ", mdr.use[source_variable_name=="patient_num",variable_name], ",
+	birth_date::date  AS    \"", mdr.use[source_variable_name=="birth_date",variable_name], "\", 
+  sex_cd            AS    ", mdr.use[source_variable_name=="sex_cd",variable_name], ", 
+  zip_cd            AS    \"", mdr.use[source_variable_name=="zip_cd",variable_name], "\"
 FROM
-	i2b2miracum.patient_dimension
+	i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
 ORDER BY 
-	patient_num;"
+	patient_num;")
 
+
+mdr.use <- mdr[key=="dt.encounter_target",]
 
 dt.encounter_target <- 
-"SELECT
-	patient_num       AS    encounter_subject_patient_identifier_value,
-  encounter_num     AS    encounter_identifier_value, 
-  start_date::date  AS    \"EpisodeOfCare_period_start\", 
-  end_date::date    AS    \"EpisodeOfCare_period_end\"
+paste0("SELECT
+	patient_num       AS    ", mdr.use[source_variable_name=="patient_num",variable_name], ",
+  encounter_num     AS    ", mdr.use[source_variable_name=="encounter_num",variable_name], ",
+  start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\", 
+  end_date::date    AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
 FROM
-  i2b2miracum.visit_dimension
+  i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
 ORDER BY 
-  patient_num;"
+  patient_num;")
 
+
+mdr.use <- mdr[key=="dt.ageindays_target",]
 
 dt.ageindays_target <- 
-"SELECT 
-  encounter_num     AS    encounter_identifier_value, 
-  nval_num          AS    encounter_subject_patient_age_days
+paste0("SELECT 
+  encounter_num     AS    ", mdr.use[source_variable_name=="encounter_num",variable_name], ",
+  nval_num          AS    ", mdr.use[source_variable_name=="nval_num",variable_name], "
 FROM 
-  i2b2miracum.observation_fact
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
-  concept_cd LIKE 'FALL:AITAA'
+  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
 GROUP BY
 	encounter_num, patient_num, concept_cd, nval_num
 ORDER BY
-  encounter_num;"
+  encounter_num;")
 
 
 dt.ageinyears_target <- 
