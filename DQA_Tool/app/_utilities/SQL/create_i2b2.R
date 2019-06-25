@@ -10,10 +10,11 @@ mdr <- mdr[source_system=="i2b2",]
 mdr.use <- mdr[key=="dt.patient_target",]
 
 dt.patient_target <- 
-paste0("SELECT
-	patient_num       AS    ", mdr.use[source_variable_name=="patient_num",variable_name], ",
+  paste0(
+    "SELECT
+	patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
 	birth_date::date  AS    \"", mdr.use[source_variable_name=="birth_date",variable_name], "\", 
-  sex_cd            AS    ", mdr.use[source_variable_name=="sex_cd",variable_name], ", 
+  sex_cd            AS    \"", mdr.use[source_variable_name=="sex_cd",variable_name], "\", 
   zip_cd            AS    \"", mdr.use[source_variable_name=="zip_cd",variable_name], "\"
 FROM
 	i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
@@ -24,9 +25,10 @@ ORDER BY
 mdr.use <- mdr[key=="dt.encounter_target",]
 
 dt.encounter_target <- 
-paste0("SELECT
-	patient_num       AS    ", mdr.use[source_variable_name=="patient_num",variable_name], ",
-  encounter_num     AS    ", mdr.use[source_variable_name=="encounter_num",variable_name], ",
+  paste0(
+    "SELECT
+	patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\", 
+  encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
   start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\", 
   end_date::date    AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
 FROM
@@ -38,9 +40,10 @@ ORDER BY
 mdr.use <- mdr[key=="dt.ageindays_target",]
 
 dt.ageindays_target <- 
-paste0("SELECT 
-  encounter_num     AS    ", mdr.use[source_variable_name=="encounter_num",variable_name], ",
-  nval_num          AS    ", mdr.use[source_variable_name=="nval_num",variable_name], "
+  paste0(
+    "SELECT 
+  encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  nval_num          AS    \"", mdr.use[source_variable_name=="nval_num",variable_name], "\"
 FROM 
   i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
@@ -51,173 +54,152 @@ ORDER BY
   encounter_num;")
 
 
+mdr.use <- mdr[key=="dt.ageinyears_target",]
+
 dt.ageinyears_target <- 
-"SELECT 
-  encounter_num     AS    encounter_identifier_value, 
-  nval_num          AS    encounter_subject_patient_age_years
+  paste0(
+    "SELECT 
+  encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  nval_num          AS    \"", mdr.use[source_variable_name=="nval_num",variable_name], "\"
 FROM 
-  i2b2miracum.observation_fact
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
-  concept_cd LIKE 'FALL:AIJAA'
+  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
 GROUP BY
 	encounter_num, patient_num, concept_cd, nval_num
 ORDER BY
-  encounter_num;"
+  encounter_num;")
 
+
+mdr.use <- mdr[key=="dt.admission_target",]
 
 dt.admission_target <- 
-"SELECT
-	encounter_num     AS    encounter_identifier_value, 
-  concept_cd        AS    \"encounter_hospitalization_admitSource\"
+  paste0(
+    "SELECT
+	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
 FROM 
-  i2b2miracum.observation_fact
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
-  concept_cd LIKE 'AUFNAN%'
+  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
 ORDER BY 
-  encounter_num;"
+  encounter_num;")
 
+
+mdr.use <- mdr[key=="dt.hospitalization_target",]
 
 dt.hospitalization_target <- 
-"SELECT 
-  encounter_num     AS    encounter_identifier_value, 
-  concept_cd        AS    encounter_hospitalization_class
+  paste0(
+    "SELECT 
+	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
 FROM 
-  i2b2miracum.observation_fact
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
-  concept_cd LIKE 'AUFNGR%'
+  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
 ORDER BY 
-  encounter_num;"
+  encounter_num;")
 
+
+mdr.use <- mdr[key=="dt.discharge_target",]
 
 dt.discharge_target <- 
-"SELECT 
-  encounter_num     AS    encounter_identifier_value, 
-  concept_cd        AS    \"encounter_hospitalization_dischargeDisposition\"
+  paste0(
+    "SELECT 
+	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
 FROM 
-  i2b2miracum.observation_fact
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
-  concept_cd LIKE 'ENTLGR%'
+  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
 ORDER BY 
-  encounter_num;"
+  encounter_num;")
 
+
+mdr.use <- mdr[key=="dt.ventilation_target",]
 
 dt.ventilation_target <- 
-"SELECT 
-  encounter_num     AS    procedure_encounter_identifier_value, 
-  nval_num          AS    procedure_code_coding_code_40617009
+  paste0(
+    "SELECT 
+  encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  nval_num          AS    \"", mdr.use[source_variable_name=="nval_num",variable_name], "\"
 FROM 
-	i2b2miracum.observation_fact 
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
-	concept_cd LIKE 'FALL:BEATMST'
+  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
 ORDER BY 
-	encounter_num;"
+	encounter_num;")
 
+
+mdr.use <- mdr[key=="dt.condition_target",]
 
 dt.condition_target <- 
-"SELECT 
-  encounter_num     AS    condition_encounter_identifier_value, 
-  concept_cd        AS    condition_code_coding_code,
-	modifier_cd       AS    condition_category_encounter_diagnosis
+  paste0(
+    "SELECT 
+	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\",
+	modifier_cd       AS    \"", mdr.use[source_variable_name=="modifier_cd",variable_name], "\"
 FROM 
-  i2b2miracum.observation_fact
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
-  concept_cd LIKE 'ICD%'
+  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
 ORDER BY
-  encounter_num;"
+  encounter_num;")
 
+
+mdr.use <- mdr[key=="dt.procedure_target",]
 
 dt.procedure_target <- 
-"SELECT 
-  encounter_num     AS    procedure_encounter_identifier_value, 
-  concept_cd        AS    procedure_code_coding_code,
-  start_date::date  AS    \"procedure_performedDateTime\"
-  
+  paste0(
+    "SELECT 
+	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\",
+  start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
 FROM 
-  i2b2miracum.observation_fact
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
-  concept_cd LIKE 'OPS%'
+  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
 ORDER BY
-  encounter_num;"
+  encounter_num;")
 
+
+mdr.use <- mdr[key=="dt.provider_target",]
 
 dt.provider_target <- 
-"SELECT 
-  encounter_num     AS    encounter_identifier_value, 
-  tval_char         AS    \"encounter_serviceProvider_type_Organization_name\",
-  start_date::date  AS    encounter_period_start, 
-  end_date::date    AS    encounter_period_end
+  paste0(
+    "SELECT 
+	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  tval_char         AS    \"", mdr.use[source_variable_name=="tval_char",variable_name], "\", 
+  start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\", 
+  end_date::date    AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
 FROM 
-	i2b2miracum.observation_fact
+	i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE 
-	concept_cd LIKE 'FACHABT%'
+  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
 ORDER BY
-	encounter_num;"
+	encounter_num;")
 
 
-pl.item02_target <-
-"SELECT 
-  ob.encounter_num    AS    encounter_identifier_value, 
-  ob.patient_num      AS    patient_identifier_value,
-  ob.concept_cd       AS    condition_code_coding_code,
-  pa.sex_cd           AS    patient_gender
+# create plausibility statements
+for (i in c("pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")){
+  mdr.use <- mdr[key==i,]
+  
+  assign(i, 
+         paste0(
+           "SELECT 
+  ob.encounter_num    AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\", 
+  ob.patient_num      AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\", 
+  ob.concept_cd       AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\", 
+  pa.sex_cd           AS    \"", mdr.use[source_variable_name=="sex_cd",variable_name], "\"
 FROM 
-  i2b2miracum.observation_fact AS ob
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], " AS ob
 LEFT OUTER JOIN 
   i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
 WHERE
-  ob.concept_cd ~ 'ICD10:O[0-9]'
+  ob.", mdr.use[source_variable_name=="sex_cd",sql_where], "
 ORDER BY
-  ob.encounter_num;"
-
-
-pl.item03_target <- 
-"SELECT 
-  ob.encounter_num    AS    encounter_identifier_value, 
-  ob.patient_num      AS    patient_identifier_value,
-  ob.concept_cd       AS    condition_code_coding_code,
-  pa.sex_cd           AS    patient_gender
-FROM 
-  i2b2miracum.observation_fact AS ob
-LEFT OUTER JOIN 
-  i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
-WHERE
-  ob.concept_cd ~ 'ICD10:C5[1-8]'
-ORDER BY
-  ob.encounter_num;"
-
-
-pl.item04_target <- 
-  "SELECT 
-  ob.encounter_num    AS    encounter_identifier_value, 
-  ob.patient_num      AS    patient_identifier_value,
-  ob.concept_cd       AS    condition_code_coding_code,
-  pa.sex_cd           AS    patient_gender
-FROM 
-  i2b2miracum.observation_fact AS ob
-LEFT OUTER JOIN 
-  i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
-WHERE
-  ob.concept_cd ~ 'ICD10:C6[0-3]'
-ORDER BY
-  ob.encounter_num;"
-
-
-pl.item05_target <-
-"SELECT 
-  ob.encounter_num    AS    encounter_identifier_value, 
-  ob.patient_num      AS    patient_identifier_value,
-  ob.concept_cd       AS    condition_code_coding_code,
-  pa.sex_cd           AS    patient_gender
-FROM 
-  i2b2miracum.observation_fact AS ob
-LEFT OUTER JOIN 
-  i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
-WHERE
-  ob.concept_cd ~ 'AUFNGR:05'
-ORDER BY
-  ob.encounter_num;"
-
-
+  ob.encounter_num;"))
+}
 
 vec <- c("dt.patient_target", "dt.encounter_target", "dt.ageindays_target", "dt.ageinyears_target", "dt.admission_target", "dt.hospitalization_target", "dt.discharge_target", "dt.ventilation_target",
          "dt.condition_target", "dt.procedure_target", "dt.provider_target", "pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")
