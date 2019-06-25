@@ -201,6 +201,8 @@ ORDER BY
   ob.encounter_num;"))
 }
 
+
+
 vec <- c("dt.patient_target", "dt.encounter_target", "dt.ageindays_target", "dt.ageinyears_target", "dt.admission_target", "dt.hospitalization_target", "dt.discharge_target", "dt.ventilation_target",
          "dt.condition_target", "dt.procedure_target", "dt.provider_target", "pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)
