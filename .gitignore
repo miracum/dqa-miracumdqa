@@ -10,6 +10,15 @@
 /docker/addfolder/
 !/DQA_Tool/
 !/DQA_Tool/app/
+!/data-raw/
+!/R/
+!/tests/
+!/.Rbuildignore
+!/DESCRIPTION
+!/LICENSE.md
+!/inst/
+!/man/
+!/NAMESPACE
 /DQA_Tool/app/_settings/
 .Rproj.user
 *.Rproj
