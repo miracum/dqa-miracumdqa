@@ -210,7 +210,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     })
     outputOptions(output, 'dqa_results', suspendWhenHidden=FALSE)
 
-    output$dash_quick_etlchecks <- renderDataTable({
+    output$dash_quick_etlchecks <- DT::renderDataTable({
       dat <- quickETLChecks(rv$dqa_descriptive_results)
       renderQuickETL(dat)
     })
@@ -249,7 +249,7 @@ moduleDashboardUI <- function(id){
              conditionalPanel(
                condition = "output['moduleDashboard-dqa_results']",
                box(title = "Quick ETL-Checks: ",
-                   dataTableOutput(ns("dash_quick_etlchecks")),
+                   DT::dataTableOutput(ns("dash_quick_etlchecks")),
                    width = 12
                )
              )
