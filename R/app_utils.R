@@ -45,10 +45,11 @@ summaryTable <- function(){
 
 # render quick ETL check tables
 renderQuickETL <- function(dat_table){
-  DT::datatable(dat_table, options=list(dom = "t", scrollY="60vh", pageLength = nrow(dat_table)), rownames = F) %>%
+  out <- DT::datatable(dat_table, options=list(dom = "t", scrollY="60vh", pageLength = nrow(dat_table)), rownames = F) %>%
     DT::formatStyle(columns=2,
                 backgroundColor = DT::styleEqual(c("passed", "failed"), c("lightgreen", "red"))) %>%
     DT::formatStyle(columns=3,
                 backgroundColor = DT::styleEqual(c("passed", "failed"), c("lightgreen", "red")))
+  return(out)
 }
 
