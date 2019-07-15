@@ -1,16 +1,16 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool.
 # Copyright (C) 2019 MIRACUM - Medical Informatics in Research and Medicine
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -19,15 +19,15 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   output$dash_instruction <- renderText({
     paste0("Please configure and test your database connection in the settings tab.\nThen return here in order to load the data.")
   })
-  
+
   observeEvent(input_re()[["moduleDashboard-dash_load_btn"]], {
-    
+
     # set start.time, when clicking the button
     rv$start.time <- Sys.time()
-    
+
     # check database connection
     rv$db_con <- testDBcon(rv$db_settings)
-    
+
     # check if sitename is present
     if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 || any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))){
       shiny::showModal(modalDialog(
@@ -37,7 +37,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       rv$sql <- NULL
     } else {
       rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
-      
+
       # check if source path is present
       # identical(rv$sourcefiledir, character(0)) returns boolean
       print(rv$sourcefiledir)
@@ -54,16 +54,16 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
           cat("\n", i, "\n")
           return(grepl("FALL\\.CSV$|FAB\\.CSV$|ICD\\.CSV$|OPS.CSV$", i))
         })
-        
+
         tryCatch({
           # test if there are exact 4 source files
           if (base::sum(check)!=4){
             shiny::showModal(modalDialog(
               title = "Invalid path",
               "The specified directory does not contain the 4 neccessary CSV-files (FALL.CSV, FAB.CSV, ICD.CSV, OPS.CSV)."
-            ))  
+            ))
             rv$sql <- NULL
-          } 
+          }
         }, error = function(e){
           shiny::showModal(modalDialog(
             title = "Invalid path",
@@ -73,16 +73,16 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
         })
       }
     }
-    
-    
+
+
     if (!is.null(rv$sql)){
       rv$target_getdata <- TRUE
       rv$source_getdata <- TRUE
-      
+
       if (!dir.exists("./_settings/")){
         dir.create("./_settings/")
       }
-      
+
       # save user settings
       writeLines(jsonlite::toJSON(list("db" = rv$target_db,
                              "source_path" = rv$sourcefiledir,
@@ -90,18 +90,18 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
                         pretty = T,
                         auto_unbox = F),
                  "./_settings/global_settings.JSON")
-      
+
     } else {
       cat("\nSQL not loaded yet\n")
     }
   })
-  
+
   # calculate overview
   # target
   # patient_identifier_value
   observe({
     req(rv$list_target$dt.patient_target)
-    
+
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target")
       if (isFALSE("patient.identifier.value" %in% rv$dash_summary_target[,get("variable")])){
@@ -113,7 +113,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   # encounter_identifier_value
   observe({
     req(rv$list_target$dt.encounter_target)
-    
+
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target2")
       if (isFALSE("encounter.identifier.value" %in% rv$dash_summary_target[,get("variable")])){
@@ -125,7 +125,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   # condition_code_coding_code
   observe({
     req(rv$list_target$dt.condition_target)
-    
+
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target3")
       if (isFALSE("condition.code.coding.code" %in% rv$dash_summary_target[,get("variable")])){
@@ -137,7 +137,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   # procedure_code_coding_code
   observe({
     req(rv$list_target$dt.procedure_target)
-    
+
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target4")
       if (isFALSE("procedure.code.coding.code" %in% rv$dash_summary_target[,get("variable")])){
@@ -146,14 +146,14 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       }
     }
   })
-  
+
   # source
   observe({
     req(rv$list_source$FALL.CSV)
     if (nrow(rv$dash_summary_source) < 2){
       shiny::withProgress(message = "Creating dashboard summary", value = 0, {
         shiny::incProgress(1/1, detail = "... calculating overview counts ...")
-        
+
         if (isFALSE("patient_identifier_value" %in% rv$dash_summary_source[,get("variable")])){
           rv[["ov.patient_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "patient_identifier_value", "csv")
           rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.patient_source.summary[,c("variable", "distinct", "valids", "missings"), with=F])
@@ -166,22 +166,22 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
           tab <- countUnique(rv$list_source$FALL.CSV[get("encounter_hospitalization_admitSource")=="B",], "encounter_identifier_value", "csv")
           if (nrow(tab) == 0){
             cat("\nThere are no chaperones present in your data.\n")
-          } 
+          }
           rv[["ov.chaperone_source.summary"]] <- tab[1,("variable"):="Begleitpersonen"]
           rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.chaperone_source.summary[,c("variable", "distinct", "valids", "missings"),with=F])
         }
       })
     }
   })
-  
+
   # observe for load data button
   observe({
     if (!is.null(rv$db_con)){
       shinyjs::hide("dash_instruction")
       return(TRUE)
-    } 
+    }
   })
-  
+
   # render dashboard summary
   observe({
     if(nrow(rv$dash_summary_target) > 0) {
@@ -191,7 +191,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
         tab
       })
     }
-    
+
     if(nrow(rv$dash_summary_source) > 0) {
       output$dash_summary_source <- renderTable({
         tab <- rv$dash_summary_source
@@ -200,28 +200,28 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       })
     }
   })
-  
+
   observe({
     req(rv$dqa_descriptive_results)
-    
+
     # workaround to tell ui, that db_connection is there
     output$dqa_results <- reactive({
       return(TRUE)
     })
     outputOptions(output, 'dqa_results', suspendWhenHidden=FALSE)
-    
+
     output$dash_quick_etlchecks <- renderDataTable({
       dat <- quickETLChecks(rv$dqa_descriptive_results)
       renderQuickETL(dat)
     })
   })
-  
+
   # observe rv$duration
   observe({
     req(rv$duration)
-    
+
     output$dash_instruction <- renderText({
-      paste0("Started: ", rv$start.time, 
+      paste0("Started: ", rv$start.time,
              "\nFinished: ", rv$end.time,
              "\nDuration: ", round(rv$duration, 2), " min.")
     })
@@ -234,7 +234,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 # moduleDashboardUI
 moduleDashboardUI <- function(id){
   ns <- NS(id)
-  
+
   tagList(
     fluidRow(
       column(6,
@@ -257,16 +257,16 @@ moduleDashboardUI <- function(id){
       column(6,
              conditionalPanel(
                condition = "output['moduleDashboard-dqa_results']",
-               box(title = "Target system overview",
+               box(title = "Target System Overview (Data Map)",
                    tableOutput(ns("dash_summary_target")),
                    width = 12
                ),
-               box(title = "Source system overview",
+               box(title = "Source System Overview",
                    tableOutput(ns("dash_summary_source")),
                    width = 12
                )
              )
-      ) 
+      )
     )
   )
 }
