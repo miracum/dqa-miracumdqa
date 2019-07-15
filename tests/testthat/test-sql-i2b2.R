@@ -2,19 +2,21 @@ context("test i2b2 SQL statements")
 
 # debugging prefix
 #prefix <- "./tests/testthat/"
+#utildir <- paste0(prefix, "../../inst/")
 prefix <- "./"
+utildir <- paste0(prefix, "../../miRacumDQA/")
 
 library(data.table)
 library(jsonlite)
 
 
 test_that("correct sql statments",{
-  
-  rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(prefix, "../../inst/application/_utilities/"), target_db = "i2b2")
+
+  rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(utildir, "application/_utilities/"), target_db = "i2b2")
   rv$list_source <- headless_loadSource(rv)
-  
+
   expect_type(rv$sql, "list")
-  
+
   # Loop over target_keys and check for hash and type
   known_hashes <- list("dt.admission_target" = "ec7e204b1f",
                  "dt.ageindays_target" = "d3fab5408f",
@@ -35,5 +37,5 @@ test_that("correct sql statments",{
     expect_type(rv$sql[[i]], "character")
     expect_known_hash(rv$sql[[i]], known_hashes[[i]])
   }
-  
+
 })

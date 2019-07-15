@@ -54,7 +54,6 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
   })
 
   output$mdr_table <- DT::renderDataTable({
-    print(head(rv$mdr))
     DT::datatable(rv$mdr, options = list(scrollX = TRUE, pageLength = 20, dom="ltip"))
   })
 }

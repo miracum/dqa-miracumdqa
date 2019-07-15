@@ -24,3 +24,4 @@
 *.Rproj
 .RData
 .Rhistory
+inst/application/_settings/

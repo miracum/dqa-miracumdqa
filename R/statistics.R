@@ -26,15 +26,15 @@ countUnique <- function(data, var, sourcesystem=NULL, plausibility=FALSE){
                                   "patient_birthDate", "patient_gender")
 
       if (var %in% special_treatment_vars){
-        valids <- unique(data[!is.na(get(var)), get(var), by="patient_identifier_value"])[,data.table::.N]
-        missings <- unique(data[is.na(get(var)), get(var), by="patient_identifier_value"])[,data.table::.N]
+        valids <- unique(data[!is.na(get(var)), get(var), by="patient_identifier_value"])[,.N]
+        missings <- unique(data[is.na(get(var)), get(var), by="patient_identifier_value"])[,.N]
       }
     }
   }
 
   if (is.null(valids)){
-    valids <- data[!is.na(get(var)),][,data.table::.N]
-    missings <- data[is.na(get(var)),][data.table::.N]
+    valids <- data[!is.na(get(var)),][,.N]
+    missings <- data[is.na(get(var)),][,.N]
   }
 
   out <- data.table::data.table("variable" = var,
@@ -51,7 +51,7 @@ extensiveSummary <- function(vector){
   Q <- stats::quantile(vector, probs=c(.25, .75), na.rm=T, names=F)
   I_out <- stats::IQR(vector, na.rm=T)*1.5
 
-  ret <- data.table(rbind(
+  ret <- data.table::data.table(rbind(
     c("Mean", round(base::mean(vector, na.rm = T), 2)),
     c("Minimum", round(base::min(vector, na.rm = T), 2)),
     c("Median", round(stats::median(vector, na.rm = T), 2)),
@@ -87,10 +87,10 @@ categoricalAnalysis <- function(data, var, sourcesystem=NULL, levellimit=25){
 
   # if there are more levels than specified in levellimit (default = 20)
   if (data[,nlevels(get(var))] > levellimit){
-    tabdat <- data[,data.table::.N,by=var][order(N, decreasing = T)]
+    tabdat <- data[,.N,by=var][order(get("N"), decreasing = T)]
     tabdat_out <- tabdat[1:levellimit,]
   } else {
-    tabdat_out <- data[,data.table::.N,by=var][order(get("N"), decreasing = T)]
+    tabdat_out <- data[,.N,by=var][order(get("N"), decreasing = T)]
   }
   tabdat_out[,"% Valid" := (get("N")/nrow(data)) * 100]
   colnames(tabdat_out)[2] <- "Freq"
