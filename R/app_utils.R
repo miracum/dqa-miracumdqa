@@ -25,7 +25,7 @@ onStart <- function(session, rv, input, output){
     
     cat("\nUpdate source file path:", user_settings[["source_path"]], "\n")
     rv$sourcefiledir <- user_settings[["source_path"]]
-    shiny::shinyDirChoose(input, "moduleConfig-config_sourcedir_in", updateFreq = 0, session = session, defaultPath = user_settings[["source_path"]], roots = c(home="/home/"), defaultRoot = "home")
+    shinyFiles::shinyDirChoose(input, "moduleConfig-config_sourcedir_in", updateFreq = 0, session = session, defaultPath = user_settings[["source_path"]], roots = c(home="/home/"), defaultRoot = "home")
     
     cat("\nUpdate site name:", user_settings[["site_name"]], "\n")
     rv$sitename <- user_settings[["site_name"]]
