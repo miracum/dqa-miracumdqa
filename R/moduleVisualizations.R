@@ -18,7 +18,7 @@
 moduleVisualizationsServer <- function(input, output, session, rv, input_re){
   
   output$visualizations_plot <- renderPlot({
-    graphics::hist(rv$list_target$dt.ageindays_target[,encounter_subject_patient_age_days])
+    graphics::hist(rv$list_target$dt.ageindays_target[,get("encounter_subject_patient_age_days")])
   })
 }
 

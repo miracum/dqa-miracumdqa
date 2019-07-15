@@ -53,12 +53,12 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
           for (j in col_names){
             
             if (j %in% rv$trans_vars){
-              rv$list_target[[i]][,(j):=transformFactor(data.table::get(j), j)]
+              rv$list_target[[i]][,(j):=transformFactor(get(j), j)]
             }
             
             # transform cat_vars to factor
             if (j %in% rv$cat_vars){
-              rv$list_target[[i]][,(j):=factor(data.table::get(j))]
+              rv$list_target[[i]][,(j):=factor(get(j))]
             }
           }
         }
@@ -92,25 +92,25 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
           
           # check, if column name in variables of interest
           # var_names of interest:
-          var_names <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),source_variable_name]
+          var_names <- rv$mdr[get("source_table_name")==i,][grepl("dt\\.", get("key")),get("source_variable_name")]
           
           for (j in col_names){
             if (j %in% var_names){
-              vn <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),][source_variable_name==j,variable_name]
+              vn <- rv$mdr[get("source_table_name")==i,][grepl("dt\\.", get("key")),][get("source_variable_name")==j,get("variable_name")]
               colnames(rv$list_source[[i]])[which(col_names==j)] <- vn
               
               # transform date_vars to dates
               if (vn %in% rv$date_vars){
-                rv$list_source[[i]][,(vn):=as.Date(substr(as.character(data.table::get(vn)), 1, 8), format="%Y%m%d")]
+                rv$list_source[[i]][,(vn):=as.Date(substr(as.character(get(vn)), 1, 8), format="%Y%m%d")]
               }
               
               if (vn %in% rv$trans_vars){
-                rv$list_source[[i]][,(vn):=transformFactor(data.table::get(vn), vn)]
+                rv$list_source[[i]][,(vn):=transformFactor(get(vn), vn)]
               }
               
               # transform cat_vars to factor
               if (vn %in% rv$cat_vars){
-                rv$list_source[[i]][,(vn):=factor(data.table::get(vn))]
+                rv$list_source[[i]][,(vn):=factor(get(vn))]
               }
             }
           }

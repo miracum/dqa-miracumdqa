@@ -9,7 +9,7 @@ library(jsonlite)
 
 test_that("correct functioning of countUnique",{
   
-  rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(prefix, "../../_utilities/"), target_db = "i2b2")
+  rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(prefix, "../../inst/application/_utilities/"), target_db = "i2b2")
   rv$list_source <- headless_loadSource(rv)
   
   expect_type(countUnique(rv$list_source[["FALL.CSV"]], "patient_identifier_value", "csv"), "list")
@@ -28,7 +28,7 @@ test_that("correct functioning of countUnique",{
 
 test_that("correct functioning of extensiveSummary",{
   
-  rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(prefix, "../../_utilities/"), target_db = "i2b2")
+  rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(prefix, "../../inst/application/_utilities/"), target_db = "i2b2")
   rv$list_source <- headless_loadSource(rv)
   
   expect_type(extensiveSummary(rv$list_source[["FALL.CSV"]][, get("encounter_subject_patient_age_years")]), "list")

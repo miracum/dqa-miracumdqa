@@ -36,7 +36,7 @@ getDBsettings <- function(input){
   } else {
     print(tab)
     outlist <- lapply(stats::setNames(vec, vec), function(g){
-      tab[keys==g,value]
+      tab[get("keys")==g,get("value")]
     })
     return(outlist)
   }

@@ -104,9 +104,9 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target")
-      if (isFALSE("patient.identifier.value" %in% rv$dash_summary_target[,variable])){
+      if (isFALSE("patient.identifier.value" %in% rv$dash_summary_target[,get("variable")])){
         rv[["ov.patient_target.summary"]] <- countUnique(rv$list_target$dt.patient_target, "patient_identifier_value", rv$target_db)
-        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.patient_target.summary[,.(variable, distinct, valids, missings)])
+        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.patient_target.summary[,c("variable", "distinct", "valids", "missings"), with=F])
       }
     }
   })
@@ -116,9 +116,9 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target2")
-      if (isFALSE("encounter.identifier.value" %in% rv$dash_summary_target[,variable])){
+      if (isFALSE("encounter.identifier.value" %in% rv$dash_summary_target[,get("variable")])){
         rv[["ov.encounter_target.summary"]] <- countUnique(rv$list_target$dt.encounter_target, "encounter_identifier_value", rv$target_db)
-        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.encounter_target.summary[,.(variable, distinct, valids, missings)])
+        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.encounter_target.summary[,c("variable", "distinct", "valids", "missings")])
       }
     }
   })
@@ -128,9 +128,9 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target3")
-      if (isFALSE("condition.code.coding.code" %in% rv$dash_summary_target[,variable])){
+      if (isFALSE("condition.code.coding.code" %in% rv$dash_summary_target[,get("variable")])){
         rv[["ov.condition_target.summary"]] <- countUnique(rv$list_target$dt.condition_target, "condition_code_coding_code", rv$target_db)
-        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.condition_target.summary[,.(variable, distinct, valids, missings)])
+        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.condition_target.summary[,c("variable", "distinct", "valids", "missings")])
       }
     }
   })
@@ -140,9 +140,9 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     
     if (nrow(rv$dash_summary_target) < 4){
       cat("\nBuild rv$dash_summary_target4")
-      if (isFALSE("procedure.code.coding.code" %in% rv$dash_summary_target[,variable])){
+      if (isFALSE("procedure.code.coding.code" %in% rv$dash_summary_target[,get("variable")])){
         rv[["ov.procedure_target.summary"]] <- countUnique(rv$list_target$dt.procedure_target, "procedure_code_coding_code", rv$target_db)
-        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.procedure_target.summary[,.(variable, distinct, valids, missings)])
+        rv$dash_summary_target <- rbind(rv$dash_summary_target, rv$ov.procedure_target.summary[,c("variable", "distinct", "valids", "missings")])
       }
     }
   })
@@ -154,21 +154,21 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       shiny::withProgress(message = "Creating dashboard summary", value = 0, {
         shiny::incProgress(1/1, detail = "... calculating overview counts ...")
         
-        if (isFALSE("patient_identifier_value" %in% rv$dash_summary_source[,variable])){
+        if (isFALSE("patient_identifier_value" %in% rv$dash_summary_source[,get("variable")])){
           rv[["ov.patient_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "patient_identifier_value", "csv")
-          rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.patient_source.summary[,.(variable, distinct, valids, missings)])
+          rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.patient_source.summary[,c("variable", "distinct", "valids", "missings"), with=F])
         }
-        if (isFALSE("encounter_identifier_value" %in% rv$dash_summary_source[,variable])){
+        if (isFALSE("encounter_identifier_value" %in% rv$dash_summary_source[,get("variable")])){
           rv[["ov.encounter_source.summary"]] <- countUnique(rv$list_source$FALL.CSV, "encounter_identifier_value", "csv")
-          rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.encounter_source.summary[,.(variable, distinct, valids, missings)])
+          rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.encounter_source.summary[,c("variable", "distinct", "valids", "missings"), with=F])
         }
-        if (isFALSE("Begleitpersonen" %in% rv$dash_summary_source[,variable])){
-          tab <- countUnique(rv$list_source$FALL.CSV[encounter_hospitalization_admitSource=="B",], "encounter_identifier_value", "csv")
+        if (isFALSE("Begleitpersonen" %in% rv$dash_summary_source[,get("variable")])){
+          tab <- countUnique(rv$list_source$FALL.CSV[get("encounter_hospitalization_admitSource")=="B",], "encounter_identifier_value", "csv")
           if (nrow(tab) == 0){
             cat("\nThere are no chaperones present in your data.\n")
           } 
-          rv[["ov.chaperone_source.summary"]] <- tab[1,variable:="Begleitpersonen"]
-          rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.chaperone_source.summary[,.(variable, distinct, valids, missings)])
+          rv[["ov.chaperone_source.summary"]] <- tab[1,("variable"):="Begleitpersonen"]
+          rv$dash_summary_source <- rbind(rv$dash_summary_source, rv$ov.chaperone_source.summary[,c("variable", "distinct", "valids", "missings"),with=F])
         }
       })
     }

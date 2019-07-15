@@ -21,13 +21,14 @@ headless_initialization <- function(sourcefiledir, utilsdir, target_db){
   
   # initialize sourcefiledir
   rv$sourcefiledir <- sourcefiledir
-  rv$sql <- jsonlite::fromJSON(paste0(utilsdir, "SQL/SQL_i2b2.JSON"))
+  json <- readLines(paste0(utilsdir, "SQL/SQL_i2b2.JSON"))
+  rv$sql <- jsonlite::fromJSON(json)
   rv$target_db <- target_db
   
   # stuff from moduleMDR.R
   rv$mdr <- data.table::fread(paste0(utilsdir, "MDR/mdr.csv"), header = T)
-  rv$target_keys <- rv$mdr[key!="undefined",][source_system==rv$target_db,unique(key)]
-  rv$source_keys <- rv$mdr[key!="undefined",][source_system=="csv" & !grepl("^pl\\.", key), unique(source_table_name)]
+  rv$target_keys <- rv$mdr[get("key")!="undefined",][get("source_system")==rv$target_db,unique(get("key"))]
+  rv$source_keys <- rv$mdr[get("key")!="undefined",][get("source_system")=="csv" & !grepl("^pl\\.", get("key")), unique(get("source_table_name"))]
   
   # when mdr is there, let's create some useful variables
   reactive_to_append <- createRVvars(rv$mdr, rv$target_db)
@@ -62,11 +63,11 @@ headless_loadSource <- function(rv, keys_to_test = NULL, headless = TRUE){
     
     # check, if column name in variables of interest
     # var_names of interest:
-    var_names <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),source_variable_name]
+    var_names <- rv$mdr[get("source_table_name")==i,][grepl("dt\\.", get("key")),get("source_variable_name")]
     
     for (j in col_names){
       if (j %in% var_names){
-        vn <- rv$mdr[source_table_name==i,][grepl("dt\\.", key),][source_variable_name==j,variable_name]
+        vn <- rv$mdr[get("source_table_name")==i,][grepl("dt\\.", get("key")),][get("source_variable_name")==j,get("variable_name")]
         colnames(outlist[[i]])[which(col_names==j)] <- vn
         
         # transform date_vars to dates
@@ -97,7 +98,7 @@ headless_loadPlausis <- function(rv, headless = TRUE){
   for (i in unique(names(rv$pl_vars))){
     if (grepl("_source", rv$pl_vars[[i]])){
       j <- rv$pl_vars[[i]]
-      outlist[[j]] <- loadSourcePlausibilities(j, rv, headless)
+      outlist[[j]] <- loadSourcePlausibilities(j, rv, headless = headless)
     }
   }
   

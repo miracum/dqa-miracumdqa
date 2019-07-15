@@ -17,15 +17,15 @@
 calcDescription <- function(desc_dat, rv, sourcesystem){
   if (nrow(desc_dat)>1){
     description <- list()
-    description$source_data <- list(name = desc_dat[source_system==sourcesystem, name],
-                                    description = desc_dat[source_system==sourcesystem, description],
-                                    var_name = desc_dat[source_system==sourcesystem, source_variable_name],
-                                    table_name = desc_dat[source_system==sourcesystem, source_table_name],
-                                    fhir_name = desc_dat[source_system==sourcesystem, fhir])
+    description$source_data <- list(name = desc_dat[get("source_system")==sourcesystem, get("name")],
+                                    description = desc_dat[get("source_system")==sourcesystem, get("description")],
+                                    var_name = desc_dat[get("source_system")==sourcesystem, get("source_variable_name")],
+                                    table_name = desc_dat[get("source_system")==sourcesystem, get("source_table_name")],
+                                    fhir_name = desc_dat[get("source_system")==sourcesystem, get("fhir")])
     
-    description$target_data <- list(var_name = desc_dat[source_system==rv$target_db, source_variable_name],
-                                    table_name = desc_dat[source_system==rv$target_db, source_table_name],
-                                    fhir_name = desc_dat[source_system==rv$target_db, fhir])
+    description$target_data <- list(var_name = desc_dat[get("source_system")==rv$target_db, get("source_variable_name")],
+                                    table_name = desc_dat[get("source_system")==rv$target_db, get("source_table_name")],
+                                    fhir_name = desc_dat[get("source_system")==rv$target_db, get("fhir")])
     return(description)
   } else {
     return(NULL)
@@ -36,11 +36,11 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALS
   counts <- list()
   tryCatch({
     if (isFALSE(plausibility)){
-      counts$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system==sourcesystem, source_table_name]]], count_key, sourcesystem, plausibility)
+      counts$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[get("source_system")==sourcesystem, get("source_table_name")]]], count_key, sourcesystem, plausibility)
     } else {
-      counts$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[source_system==sourcesystem, key]]], count_key, sourcesystem, plausibility)
+      counts$source_data$cnt <- countUnique(rv$list_source[[cnt_dat[get("source_system")==sourcesystem, get("key")]]], count_key, sourcesystem, plausibility)
     }
-    counts$source_data$type <- cnt_dat[source_system==sourcesystem, variable_type]
+    counts$source_data$type <- cnt_dat[get("source_system")==sourcesystem, get("variable_type")]
   }, error=function(e){
     cat("\nError occured when counting source_data\n")
     print(e)
@@ -49,8 +49,8 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALS
   
   # for target_data; our data is in rv$list_target$key
   tryCatch({
-    counts$target_data$cnt <- countUnique(rv$list_target[[cnt_dat[source_system==rv$target_db, key]]], count_key, sourcesystem = rv$target_db, plausibility = plausibility)
-    counts$target_data$type <- cnt_dat[source_system==rv$target_db, variable_type]
+    counts$target_data$cnt <- countUnique(rv$list_target[[cnt_dat[get("source_system")==rv$target_db, get("key")]]], count_key, sourcesystem = rv$target_db, plausibility = plausibility)
+    counts$target_data$type <- cnt_dat[get("source_system")==rv$target_db, get("variable_type")]
   }, error=function(e){
     cat("\nError occured when counting target_data\n")
     print(e)
@@ -66,11 +66,11 @@ calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FA
   tryCatch({
     if (isFALSE(plausibility)){
       # for source_data; our data is in rv$list_source$source_table_name
-      statistics$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[source_system==sourcesystem, source_table_name]]], stat_key)
+      statistics$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]], stat_key)
     } else {
-      statistics$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[source_system==sourcesystem, key]]], stat_key)
+      statistics$source_data <- categoricalAnalysis(rv$list_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]], stat_key)
     }
-    statistics$target_data <- categoricalAnalysis(rv$list_target[[stat_dat[source_system==rv$target_db, key]]], stat_key)
+    statistics$target_data <- categoricalAnalysis(rv$list_target[[stat_dat[get("source_system")==rv$target_db, get("key")]]], stat_key)
     return(statistics)
   }, error=function(e){
     cat("\nError occured when calculating catStats\n")
@@ -82,15 +82,15 @@ calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FA
 calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
   statistics <- list()
   
-  if (stat_dat[source_system==sourcesystem,variable_type!="date"]){
+  if (stat_dat[get("source_system")==sourcesystem,get("variable_type")!="date"]){
     tryCatch({
       if (isFALSE(plausibility)){
         # for source_data; our data is in rv$list_source$source_table_name
-        statistics$source_data <- extensiveSummary(rv$list_source[[stat_dat[source_system==sourcesystem, source_table_name]]][, get(stat_key)])
+        statistics$source_data <- extensiveSummary(rv$list_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
       } else {
-        statistics$source_data <- extensiveSummary(rv$list_source[[stat_dat[source_system==sourcesystem, key]]][, get(stat_key)])
+        statistics$source_data <- extensiveSummary(rv$list_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
       }
-      statistics$target_data <- extensiveSummary(rv$list_target[[stat_dat[source_system==rv$target_db, key]]][, get(stat_key)])
+      statistics$target_data <- extensiveSummary(rv$list_target[[stat_dat[get("source_system")==rv$target_db, get("key")]]][, get(stat_key)])
       return(statistics)
     }, error=function(e){
       cat("\nError occured when calculating simple numStats\n")
@@ -100,11 +100,11 @@ calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FA
   } else {
     tryCatch({
       if (isFALSE(plausibility)){
-        statistics$source_data <- simpleSummary(rv$list_source[[stat_dat[source_system==sourcesystem, source_table_name]]][, get(stat_key)])
+        statistics$source_data <- simpleSummary(rv$list_source[[stat_dat[get("source_system")==sourcesystem, get("source_table_name")]]][, get(stat_key)])
       } else {
-        statistics$source_data <- simpleSummary(rv$list_source[[stat_dat[source_system==sourcesystem, key]]][, get(stat_key)])
+        statistics$source_data <- simpleSummary(rv$list_source[[stat_dat[get("source_system")==sourcesystem, get("key")]]][, get(stat_key)])
       }
-      statistics$target_data <- simpleSummary(rv$list_target[[stat_dat[source_system==rv$target_db, key]]][, get(stat_key)])
+      statistics$target_data <- simpleSummary(rv$list_target[[stat_dat[get("source_system")==rv$target_db, get("key")]]][, get(stat_key)])
       return(statistics)
     }, error=function(e){
       cat("\nError occured when calculating simple numStats\n")

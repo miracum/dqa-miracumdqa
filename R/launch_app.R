@@ -20,7 +20,8 @@
 #' 
 #' @return miRacum DQA Shiny application
 #' 
-#' @import shiny shinydashboard
+#' @import shiny shinydashboard data.table
+#' @importFrom magrittr "%>%"
 #' 
 #' @export
 #' 

@@ -49,7 +49,7 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$variable_list)){
             shiny::incProgress(1/length(rv$variable_list), detail = paste("... working at description of", i, "..."))
             # generate descriptions
-            desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$variable_list[[i]],.(name, source_system, source_variable_name, source_table_name, fhir, description)]
+            desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("name", "source_system", "source_variable_name", "source_table_name", "fhir", "description"),with=F]
             
             if (nrow(desc_dat)>1){
               rv$dqa_descriptive_results$description[[rv$variable_list[[i]]]] <- calcDescription(desc_dat, rv, sourcesystem = "csv")
@@ -67,7 +67,7 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$variable_list)){
             shiny::incProgress(1/length(rv$variable_list), detail = paste("... calculating counts of", i, "..."))
             # generate counts
-            cnt_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$variable_list[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
+            cnt_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("source_system", "source_variable_name", "source_table_name", "variable_type", "key"),with=F]
             
             rv$dqa_descriptive_results$counts[[rv$variable_list[[i]]]] <- calcCounts(cnt_dat, rv$variable_list[[i]], rv, sourcesystem = "csv")
           }
@@ -81,7 +81,7 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$variable_list)){
             shiny::incProgress(1/length(rv$variable_list), detail = paste("... calculating statistics of", i, "..."))
             # generate counts
-            stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", key),][variable_name==rv$variable_list[[i]],.(source_system, source_variable_name, source_table_name, variable_type, key)]
+            stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("source_system", "source_variable_name", "source_table_name", "variable_type", "key"),with=F]
             
             if (stat_dat[,unique(variable_type)] == "factor"){
               rv$dqa_descriptive_results$statistics[[rv$variable_list[[i]]]] <- calcCatStats(stat_dat, rv$variable_list[[i]], rv, sourcesystem = "csv")
@@ -130,18 +130,18 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
         # render source counts
         output$descr_selection_counts_source <- renderTable({
           tryCatch({
-            o <- count_out$source_data$cnt[,.(variable, distinct, valids, missings)]
+            o <- count_out$source_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
             data.table::data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                       " " = c(o[,variable], count_out$source_data$type, o[,distinct], o[,valids], o[,missings]))
-          }, error=function(e){logjs(e)})
+                       " " = c(o[,get("variable")], count_out$source_data$type, o[,get("distinct")], o[,get("valids")], o[,get("missings")]))
+          }, error=function(e){shinyjs::logjs(e)})
         })
         # render target counts
         output$descr_selection_counts_target <- renderTable({
           tryCatch({
-            o <- count_out$target_data$cnt[,.(variable, distinct, valids, missings)]
+            o <- count_out$target_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
             data.table::data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                       " " = c(o[,variable], count_out$target_data$type, o[,distinct], o[,valids], o[,missings]))
-          }, error=function(e){logjs(e)})
+                       " " = c(o[,get("variable")], count_out$target_data$type, o[,get("distinct")], o[,get("valids")], o[,get("missings")]))
+          }, error=function(e){shinyjs::logjs(e)})
         })
         
         

@@ -25,10 +25,10 @@ test_check("miRacumDQA")
 
 # start tests manually
 # debugging prefix
-# debug_prefix <- "./DQA_Tool/app/tests/"
+# debug_prefix <- "./tests/"
 # test_dir(debug_prefix)
-test_file(paste0(debug_prefix, "testthat/test-sql-i2b2.R"))
-test_file(paste0(debug_prefix, "testthat/test-dataloading.R"))
-test_file(paste0(debug_prefix, "testthat/test-startup.R"))
-test_file(paste0(debug_prefix, "testthat/test-headless.R"))
-test_file(paste0(debug_prefix, "testthat/test-statistics.R"))
+# test_file(paste0(debug_prefix, "testthat/test-sql-i2b2.R"))
+# test_file(paste0(debug_prefix, "testthat/test-dataloading.R"))
+# test_file(paste0(debug_prefix, "testthat/test-startup.R"))
+# test_file(paste0(debug_prefix, "testthat/test-headless.R"))
+# test_file(paste0(debug_prefix, "testthat/test-statistics.R"))

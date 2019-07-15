@@ -46,7 +46,7 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$pl_vars_filter)){
             shiny::incProgress(1/length(rv$pl_vars_filter), detail = paste("... working at description of", i, "..."))
             # generate descriptions
-            desc_dat <- rv$mdr[dqa_assessment==1,][grepl("^pl\\.", key),][name==i,.(name, source_system, source_variable_name, source_table_name, description, sql_from, sql_join_on, sql_join_table, sql_join_type, sql_where)]
+            desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.", get("key")),][get("name")==i,c("name", "source_system", "source_variable_name", "source_table_name", "description", "sql_from", "sql_join_on", "sql_join_table", "sql_join_type", "sql_where"), with=F]
             
             if (nrow(desc_dat)>1){
               rv$dqa_plausibility_results$description[[rv$pl_vars_filter[[i]]]] <- calcPlausiDescription(desc_dat, rv, sourcesystem = "csv")
@@ -64,11 +64,11 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$pl_vars_filter)){
             shiny::incProgress(1/length(rv$pl_vars_filter), detail = paste("... calculating counts of", i, "..."))
             # generate counts
-            cnt_dat <- rv$mdr[dqa_assessment==1,][grepl("^pl\\.", key),][name==i,.(source_system, source_variable_name, source_table_name, variable_type, key, variable_name)]
+            cnt_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_type", "key", "variable_name"), with=F]
             
             
             if (length(cnt_dat[,unique(variable_name)]) == 1){
-              rv$dqa_plausibility_results$counts[[rv$pl_vars_filter[[i]]]] <- calcCounts(cnt_dat, cnt_dat[,unique(variable_name)], rv, sourcesystem = "csv", plausibility = TRUE)
+              rv$dqa_plausibility_results$counts[[rv$pl_vars_filter[[i]]]] <- calcCounts(cnt_dat, cnt_dat[,unique(get("variable_name"))], rv, sourcesystem = "csv", plausibility = TRUE)
             } else {
               cat("\nError occured during creating counts\n")
             }
@@ -83,13 +83,13 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$pl_vars_filter)){
             shiny::incProgress(1/length(rv$pl_vars_filter), detail = paste("... calculating statistics of", i, "..."))
             # generate counts
-            stat_dat <- rv$mdr[dqa_assessment==1,][grepl("^pl\\.", key),][name==i,.(source_system, source_variable_name, source_table_name, variable_name, variable_type, key)]
+            stat_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.", get("key")),][get("name")==i,c("source_system", "source_variable_name", "source_table_name", "variable_name", "variable_type", "key"),with=F]
             
             if (stat_dat[,unique(variable_type)] == "factor"){
-              rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcCatStats(stat_dat, stat_dat[,unique(variable_name)], rv, sourcesystem = "csv", plausibility = TRUE)
+              rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = "csv", plausibility = TRUE)
             # for target_data; our data is in rv$list_target$key
             } else {
-              rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcNumStats(stat_dat, stat_dat[,unique(variable_name)], rv, sourcesystem = "csv", plausibility = TRUE)
+              rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcNumStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = "csv", plausibility = TRUE)
             }
           }
         })
@@ -132,18 +132,18 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
         # render source counts
         output$pl_selection_counts_source <- renderTable({
           tryCatch({
-            o <- count_out$source_data$cnt[,.(variable, distinct, valids, missings)]
+            o <- count_out$source_data$cnt[,c("variable", "distinct", "valids", "missings"), with=F]
             data.table::data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                       " " = c(o[,variable], count_out$source_data$type, o[,distinct], o[,valids], o[,missings]))
-          }, error=function(e){logjs(e)})
+                       " " = c(o[,get("variable")], count_out$source_data$type, o[,get("distinct")], o[,get("valids")], o[,get("missings")]))
+          }, error=function(e){shinyjs::logjs(e)})
         })
         # render target counts
         output$pl_selection_counts_target <- renderTable({
           tryCatch({
-            o <- count_out$target_data$cnt[,.(variable, distinct, valids, missings)]
+            o <- count_out$target_data$cnt[,c("variable", "distinct", "valids", "missings"), with=F]
             data.table::data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                       " " = c(o[,variable], count_out$target_data$type, o[,distinct], o[,valids], o[,missings]))
-          }, error=function(e){logjs(e)})
+                       " " = c(o[,get("variable")], count_out$target_data$type, o[,get("distinct")], o[,get("valids")], o[,get("missings")]))
+          }, error=function(e){shinyjs::logjs(e)})
         })
         
         

@@ -19,7 +19,7 @@
 !/inst/
 !/man/
 !/NAMESPACE
-/DQA_Tool/app/_settings/
+/inst/application/_settings/
 .Rproj.user
 *.Rproj
 .RData

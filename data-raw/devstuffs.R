@@ -39,12 +39,12 @@ usethis::use_gpl3_license(name="MIRACUM - Medical Informatics in Research and Me
 # Listing a package in either Depends or Imports ensures that it’s installed when needed
 # Imports just loads the package, Depends attaches it
 # Loading will load code, data and any DLLs; register S3 and S4 methods; and run the .onLoad() function.
-##      After loading, the package is available in memory, but because it’s not in the search path, 
-##      you won’t be able to access its components without using ::. 
-##      Confusingly, :: will also load a package automatically if it isn’t already loaded. 
+##      After loading, the package is available in memory, but because it’s not in the search path,
+##      you won’t be able to access its components without using ::.
+##      Confusingly, :: will also load a package automatically if it isn’t already loaded.
 ##      It’s rare to load a package explicitly, but you can do so with requireNamespace() or loadNamespace().
-# Attaching puts the package in the search path. You can’t attach a package without first loading it, 
-##      so both library() or require() load then attach the package. 
+# Attaching puts the package in the search path. You can’t attach a package without first loading it,
+##      so both library() or require() load then attach the package.
 ##      You can see the currently attached packages with search().
 
 # Depends
@@ -63,6 +63,7 @@ usethis::use_package("ggpubr", type="Imports")
 usethis::use_package("DT", type="Imports")
 usethis::use_package("jsonlite", type="Imports")
 usethis::use_package("RPostgres", type="Imports")
+usethis::use_package("DBI", type="Imports")
 usethis::use_package("e1071", type="Imports")
 usethis::use_package("knitr", type="Imports")
 usethis::use_package("rmarkdown", type="Imports")
@@ -71,3 +72,10 @@ usethis::use_package("kableExtra", type="Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
+usethis::use_package("processx", type = "Suggests")
+
+
+# buildignore and gitignore
+usethis::use_build_ignore("docker")
+usethis::use_build_ignore("inst/application/_settings/")
+usethis::use_git_ignore("inst/application/_settings/")
