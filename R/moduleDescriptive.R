@@ -182,6 +182,31 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
             output$descr_checks_source_valueset <- NULL
           }
         }
+
+
+        # render conformance checks (only if value set present)
+        if (!is.na(desc_out$target_data$checks$value_set)){
+
+          output$descr_checks_target <- renderUI({
+            h <- h5(tags$b("Value set:"))
+            v <- verbatimTextOutput("moduleDescriptive-descr_checks_target_valueset")
+            do.call(tagList, list(h, v, tags$hr()))
+          })
+
+          json_obj <- jsonlite::fromJSON(desc_out$target_data$checks$value_set)
+
+          if (desc_out$target_data$checks$var_type == "factor"){
+            output$descr_checks_target_valueset <- renderText({
+              json_obj[["value_set"]]
+            })
+          } else if (desc_out$target_data$checks$var_type %in% c("integer", "numeric")){
+            output$descr_checks_target_valueset <- renderPrint({
+              json_obj
+            })
+          } else {
+            output$descr_checks_target_valueset <- NULL
+          }
+        }
       })
     }
   })
