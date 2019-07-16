@@ -1,16 +1,16 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool.
 # Copyright (C) 2019 MIRACUM - Medical Informatics in Research and Medicine
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -21,11 +21,19 @@ calcDescription <- function(desc_dat, rv, sourcesystem){
                                     description = desc_dat[get("source_system")==sourcesystem, get("description")],
                                     var_name = desc_dat[get("source_system")==sourcesystem, get("source_variable_name")],
                                     table_name = desc_dat[get("source_system")==sourcesystem, get("source_table_name")],
-                                    fhir_name = desc_dat[get("source_system")==sourcesystem, get("fhir")])
-    
+                                    fhir_name = desc_dat[get("source_system")==sourcesystem, get("fhir")],
+                                    checks = list(var_type = desc_dat[get("source_system")==sourcesystem, get("variable_type")],
+                                                  value_set = desc_dat[get("source_system")==sourcesystem, get("value_set")],
+                                                  value_threshold = desc_dat[get("source_system")==sourcesystem, get("value_threshold")],
+                                                  missing_threshold = desc_dat[get("source_system")==sourcesystem, get("missing_threshold")]))
+
     description$target_data <- list(var_name = desc_dat[get("source_system")==rv$target_db, get("source_variable_name")],
                                     table_name = desc_dat[get("source_system")==rv$target_db, get("source_table_name")],
-                                    fhir_name = desc_dat[get("source_system")==rv$target_db, get("fhir")])
+                                    fhir_name = desc_dat[get("source_system")==rv$target_db, get("fhir")],
+                                    checks = list(var_type = desc_dat[get("source_system")==rv$target_db, get("variable_type")],
+                                                  value_set = desc_dat[get("source_system")==rv$target_db, get("value_set")],
+                                                  value_threshold = desc_dat[get("source_system")==rv$target_db, get("value_threshold")],
+                                                  missing_threshold = desc_dat[get("source_system")==rv$target_db, get("missing_threshold")]))
     return(description)
   } else {
     return(NULL)
@@ -46,7 +54,7 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALS
     print(e)
     return(NULL)
   })
-  
+
   # for target_data; our data is in rv$list_target$key
   tryCatch({
     counts$target_data$cnt <- countUnique(rv$list_target[[cnt_dat[get("source_system")==rv$target_db, get("key")]]], count_key, sourcesystem = rv$target_db, plausibility = plausibility)
@@ -56,13 +64,13 @@ calcCounts <- function(cnt_dat, count_key, rv, sourcesystem, plausibility = FALS
     print(e)
     return(NULL)
   })
-  
+
   return(counts)
 }
 
 calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
   statistics <- list()
-  
+
   tryCatch({
     if (isFALSE(plausibility)){
       # for source_data; our data is in rv$list_source$source_table_name
@@ -81,7 +89,7 @@ calcCatStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FA
 
 calcNumStats <- function(stat_dat, stat_key, rv, sourcesystem, plausibility = FALSE){
   statistics <- list()
-  
+
   if (stat_dat[get("source_system")==sourcesystem,get("variable_type")!="date"]){
     tryCatch({
       if (isFALSE(plausibility)){

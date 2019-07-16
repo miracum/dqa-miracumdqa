@@ -49,7 +49,9 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$variable_list)){
             shiny::incProgress(1/length(rv$variable_list), detail = paste("... working at description of", i, "..."))
             # generate descriptions
-            desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("name", "source_system", "source_variable_name", "source_table_name", "fhir", "description"),with=F]
+            desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^dt\\.", get("key")),][get("variable_name")==rv$variable_list[[i]],c("name", "source_system", "source_variable_name",
+                                                                                                                                      "source_table_name", "fhir", "description",
+                                                                                                                                      "variable_type", "value_set", "value_threshold", "missing_threshold"),with=F]
 
             if (nrow(desc_dat)>1){
               rv$dqa_descriptive_results$description[[rv$variable_list[[i]]]] <- calcDescription(desc_dat, rv, sourcesystem = "csv")
@@ -102,15 +104,6 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
         stat_out <- rv$dqa_descriptive_results$statistics[[input_re()[["moduleDescriptive-var_select"]]]]
 
 
-
-        # render source description
-        output$descr_selection_description_source <- renderTable({
-          o <- desc_out$source_data
-          data.table::data.table(" " = c("Variable name:", "Source table:", "FHIR ressource:"),
-                     " " = c(o$var_name, o$table_name, o$fhir))
-
-        })
-
         output$descr_description <- renderText({
           d <- desc_out$source_data$description
           # https://community.rstudio.com/t/rendering-markdown-text/11588
@@ -119,11 +112,21 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           shiny::HTML(out)
         })
 
+        # render source description
+        output$descr_selection_description_source <- renderTable({
+          o <- desc_out$source_data
+          c <- count_out$source_data
+          data.table::data.table(" " = c("Variable name:", "Source table:", "FHIR ressource:", "DQ-internal Variable Name:", "Variable type:"),
+                                 " " = c(o$var_name, o$table_name, o$fhir, c$cnt$variable, c$type))
+
+        })
+
         # render target description
         output$descr_selection_description_target <- renderTable({
           o <- desc_out$target_data
-          data.table::data.table(" " = c("Variable name:", "Source table:", "FHIR ressource:"),
-                     " " = c(o$var_name, o$table_name, o$fhir))
+          c <- count_out$target_data
+          data.table::data.table(" " = c("Variable name:", "Source table:", "FHIR ressource:", "DQ-internal Variable Name:", "Variable type:"),
+                                 " " = c(o$var_name, o$table_name, o$fhir, c$cnt$variable, c$type))
 
         })
 
@@ -131,16 +134,17 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
         output$descr_selection_counts_source <- renderTable({
           tryCatch({
             o <- count_out$source_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
-            data.table::data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                       " " = c(o[,get("variable")], count_out$source_data$type, o[,get("distinct")], o[,get("valids")], o[,get("missings")]))
+            data.table::data.table(" " = c("Distinct values:", "Valid values:", "Missing values:"),
+                                   " " = c(o$distinct, o$valids, o$missings))
           }, error=function(e){shinyjs::logjs(e)})
         })
+
         # render target counts
         output$descr_selection_counts_target <- renderTable({
           tryCatch({
             o <- count_out$target_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
-            data.table::data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                       " " = c(o[,get("variable")], count_out$target_data$type, o[,get("distinct")], o[,get("valids")], o[,get("missings")]))
+            data.table::data.table(" " = c("Distinct values:", "Valid values:", "Missing values:"),
+                                   " " = c(o$distinct, o$valids, o$missings))
           }, error=function(e){shinyjs::logjs(e)})
         })
 
@@ -153,6 +157,26 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
         output$descr_selection_source_table <- renderTable({
           stat_out$source_data
         })
+
+
+        # render conformance checks (only if value set present)
+        if (!is.na(desc_out$source_data$checks$value_set)){
+          output$descr_checks_source <- renderUI({
+            h <- tags$h5("Value set:")
+            v <- verbatimTextOutput("descr_checks_valueset")
+            do.call(tagList, list(h, v, tags$hr()))
+          })
+
+          output$descr_checks_valueset <- reactive({
+            json_obj <- jsonlite::fromJSON(desc_out$source_data$checks$value_set)
+
+            if (desc_out$source_data$checks$var_type == "factor"){
+              print(json_obj[["value_set"]])
+            } else if (desc_out$source_data$checks$var_type %in% c("integer", "numeric")){
+              print(json_obj)
+            }
+          })
+        }
       })
     }
   })
@@ -163,54 +187,57 @@ moduleDescriptiveUI <- function(id){
 
   tagList(
     fluidRow(
-      column(4,
-             box(title = "Select variable",
-                 uiOutput(ns("descr_selection_uiout")),
-                 width = 12
-             ),
-             box(title = "Description",
-                 htmlOutput(ns("descr_description")),
-                 width = 12
-             )
+      box(title = "Select variable",
+          uiOutput(ns("descr_selection_uiout")),
+          width = 4
       ),
-      column(8,
-             box(title="Results Source Data",
-                 width = 12,
-                 fluidRow(
-                   column(6,
-                          h5(tags$b("Source Format")),
-                          tableOutput(ns("descr_selection_description_source"))
-                   ),
-                   column(6,
-                          h5(tags$b("Variable Description")),
-                          tableOutput(ns("descr_selection_counts_source"))
-                   )
-                 )
-             ),
-             box(title="Results Target Data",
-                 width = 12,
-                 fluidRow(
-                   column(6,
-                          h5(tags$b("Source Format")),
-                          tableOutput(ns("descr_selection_description_target"))
-                   ),
-                   column(6,
-                          h5(tags$b("Variable Description")),
-                          tableOutput(ns("descr_selection_counts_target"))
-                   )
-                 )
-             )
-      )
-    ),
+      box(title = "Description",
+          htmlOutput(ns("descr_description")),
+          width = 8
+      )),
     fluidRow(
-      box(title="Statistics Source",
-          tableOutput(ns("descr_selection_source_table")),
-          width=6
-      ),
-      box(title="Statistics Target",
-          tableOutput(ns("descr_selection_target_table")),
-          width=6
-      )
+      box(title="Source Data System",
+          width = 6,
+          fluidRow(
+            column(6,
+                   h5(tags$b("Metadata")),
+                   tableOutput(ns("descr_selection_description_source"))
+            ),
+            column(6,
+                   h5(tags$b("Completeness Overview")),
+                   tableOutput(ns("descr_selection_counts_source"))
+            )
+          ),
+          fluidRow(
+            column(8,
+                   h5(tags$b("Results")),
+                   tableOutput(ns("descr_selection_source_table"))
+            ),
+            column(4,
+                   uiOutput(ns("descr_checks_source"))
+            )
+          )),
+      box(title="Target Data System",
+          width = 6,
+          fluidRow(
+            column(6,
+                   h5(tags$b("Metadata")),
+                   tableOutput(ns("descr_selection_description_target"))
+            ),
+            column(6,
+                   h5(tags$b("Completeness Overview")),
+                   tableOutput(ns("descr_selection_counts_target"))
+            )
+          ),
+          fluidRow(
+            column(8,
+                   h5(tags$b("Results")),
+                   tableOutput(ns("descr_selection_target_table"))
+            ),
+            column(4,
+                   uiOutput(ns("descr_checks_target"))
+            )
+          ))
     )
   )
 }
