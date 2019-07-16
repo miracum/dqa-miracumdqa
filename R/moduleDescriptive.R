@@ -161,21 +161,26 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
 
         # render conformance checks (only if value set present)
         if (!is.na(desc_out$source_data$checks$value_set)){
+
           output$descr_checks_source <- renderUI({
-            h <- tags$h5("Value set:")
-            v <- verbatimTextOutput("descr_checks_valueset")
+            h <- h5(tags$b("Value set:"))
+            v <- verbatimTextOutput("moduleDescriptive-descr_checks_source_valueset")
             do.call(tagList, list(h, v, tags$hr()))
           })
 
-          output$descr_checks_valueset <- reactive({
-            json_obj <- jsonlite::fromJSON(desc_out$source_data$checks$value_set)
+          json_obj <- jsonlite::fromJSON(desc_out$source_data$checks$value_set)
 
-            if (desc_out$source_data$checks$var_type == "factor"){
-              print(json_obj[["value_set"]])
-            } else if (desc_out$source_data$checks$var_type %in% c("integer", "numeric")){
-              print(json_obj)
-            }
-          })
+          if (desc_out$source_data$checks$var_type == "factor"){
+            output$descr_checks_source_valueset <- renderText({
+              json_obj[["value_set"]]
+            })
+          } else if (desc_out$source_data$checks$var_type %in% c("integer", "numeric")){
+            output$descr_checks_source_valueset <- renderPrint({
+              json_obj
+            })
+          } else {
+            output$descr_checks_source_valueset <- NULL
+          }
         }
       })
     }
@@ -199,11 +204,11 @@ moduleDescriptiveUI <- function(id){
       box(title="Source Data System",
           width = 6,
           fluidRow(
-            column(6,
+            column(8,
                    h5(tags$b("Metadata")),
                    tableOutput(ns("descr_selection_description_source"))
             ),
-            column(6,
+            column(4,
                    h5(tags$b("Completeness Overview")),
                    tableOutput(ns("descr_selection_counts_source"))
             )
@@ -220,11 +225,11 @@ moduleDescriptiveUI <- function(id){
       box(title="Target Data System",
           width = 6,
           fluidRow(
-            column(6,
+            column(8,
                    h5(tags$b("Metadata")),
                    tableOutput(ns("descr_selection_description_target"))
             ),
-            column(6,
+            column(4,
                    h5(tags$b("Completeness Overview")),
                    tableOutput(ns("descr_selection_counts_target"))
             )

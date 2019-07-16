@@ -74,3 +74,4 @@ mdr[name=="Beatmungsstunden" & source_system=="i2b2", value_set := '{"min": 0, "
 
 # write mdr
 fwrite(mdr, paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"), sep = ";")
+

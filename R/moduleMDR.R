@@ -23,6 +23,7 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
     if (is.null(rv$mdr)){
       cat("\nRead MDR\n")
       rv$mdr <- data.table::fread("./_utilities/MDR/mdr.csv", header = T)
+      rv$mdr[,("value_set"):=gsub("\"\"", "\"", get("value_set"))][get("value_set")=="",("value_set"):=NA]
     }
 
     if (rv$target_db %in% rv$mdr[,unique(get("source_system"))]){
