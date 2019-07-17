@@ -1,10 +1,33 @@
-# MIRACUM DQA Tool  
+# miRacumDQA  
 
-- to build your image:
+This is the repository of the MIRACUM data quality assessment tool. 
+
+## Docker 
+
+To build a deployable docker container run:
+
 ```
 cd ./docker/
 chmod +x build_image.sh
 ./build_image.sh
+```
+
+## Installation
+
+You can install the development version of miRacumDQA with:
+
+``` r
+install.packages("devtools")
+devtools::install_git("https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git")
+```
+
+## Example
+
+This is a basic example which shows you how to launch the MIRACUM DQA Tool:
+
+``` r
+library(miRacumDQA)
+miRacumDQA()
 ```
 
 # More Infos:
