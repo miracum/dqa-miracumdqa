@@ -161,7 +161,11 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
 
         # render conformance checks (only if value set present)
         if (!is.na(desc_out$source_data$checks$value_set)){
-          shinyjs::show("descr_checks_source")
+
+          # workaround to tell ui, that value_set is there
+          output$gotValueset_s <- reactive({
+            return(TRUE)
+          })
 
           output$descr_checks_source <- renderUI({
             h <- h5(tags$b("Value set:"))
@@ -179,16 +183,25 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
             output$descr_checks_source_valueset <- renderPrint({
               json_obj
             })
-          } else {
-            # TODO implement other representations here
-            shinyjs::hide("descr_checks_source")
           }
+        }else {
+
+          # workaround to tell ui, that value_set is not there
+          output$gotValueset_s <- reactive({
+            return(FALSE)
+          })
         }
+
+        outputOptions(output, 'gotValueset_s', suspendWhenHidden=FALSE)
 
 
         # render conformance checks (only if value set present)
         if (!is.na(desc_out$target_data$checks$value_set)){
-          shinyjs::show("descr_checks_target")
+
+          # workaround to tell ui, that value_set is there
+          output$gotValueset_t <- reactive({
+            return(TRUE)
+          })
 
           output$descr_checks_target <- renderUI({
             h <- h5(tags$b("Value set:"))
@@ -206,11 +219,17 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
             output$descr_checks_target_valueset <- renderPrint({
               json_obj
             })
-          } else {
-            # TODO implement other representations here
-            shinyjs::hide("descr_checks_target")
           }
+        } else {
+
+          # workaround to tell ui, that value_set is not there
+          output$gotValueset_t <- reactive({
+            return(FALSE)
+          })
         }
+
+        outputOptions(output, 'gotValueset_t', suspendWhenHidden=FALSE)
+
       })
     }
   })
@@ -248,7 +267,10 @@ moduleDescriptiveUI <- function(id){
                    tableOutput(ns("descr_selection_source_table"))
             ),
             column(4,
-                   uiOutput(ns("descr_checks_source"))
+                   conditionalPanel(
+                     condition = "output['moduleDescriptive-gotValueset_s']",
+                     uiOutput(ns("descr_checks_source"))
+                   )
             )
           )),
       box(title="Target Data System",
@@ -269,7 +291,10 @@ moduleDescriptiveUI <- function(id){
                    tableOutput(ns("descr_selection_target_table"))
             ),
             column(4,
-                   uiOutput(ns("descr_checks_target"))
+                   conditionalPanel(
+                     condition = "output['moduleDescriptive-gotValueset_t']",
+                     uiOutput(ns("descr_checks_target"))
+                   )
             )
           ))
     )

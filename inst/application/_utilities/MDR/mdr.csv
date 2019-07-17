@@ -21,7 +21,7 @@ Diagnoseart;Diagnoseart;ICD.CSV;csv;dt.condition_source;condition_category_encou
 ICD Code;ICD_Kode;ICD.CSV;csv;dt.condition_source;condition_code_coding_code;condition.code.coding.code;factor;"";;;1;"Diagnoseschlüssel sind in der gültigen ICD-10GM-Version analog zur § 301-Vereinbarung zu übermitteln: d.h. mit Sonderzeichen.  
 Als erste Diagnose soll die Hauptdiagnose (Diagnoseart: ‚HD’) übermittelt werden.  ";"";"";"";"";""
 Fallnummer;KH_internes_Kennzeichen;ICD.CSV;csv;dt.condition_source;condition_encounter_identifier_value;condition.encounter.identifier.value;factor;"";;;0;"";"";"";"";"";""
-Entlassungsgrund;ENTLASSUNGSGRUND;FALL.CSV;csv;dt.discharge_source;encounter_hospitalization_dischargeDisposition;encounter.hospitalization.dischargeDisposition;factor;"";;;1;"- 01x Behandlung regulär beendet 
+Entlassungsgrund;ENTLASSUNGSGRUND;FALL.CSV;csv;dt.discharge_source;encounter_hospitalization_dischargeDisposition;encounter.hospitalization.dischargeDisposition;factor;"{""value_set"": ""01x, 02x, 03x, 04x, 059, 069, 079, 089, 099, 109, 119, 139, 14x, 15x, 179, 229, 239, 249, 259""}";;;1;"- 01x Behandlung regulär beendet 
 - 02x Behandlung regulär beendet, nachstationäre Behandlung vorgesehen 
 - 03x Behandlung aus sonstigen Gründen beendet 
 - 04x Behandlung gegen ärztlichen Rat beendet 
@@ -114,7 +114,7 @@ Fallnummer;encounter_num;observation_fact;i2b2;dt.ageinyears_target;encounter_id
 Diagnoseart;modifier_cd;observation_fact;i2b2;dt.condition_target;condition_category_encounter_diagnosis;condition.category.encounter.diagnosis;factor;"{""value_set"": ""HD, ND""}";;;1;"";observation_fact;"";"";"";concept_cd LIKE 'ICD%'
 ICD Code;concept_cd;observation_fact;i2b2;dt.condition_target;condition_code_coding_code;condition.code.coding.code;factor;"";;;1;"";observation_fact;"";"";"";concept_cd LIKE 'ICD%'
 Fallnummer;encounter_num;observation_fact;i2b2;dt.condition_target;condition_encounter_identifier_value;condition.encounter.identifier.value;factor;"";;;0;"";observation_fact;"";"";"";concept_cd LIKE 'ICD%'
-Entlassungsgrund;concept_cd;observation_fact;i2b2;dt.discharge_target;encounter_hospitalization_dischargeDisposition;encounter.hospitalization.dischargeDisposition;factor;"";;;1;"";observation_fact;"";"";"";concept_cd LIKE 'ENTLGR%'
+Entlassungsgrund;concept_cd;observation_fact;i2b2;dt.discharge_target;encounter_hospitalization_dischargeDisposition;encounter.hospitalization.dischargeDisposition;factor;"{""value_set"": ""01x, 02x, 03x, 04x, 059, 069, 079, 089, 099, 109, 119, 139, 14x, 15x, 179, 229, 239, 249, 259""}";;;1;"";observation_fact;"";"";"";concept_cd LIKE 'ENTLGR%'
 Fallnummer;encounter_num;observation_fact;i2b2;dt.discharge_target;encounter_identifier_value;encounter.identifier.value;factor;"";;;0;"";observation_fact;"";"";"";concept_cd LIKE 'ENTLGR%'
 Fallnummer;encounter_num;visit_dimension;i2b2;dt.encounter_target;encounter_identifier_value;encounter.identifier.value;factor;"";;;1;"";visit_dimension;"";"";"";""
 Entlassungsdatum;end_date;visit_dimension;i2b2;dt.encounter_target;EpisodeOfCare_period_end;EpisodeOfCare.period.end;date;"";;;1;"";visit_dimension;"";"";"";""

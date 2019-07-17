@@ -42,6 +42,10 @@ mdr[name=="Diagnoseart" & source_system=="i2b2", value_set := '{"value_set": "HD
 # Fallnummer
 # TODO value_set macht keinen Sinn; ggf. Format mit regex testen?
 
+# Entlassungsgrund
+mdr[name=="Entlassungsgrund" & source_system=="csv", value_set := '{"value_set": "01x, 02x, 03x, 04x, 059, 069, 079, 089, 099, 109, 119, 139, 14x, 15x, 179, 229, 239, 249, 259"}']
+mdr[name=="Entlassungsgrund" & source_system=="i2b2", value_set := '{"value_set": "01x, 02x, 03x, 04x, 059, 069, 079, 089, 099, 109, 119, 139, 14x, 15x, 179, 229, 239, 249, 259"}']
+
 # Entlassungsdatum, Aufnahmedatum, OPS Datum, Entlassungsdatum (Fachabteilung), Aufnahmedatum (Fachabteilung)
 # TODO value_set für Datumsvariablen überlegen
 
