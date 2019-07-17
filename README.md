@@ -1,6 +1,6 @@
 # miRacumDQA  
 
-This is the repository of the MIRACUM data quality assessment tool. 
+This is the repository of the MIRACUM data quality assessment tool (DQA tool). 
 
 ## Docker 
 
@@ -23,7 +23,7 @@ devtools::install_git("https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git")
 
 ## Example
 
-This is a basic example which shows you how to launch the MIRACUM DQA Tool:
+This is a basic example which shows you how to launch the MIRACUM DQA tool:
 
 ``` r
 library(miRacumDQA)

@@ -1,21 +1,21 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool.
 # Copyright (C) 2019 MIRACUM - Medical Informatics in Research and Medicine
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 shinyServer(function(input, output, session) {
-    
+
     # define reactive values here
     rv <- reactiveValues(
         started = NULL,
@@ -37,30 +37,30 @@ shinyServer(function(input, output, session) {
         dash_summary_target = summaryTable(),
         dash_summary_source = summaryTable()
     )
-    
-    
+
+
     # run onStart here
     onStart(session, rv, input, output)
-    
+
     # handle reset
     observeEvent(input$reset, {
         js$reset()
     })
-    
-    
-    
+
+
+
     # ########################
     # # tab_config
     # ########################
-    
+
     callModule(moduleConfigServer, "moduleConfig", rv, input_re=reactive({input}))
-    
+
     observe({
         if (!is.null(rv$target_getdata) && !is.null(rv$source_getdata)){
-            
+
             # hide load data button
             shinyjs::hide("moduleDashboard-dash_load_btn")
-            
+
             # disable config page
             shinyjs::disable("moduleConfig-config_targetdb_rad")
             shinyjs::disable("moduleConfig-config_targetdb_dbname")
@@ -74,70 +74,73 @@ shinyServer(function(input, output, session) {
             shinyjs::disable("moduleConfig-config_sourcedir_in")
         }
     })
-    
+
     observe({
         req(rv$report_created)
-        
+
         # set end.time
         rv$end.time <- Sys.time()
         # calc time-diff
         rv$duration <- difftime(rv$end.time, rv$start.time, units = "mins")
-        
+
         # TODO one could remove raw-data here
         # rv$list_source <- NULL
         # rv$list_target <- NULL
         # gc()
-        
+
         # render menu
         output$menu <- renderMenu({
             sidebarMenu(
                 menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
                 menuItem("Descriptive Results", tabName = "tab_descriptive", icon = icon("table")),
-                menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle")),
+                menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle"),
+                         menuSubItem("Atemporal Plausibility", tabName = "tab_atemp_plausibility"),
+                         menuSubItem("Uniqueness Plausibility", tabName = "tab_unique_plausibility")),
                 menuItem("Visualizations", tabName = "tab_visualizations", icon = icon("chart-line")),
                 menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
             )
         })
         updateTabItems(session, "tabs", "tab_dashboard")
-        
+
         # for debugging purposes
         descriptive_results <<- rv$dqa_descriptive_results
         plausi_out <<- rv$dqa_plausibility_results
         source_data <<- rv$list_source
         target_data <<- rv$list_target
     })
-    
+
     ########################
     # tab_dashboard
     ########################
     callModule(moduleDashboardServer, "moduleDashboard", rv, input_re=reactive({input}))
-    
-    
+
+
     ########################
     # tab_rawdata1
     ########################
     callModule(moduleRawdata1Server, "moduleRawdata1", rv, input_re=reactive({input}))
-    
+
     ########################
     # tab_descriptive
     ########################
     callModule(moduleDescriptiveServer, "moduleDescriptive", rv, input_re=reactive({input}))
-    
+
     ########################
     # tab_plausibility
     ########################
-    callModule(modulePlausibilityServer, "modulePlausibility", rv, input_re=reactive({input}))
-    
+    callModule(moduleAtempPlausibilityServer, "moduleAtempPlausibility", rv, input_re=reactive({input}))
+    callModule(moduleUniquePlausibilityServer, "moduleUniquePlausibility", rv, input_re=reactive({input}))
+
     ########################
     # tab_visualization
     ########################
     callModule(moduleVisualizationsServer, "moduleVisulizations", rv, input_re=reactive({input}))
-    
+
     ########################
     # tab_report
     ########################
     callModule(moduleReportServer, "moduleReport", rv, input_re=reactive({input}))
-    
+
     ########################
     # tab_mdr
     ########################

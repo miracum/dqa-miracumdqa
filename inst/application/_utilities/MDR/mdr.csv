@@ -107,9 +107,9 @@ Sekundärcode;Sekundaer_Kode;ICD.CSV;csv;undefined;;;;;;;;;;;;;
 Entgeltbereich;Entgeltbereich;OPS.CSV;csv;undefined;;;;;;;;;;;;;
 Aufnahmeanlass;concept_cd;observation_fact;i2b2;dt.admission_target;encounter_hospitalization_admitSource;encounter.hospitalization.admitSource;factor;"{""value_set"": ""E, Z, N, R, V, A, G, B""}";;;1;;observation_fact;;;;concept_cd LIKE 'AUFNAN%'
 Fallnummer;encounter_num;observation_fact;i2b2;dt.admission_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;;observation_fact;;;;concept_cd LIKE 'AUFNAN%'
-Alter in Tagen;nval_num;observation_fact;i2b2;dt.ageindays_target;encounter_subject_patient_age_days;undefined;integer;;;;1;;observation_fact;;;;concept_cd LIKE 'FALL:AITAA'
+Alter (in Tagen);nval_num;observation_fact;i2b2;dt.ageindays_target;encounter_subject_patient_age_days;undefined;integer;;;;1;;observation_fact;;;;concept_cd LIKE 'FALL:AITAA'
 Fallnummer;encounter_num;observation_fact;i2b2;dt.ageindays_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;;observation_fact;;;;concept_cd LIKE 'FALL:AITAA'
-Alter in Jahren;nval_num;observation_fact;i2b2;dt.ageinyears_target;encounter_subject_patient_age_years;undefined;integer;;;;1;;observation_fact;;;;concept_cd LIKE 'FALL:AIJAA'
+Alter (in Jahren);nval_num;observation_fact;i2b2;dt.ageinyears_target;encounter_subject_patient_age_years;undefined;integer;;;;1;;observation_fact;;;;concept_cd LIKE 'FALL:AIJAA'
 Fallnummer;encounter_num;observation_fact;i2b2;dt.ageinyears_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;;observation_fact;;;;concept_cd LIKE 'FALL:AIJAA'
 Diagnoseart;modifier_cd;observation_fact;i2b2;dt.condition_target;condition_category_encounter_diagnosis;condition.category.encounter.diagnosis;factor;"{""value_set"": ""HD, ND""}";;;1;;observation_fact;;;;concept_cd LIKE 'ICD%'
 ICD Code;concept_cd;observation_fact;i2b2;dt.condition_target;condition_code_coding_code;condition.code.coding.code;factor;;;;1;;observation_fact;;;;concept_cd LIKE 'ICD%'

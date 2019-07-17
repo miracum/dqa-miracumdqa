@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # moduleVisualizationsServer
-modulePlausibilityServer <- function(input, output, session, rv, input_re){
+moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
   observe({
     if (isFALSE(rv$target_getdata) && isFALSE(rv$source_getdata)){
 
@@ -96,12 +96,12 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
       }
 
       # generate output tables
-      observeEvent(input_re()[["modulePlausibility-plausibility_sel"]], {
+      observeEvent(input_re()[["moduleAtempPlausibility-plausibility_sel"]], {
 
         # get description object
-        desc_out <- rv$dqa_plausibility_results$description[[input_re()[["modulePlausibility-plausibility_sel"]]]]
-        count_out <- rv$dqa_plausibility_results$counts[[input_re()[["modulePlausibility-plausibility_sel"]]]]
-        stat_out <- rv$dqa_plausibility_results$statistics[[input_re()[["modulePlausibility-plausibility_sel"]]]]
+        desc_out <- rv$dqa_plausibility_results$description[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
+        count_out <- rv$dqa_plausibility_results$counts[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
+        stat_out <- rv$dqa_plausibility_results$statistics[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
 
 
 
@@ -161,7 +161,7 @@ modulePlausibilityServer <- function(input, output, session, rv, input_re){
 }
 
 
-modulePlausibilityUI <- function(id){
+moduleAtempPlausibilityUI <- function(id){
   ns <- NS(id)
 
   tagList(

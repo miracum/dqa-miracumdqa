@@ -161,6 +161,7 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
 
         # render conformance checks (only if value set present)
         if (!is.na(desc_out$source_data$checks$value_set)){
+          shinyjs::show("moduleDescriptive-descr_checks_source")
 
           output$descr_checks_source <- renderUI({
             h <- h5(tags$b("Value set:"))
@@ -179,13 +180,15 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
               json_obj
             })
           } else {
-            output$descr_checks_source_valueset <- NULL
+            # TODO implement other representations here
+            shinyjs::hide("moduleDescriptive-descr_checks_source")
           }
         }
 
 
         # render conformance checks (only if value set present)
         if (!is.na(desc_out$target_data$checks$value_set)){
+          shinyjs::show("moduleDescriptive-descr_checks_target")
 
           output$descr_checks_target <- renderUI({
             h <- h5(tags$b("Value set:"))
@@ -204,7 +207,8 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
               json_obj
             })
           } else {
-            output$descr_checks_target_valueset <- NULL
+            # TODO implement other representations here
+            shinyjs::hide("moduleDescriptive-descr_checks_target")
           }
         }
       })
