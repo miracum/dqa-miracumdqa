@@ -187,7 +187,7 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
 
 
             ch <- h5(tags$b("Value conformance:"))
-            ce <- h5(paste0("Conformance error: ", as.character(value_conf$source_data$conformance_error)))
+            ce <- h5(paste0("Conformance check: ", ifelse(value_conf$target_data$conformance_error, "failed", "passed")))
             cu <- uiOutput("moduleDescriptive-descr_conformance_source")
             do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
           })
@@ -246,7 +246,7 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
 
 
             ch <- h5(tags$b("Value conformance:"))
-            ce <- h5(paste0("Conformance error: ", as.character(value_conf$target_data$conformance_error)))
+            ce <- h5(paste0("Conformance check: ", ifelse(value_conf$target_data$conformance_error, "failed", "passed")))
             cu <- uiOutput("moduleDescriptive-descr_conformance_target")
             do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
           })

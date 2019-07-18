@@ -46,7 +46,10 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
           for (i in names(rv$pl_vars_filter)){
             shiny::incProgress(1/length(rv$pl_vars_filter), detail = paste("... working at description of", i, "..."))
             # generate descriptions
-            desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.", get("key")),][get("name")==i,c("name", "source_system", "source_variable_name", "source_table_name", "description", "sql_from", "sql_join_on", "sql_join_table", "sql_join_type", "sql_where"), with=F]
+            desc_dat <- rv$mdr[get("dqa_assessment")==1,][grepl("^pl\\.", get("key")),][get("name")==i,c("name", "source_system", "source_variable_name",
+                                                                                                         "source_table_name", "description",
+                                                                                                         "sql_from", "sql_join_on", "sql_join_table", "sql_join_type", "sql_where",
+                                                                                                         "variable_type", "value_set", "value_threshold", "missing_threshold"), with=F]
 
             if (nrow(desc_dat)>1){
               rv$dqa_plausibility_results$description[[rv$pl_vars_filter[[i]]]] <- calcPlausiDescription(desc_dat, rv, sourcesystem = "csv")
@@ -108,8 +111,9 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
         # render source description
         output$pl_selection_description_source <- renderTable({
           o <- desc_out$source_data
-          data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):"),
-                     " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where))
+          c <- count_out$source_data
+          data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
+                     " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
 
         })
 
@@ -124,25 +128,26 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
         # render target description
         output$pl_selection_description_target <- renderTable({
           o <- desc_out$target_data
-          data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):"),
-                     " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where))
+          c <- count_out$target_data
+          data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
+                     " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
 
         })
 
         # render source counts
         output$pl_selection_counts_source <- renderTable({
           tryCatch({
-            o <- count_out$source_data$cnt[,c("variable", "distinct", "valids", "missings"), with=F]
-            data.table::data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                       " " = c(o[,get("variable")], count_out$source_data$type, o[,get("distinct")], o[,get("valids")], o[,get("missings")]))
+            o <- count_out$source_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
+            data.table::data.table(" " = c("Distinct values:", "Valid values:", "Missing values:"),
+                                   " " = c(o$distinct, o$valids, o$missings))
           }, error=function(e){shinyjs::logjs(e)})
         })
         # render target counts
         output$pl_selection_counts_target <- renderTable({
           tryCatch({
-            o <- count_out$target_data$cnt[,c("variable", "distinct", "valids", "missings"), with=F]
-            data.table::data.table(" " = c("DQ-internal Variable Name:", "Variable type:", "Distinct values:", "Valid values:", "Missing values:"),
-                       " " = c(o[,get("variable")], count_out$target_data$type, o[,get("distinct")], o[,get("valids")], o[,get("missings")]))
+            o <- count_out$target_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
+            data.table::data.table(" " = c("Distinct values:", "Valid values:", "Missing values:"),
+                                   " " = c(o$distinct, o$valids, o$missings))
           }, error=function(e){shinyjs::logjs(e)})
         })
 
@@ -166,7 +171,6 @@ moduleAtempPlausibilityUI <- function(id){
 
   tagList(
     fluidRow(
-      column(4,
              box(title = "Select variable",
                  uiOutput(ns("pl_selection_uiout")),
                  width = 12
@@ -176,43 +180,43 @@ moduleAtempPlausibilityUI <- function(id){
                  width = 12
              )
       ),
-      column(8,
-             box(title="Results Source Data",
-                 width = 12,
-                 fluidRow(
-                   column(6,
-                          h5(tags$b("Source Format")),
-                          tableOutput(ns("pl_selection_description_source"))
-                   ),
-                   column(6,
-                          h5(tags$b("Variable Description")),
-                          tableOutput(ns("pl_selection_counts_source"))
-                   )
-                 )
-             ),
-             box(title="Results Target Data",
-                 width = 12,
-                 fluidRow(
-                   column(6,
-                          h5(tags$b("Source Format")),
-                          tableOutput(ns("pl_selection_description_target"))
-                   ),
-                   column(6,
-                          h5(tags$b("Variable Description")),
-                          tableOutput(ns("pl_selection_counts_target"))
-                   )
-                 )
-             )
-      )
-    ),
     fluidRow(
-      box(title="Statistics Source",
-          tableOutput(ns("pl_selection_source_table")),
-          width=6
+      box(title="Source Data System",
+          width = 6,
+          fluidRow(
+            column(8,
+                   h5(tags$b("Metadata")),
+                   tableOutput(ns("pl_selection_description_source"))
+            ),
+            column(4,
+                   h5(tags$b("Completeness Overview")),
+                   tableOutput(ns("pl_selection_counts_source"))
+            )
+          ),
+          fluidRow(
+            box(title="Results",
+                tableOutput(ns("pl_selection_source_table"))
+            )
+          )
       ),
-      box(title="Statistics Target",
-          tableOutput(ns("pl_selection_target_table")),
-          width=6
+      box(title="Target Data System",
+          width = 6,
+          fluidRow(
+            column(8,
+                   h5(tags$b("Metadata")),
+                   tableOutput(ns("pl_selection_description_target"))
+            ),
+            column(4,
+                   h5(tags$b("Completeness Overview")),
+                   tableOutput(ns("pl_selection_counts_target"))
+            )
+          ),
+          fluidRow(
+            box(title="Results",
+                tableOutput(ns("pl_selection_target_table")),
+                width=6
+            )
+          )
       )
     )
   )
