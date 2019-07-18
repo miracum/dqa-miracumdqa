@@ -76,6 +76,24 @@ mdr[name=="Geschlecht" & source_system=="i2b2", value_set := '{"value_set": "m, 
 mdr[name=="Beatmungsstunden" & source_system=="csv", value_set := '{"min": 0, "max": 8766}']
 mdr[name=="Beatmungsstunden" & source_system=="i2b2", value_set := '{"min": 0, "max": 8766}']
 
+
+# Plausibilities
+# Item02
+mdr[name=="Item02" & source_system=="csv", value_set := '{"value_set": "w"}']
+mdr[name=="Item02" & source_system=="i2b2", value_set := '{"value_set": "w"}']
+
+# Item03
+mdr[name=="Item03" & source_system=="csv", value_set := '{"value_set": "w"}']
+mdr[name=="Item03" & source_system=="i2b2", value_set := '{"value_set": "w"}']
+
+# Item04
+mdr[name=="Item04" & source_system=="csv", value_set := '{"value_set": "m"}']
+mdr[name=="Item04" & source_system=="i2b2", value_set := '{"value_set": "m"}']
+
+# Item05
+mdr[name=="Item04" & source_system=="csv", value_set := '{"value_set": "w"}']
+mdr[name=="Item04" & source_system=="i2b2", value_set := '{"value_set": "w"}']
+
 # write mdr
 fwrite(mdr, paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"), sep = ";")
 

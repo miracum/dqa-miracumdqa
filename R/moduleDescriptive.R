@@ -101,7 +101,6 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
         # calculate conformance of descriptive results here
         # value conformance
         rv[["conformance"]][["value_conformance"]] <- valueConformance(rv$dqa_descriptive_results)
-
       })
 
       # generate output tables
