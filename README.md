@@ -30,6 +30,9 @@ library(miRacumDQA)
 miRacumDQA()
 ```
 
+To open the shiny application in your webbrowser, go to http://localhost:3838
+
+
 # More Infos:
 - about Shiny: https://www.rstudio.com/products/shiny/  
 - RStudio and Shiny are trademarks of RStudio, Inc.  

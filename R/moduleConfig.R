@@ -169,7 +169,7 @@ moduleConfigUI <- function(id){
                  width = 12
              ),
              box(title = "Source File Directory",
-                 h5(tags$b(paste("Please choose the directory of your", "\u00A7", "21 source data in csv format"))),
+                 h5(tags$b(paste("Please choose the directory of your", "\u00A7", "21 source data in csv format (default: '/home/i2b2/start/Input')."))),
                  div(class = "row",
                      div(class="col-sm-3", shinyFiles::shinyDirButton(ns("config_sourcedir_in"),
                                                           "Source Dir",

@@ -61,3 +61,5 @@ kableTable <- function(data){
   }
 }
 
+# define %notin% function
+"%!in%" <- function(x,y){!("%in%"(x,y))}

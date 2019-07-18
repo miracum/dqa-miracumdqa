@@ -95,6 +95,15 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
         })
       }
 
+      observe({
+        req(rv$dqa_descriptive_results)
+        # TODO maybe add progress here
+        # calculate conformance of descriptive results here
+        # value conformance
+        rv[["conformance"]][["value_conformance"]] <- valueConformance(rv$dqa_descriptive_results)
+
+      })
+
       # generate output tables
       observeEvent(input_re()[["moduleDescriptive-var_select"]], {
 
@@ -102,6 +111,8 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
         desc_out <- rv$dqa_descriptive_results$description[[input_re()[["moduleDescriptive-var_select"]]]]
         count_out <- rv$dqa_descriptive_results$counts[[input_re()[["moduleDescriptive-var_select"]]]]
         stat_out <- rv$dqa_descriptive_results$statistics[[input_re()[["moduleDescriptive-var_select"]]]]
+
+        value_conf <- rv$conformance$value_conformance[[input_re()[["moduleDescriptive-var_select"]]]]
 
 
         output$descr_description <- renderText({
@@ -149,16 +160,19 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
         })
 
 
-        # render target statistics
-        output$descr_selection_target_table <- renderTable({
-          stat_out$target_data
-        })
         # render source statistics
         output$descr_selection_source_table <- renderTable({
           stat_out$source_data
         })
 
+        # render target statistics
+        output$descr_selection_target_table <- renderTable({
+          stat_out$target_data
+        })
 
+
+
+        # conformance source
         # render conformance checks (only if value set present)
         if (!is.na(desc_out$source_data$checks$value_set)){
 
@@ -170,7 +184,12 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           output$descr_checks_source <- renderUI({
             h <- h5(tags$b("Value set:"))
             v <- verbatimTextOutput("moduleDescriptive-descr_checks_source_valueset")
-            do.call(tagList, list(h, v, tags$hr()))
+
+
+            ch <- h5(tags$b("Value conformance:"))
+            ce <- h5(paste0("Conformance error: ", as.character(value_conf$source_data$conformance_error)))
+            cu <- uiOutput("moduleDescriptive-descr_conformance_source")
+            do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
           })
 
           json_obj <- jsonlite::fromJSON(desc_out$source_data$checks$value_set)
@@ -184,17 +203,35 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
               json_obj
             })
           }
-        }else {
+
+          # render automatic conformance checks source
+          # value conformance
+          if (isTRUE(value_conf$source_data$conformance_error)){
+
+            output$descr_conformance_source <- renderUI({
+              v <- verbatimTextOutput("moduleDescriptive-descr_conformance_source_results")
+              do.call(tagList, list(v))
+            })
+
+            output$descr_conformance_source_results <- renderText({
+              value_conf$source_data$conformance_results
+            })
+          } else {
+            output$descr_conformance_source <- renderUI({
+            })
+          }
+
+        } else {
 
           # workaround to tell ui, that value_set is not there
           output$gotValueset_s <- reactive({
             return(FALSE)
           })
         }
-
         outputOptions(output, 'gotValueset_s', suspendWhenHidden=FALSE)
 
 
+        # conformance target
         # render conformance checks (only if value set present)
         if (!is.na(desc_out$target_data$checks$value_set)){
 
@@ -206,7 +243,12 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           output$descr_checks_target <- renderUI({
             h <- h5(tags$b("Value set:"))
             v <- verbatimTextOutput("moduleDescriptive-descr_checks_target_valueset")
-            do.call(tagList, list(h, v, tags$hr()))
+
+
+            ch <- h5(tags$b("Value conformance:"))
+            ce <- h5(paste0("Conformance error: ", as.character(value_conf$target_data$conformance_error)))
+            cu <- uiOutput("moduleDescriptive-descr_conformance_target")
+            do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
           })
 
           json_obj <- jsonlite::fromJSON(desc_out$target_data$checks$value_set)
@@ -220,6 +262,25 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
               json_obj
             })
           }
+
+
+          # render automatic conformance checks target
+          # value conformance
+          if (isTRUE(value_conf$target_data$conformance_error)){
+
+            output$descr_conformance_target <- renderUI({
+              v <- verbatimTextOutput("moduleDescriptive-descr_conformance_target_results")
+              do.call(tagList, list(v))
+            })
+
+            output$descr_conformance_target_results <- renderText({
+              value_conf$target_data$conformance_results
+            })
+          } else {
+            output$descr_conformance_target <- renderUI({
+            })
+          }
+
         } else {
 
           # workaround to tell ui, that value_set is not there
@@ -227,7 +288,6 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
             return(FALSE)
           })
         }
-
         outputOptions(output, 'gotValueset_t', suspendWhenHidden=FALSE)
 
       })
