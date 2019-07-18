@@ -19,7 +19,7 @@ RUN for package in $p_base; do \
 
 ARG gitusername
 RUN echo $gitusername
-ARG gitpass
+ARG gitpassword
 
 # install our R-Package
 RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass(\"$gitusername\", \"$gitpassword\"))"

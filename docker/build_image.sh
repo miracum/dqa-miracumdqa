@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -s -p "\nPlease enter your username to https://gitlab.miracum.org/:" gitusername
+read -p "\nPlease enter your username to https://gitlab.miracum.org/: " gitusername
 read -s -p "\nPlease enter your password to https://gitlab.miracum.org/: " gitpassword
 
 echo $gitusername
