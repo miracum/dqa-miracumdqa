@@ -98,203 +98,208 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
         })
       }
 
-      observe({
-        req(rv$dqa_plausibility_results)
-        # TODO maybe add progress here
-        # calculate conformance of descriptive results here
-        # append value conformance
-        value_conformance <- valueConformance(rv$dqa_plausibility_results)
-
-        for (i in names(rv$dqa_plausibility_results)){
-          rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
-        }
-      })
-
-
-      # generate output tables
-      observeEvent(input_re()[["moduleAtempPlausibility-plausibility_sel"]], {
-
-        # get description object
-        desc_out <- rv$dqa_plausibility_results$description[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
-        count_out <- rv$dqa_plausibility_results$counts[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
-        stat_out <- rv$dqa_plausibility_results$statistics[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
-
-
-
-        # render source description
-        output$pl_selection_description_source <- renderTable({
-          o <- desc_out$source_data
-          c <- count_out$source_data
-          data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
-                                 " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
-
-        })
-
-        output$pl_description <- renderText({
-          d <- desc_out$source_data$description
-          # https://community.rstudio.com/t/rendering-markdown-text/11588
-          out <- knitr::knit2html(text = d, fragment.only = TRUE)
-          # output non-escaped HTML string
-          shiny::HTML(out)
-        })
-
-        # render target description
-        output$pl_selection_description_target <- renderTable({
-          o <- desc_out$target_data
-          c <- count_out$target_data
-          data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
-                                 " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
-
-        })
-
-        # render source counts
-        output$pl_selection_counts_source <- renderTable({
-          tryCatch({
-            o <- count_out$source_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
-            data.table::data.table(" " = c("Distinct values:", "Valid values:", "Missing values:"),
-                                   " " = c(o$distinct, o$valids, o$missings))
-          }, error=function(e){shinyjs::logjs(e)})
-        })
-        # render target counts
-        output$pl_selection_counts_target <- renderTable({
-          tryCatch({
-            o <- count_out$target_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
-            data.table::data.table(" " = c("Distinct values:", "Valid values:", "Missing values:"),
-                                   " " = c(o$distinct, o$valids, o$missings))
-          }, error=function(e){shinyjs::logjs(e)})
-        })
-
-
-        # render target statistics
-        output$pl_selection_target_table <- renderTable({
-          stat_out$target_data
-        })
-        # render source statistics
-        output$pl_selection_source_table <- renderTable({
-          stat_out$source_data
-        })
-
-
-
-        # conformance source
-        # render conformance checks (only if value set present)
-        if (!is.na(desc_out$source_data$checks$value_set)){
-
-          # workaround to tell ui, that value_set is there
-          output$gotValueset_s <- reactive({
-            return(TRUE)
-          })
-
-          output$pl_checks_source <- renderUI({
-            h <- h5(tags$b("Value set:"))
-            v <- verbatimTextOutput("moduleAtempPlausibility-pl_checks_source_valueset")
-
-
-            ch <- h5(tags$b("Value conformance:"))
-            ce <- h5(paste0("Conformance check: ", ifelse(value_conf$target_data$conformance_error, "failed", "passed")))
-            cu <- uiOutput("moduleAtempPlausibility-pl_conformance_source")
-            do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
-          })
-
-          json_obj <- jsonlite::fromJSON(desc_out$source_data$checks$value_set)
-
-          if (desc_out$source_data$checks$var_type == "factor"){
-            output$pl_checks_source_valueset <- renderText({
-              json_obj[["value_set"]]
-            })
-          } else if (desc_out$source_data$checks$var_type %in% c("integer", "numeric")){
-            output$pl_checks_source_valueset <- renderPrint({
-              json_obj
-            })
-          }
-
-          # render automatic conformance checks source
-          # value conformance
-          if (isTRUE(value_conf$source_data$conformance_error)){
-
-            output$pl_conformance_source <- renderUI({
-              v <- verbatimTextOutput("moduleAtempPlausibility-pl_conformance_source_results")
-              do.call(tagList, list(v))
-            })
-
-            output$pl_conformance_source_results <- renderText({
-              value_conf$source_data$conformance_results
-            })
-          } else {
-            output$pl_conformance_source <- renderUI({
-            })
-          }
-
-        } else {
-
-          # workaround to tell ui, that value_set is not there
-          output$gotValueset_s <- reactive({
-            return(FALSE)
-          })
-        }
-        outputOptions(output, 'gotValueset_s', suspendWhenHidden=FALSE)
-
-
-        # conformance target
-        # render conformance checks (only if value set present)
-        if (!is.na(desc_out$target_data$checks$value_set)){
-
-          # workaround to tell ui, that value_set is there
-          output$gotValueset_t <- reactive({
-            return(TRUE)
-          })
-
-          output$pl_checks_target <- renderUI({
-            h <- h5(tags$b("Value set:"))
-            v <- verbatimTextOutput("moduleAtempPlausibility-pl_checks_target_valueset")
-
-
-            ch <- h5(tags$b("Value conformance:"))
-            ce <- h5(paste0("Conformance check: ", ifelse(value_conf$target_data$conformance_error, "failed", "passed")))
-            cu <- uiOutput("moduleAtempPlausibility-pl_conformance_target")
-            do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
-          })
-
-          json_obj <- jsonlite::fromJSON(desc_out$target_data$checks$value_set)
-
-          if (desc_out$target_data$checks$var_type == "factor"){
-            output$pl_checks_target_valueset <- renderText({
-              json_obj[["value_set"]]
-            })
-          } else if (desc_out$target_data$checks$var_type %in% c("integer", "numeric")){
-            output$pl_checks_target_valueset <- renderPrint({
-              json_obj
-            })
-          }
-
-
-          # render automatic conformance checks target
-          # value conformance
-          if (isTRUE(value_conf$target_data$conformance_error)){
-
-            output$pl_conformance_target <- renderUI({
-              v <- verbatimTextOutput("moduleAtempPlausibility-pl_conformance_target_results")
-              do.call(tagList, list(v))
-            })
-
-            output$pl_conformance_target_results <- renderText({
-              value_conf$target_data$conformance_results
-            })
-          } else {
-            output$pl_conformance_target <- renderUI({
-            })
-          }
-
-        } else {
-
-          # workaround to tell ui, that value_set is not there
-          output$gotValueset_t <- reactive({
-            return(FALSE)
-          })
-        }
-        outputOptions(output, 'gotValueset_t', suspendWhenHidden=FALSE)
-      })
+      rv$finished_plausi_calculations <- TRUE
     }
+  })
+
+  observe({
+    req(rv$conformance$value_conformance)
+    # TODO maybe add progress here
+    # calculate conformance of descriptive results here
+    # append value conformance
+
+    if (isTRUE(rv$finished_plausi_calculations)){
+      value_conformance <- valueConformance(rv$dqa_plausibility_results)
+
+      for (i in names(rv$dqa_plausibility_results)){
+        rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
+      }
+    }
+
+    # generate output tables
+    observeEvent(input_re()[["moduleAtempPlausibility-plausibility_sel"]], {
+
+      # get description object
+      desc_out <- rv$dqa_plausibility_results$description[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
+      count_out <- rv$dqa_plausibility_results$counts[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
+      stat_out <- rv$dqa_plausibility_results$statistics[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
+
+      value_conf <- rv$conformance$value_conformance[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
+
+
+      # render source description
+      output$pl_selection_description_source <- renderTable({
+        o <- desc_out$source_data
+        c <- count_out$source_data
+        data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
+                               " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
+
+      })
+
+      output$pl_description <- renderText({
+        d <- desc_out$source_data$description
+        # https://community.rstudio.com/t/rendering-markdown-text/11588
+        out <- knitr::knit2html(text = d, fragment.only = TRUE)
+        # output non-escaped HTML string
+        shiny::HTML(out)
+      })
+
+      # render target description
+      output$pl_selection_description_target <- renderTable({
+        o <- desc_out$target_data
+        c <- count_out$target_data
+        data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
+                               " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
+
+      })
+
+      # render source counts
+      output$pl_selection_counts_source <- renderTable({
+        tryCatch({
+          o <- count_out$source_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
+          data.table::data.table(" " = c("Distinct values:", "Valid values:", "Missing values:"),
+                                 " " = c(o$distinct, o$valids, o$missings))
+        }, error=function(e){shinyjs::logjs(e)})
+      })
+      # render target counts
+      output$pl_selection_counts_target <- renderTable({
+        tryCatch({
+          o <- count_out$target_data$cnt[,c("variable", "distinct", "valids", "missings"),with=F]
+          data.table::data.table(" " = c("Distinct values:", "Valid values:", "Missing values:"),
+                                 " " = c(o$distinct, o$valids, o$missings))
+        }, error=function(e){shinyjs::logjs(e)})
+      })
+
+
+      # render target statistics
+      output$pl_selection_target_table <- renderTable({
+        stat_out$target_data
+      })
+      # render source statistics
+      output$pl_selection_source_table <- renderTable({
+        stat_out$source_data
+      })
+
+
+
+      # conformance source
+      # render conformance checks (only if value set present)
+      if (!is.na(desc_out$source_data$checks$value_set)){
+
+        # workaround to tell ui, that value_set is there
+        output$gotValueset_s <- reactive({
+          return(TRUE)
+        })
+
+        output$pl_checks_source <- renderUI({
+          h <- h5(tags$b("Value set:"))
+          v <- verbatimTextOutput("moduleAtempPlausibility-pl_checks_source_valueset")
+
+
+          ch <- h5(tags$b("Value conformance:"))
+          ce <- h5(paste0("Conformance check: ", ifelse(value_conf$target_data$conformance_error, "failed", "passed")))
+          cu <- uiOutput("moduleAtempPlausibility-pl_conformance_source")
+          do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
+        })
+
+        json_obj <- jsonlite::fromJSON(desc_out$source_data$checks$value_set)
+
+        if (desc_out$source_data$checks$var_type == "factor"){
+          output$pl_checks_source_valueset <- renderText({
+            json_obj[["value_set"]]
+          })
+        } else if (desc_out$source_data$checks$var_type %in% c("integer", "numeric")){
+          output$pl_checks_source_valueset <- renderPrint({
+            json_obj
+          })
+        }
+
+        # render automatic conformance checks source
+        # value conformance
+        if (isTRUE(value_conf$source_data$conformance_error)){
+
+          output$pl_conformance_source <- renderUI({
+            v <- verbatimTextOutput("moduleAtempPlausibility-pl_conformance_source_results")
+            do.call(tagList, list(v))
+          })
+
+          output$pl_conformance_source_results <- renderText({
+            value_conf$source_data$conformance_results
+          })
+        } else {
+          output$pl_conformance_source <- renderUI({
+          })
+        }
+
+      } else {
+
+        # workaround to tell ui, that value_set is not there
+        output$gotValueset_s <- reactive({
+          return(FALSE)
+        })
+      }
+      outputOptions(output, 'gotValueset_s', suspendWhenHidden=FALSE)
+
+
+      # conformance target
+      # render conformance checks (only if value set present)
+      if (!is.na(desc_out$target_data$checks$value_set)){
+
+        # workaround to tell ui, that value_set is there
+        output$gotValueset_t <- reactive({
+          return(TRUE)
+        })
+
+        output$pl_checks_target <- renderUI({
+          h <- h5(tags$b("Value set:"))
+          v <- verbatimTextOutput("moduleAtempPlausibility-pl_checks_target_valueset")
+
+
+          ch <- h5(tags$b("Value conformance:"))
+          ce <- h5(paste0("Conformance check: ", ifelse(value_conf$target_data$conformance_error, "failed", "passed")))
+          cu <- uiOutput("moduleAtempPlausibility-pl_conformance_target")
+          do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
+        })
+
+        json_obj <- jsonlite::fromJSON(desc_out$target_data$checks$value_set)
+
+        if (desc_out$target_data$checks$var_type == "factor"){
+          output$pl_checks_target_valueset <- renderText({
+            json_obj[["value_set"]]
+          })
+        } else if (desc_out$target_data$checks$var_type %in% c("integer", "numeric")){
+          output$pl_checks_target_valueset <- renderPrint({
+            json_obj
+          })
+        }
+
+
+        # render automatic conformance checks target
+        # value conformance
+        if (isTRUE(value_conf$target_data$conformance_error)){
+
+          output$pl_conformance_target <- renderUI({
+            v <- verbatimTextOutput("moduleAtempPlausibility-pl_conformance_target_results")
+            do.call(tagList, list(v))
+          })
+
+          output$pl_conformance_target_results <- renderText({
+            value_conf$target_data$conformance_results
+          })
+        } else {
+          output$pl_conformance_target <- renderUI({
+          })
+        }
+
+      } else {
+
+        # workaround to tell ui, that value_set is not there
+        output$gotValueset_t <- reactive({
+          return(FALSE)
+        })
+      }
+      outputOptions(output, 'gotValueset_t', suspendWhenHidden=FALSE)
+    })
   })
 }
 
