@@ -2,6 +2,7 @@
   "dt.patient_target": ["SELECT\n\tpatient_num       AS    \"patient_identifier_value\"\nFROM\n\ti2b2miracum.patient_dimension\nORDER BY\n\tpatient_num;"],
   "dt.gender_target": ["SELECT\n    patient_num       AS    \"patient_identifier_value\",\n    sex_cd            AS    \"patient_gender\"\nFROM\n\ti2b2miracum.patient_dimension\nORDER BY\n\tpatient_num;"],
   "dt.zipcode_target": ["SELECT\n    patient_num       AS    \"patient_identifier_value\",\n    zip_cd            AS    \"patient_address_postalCode\"\nFROM\n\ti2b2miracum.patient_dimension\nORDER BY\n\tpatient_num;"],
+  "dt.birthdate_target": ["SELECT\n    patient_num       AS    \"patient_identifier_value\",\n    birth_date::date  AS    \"patient_birthDate\"\nFROM\n\ti2b2miracum.patient_dimension\nORDER BY\n\tpatient_num;"],
   "dt.encounter_target": ["SELECT\n\tpatient_num       AS    \"encounter_subject_patient_identifier_value\",\n  encounter_num     AS    \"encounter_identifier_value\"\nFROM\n  i2b2miracum.visit_dimension\nORDER BY\n  patient_num;"],
   "dt.encounterstart_target": ["SELECT\n  encounter_num     AS    \"encounter_identifier_value\",\n  start_date::date  AS    \"EpisodeOfCare_period_start\"\nFROM\n  i2b2miracum.visit_dimension\nORDER BY\n  encounter_num;"],
   "dt.encounterend_target": ["SELECT\n  encounter_num     AS    \"encounter_identifier_value\",\n  end_date::date  AS    \"EpisodeOfCare_period_end\"\nFROM\n  i2b2miracum.visit_dimension\nORDER BY\n  encounter_num;"],

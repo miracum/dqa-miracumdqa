@@ -333,7 +333,7 @@ ORDER BY
 
 
 
-vec <- c("dt.patient_target", "dt.gender_target", "dt.zipcode_target",
+vec <- c("dt.patient_target", "dt.gender_target", "dt.zipcode_target", "dt.birthdate_target",
          "dt.encounter_target", "dt.encounterstart_target", "dt.encounterend_target",
          "dt.ageindays_target", "dt.ageinyears_target", "dt.admission_target", "dt.hospitalization_target",
          "dt.discharge_target", "dt.ventilation_target",

@@ -1,44 +1,53 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool.
 # Copyright (C) 2019 MIRACUM - Medical Informatics in Research and Medicine
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # fire SQL to database
 fireSQL <- function(rv, jsonobj, headless = FALSE){
-  
-  # avoid sql-injection
-  # https://db.rstudio.com/best-practices/run-queries-safely/
-  sql <- DBI::sqlInterpolate(rv$db_con, rv$sql[[jsonobj]])
-  
-  if (isFALSE(headless)){
-    shiny::withProgress(
-      message = paste0("Getting ", jsonobj, " data from server"), value = 0, {
-        shiny::incProgress(1/1, detail = "... working hard to get data ...")
-        
-        # get data
-        rv$data_objects[[jsonobj]] <- jsonobj
-        outdat <- data.table::data.table(RPostgres::dbGetQuery(rv$db_con, sql), stringsAsFactors = TRUE)
-      })
+
+  # for debugging:
+  #print(jsonobj)
+
+  # Errorhandling
+  if (!is.null(jsonobj)){
+
+    # avoid sql-injection
+    # https://db.rstudio.com/best-practices/run-queries-safely/
+    sql <- DBI::sqlInterpolate(rv$db_con, rv$sql[[jsonobj]])
+
+    if (isFALSE(headless)){
+      shiny::withProgress(
+        message = paste0("Getting ", jsonobj, " data from server"), value = 0, {
+          shiny::incProgress(1/1, detail = "... working hard to get data ...")
+
+          # get data
+          rv$data_objects[[jsonobj]] <- jsonobj
+          outdat <- data.table::data.table(RPostgres::dbGetQuery(rv$db_con, sql), stringsAsFactors = TRUE)
+        })
+    } else {
+      outdat <- data.table::data.table(RPostgres::dbGetQuery(rv$db_con, sql), stringsAsFactors = TRUE)
+    }
+    return(outdat)
   } else {
-    outdat <- data.table::data.table(RPostgres::dbGetQuery(rv$db_con, sql), stringsAsFactors = TRUE)
+    return(NULL)
   }
-  return(outdat)
 }
 
 # load csv files
 loadCSV <- function(rv, filename, headless = FALSE){
-  
+
   if (tolower(filename) == "fall.csv"){
     # only import necessary columns
     select_cols <- c(ENTLASSENDER_STANDORT = "factor",
@@ -69,8 +78,8 @@ loadCSV <- function(rv, filename, headless = FALSE){
     select_cols <- c(KH_internes_Kennzeichen = "factor",
                      OPS_Kode = "factor",
                      OPS_Datum = "integer64")
-  } 
-  
+  }
+
   if (isFALSE(headless)){
     shiny::withProgress(
       message = paste0("Reading ", filename, " file from directory"), value = 0, {
@@ -82,6 +91,6 @@ loadCSV <- function(rv, filename, headless = FALSE){
   } else {
     outdat <- data.table::fread(paste0(rv$sourcefiledir, "/", filename), select = names(select_cols), colClasses = select_cols, header = T, na.strings = "", stringsAsFactors = TRUE)
   }
-  
+
   return(outdat)
 }
