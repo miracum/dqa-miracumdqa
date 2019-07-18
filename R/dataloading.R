@@ -83,7 +83,7 @@ loadCSV <- function(rv, filename, headless = FALSE){
   if (isFALSE(headless)){
     shiny::withProgress(
       message = paste0("Reading ", filename, " file from directory"), value = 0, {
-        shiny::incProgress(1/1, detail = "...name working hard to read data ...")
+        shiny::incProgress(1/1, detail = "...working hard to read data ...")
         # get data
         rv$data_objects[[filename]] <- filename
         outdat <- data.table::fread(paste0(rv$sourcefiledir, "/", filename), select = names(select_cols), colClasses = select_cols, header = T, na.strings = "", stringsAsFactors = TRUE)

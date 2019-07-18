@@ -104,7 +104,9 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
     # TODO maybe add progress here
     # calculate conformance of descriptive results here
     # value conformance
-    rv[["conformance"]][["value_conformance"]] <- valueConformance(rv$dqa_descriptive_results)
+    if (is.null(rv$conformance$value_conformance)){
+      rv[["conformance"]][["value_conformance"]] <- valueConformance(rv$dqa_descriptive_results)
+    }
 
     # generate output tables
     observeEvent(input_re()[["moduleDescriptive-var_select"]], {

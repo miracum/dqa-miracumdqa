@@ -338,7 +338,7 @@ moduleAtempPlausibilityUI <- function(id){
             ),
             column(4,
                    conditionalPanel(
-                     condition = "output['moduleAtempPlausbility-gotValueset_s']",
+                     condition = "output['moduleAtempPlausibility-gotValueset_s']",
                      uiOutput(ns("pl_checks_source"))
                    )
             )
@@ -363,7 +363,7 @@ moduleAtempPlausibilityUI <- function(id){
             ),
             column(4,
                    conditionalPanel(
-                     condition = "output['moduleAtempPlausbility-gotValueset_t']",
+                     condition = "output['moduleAtempPlausibility-gotValueset_t']",
                      uiOutput(ns("pl_checks_target"))
                    )
             )
