@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxml2-dev \
     apt-utils \
     libcurl4-openssl-dev \
-    libssl-dev \
+    libssl-dev
 
 
 ARG p_base="devtools"
