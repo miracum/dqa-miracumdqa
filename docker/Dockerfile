@@ -1,7 +1,12 @@
 FROM r-base
 
+# install necessary system dependencies for r packages (e.g. devtools)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libxml2-dev
+    libxml2-dev \
+    apt-utils \
+    libcurl4-openssl-dev \
+    libssl-dev \
+
 
 ARG p_base="devtools"
 

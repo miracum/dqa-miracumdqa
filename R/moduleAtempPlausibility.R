@@ -90,7 +90,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
 
             if (stat_dat[,unique(get("variable_type"))] == "factor"){
               rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcCatStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = "csv", plausibility = TRUE)
-            # for target_data; our data is in rv$list_target$key
+              # for target_data; our data is in rv$list_target$key
             } else {
               rv$dqa_plausibility_results$statistics[[rv$pl_vars_filter[[i]]]] <- calcNumStats(stat_dat, stat_dat[,unique(get("variable_name"))], rv, sourcesystem = "csv", plausibility = TRUE)
             }
@@ -113,7 +113,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
           o <- desc_out$source_data
           c <- count_out$source_data
           data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
-                     " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
+                                 " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
 
         })
 
@@ -130,7 +130,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
           o <- desc_out$target_data
           c <- count_out$target_data
           data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
-                     " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
+                                 " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
 
         })
 
@@ -171,15 +171,15 @@ moduleAtempPlausibilityUI <- function(id){
 
   tagList(
     fluidRow(
-             box(title = "Select variable",
-                 uiOutput(ns("pl_selection_uiout")),
-                 width = 12
-             ),
-             box(title = "Description",
-                 htmlOutput(ns("pl_description")),
-                 width = 12
-             )
+      box(title = "Select variable",
+          uiOutput(ns("pl_selection_uiout")),
+          width = 4
       ),
+      box(title = "Description",
+          htmlOutput(ns("pl_description")),
+          width = 8
+      )
+    ),
     fluidRow(
       box(title="Source Data System",
           width = 6,
@@ -194,8 +194,9 @@ moduleAtempPlausibilityUI <- function(id){
             )
           ),
           fluidRow(
-            box(title="Results",
-                tableOutput(ns("pl_selection_source_table"))
+            column(12,
+                   h5(tags$b("Results")),
+                   tableOutput(ns("pl_selection_source_table"))
             )
           )
       ),
@@ -212,9 +213,9 @@ moduleAtempPlausibilityUI <- function(id){
             )
           ),
           fluidRow(
-            box(title="Results",
-                tableOutput(ns("pl_selection_target_table")),
-                width=6
+            column(12,
+                   h5(tags$b("Results")),
+                   tableOutput(ns("pl_selection_target_table"))
             )
           )
       )
