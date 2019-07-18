@@ -17,7 +17,7 @@
 library(jsonlite)
 library(data.table)
 
-mdr <- fread("./DQA_Tool/app/_utilities/MDR/mdr.csv", header = T)
+mdr <- fread("./inst/application/_utilities/MDR/mdr.csv", header = T)
 mdr <- mdr[source_system=="i2b2",]
 
 
@@ -38,8 +38,8 @@ mdr.use <- mdr[key=="dt.birthdate_target",]
 dt.birthdate_target <-
   paste0(
     "SELECT
-	patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
-	birth_date::date  AS    \"", mdr.use[source_variable_name=="birth_date",variable_name], "\"
+    patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
+    birth_date::date  AS    \"", mdr.use[source_variable_name=="birth_date",variable_name], "\"
 FROM
 	i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
 ORDER BY
@@ -51,8 +51,8 @@ mdr.use <- mdr[key=="dt.gender_target",]
 dt.gender_target <-
   paste0(
     "SELECT
-	patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
-  sex_cd            AS    \"", mdr.use[source_variable_name=="sex_cd",variable_name], "\"
+    patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
+    sex_cd            AS    \"", mdr.use[source_variable_name=="sex_cd",variable_name], "\"
 FROM
 	i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
 ORDER BY
@@ -64,8 +64,8 @@ mdr.use <- mdr[key=="dt.zipcode_target",]
 dt.zipcode_target <-
   paste0(
     "SELECT
-	patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
-  zip_cd            AS    \"", mdr.use[source_variable_name=="zip_cd",variable_name], "\"
+    patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
+    zip_cd            AS    \"", mdr.use[source_variable_name=="zip_cd",variable_name], "\"
 FROM
 	i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
 ORDER BY
@@ -93,7 +93,7 @@ dt.encounterstart_target <-
   encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 ORDER BY
   encounter_num;")
 
@@ -104,9 +104,9 @@ dt.encounterend_target <-
   paste0(
     "SELECT
   encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  end_end::date  AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
+  end_date::date  AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 ORDER BY
   encounter_num;")
 
@@ -333,8 +333,14 @@ ORDER BY
 
 
 
-vec <- c("dt.patient_target", "dt.encounter_target", "dt.ageindays_target", "dt.ageinyears_target", "dt.admission_target", "dt.hospitalization_target", "dt.discharge_target", "dt.ventilation_target",
-         "dt.condition_target", "dt.procedure_target", "dt.provider_target", "pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")
+vec <- c("dt.patient_target", "dt.gender_target", "dt.zipcode_target",
+         "dt.encounter_target", "dt.encounterstart_target", "dt.encounterend_target",
+         "dt.ageindays_target", "dt.ageinyears_target", "dt.admission_target", "dt.hospitalization_target",
+         "dt.discharge_target", "dt.ventilation_target",
+         "dt.condition_target", "dt.conditioncategory_target",
+         "dt.procedure_target", "dt.proceduredate_target",
+         "dt.provider_target", "dt.providerstart_target", "dt.providerend_target",
+         "pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)
 
 jsonlist <- toJSON(string_list, pretty = T, auto_unbox = F)

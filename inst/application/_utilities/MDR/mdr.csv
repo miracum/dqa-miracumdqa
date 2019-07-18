@@ -153,9 +153,9 @@ OPS Datum;start_date;observation_fact;i2b2;dt.proceduredate_target;procedure_per
 Fachabteilung;tval_char;observation_fact;i2b2;dt.provider_target;encounter_serviceProvider_type_Organization_name;encounter.serviceProvider.type.Organization.name;factor;;;;1;;observation_fact;;;;concept_cd LIKE 'FACHABT%'
 Fallnummer;encounter_num;observation_fact;i2b2;dt.provider_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;;observation_fact;;;;concept_cd LIKE 'FACHABT%'
 Entlassungsdatum (Fachabteilung);end_date;observation_fact;i2b2;dt.providerend_target;encounter_period_end;encounter.period.end;date;;;;1;;observation_fact;;;;concept_cd LIKE 'FACHABT%'
-Fachabteilung;tval_char;observation_fact;i2b2;dt.providerend_target;encounter_serviceProvider_type_Organization_name;encounter.serviceProvider.type.Organization.name;factor;;;;1;;observation_fact;;;;concept_cd LIKE 'FACHABT%'
+Fallnummer;encounter_num;observation_fact;i2b2;dt.providerend_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;;observation_fact;;;;concept_cd LIKE 'FACHABT%'
 Aufnahmedatum (Fachabteilung);start_date;observation_fact;i2b2;dt.providerstart_target;encounter_period_start;encounter.period.start;date;;;;1;;observation_fact;;;;concept_cd LIKE 'FACHABT%'
-Fachabteilung;tval_char;observation_fact;i2b2;dt.providerstart_target;encounter_serviceProvider_type_Organization_name;encounter.serviceProvider.type.Organization.name;factor;;;;1;;observation_fact;;;;concept_cd LIKE 'FACHABT%'
+Fallnummer;encounter_num;observation_fact;i2b2;dt.providerstart_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;;observation_fact;;;;concept_cd LIKE 'FACHABT%'
 Beatmungsstunden;nval_num;observation_fact;i2b2;dt.ventilation_target;procedure_code_coding_code_40617009;procedure.code.coding.code.40617009;integer;"{""min"": 0, ""max"": 8766}";;;1;;observation_fact;;;;concept_cd LIKE 'FALL:BEATMST'
 Fallnummer;encounter_num;observation_fact;i2b2;dt.ventilation_target;procedure_encounter_identifier_value;procedure.encounter.identifier.value;factor;;;;0;;observation_fact;;;;concept_cd LIKE 'FALL:BEATMST'
 Patientennummer;patient_num;patient_dimension;i2b2;dt.zipcode_target;patient_identifier_value;patient.identifier.value;factor;;;;0;;patient_dimension;;;;
