@@ -18,10 +18,11 @@ RUN for package in $p_base; do \
     done
 
 ARG gitusername
+RUN echo $gitusername
 ARG gitpass
 
 # install our R-Package
-RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass(\"$gitusername\", \"$gitpassword\"))"
+RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass($gitusername, $gitpassword))"
 
 # install tinytex
 RUN R -q -e 'tinytex::install_tinytex()'
