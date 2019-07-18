@@ -5,6 +5,6 @@ read -s -p "\nPlease enter your password to https://gitlab.miracum.org/: " gitpa
 
 echo $gitusername
 
-docker build --build-arg $gitpassword  --build-arg $gitusername -f Dockerfile -t dqa-miracum .
+docker build --build-arg gitpassword=$gitpassword  --build-arg gitusername=$gitusername -f Dockerfile -t dqa-miracum .
 
 docker-compose up -d
