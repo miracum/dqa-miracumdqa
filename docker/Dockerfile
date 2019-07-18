@@ -1,6 +1,6 @@
 FROM r-base
 
-# install necessary system dependencies for r packages (e.g. devtools)
+# install necessary system dependencies for r packages (e.g. devtools, RPostgres)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libxml2-dev \
     apt-utils \
@@ -18,7 +18,7 @@ RUN for package in $p_base; do \
     done
 
 # install our R-Package
-RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass('lorenz.kapsner', getPass::getPass()))"
+RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass($gitusername, $gitpassword))"
 
 # install tinytex
 RUN R -q -e 'tinytex::install_tinytex()'

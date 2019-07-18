@@ -45,7 +45,7 @@ valueConformance <- function(results){
           # get valueset from mdr
           value_set <- unlist(strsplit(value_set$value_set, ", ", fixed = T))
           # get levels from results
-          levels_results <-s_out[,levels(get(i))]
+          levels_results <-s_out[,levels(get(colnames(s_out)[1]))]
           # compare levels from results to constraints from valueset (TRUE = constraint_error)
           outlist2$conformance_error <- any(levels_results %!in% value_set)
           # if TRUE, get those values, that do not fit
