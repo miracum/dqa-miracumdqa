@@ -111,7 +111,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
     if (isTRUE(rv$finished_plausi_calculations)){
       value_conformance <- valueConformance(rv$dqa_plausibility_results)
 
-      for (i in names(rv$dqa_plausibility_results)){
+      for (i in names(value_conformance)){
         rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
       }
     }
