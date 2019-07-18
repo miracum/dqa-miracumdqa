@@ -27,4 +27,8 @@ RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRac
 # install tinytex
 RUN R -q -e 'tinytex::install_tinytex()'
 
+RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
+    echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
+    echo "options(shiny.launch.browser = FALSE)" >> /etc/R/Rprofile.site
+
 CMD ["R -e miRacumDQA::miRacumDQA()"]
