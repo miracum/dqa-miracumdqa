@@ -18,7 +18,6 @@ RUN for package in $p_base; do \
     done
 
 ARG gitusername
-RUN echo $gitusername
 ARG gitpassword
 
 # install our R-Package
