@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 1.3.1.9001
+Version: 1.3.1.9002
 Authors@R: 
     person(given = "Lorenz",
            family = "Kapsner",
@@ -13,7 +13,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum-dqa/miRacumDQA/issues
 Encoding: UTF-8
 Copyright: MIRACUM - Medical Informatics in Research and Medicine
-Date/Publication: 2019-07-19 06:59:34 UTC
+Date/Publication: 2019-07-19 07:33:43 UTC
 Imports: 
     data.table,
     shiny,

@@ -6,8 +6,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \
     libcurl4-openssl-dev \
     libssl-dev \
-    libpq-dev
-
+    libpq-dev \
+    pandoc \
+    pandoc-citeproc
 
 ARG p_base="devtools \
     git2r \
@@ -25,6 +26,27 @@ RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRac
 
 # install tinytex
 RUN R -q -e 'tinytex::install_tinytex()'
+
+# install required LaTeX-Packages
+RUN ./root/.TinyTeX/bin/x86_64-linux/tlmgr update --self
+RUN ./root/.TinyTeX/bin/x86_64-linux/tlmgr install \
+    multirow \
+    xcolor \
+    colortbl \
+    wrapfig \
+    float \
+    tabu \
+    varwidth \
+    threeparttable \
+    threeparttablex \
+    environ \
+    trimspaces \
+    ulem \
+    makecell \
+    babel \
+    babel-german \
+    hyphen-german \
+    lm
 
 RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
     echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
