@@ -85,3 +85,24 @@ valueConformance <- function(results){
 
   return(outlist)
 }
+
+
+quickValueConformanceChecks <- function(results){
+  # get names
+  obj_names <- names(results)
+
+  # initialize output table
+  out <- data.table::data.table("Variable" = character(0),
+                                "Check Source Data" = character(0),
+                                "Check Target Data" = character(0))
+
+
+  for (i in obj_names){
+    error_source <- ifelse(results[[i]]$source_data$conformance_error, "failed", "passed")
+    error_target <- ifelse(results[[i]]$target_data$conformance_error, "failed", "passed")
+    out <- rbind(out, data.table::data.table("Variable" = i,
+                                             "Check Source Data" = error_source,
+                                             "Check Target Data" = error_target))
+  }
+  return(out)
+}

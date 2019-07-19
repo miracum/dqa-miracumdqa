@@ -1,26 +1,13 @@
 ---
-# miRacumDQA - The MIRACUM consortium's data quality assessment tool.
-# Copyright (C) 2019 MIRACUM - Medical Informatics in Research and Medicine
-# 
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 title: |
-  | Datenqualitätsanalyse des §21-Datensatzes: 
   | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (`r rv$target_db` Forschungsdatenrepository) 
   | Zeitraum `r substr(as.character(rv$dqa_descriptive_results$statistics$EpisodeOfCare_period_end$target_data[1,])[2], 1, 4)` bis `r substr(as.character(rv$dqa_descriptive_results$statistics$EpisodeOfCare_period_end$target_data[6,])[2], 1, 4)` 
   | 
-  | Standort: `r rv$sitename` 
   | 
+  | Datenqualitätsanalyse des §21-Datensatzes: 
+  | Standort: `r rv$sitename` 
 date: '`r format(Sys.time(), "%d %B %Y")`' 
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
 output: 
@@ -61,9 +48,31 @@ renderResults(rv$dqa_descriptive_results)
 renderPlausis(rv$dqa_plausibility_results)
 ```
 
-# Einfache ETL-Checks
+# ETL-Checks
 
 ```{r results='asis'}
 kableTable(quickETLChecks(rv$dqa_descriptive_results))
+```
+
+# Conformance Checks
+
+## Value Conformance
+
+```{r results='asis'}
+kableTable(quickValueConformanceChecks(rv$conformance$value_conformance))
+```
+
+\newpage
+
+# Anhang
+
+## Verwendete SQL-Befehle  
+
+```{r}
+for (i in names(rv$sql)){
+  cat(paste0("  \nMDR key: ", i, "  \n  \n"))
+  cat(paste0(rv$sql[[i]]))
+  cat("  \n  \n")
+}
 ```
 

@@ -124,6 +124,8 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
       for (i in names(value_conformance)){
         rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
       }
+
+      rv$create_report <- TRUE
     }
 
     # generate output tables

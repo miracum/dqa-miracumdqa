@@ -225,14 +225,29 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     req(rv$dqa_descriptive_results)
 
     # workaround to tell ui, that db_connection is there
-    output$dqa_results <- reactive({
+    output$etl_results <- reactive({
       return(TRUE)
     })
-    outputOptions(output, 'dqa_results', suspendWhenHidden=FALSE)
+    outputOptions(output, 'etl_results', suspendWhenHidden=FALSE)
 
     output$dash_quick_etlchecks <- DT::renderDataTable({
       dat <- quickETLChecks(rv$dqa_descriptive_results)
-      renderQuickETL(dat)
+      renderQuickChecks(dat)
+    })
+  })
+
+  observe({
+    req(rv$conformance$value_conformance)
+
+    # workaround to tell ui, that db_connection is there
+    output$valueconformance_results <- reactive({
+      return(TRUE)
+    })
+    outputOptions(output, 'valueconformance_results', suspendWhenHidden=FALSE)
+
+    output$dash_quick_valueconformance_checks <- DT::renderDataTable({
+      dat <- quickValueConformanceChecks(rv$conformance$value_conformance)
+      renderQuickChecks(dat)
     })
   })
 
@@ -272,16 +287,23 @@ moduleDashboardUI <- function(id){
                  width = 12
              ),
              conditionalPanel(
-               condition = "output['moduleDashboard-dqa_results']",
-               box(title = "Quick ETL-Checks: ",
+               condition = "output['moduleDashboard-etl_results']",
+               box(title = "Quick ETL Checks: ",
                    DT::dataTableOutput(ns("dash_quick_etlchecks")),
+                   width = 12
+               )
+             ),
+             conditionalPanel(
+               condition = "output['moduleDashboard-valueconformance_results']",
+               box(title = "Quick Value Conformance Checks: ",
+                   DT::dataTableOutput(ns("dash_quick_valueconformance_checks")),
                    width = 12
                )
              )
       ),
       column(6,
              conditionalPanel(
-               condition = "output['moduleDashboard-dqa_results']",
+               condition = "output['moduleDashboard-etl_results']",
                box(title = "Target System Overview (Data Map)",
                    tableOutput(ns("dash_summary_target")),
                    width = 12

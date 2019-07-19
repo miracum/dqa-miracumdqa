@@ -28,7 +28,8 @@
 moduleReportServer <- function(input, output, session, rv, input_re){
 
   observe({
-    req(rv$dqa_descriptive_results)
+    # wait here for flag to create report; this can be done, when everything we need for the report is there
+    req(rv$create_report)
 
     if (is.null(rv$report_created)){
       shiny::withProgress(
@@ -42,7 +43,7 @@ moduleReportServer <- function(input, output, session, rv, input_re){
           rmarkdown::render(input=paste0(tempdir(), "/DQA_report.md"), output_file = paste0(tempdir(), "/DQA_report.pdf"), encoding = "UTF-8")
 
           # debugging
-          # setwd(paste0(getwd(), "/DQA_Tool/app"))
+          # setwd(paste0(getwd(), "/inst/application"))
           # knitr::knit(input="./_utilities/RMD/DQA_report_debug.Rmd", output=paste0(tempdir(), "/DQA_report_debug.md"), encoding = "UTF-8")
           # # copy header-folder to tempdir to make files available for the next command
           # file.copy("./_utilities/RMD/_header", tempdir(), recursive=TRUE)
