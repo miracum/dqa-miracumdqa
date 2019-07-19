@@ -30,4 +30,4 @@ RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
     echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
     echo "options(shiny.launch.browser = FALSE)" >> /etc/R/Rprofile.site
 
-CMD ["R", "-e miRacumDQA::miRacumDQA()"]
+CMD ["R", "-e library(miRacumDQA);miRacumDQA()"]
