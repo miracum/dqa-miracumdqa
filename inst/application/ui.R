@@ -14,28 +14,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-shinyUI(dashboardPage(skin = "black",
+shiny::shinyUI(shinydashboard::dashboardPage(skin = "black",
 
                       # Application title
-                      dashboardHeader(title = "MIRACUM DQA Tool"),
+                      shinydashboard::dashboardHeader(title = "MIRACUM DQA Tool"),
 
-                      dashboardSidebar(
+                      shinydashboard::dashboardSidebar(
 
                         # Include shinyjs in the UI Sidebar
                         shinyjs::useShinyjs(),
                         shinyjs::extendShinyjs(script = "./_utilities/reset.js", functions = "reset"), # Add the js code to the page
 
                         #Sidebar Panel
-                        sidebarMenu(id = "tabs",
-                                    menuItem("Dashboard", tabName = "tab_dashboard", icon = icon("tachometer-alt")),
-                                    sidebarMenuOutput("menu"),
-                                    menuItem("Settings", tabName = "tab_config", icon = icon("cogs")),
-                                    menuItem("DQ MDR", tabName = "tab_mdr", icon = icon("database")),
-                                    tags$hr(),
-                                    actionButton("reset", "Reset DQA Tool")
+                        shinydashboard::sidebarMenu(id = "tabs",
+                                                    shinydashboard::menuItem("Dashboard", tabName = "tab_dashboard", icon = icon("tachometer-alt")),
+                                                    shinydashboard::sidebarMenuOutput("menu"),
+                                                    shinydashboard::menuItem("Settings", tabName = "tab_config", icon = icon("cogs")),
+                                                    shinydashboard::menuItem("DQ MDR", tabName = "tab_mdr", icon = icon("database")),
+                                    shiny::tags$hr(),
+                                    shiny::actionButton("reset", "Reset DQA Tool")
                         )),
 
-                      dashboardBody(
+                      shinydashboard::dashboardBody(
 
                         # Include shinyjs in the UI Body
                         shinyjs::useShinyjs(),
@@ -44,40 +44,40 @@ shinyUI(dashboardPage(skin = "black",
                         # https://stackoverflow.com/questions/25062422/restart-shiny-session
                         shinyjs::extendShinyjs(script = "./_utilities/reset.js", functions = "reset"), # Add the js code to the page
 
-                        tabItems(
-                          tabItem(tabName = "tab_dashboard",
+                        shinydashboard::tabItems(
+                          shinydashboard::tabItem(tabName = "tab_dashboard",
                                   moduleDashboardUI("moduleDashboard")
                           ),
 
-                          tabItem(tabName = "tab_config",
+                          shinydashboard::tabItem(tabName = "tab_config",
                                   moduleConfigUI("moduleConfig")
                           ),
 
-                          tabItem(tabName = "tab_rawdata1",
+                          shinydashboard::tabItem(tabName = "tab_rawdata1",
                                   moduleRawdata1UI("moduleRawdata1")
                           ),
 
-                          tabItem(tabName = "tab_descriptive",
+                          shinydashboard::tabItem(tabName = "tab_descriptive",
                                   moduleDescriptiveUI("moduleDescriptive")
                           ),
 
-                          tabItem(tabName = "tab_atemp_plausibility",
+                          shinydashboard::tabItem(tabName = "tab_atemp_plausibility",
                                   moduleAtempPlausibilityUI("moduleAtempPlausibility")
                           ),
 
-                          tabItem(tabName = "tab_unique_plausibility",
+                          shinydashboard::tabItem(tabName = "tab_unique_plausibility",
                                   moduleUniquePlausibilityUI("moduleUniquePlausibility")
                           ),
 
-                          tabItem(tabName = "tab_visualizations",
+                          shinydashboard::tabItem(tabName = "tab_visualizations",
                                   moduleVisualizationsUI("moduleVisulizations")
                           ),
 
-                          tabItem(tabName = "tab_report",
+                          shinydashboard::tabItem(tabName = "tab_report",
                                   moduleReportUI("moduleReport")
                           ),
 
-                          tabItem(tabName = "tab_mdr",
+                          shinydashboard::tabItem(tabName = "tab_mdr",
                                   moduleMDRUI("moduleMDR")
                           )
 

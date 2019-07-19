@@ -14,10 +14,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-shinyServer(function(input, output, session) {
+shiny::shinyServer(function(input, output, session) {
 
     # define reactive values here
-    rv <- reactiveValues(
+    rv <- shiny::reactiveValues(
         started = NULL,
         mdr = NULL,
         target_keys = NULL,
@@ -34,8 +34,8 @@ shinyServer(function(input, output, session) {
         data_objects = list(),
         list_source = NULL,
         list_target = NULL,
-        dash_summary_target = summaryTable(),
-        dash_summary_source = summaryTable()
+        dash_summary_target = NULL,
+        dash_summary_source = NULL
     )
 
 
@@ -43,8 +43,8 @@ shinyServer(function(input, output, session) {
     onStart(session, rv, input, output)
 
     # handle reset
-    observeEvent(input$reset, {
-        js$reset()
+    shiny::observeEvent(input$reset, {
+        shinyjs::js$reset()
     })
 
 
@@ -53,9 +53,9 @@ shinyServer(function(input, output, session) {
     # # tab_config
     # ########################
 
-    callModule(moduleConfigServer, "moduleConfig", rv, input_re=reactive({input}))
+    shiny::callModule(moduleConfigServer, "moduleConfig", rv, input_re=shiny::reactive({input}))
 
-    observe({
+    shiny::observe({
         if (!is.null(rv$target_getdata) && !is.null(rv$source_getdata)){
 
             # hide load data button
@@ -75,8 +75,8 @@ shinyServer(function(input, output, session) {
         }
     })
 
-    observe({
-        req(rv$report_created)
+    shiny::observe({
+        shiny::req(rv$report_created)
 
         # set end.time
         rv$end.time <- Sys.time()
@@ -89,18 +89,18 @@ shinyServer(function(input, output, session) {
         # gc()
 
         # render menu
-        output$menu <- renderMenu({
-            sidebarMenu(
-                menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
-                menuItem("Descriptive Results", tabName = "tab_descriptive", icon = icon("table")),
-                menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle"),
-                         menuSubItem("Atemporal Plausibility", tabName = "tab_atemp_plausibility"),
-                         menuSubItem("Uniqueness Plausibility", tabName = "tab_unique_plausibility")),
-                menuItem("Visualizations", tabName = "tab_visualizations", icon = icon("chart-line")),
-                menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
+        output$menu <- shinydashboard::renderMenu({
+            shinydashboard::sidebarMenu(
+                shinydashboard::menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
+                shinydashboard::menuItem("Descriptive Results", tabName = "tab_descriptive", icon = icon("table")),
+                shinydashboard::menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle"),
+                                         shinydashboard::menuSubItem("Atemporal Plausibility", tabName = "tab_atemp_plausibility"),
+                                         shinydashboard::menuSubItem("Uniqueness Plausibility", tabName = "tab_unique_plausibility")),
+                shinydashboard::menuItem("Visualizations", tabName = "tab_visualizations", icon = icon("chart-line")),
+                shinydashboard::menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
             )
         })
-        updateTabItems(session, "tabs", "tab_dashboard")
+        shinydashboard::updateTabItems(session, "tabs", "tab_dashboard")
 
         # for debugging purposes
         descriptive_results <<- rv$dqa_descriptive_results
@@ -113,38 +113,38 @@ shinyServer(function(input, output, session) {
     ########################
     # tab_dashboard
     ########################
-    callModule(moduleDashboardServer, "moduleDashboard", rv, input_re=reactive({input}))
+    shiny::callModule(moduleDashboardServer, "moduleDashboard", rv, input_re=reactive({input}))
 
 
     ########################
     # tab_rawdata1
     ########################
-    callModule(moduleRawdata1Server, "moduleRawdata1", rv, input_re=reactive({input}))
+    shiny::callModule(moduleRawdata1Server, "moduleRawdata1", rv, input_re=reactive({input}))
 
     ########################
     # tab_descriptive
     ########################
-    callModule(moduleDescriptiveServer, "moduleDescriptive", rv, input_re=reactive({input}))
+    shiny::callModule(moduleDescriptiveServer, "moduleDescriptive", rv, input_re=reactive({input}))
 
     ########################
     # tab_plausibility
     ########################
-    callModule(moduleAtempPlausibilityServer, "moduleAtempPlausibility", rv, input_re=reactive({input}))
-    callModule(moduleUniquePlausibilityServer, "moduleUniquePlausibility", rv, input_re=reactive({input}))
+    shiny::callModule(moduleAtempPlausibilityServer, "moduleAtempPlausibility", rv, input_re=reactive({input}))
+    shiny::callModule(moduleUniquePlausibilityServer, "moduleUniquePlausibility", rv, input_re=reactive({input}))
 
     ########################
     # tab_visualization
     ########################
-    callModule(moduleVisualizationsServer, "moduleVisulizations", rv, input_re=reactive({input}))
+    shiny::callModule(moduleVisualizationsServer, "moduleVisulizations", rv, input_re=reactive({input}))
 
     ########################
     # tab_report
     ########################
-    callModule(moduleReportServer, "moduleReport", rv, input_re=reactive({input}))
+    shiny::callModule(moduleReportServer, "moduleReport", rv, input_re=reactive({input}))
 
     ########################
     # tab_mdr
     ########################
-    callModule(moduleMDRServer, "moduleMDR", rv, input_re=reactive({input}))
+    shiny::callModule(moduleMDRServer, "moduleMDR", rv, input_re=reactive({input}))
 
 })

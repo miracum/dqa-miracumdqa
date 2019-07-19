@@ -14,7 +14,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# moduleVisualizationsServer
+#' @title moduleAtempPlausibilityServer
+#'
+#' @param input Shiny server input object
+#' @param output Shiny server output object
+#' @param session Shiny session object
+#' @param rv The global 'reactiveValues()' object, defined in server.R
+#' @param input_re The Shiny server input object, wrapped into a reactive expression: input_re = reactive({input})
+#'
+#' @export
+#'
+# moduleAtempPlausibilityServer
 moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
   observe({
     if (isFALSE(rv$target_getdata) && isFALSE(rv$source_getdata)){
@@ -303,7 +313,13 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
   })
 }
 
-
+#' @title moduleAtempPlausibilityUI
+#'
+#' @param id A character. The identifier of the shiny object
+#'
+#' @export
+#'
+# moduleAtempPlausibilityUI
 moduleAtempPlausibilityUI <- function(id){
   ns <- NS(id)
 

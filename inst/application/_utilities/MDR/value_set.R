@@ -91,8 +91,8 @@ mdr[name=="Item04" & source_system=="csv", value_set := '{"value_set": "m"}']
 mdr[name=="Item04" & source_system=="i2b2", value_set := '{"value_set": "m"}']
 
 # Item05
-mdr[name=="Item04" & source_system=="csv", value_set := '{"value_set": "w"}']
-mdr[name=="Item04" & source_system=="i2b2", value_set := '{"value_set": "w"}']
+mdr[name=="Item05" & source_system=="csv", value_set := '{"value_set": "w"}']
+mdr[name=="Item05" & source_system=="i2b2", value_set := '{"value_set": "w"}']
 
 # write mdr
 fwrite(mdr, paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"), sep = ";")

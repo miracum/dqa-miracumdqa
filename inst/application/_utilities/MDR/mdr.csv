@@ -105,11 +105,11 @@ Item03;GESCHLECHT;FALL.CSV;csv;pl.item03_source;patient_gender;patient.gender;fa
 Patientennummer;PATIENTENNUMMER;FALL.CSV;csv;pl.item03_source;patient_identifier_value;patient.identifier.value;factor;"";;;0;"";"";"";"";"";""
 Fallnummer;KH_INTERNES_KENNZEICHEN;FALL.CSV;csv;pl.item04_source;encounter_identifier_value;encounter.identifier.value;factor;"";;;0;"";"";"";"";"";""
 ICD Code;ICD_Kode;ICD.CSV;csv;pl.item04_source;condition_code_coding_code;condition.code.coding.code;factor;"";;;0;"";"";"";"";"";""
-Item04;GESCHLECHT;FALL.CSV;csv;pl.item04_source;patient_gender;patient.gender;factor;"{""value_set"": ""w""}";;;1;Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.;ICD.CSV;FALL.CSV;KH_internes_Kennzeichen = KH_INTERNES_KENNZEICHEN;left outer;grepl(‘C6[0-3]’, ICD_Kode)
+Item04;GESCHLECHT;FALL.CSV;csv;pl.item04_source;patient_gender;patient.gender;factor;"{""value_set"": ""m""}";;;1;Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.;ICD.CSV;FALL.CSV;KH_internes_Kennzeichen = KH_INTERNES_KENNZEICHEN;left outer;grepl(‘C6[0-3]’, ICD_Kode)
 Patientennummer;PATIENTENNUMMER;FALL.CSV;csv;pl.item04_source;patient_identifier_value;patient.identifier.value;factor;"";;;0;"";"";"";"";"";""
 Aufnahmegrund;AUFNAHMEGRUND;FALL.CSV;csv;pl.item05_source;encounter_hospitalization_class;encounter.hospitalization.class;factor;"{""value_set"": ""01xx, 02xx, 03xx, 04xx, 05xx, 06xx, 08xx""}";;;0;"";"";"";"";"";""
 Fallnummer;KH_INTERNES_KENNZEICHEN;FALL.CSV;csv;pl.item05_source;encounter_identifier_value;encounter.identifier.value;factor;"";;;0;"";"";"";"";"";""
-Item05;GESCHLECHT;FALL.CSV;csv;pl.item05_source;patient_gender;patient.gender;factor;"";;;1;Nur bei weiblichen Patientinnen ist 'stationäre Entbindung' als Aufnahmegrund (05) erlaubt.;"";"";"";"";grepl(‘05xx’, AUFNAHMEGRUND)
+Item05;GESCHLECHT;FALL.CSV;csv;pl.item05_source;patient_gender;patient.gender;factor;"{""value_set"": ""w""}";;;1;Nur bei weiblichen Patientinnen ist 'stationäre Entbindung' als Aufnahmegrund (05) erlaubt.;"";"";"";"";grepl(‘05xx’, AUFNAHMEGRUND)
 Patientennummer;PATIENTENNUMMER;FALL.CSV;csv;pl.item05_source;patient_identifier_value;patient.identifier.value;factor;"";;;0;"";"";"";"";"";""
 Belegungstage in anderem Entgeltbereich;BELEGUNGSTAGE_IN_ANDEREM_ENTGELTBEREICH;FALL.CSV;csv;undefined;"";"";"";"";;;;"";"";"";"";"";""
 Beurlaubungstage (PSY);BEURLAUBUNGSTAGE_PSY;FALL.CSV;csv;undefined;"";"";"";"";;;;"";"";"";"";"";""
@@ -170,11 +170,11 @@ Item03;sex_cd;patient_dimension;i2b2;pl.item03_target;patient_gender;patient.gen
 Patientennummer;patient_num;observation_fact;i2b2;pl.item03_target;patient_identifier_value;patient.identifier.value;factor;"";;;0;"";"";"";"";"";""
 Fallnummer;encounter_num;observation_fact;i2b2;pl.item04_target;encounter_identifier_value;encounter.identifier.value;factor;"";;;0;"";"";"";"";"";""
 ICD Code;concept_cd;observation_fact;i2b2;pl.item04_target;condition_code_coding_code;condition.code.coding.code;factor;"";;;0;"";"";"";"";"";""
-Item04;sex_cd;patient_dimension;i2b2;pl.item04_target;patient_gender;patient.gender;factor;"{""value_set"": ""w""}";;;1;"";observation_fact;patient_dimension;patient_num = patient_num;left outer;concept_cd ~ 'ICD10:C6[0-3]'
+Item04;sex_cd;patient_dimension;i2b2;pl.item04_target;patient_gender;patient.gender;factor;"{""value_set"": ""m""}";;;1;"";observation_fact;patient_dimension;patient_num = patient_num;left outer;concept_cd ~ 'ICD10:C6[0-3]'
 Patientennummer;patient_num;observation_fact;i2b2;pl.item04_target;patient_identifier_value;patient.identifier.value;factor;"";;;0;"";"";"";"";"";""
 Aufnahmegrund;concept_cd;observation_fact;i2b2;pl.item05_target;encounter_hospitalization_class;encounter.hospitalization.class;factor;"{""value_set"": ""01xx, 02xx, 03xx, 04xx, 05xx, 06xx, 08xx""}";;;0;"";"";"";"";"";""
 Fallnummer;encounter_num;observation_fact;i2b2;pl.item05_target;encounter_identifier_value;encounter.identifier.value;factor;"";;;0;"";"";"";"";"";""
-Item05;sex_cd;patient_dimension;i2b2;pl.item05_target;patient_gender;patient.gender;factor;"";;;1;"";observation_fact;patient_dimension;patient_num = patient_num;left outer;concept_cd ~ 'AUFNGR:05'
+Item05;sex_cd;patient_dimension;i2b2;pl.item05_target;patient_gender;patient.gender;factor;"{""value_set"": ""w""}";;;1;"";observation_fact;patient_dimension;patient_num = patient_num;left outer;concept_cd ~ 'AUFNGR:05'
 Patientennummer;patient_num;observation_fact;i2b2;pl.item05_target;patient_identifier_value;patient.identifier.value;factor;"";;;0;"";"";"";"";"";""
 "";"";"";"";undefined;condition_bodySite;condition.bodySite;factor;"";;;;"";"";"";"";"";""
 "";"";"";"";undefined;procedure_bodySite;procedure.bodySite;factor;"";;;;"";"";"";"";"";""

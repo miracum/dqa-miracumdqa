@@ -14,8 +14,28 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#' @title moduleDashboardServer
+#'
+#' @param input Shiny server input object
+#' @param output Shiny server output object
+#' @param session Shiny session object
+#' @param rv The global 'reactiveValues()' object, defined in server.R
+#' @param input_re The Shiny server input object, wrapped into a reactive expression: input_re = reactive({input})
+#'
+#' @export
+#'
 # moduleDashboardServer
 moduleDashboardServer <- function(input, output, session, rv, input_re){
+
+  # initialize some reactive stuff here
+  observe({
+    if (is.null(rv$dash_summary_source)){
+      rv$dash_summary_source <- summaryTable()
+    }
+    if (is.null(rv$dash_summary_target)){
+      rv$dash_summary_target <- summaryTable()
+    }
+  })
   output$dash_instruction <- renderText({
     paste0("Please configure and test your database connection in the settings tab.\nThen return here in order to load the data.")
   })
@@ -230,7 +250,12 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 }
 
 
-
+#' @title moduleDashboardUI
+#'
+#' @param id A character. The identifier of the shiny object
+#'
+#' @export
+#'
 # moduleDashboardUI
 moduleDashboardUI <- function(id){
   ns <- NS(id)

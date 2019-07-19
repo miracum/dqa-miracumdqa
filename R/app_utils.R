@@ -14,6 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#' @title onStart
+#'
+#' @param input Shiny server input object
+#' @param output Shiny server output object
+#' @param session Shiny session object
+#' @param rv The global 'reactiveValues()' object, defined in server.R
+#'
+#' @export
+#'
+# onStart
 # function to run on startup
 onStart <- function(session, rv, input, output){
   if (file.exists("./_settings/global_settings.JSON")){

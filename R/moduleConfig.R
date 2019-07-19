@@ -14,6 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#' @title moduleConfigServer
+#'
+#' @param input Shiny server input object
+#' @param output Shiny server output object
+#' @param session Shiny session object
+#' @param rv The global 'reactiveValues()' object, defined in server.R
+#' @param input_re The Shiny server input object, wrapped into a reactive expression: input_re = reactive({input})
+#'
+#' @export
+#'
 # moduleConfigServer
 moduleConfigServer <- function(input, output, session, rv, input_re){
   roots = c(home="/home/")
@@ -133,6 +143,12 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
   })
 }
 
+#' @title moduleConfigUI
+#'
+#' @param id A character. The identifier of the shiny object
+#'
+#' @export
+#'
 # moduleConfigUI
 moduleConfigUI <- function(id){
   ns <- NS(id)
