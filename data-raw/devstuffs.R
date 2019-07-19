@@ -15,7 +15,7 @@ my_desc$set("Copyright", "MIRACUM - Medical Informatics in Research and Medicine
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("1.3.0.9000")
+my_desc$set_version("1.3.1.9000")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
