@@ -18,11 +18,11 @@ RUN for package in $p_base; do \
     R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"https://ftp.fau.de/cran/\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
 
-ARG gitusername
 ARG gitpassword
+ARG gitusername
 
 # install our R-Package
-RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass(\"$gitusername\", \"$gitpassword\"), ref = \"v1.3.1.9003\")"
+RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass(\"$gitusername\", \"$gitpassword\"))" #, ref = \"v1.3.1.9003\")"
 
 # install tinytex
 RUN R -q -e 'tinytex::install_tinytex()'
@@ -56,6 +56,5 @@ RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
 # add log-script
 ADD show-log.sh /
 RUN chmod +x show-log.sh
-
 
 CMD ["R", "-e library(miRacumDQA);launchApp()"]
