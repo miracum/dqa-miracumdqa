@@ -54,6 +54,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
       # transform to categorical
       shiny::withProgress(message = "Transforming target variable types", value = 0, {
         for (i in rv$target_keys){
+          shinyjs::logjs(paste("Transforming target variable types", i))
           shiny::incProgress(1/length(rv$target_keys), detail = paste("... transforming", i, "..."))
 
           # get column names
@@ -83,6 +84,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
       cat("\nReading from csv\n")
 
       rv$list_source <- sapply(rv$source_keys, function(i){
+        shinyjs::logjs(paste("Reading", i, "from CSV."))
         loadCSV(rv, i)
       }, simplify = F, USE.NAMES = T)
 
@@ -95,6 +97,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
       shiny::withProgress(message = "Transforming source variable types", value = 0, {
         # rename colnames of source data to fhir (variable_names) and transform to dates
         for (i in rv$source_keys){
+          shinyjs::logjs(paste("Transforming target variable types", i))
           shiny::incProgress(1/length(rv$source_keys), detail = paste("... transforming", i, "..."))
 
           # get column names
@@ -132,6 +135,7 @@ moduleRawdata1Server <- function(input, output, session, rv, input_re){
         for (i in unique(names(rv$pl_vars))){
           if (grepl("_source", rv$pl_vars[[i]])){
             j <- rv$pl_vars[[i]]
+            shinyjs::logjs(paste("Getting plausibilities:", j))
             shiny::incProgress(1/length(rv$source_keys), detail = paste("... getting", j, "..."))
             rv$list_source[[j]] <- loadSourcePlausibilities(j, rv)
           }

@@ -8,7 +8,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     libpq-dev \
     pandoc \
-    pandoc-citeproc
+    pandoc-citeproc \
+    gpg-agent
+
 
 ARG p_base="devtools \
     git2r \
@@ -46,7 +48,13 @@ RUN ./root/.TinyTeX/bin/x86_64-linux/tlmgr install \
     babel \
     babel-german \
     hyphen-german \
-    lm
+    lm \
+    hyperref \
+    url \
+    graphics-def \
+    titling \
+    caption
+
 
 RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
     echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
