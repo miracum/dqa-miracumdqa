@@ -27,7 +27,7 @@ This is a basic example which shows you how to launch the MIRACUM DQA tool:
 
 ``` r
 library(miRacumDQA)
-miRacumDQA()
+launchApp()
 ```
 
 To open the shiny application in your webbrowser, go to http://localhost:3838
