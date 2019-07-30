@@ -26,9 +26,9 @@
 # onStart
 # function to run on startup
 onStart <- function(session, rv, input, output){
-  if (file.exists("./_settings/global_settings.JSON")){
+  if (file.exists(paste0(tempdir(), "/_settings/global_settings.JSON"))){
     cat("\nglobal_settings.JSON present\n")
-    user_settings <- jsonlite::fromJSON("./_settings/global_settings.JSON")
+    user_settings <- jsonlite::fromJSON(paste0(tempdir(), "/_settings/global_settings.JSON"))
 
     cat("\nUpdate radio button:", user_settings[["db"]], "\n")
     shiny::updateRadioButtons(session, "moduleConfig-config_targetdb_rad", selected = user_settings[["db"]])

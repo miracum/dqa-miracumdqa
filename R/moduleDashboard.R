@@ -99,17 +99,17 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       rv$target_getdata <- TRUE
       rv$source_getdata <- TRUE
 
-      if (!dir.exists("./_settings/")){
-        dir.create("./_settings/")
+      if (!dir.exists(paste0(tempdir(), "/_settings/"))){
+        dir.create(paste0(tempdir(), "/_settings/"))
       }
 
       # save user settings
       writeLines(jsonlite::toJSON(list("db" = rv$target_db,
-                             "source_path" = rv$sourcefiledir,
-                             "site_name" = rv$sitename),
-                        pretty = T,
-                        auto_unbox = F),
-                 "./_settings/global_settings.JSON")
+                                       "source_path" = rv$sourcefiledir,
+                                       "site_name" = rv$sitename),
+                                  pretty = T,
+                                  auto_unbox = F),
+                 paste0(tempdir(), "/_settings/global_settings.JSON"))
 
     } else {
       cat("\nSQL not loaded yet\n")

@@ -45,16 +45,16 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
     rv$target_db <- input_re()[["moduleConfig-config_targetdb_rad"]]
 
     # remove existing global_settings here as they will newly be created once loading the data
-    if (file.exists("_settings/global_settings.JSON")){
+    if (file.exists(paste0(tempdir(), "/_settings/global_settings.JSON"))){
       if (input_re()[["moduleConfig-config_targetdb_rad"]] != rv$user_settings[["db"]]){
         cat("\nRemoving '_settings/global_settings.JSON'")
-        file.remove("_settings/global_settings.JSON")
+        file.remove(paste0(tempdir(), "/_settings/global_settings.JSON"))
         rv$user_settings <- NULL
       }
     }
 
     # if "./_utilities/settings.yml" not present, read default settings list here and populate textInputs
-    if (!file.exists(paste0("./_settings/settings_", input_re()[["moduleConfig-config_targetdb_rad"]], ".JSON"))){
+    if (!file.exists(paste0(tempdir(), "/_settings/settings_", input_re()[["moduleConfig-config_targetdb_rad"]], ".JSON"))){
       cat("\nReading default settings\n")
       rv$db_settings <- config::get(input_re()[["moduleConfig-config_targetdb_rad"]], file = "./_utilities/settings_default.yml")
 
@@ -63,7 +63,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
         title = "Loading default database configuration")
       )
     } else {
-      rv$db_settings <- jsonlite::fromJSON(paste0("./_settings/settings_", input_re()[["moduleConfig-config_targetdb_rad"]], ".JSON"))
+      rv$db_settings <- jsonlite::fromJSON(paste0(tempdir(), "/_settings/settings_", input_re()[["moduleConfig-config_targetdb_rad"]], ".JSON"))
     }
 
     shiny::updateTextInput(session, "config_targetdb_dbname", value = rv$db_settings$dbname)
@@ -80,14 +80,14 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
     if (!is.null(rv$db_settings)){
       print(rv$db_settings)
 
-      if (!dir.exists("./_settings/")){
-        dir.create("./_settings/")
+      if (!dir.exists(paste0(tempdir(), "/_settings/"))){
+        dir.create(paste0(tempdir(), "/_settings/"))
       }
 
       writeLines(jsonlite::toJSON(rv$db_settings,
                         pretty = T,
                         auto_unbox = F),
-                 paste0("./_settings/settings_", input_re()[["moduleConfig-config_targetdb_rad"]], ".JSON"))
+                 paste0(tempdir(), "/_settings/settings_", input_re()[["moduleConfig-config_targetdb_rad"]], ".JSON"))
     }
   })
 

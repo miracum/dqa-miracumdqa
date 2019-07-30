@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ARG p_base="devtools \
     git2r \
-    getPass \
     tinytex"
 
 RUN for package in $p_base; do \
