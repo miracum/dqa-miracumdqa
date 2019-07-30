@@ -70,6 +70,9 @@ RUN ./root/.TinyTeX/bin/x86_64-linux/tlmgr install \
 # add shiny app
 ADD app.R /srv/shiny-server/
 
+# add custom server conf (running shiny as user 'shiny' is more secure than running as 'root')
+ADD shiny-server.conf /etc/shiny-server/
+
 # add log-script
 ADD show-log.sh /
 RUN chmod +x show-log.sh
