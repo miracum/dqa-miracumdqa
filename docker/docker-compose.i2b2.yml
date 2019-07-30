@@ -19,4 +19,4 @@ networks:
 # debugging cmd:
 # sudo docker run -it --rm -p 3838:3838 -v /home/i2b2/start:/home/i2b2/start --network="i2b2_i2b2net" dqa-miracum bash
 
-# sudo docker log -f dqa-miracum
+# sudo docker logs -f dqa-miracum
