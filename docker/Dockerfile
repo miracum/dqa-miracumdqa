@@ -1,4 +1,4 @@
-FROM r-base
+FROM rocker/shiny
 
 # install necessary system dependencies for r packages (e.g. devtools, RPostgres)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -66,15 +66,11 @@ RUN ./root/.TinyTeX/bin/x86_64-linux/tlmgr install \
     ifxetex \
     ifluatex
 
-
-
-RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
-    echo "options(shiny.host = '0.0.0.0')" >> /etc/R/Rprofile.site && \
-    echo "options(shiny.launch.browser = FALSE)" >> /etc/R/Rprofile.site
-
+# add shiny app
+ADD app.R /srv/shiny-server/
 
 # add log-script
 ADD show-log.sh /
 RUN chmod +x show-log.sh
 
-CMD ["R", "-e library(miRacumDQA);launchApp()"]
+CMD ["/usr/bin/shiny-server.sh"]
