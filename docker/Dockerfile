@@ -28,7 +28,9 @@ ARG gitusername
 RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass(\"$gitusername\", \"$gitpassword\"))" #, ref = \"v1.3.1.9003\")"
 
 # install tinytex
+USER shiny
 RUN R -q -e 'tinytex::install_tinytex()'
+USER root
 
 # install required LaTeX-Packages
 RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr update --self
