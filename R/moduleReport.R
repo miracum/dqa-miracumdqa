@@ -31,6 +31,17 @@ moduleReportServer <- function(input, output, session, rv, input_re){
     # wait here for flag to create report; this can be done, when everything we need for the report is there
     req(rv$create_report)
 
+    # for debugging purposes
+    # descriptive_results <<- rv$dqa_descriptive_results
+    # plausi_out <<- rv$dqa_plausibility_results
+    # conformance_out <<- rv$conformance
+    # source_data <<- rv$list_source
+    # target_data <<- rv$list_target
+
+    rv$list_target <- NULL
+    rv$list_source <- NULL
+    gc()
+
     if (is.null(rv$report_created)){
       shiny::withProgress(
         message = paste0("Creating report ..."), value = 0, {

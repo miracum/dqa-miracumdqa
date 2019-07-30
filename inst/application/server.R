@@ -101,13 +101,6 @@ shiny::shinyServer(function(input, output, session) {
             )
         })
         shinydashboard::updateTabItems(session, "tabs", "tab_dashboard")
-
-        # for debugging purposes
-        descriptive_results <<- rv$dqa_descriptive_results
-        plausi_out <<- rv$dqa_plausibility_results
-        conformance_out <<- rv$conformance
-        source_data <<- rv$list_source
-        target_data <<- rv$list_target
     })
 
     ########################
