@@ -27,6 +27,7 @@ ARG gitusername
 RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass(\"$gitusername\", \"$gitpassword\"))" #, ref = \"v1.3.1.9003\")"
 
 # install tinytex
+RUN R -q -e "install.packages('tinytex')"
 RUN R -q -e 'tinytex::install_tinytex()'
 
 # install required LaTeX-Packages
