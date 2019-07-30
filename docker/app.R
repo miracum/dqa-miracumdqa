@@ -1,1 +1,2 @@
-miRacumDQA::launchApp()
+library(miRacumDQA)
+launchApp()

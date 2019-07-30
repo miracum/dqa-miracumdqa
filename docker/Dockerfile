@@ -1,3 +1,4 @@
+# https://hub.docker.com/r/rocker/shiny/
 FROM rocker/shiny-verse
 
 # install necessary system dependencies for r packages (e.g. devtools, RPostgres)
