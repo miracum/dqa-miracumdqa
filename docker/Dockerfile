@@ -56,7 +56,16 @@ RUN ./root/.TinyTeX/bin/x86_64-linux/tlmgr install \
     titling \
     caption \
     amsmath \
-    amsfonts
+    amsfonts \
+    tools \
+    oberdiek \
+    graphics \
+    latex-graphics-dev \
+    geometry \
+    ec \
+    ifxetex \
+    ifluatex
+
 
 
 RUN echo "options(shiny.port = 3838)" >> /etc/R/Rprofile.site && \
