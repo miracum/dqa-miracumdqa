@@ -38,8 +38,10 @@ moduleReportServer <- function(input, output, session, rv, input_re){
     # source_data <<- rv$list_source
     # target_data <<- rv$list_target
 
+    # TODO one could remove raw-data here
     rv$list_target <- NULL
     rv$list_source <- NULL
+    cat("\nRemoved original files\n")
     gc()
 
     if (is.null(rv$report_created)){

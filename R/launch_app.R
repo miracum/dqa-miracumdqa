@@ -29,5 +29,5 @@
 
 launchApp <- function(port=3838){
   options(shiny.port = port)
-  shiny::runApp(appDir = system.file("application", package = "miRacumDQA"))
+  shiny::shinyAppDir(appDir = system.file("application", package = "miRacumDQA"))
 }

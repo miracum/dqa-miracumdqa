@@ -83,15 +83,10 @@ shiny::shinyServer(function(input, output, session) {
         # calc time-diff
         rv$duration <- difftime(rv$end.time, rv$start.time, units = "mins")
 
-        # TODO one could remove raw-data here
-        # rv$list_source <- NULL
-        # rv$list_target <- NULL
-        # gc()
-
         # render menu
         output$menu <- shinydashboard::renderMenu({
             shinydashboard::sidebarMenu(
-                shinydashboard::menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
+                #shinydashboard::menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
                 shinydashboard::menuItem("Descriptive Results", tabName = "tab_descriptive", icon = icon("table")),
                 shinydashboard::menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle"),
                                          shinydashboard::menuSubItem("Atemporal Plausibility", tabName = "tab_atemp_plausibility"),
