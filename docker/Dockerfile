@@ -1,4 +1,4 @@
-FROM rocker/shiny
+FROM rocker/shiny-verse
 
 # install necessary system dependencies for r packages (e.g. devtools, RPostgres)
 RUN apt-get update && apt-get install -y --no-install-recommends \
