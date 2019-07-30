@@ -31,8 +31,8 @@ RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRac
 RUN R -q -e 'tinytex::install_tinytex()'
 
 # install required LaTeX-Packages
-RUN ./root/.TinyTeX/bin/x86_64-linux/tlmgr update --self
-RUN ./root/.TinyTeX/bin/x86_64-linux/tlmgr install \
+RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr update --self
+RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
     multirow \
     xcolor \
     colortbl \
