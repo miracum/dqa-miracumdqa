@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     pandoc \
     pandoc-citeproc \
-    gpg-agent
+    gpg-agent \
+    git
 
 
 ARG p_base="devtools \
@@ -68,17 +69,20 @@ RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
     ifxetex \
     ifluatex
 
+# clone repo
+RUN cd /home/shiny &&\
+    git clone https://${gitusername}:${gitpassword}@gitlab.miracum.org/miracum-dqa/miRacumDQA.git
+
 # add shiny app
-ADD app.R /srv/shiny-server/
+RUN cd /home/shiny/miRacumDQA/docker && \
+    cp app.R /srv/shiny-server/ && \
+    # add custom server conf (running shiny as user 'shiny' is more secure than running as 'root')
+    cp shiny-server.conf /etc/shiny-server/ && \
+    # add log-script
+    cp show-log.sh /
 
 # fix permissions
 RUN chown -R shiny:shiny /srv/shiny-server/
-
-# add custom server conf (running shiny as user 'shiny' is more secure than running as 'root')
-ADD shiny-server.conf /etc/shiny-server/
-
-# add log-script
-ADD show-log.sh /
 RUN chmod +x show-log.sh
 
 CMD ["/usr/bin/shiny-server.sh"]
