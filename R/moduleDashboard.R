@@ -43,7 +43,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   observeEvent(input_re()[["moduleDashboard-dash_load_btn"]], {
 
     # set start.time, when clicking the button
-    rv$start.time <- Sys.time()
+    rv$start.time <- format(Sys.time(), usetz = T, tz = "CET")
 
     # check database connection
     rv$db_con <- testDBcon(rv$db_settings)
@@ -262,6 +262,22 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     })
     shinyjs::show("dash_instruction")
   })
+
+
+
+  observeEvent(input_re()[["moduleDashboard-dash_send_datamap"]], {
+    # https://stackoverflow.com/questions/27650331/adding-an-email-button-in-shiny-using-tabletools-or-otherwise
+    shinyjs::logjs("Send datamap")
+    # https://stackoverflow.com/questions/37795760/r-shiny-add-weblink-to-actionbutton
+    # sendlink <- paste0("location.href=",
+    #                    "\"mailto:imi-miracum-diz-projektanfragen@lists.fau.de?",
+    #                    "body=",
+    #                    utils::URLencode(paste0("This is an automatically created Email.\n\n\nData Map\n\nSite name: ", rv$sitename,
+    #                                            "\n\nR-Package version 'miRacumDQA': ", packageVersion("miRacumDQA"))),
+    #                    "&subject='Data Map Report'\"")
+    # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-option-of-actionbutton-on-the-server-side
+    # shinyjs::runjs(sendlink)
+  })
 }
 
 
@@ -306,6 +322,19 @@ moduleDashboardUI <- function(id){
                condition = "output['moduleDashboard-etl_results']",
                box(title = "Target System Overview (Data Map)",
                    tableOutput(ns("dash_summary_target")),
+                   tags$hr(),
+                   tags$a(actionButton(ns("dash_send_datamap"), "Send Data Map", icon = icon("envelope", lib = "font-awesome")),
+                          # https://stackoverflow.com/questions/27650331/adding-an-email-button-in-shiny-using-tabletools-or-otherwise
+                          # https://stackoverflow.com/questions/37795760/r-shiny-add-weblink-to-actionbutton
+                          # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-option-of-actionbutton-on-the-server-side
+                          # https://stackoverflow.com/questions/45376976/use-actionbutton-to-send-email-in-rshiny
+                          href = paste0("mailto:imi-miracum-diz-projektanfragen@lists.fau.de?",
+                                        "body=",
+                                        utils::URLencode(paste0("This is an automatically created Email.\n\n\nData Map\n\nSite name: ", rv$sitename,
+                                                                "\n\nR-Package version 'miRacumDQA': ", packageVersion("miRacumDQA"),
+                                                                "\n\nLast DQA-Tool run: ", rv$end.time,
+                                                                "\nRun duration: ", rv$duration)),
+                                        "&subject='Data Map Report'")),
                    width = 12
                ),
                box(title = "Source System Overview",

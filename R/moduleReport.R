@@ -32,7 +32,7 @@ moduleReportServer <- function(input, output, session, rv, input_re){
     req(rv$create_report)
 
     # for debugging purposes
-    # descriptive_results <<- rv$dqa_descriptive_results
+    descriptive_results <<- rv$dqa_descriptive_results
     # plausi_out <<- rv$dqa_plausibility_results
     # conformance_out <<- rv$conformance
     # source_data <<- rv$list_source

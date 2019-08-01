@@ -79,7 +79,7 @@ shiny::shinyServer(function(input, output, session) {
         shiny::req(rv$report_created)
 
         # set end.time
-        rv$end.time <- Sys.time()
+        rv$end.time <- format(Sys.time(), usetz = T, tz = "CET")
         # calc time-diff
         rv$duration <- difftime(rv$end.time, rv$start.time, units = "mins")
 
