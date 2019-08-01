@@ -25,12 +25,12 @@ mdr[name=="Aufnahmeanlass" & source_system=="csv", value_set := '{"value_set": "
 mdr[name=="Aufnahmeanlass" & source_system=="i2b2", value_set := '{"value_set": "E, Z, N, R, V, A, G, B"}']
 
 # Alter (in Tagen)
-mdr[name=="Alter (in Tagen)" & source_system=="csv", value_set := '{"min": 0, "max": 365}']
-mdr[name=="Alter (in Tagen)" & source_system=="i2b2", value_set := '{"min": 0, "max": 365}']
+mdr[name=="Alter (in Tagen)" & source_system=="csv", value_set := '{"min": 0, "max": 366}']
+mdr[name=="Alter (in Tagen)" & source_system=="i2b2", value_set := '{"min": 0, "max": 366}']
 
 # Alter (in Jahren)
-mdr[name=="Alter (in Jahren)" & source_system=="csv", value_set := '{"min": 0, "max": 105}']
-mdr[name=="Alter (in Jahren)" & source_system=="i2b2", value_set := '{"min": 0, "max": 105}']
+mdr[name=="Alter (in Jahren)" & source_system=="csv", value_set := '{"min": 0, "max": 110}']
+mdr[name=="Alter (in Jahren)" & source_system=="i2b2", value_set := '{"min": 0, "max": 110}']
 
 # Diagnoseart
 mdr[name=="Diagnoseart" & source_system=="csv", value_set := '{"value_set": "HD, ND"}']
