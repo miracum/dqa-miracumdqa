@@ -1,24 +1,19 @@
-Package: Rie
-Title: Reference Interval Estimation
-Version: 0.0.0.9002
+Package: miRacumDQA
+Title: MIRACUM DQA Tool
+Version: 1.3.1.9004
 Authors@R: 
-    c(person(given = "Lorenz",
-             family = "Kapsner",
-             role = c("cre", "aut"),
-             email = "lorenz.kapsner@uk-erlangen.de"),
-      person(given = "Jakob",
-             family = "Zierk",
-             role = "aut"))
-Description: Reference Interval Estimation from Mixed Distributions using Truncation Points and the Kolmogorov-Smirnov Distance.
+    person(given = "Lorenz",
+           family = "Kapsner",
+           role = c("cre", "aut"),
+           email = "lorenz.kapsner@uk-erlangen.de")
+Description: The MIRACUM consortium's data quality assessment tool.
 License: GPL-3
 LazyData: true
-URL: https://gitlab.miracum.org/ume-labor/rie
-BugReports: https://gitlab.miracum.org/ume-labor/rie/issues
+URL: https://gitlab.miracum.org/miracum-dqa/miRacumDQA
+BugReports: https://gitlab.miracum.org/miracum-dqa/miRacumDQA/issues
 Encoding: UTF-8
 Copyright: MIRACUM - Medical Informatics in Research and Medicine
-Date/Publication: 2019-08-05 06:44:36 UTC
-Depends: 
-    R (>= 2.10)
+Date/Publication: 2019-08-05 08:23:54 UTC
 Imports: 
     data.table,
     shiny,
@@ -28,15 +23,17 @@ Imports:
     ggplot2,
     magrittr,
     stats,
-    utils,
     graphics,
+    ggpubr,
     DT,
     jsonlite,
+    RPostgres,
+    DBI,
+    e1071,
     knitr,
     rmarkdown,
-    kableExtra,
-    openxlsx,
-    config
+    config,
+    kableExtra
 Suggests: 
     testthat,
     processx
