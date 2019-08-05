@@ -1,8 +1,16 @@
 #!/bin/bash
 
-read -p "\nPlease enter your username to https://gitlab.miracum.org/: " gitusername
-read -s -p "\nPlease enter your password to https://gitlab.miracum.org/: " gitpassword
+# create folder to add to Dockerfile
+mkdir addfolder
+cd addfolder
 
-docker build --build-arg gitpassword=$gitpassword  --build-arg gitusername=$gitusername -f Dockerfile -t dqa-miracum .
+# clone repository
+git clone https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git
+cd ..
+
+docker build -f Dockerfile -t dqa-miracum .
+
+# remove addfolder
+rm -rf ./addfolder
 
 docker-compose -f docker-compose.i2b2.yml up -d

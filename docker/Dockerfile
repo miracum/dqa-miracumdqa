@@ -15,18 +15,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 
 ARG p_base="devtools \
-    git2r \
     tinytex"
 
 RUN for package in $p_base; do \
     R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"https://ftp.fau.de/cran/\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
     done
-
-ARG gitusername
-ARG gitpassword
-
-# install our R-Package
-RUN R -q -e "devtools::install_git('https://gitlab.miracum.org/miracum-dqa/miRacumDQA.git', credentials = git2r::cred_user_pass(\"$gitusername\", \"$gitpassword\"))" #, ref = \"v1.3.1.9003\")"
 
 # install tinytex
 USER shiny
@@ -69,12 +62,18 @@ RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
     ifxetex \
     ifluatex
 
-# clone repo
-RUN cd /home/shiny &&\
-    git clone https://${gitusername}:${gitpassword}@gitlab.miracum.org/miracum-dqa/miRacumDQA.git
+# repository name
+ARG REPO_NAME=miRacumDQA
+
+# add cloned repo
+ADD ./addfolder /home/shiny/
+
+# install our R-Package
+RUN cd /home/shiny/${REPO_NAME}/ && \
+    R -q -e "devtools::install('.')"
 
 # add shiny app
-RUN cd /home/shiny/miRacumDQA/docker && \
+RUN cd /home/shiny/${REPO_NAME}/docker && \
     cp app.R /srv/shiny-server/ && \
     # add custom server conf (running shiny as user 'shiny' is more secure than running as 'root')
     cp shiny-server.conf /etc/shiny-server/ && \

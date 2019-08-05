@@ -25,3 +25,9 @@
 .RData
 .Rhistory
 inst/application/_settings/
+.Rproj*
+data-raw/table.csv
+data-raw/TODO.R
+data-raw/debug-plotting.R
+tests/testthat/Rplots.pdf
+tests/testthat/plotdir/
