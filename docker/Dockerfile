@@ -66,7 +66,7 @@ RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
 ARG REPO_NAME=miRacumDQA
 
 # add cloned repo
-ADD ./addfolder /home/shiny/
+COPY ./addfolder /home/shiny/
 
 # install our R-Package
 RUN cd /home/shiny/${REPO_NAME}/ && \
