@@ -1,16 +1,16 @@
-# miRacumDQA - The MIRACUM consortium's data quality assessment tool.
-# Copyright (C) 2019 MIRACUM - Medical Informatics in Research and Medicine
-# 
+# miRacumDQA - The MIRACUM consortium's data quality assessment tool
+# Copyright (C) 2019 Universitätsklinikum Erlangen
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -19,46 +19,46 @@ library(jsonlite)
 # concept_id=8507: MALE
 # concept_id=8532: FEMALE
 # concept_id=8551: UNKNOWN
-dt_patient.db <- 
+dt_patient.db <-
   "SELECT
-  per.person_id       AS    patient_id, 
+  per.person_id       AS    patient_id,
   per.year_of_birth   AS    birth_date,
   per.month_of_birth  AS    birth_month,
-  con.concept_code    AS    gender, 
+  con.concept_code    AS    gender,
   loc.zip             AS    zip_code
 FROM
 	p21_cdm.person AS per
-LEFT OUTER JOIN 
-	p21_cdm.location AS loc ON 
+LEFT OUTER JOIN
+	p21_cdm.location AS loc ON
 	per.location_id = loc.location_id
-LEFT OUTER JOIN 
-	p21_cdm.concept AS con ON 
+LEFT OUTER JOIN
+	p21_cdm.concept AS con ON
 	per.gender_concept_id = con.concept_id
-ORDER BY 
+ORDER BY
 	per.person_id;"
 
 
-dt_visit.db <- 
+dt_visit.db <-
   "SELECT
-  person_id               AS    patient_id, 
-  visit_occurrence_id     AS    encounter_id, 
-  visit_start_date::DATE  AS    encounter_start_date, 
+  person_id               AS    patient_id,
+  visit_occurrence_id     AS    encounter_id,
+  visit_start_date::DATE  AS    encounter_start_date,
   visit_end_date::DATE    AS    encounter_end_date
-FROM 
+FROM
 	p21_cdm.visit_occurrence
-ORDER BY 
+ORDER BY
 	person_id;"
 
 
 # concept_id Age == 4265453
 # unit day == 8512
-dt_aitaa.db <- 
-  "SELECT 
-  obs.visit_occurrence_id AS    encounter_id, 
+dt_aitaa.db <-
+  "SELECT
+  obs.visit_occurrence_id AS    encounter_id,
   obs.value_as_number     AS    age
-FROM 
+FROM
   p21_cdm.observation AS obs
-WHERE 
+WHERE
   obs.observation_concept_id = 4265453 AND
   obs.unit_concept_id = 8512
 ORDER BY
@@ -67,13 +67,13 @@ ORDER BY
 
 # concept_id Age == 4265453
 # unit year == 9448
-dt_aijaa.db <- 
-  "SELECT 
-  obs.visit_occurrence_id AS    encounter_id, 
+dt_aijaa.db <-
+  "SELECT
+  obs.visit_occurrence_id AS    encounter_id,
   obs.value_as_number     AS    age
-FROM 
+FROM
   p21_cdm.observation AS obs
-WHERE 
+WHERE
   obs.observation_concept_id = 4265453 AND
   obs.unit_concept_id = 9448
 ORDER BY
@@ -90,14 +90,14 @@ ORDER BY
 # G= 4216316: Birth
 # R= 4146925: Discharge from rehabilitation service
 # B= 4194310: Chaperone present
-dt_aufnan.db <- 
-  "SELECT 
-  obs.visit_occurrence_id AS    encounter_id, 
+dt_aufnan.db <-
+  "SELECT
+  obs.visit_occurrence_id AS    encounter_id,
   obs.value_as_string     AS    admission_occasion
-FROM 
+FROM
   p21_cdm.observation AS obs
-WHERE 
-  obs.observation_concept_id IN (4079617, 4164916, 4138807, 4123917, 4164916, 4216316, 4146925, 4194310) AND 
+WHERE
+  obs.observation_concept_id IN (4079617, 4164916, 4138807, 4123917, 4164916, 4216316, 4146925, 4194310) AND
   obs.observation_type_concept_id = 43542355
 ORDER BY
   obs.visit_occurrence_id;"
@@ -115,14 +115,14 @@ ORDER BY
 # 08xx: 4180080: Hospital admission, donor for transplant organ
 
 
-dt_aufngr.db <- 
-  "SELECT 
-  obs.visit_occurrence_id AS    encounter_id, 
+dt_aufngr.db <-
+  "SELECT
+  obs.visit_occurrence_id AS    encounter_id,
   obs.value_as_string     AS    admission_reason
-FROM 
+FROM
   p21_cdm.observation AS obs
-WHERE 
-  obs.observation_concept_id IN (4214577, 4010105, 4123929, 4235698, 4214577, 4216316, 4213258, 4180080) AND 
+WHERE
+  obs.observation_concept_id IN (4214577, 4010105, 4123929, 4235698, 4214577, 4216316, 4213258, 4180080) AND
   obs.observation_type_concept_id = 43542355
 ORDER BY
   obs.visit_occurrence_id;"
@@ -154,26 +154,26 @@ ORDER BY
 # 239: 4203130: Discharge from hospital
 # 249: 4203130: Discharge from hospital
 
-dt_entlgr.db <- 
-  "SELECT 
-  obs.visit_occurrence_id AS    encounter_id, 
+dt_entlgr.db <-
+  "SELECT
+  obs.visit_occurrence_id AS    encounter_id,
   obs.value_as_string     AS    discharge_reason
-FROM 
+FROM
   p21_cdm.observation AS obs
-WHERE 
+WHERE
   obs.observation_concept_id IN (4082735, 4203130, 4021968, 4147710, 4216643, 4139566, 4143443, 4127600, 45878214, 4084686, 4213258, 4084500) AND
   obs.observation_type_concept_id = 38000280
 ORDER BY
   obs.visit_occurrence_id;"
 
 
-dt_beatmst.db <- 
-  "SELECT 
-  obs.visit_occurrence_id AS    encounter_id, 
+dt_beatmst.db <-
+  "SELECT
+  obs.visit_occurrence_id AS    encounter_id,
   obs.value_as_number     AS    ventilation_hours
-FROM 
+FROM
   p21_cdm.observation AS obs
-WHERE 
+WHERE
   obs.observation_concept_id = 4108449
 ORDER BY
   obs.visit_occurrence_id;"
@@ -183,14 +183,14 @@ ORDER BY
 # 44786627: Primary Condition
 # 44786629: Secondary Condition
 # 0: No matching concept
-dt_icd.db <- 
+dt_icd.db <-
   "SELECT
   cond.visit_occurrence_id	      AS 		encounter_id,
   cond.condition_concept_id	      AS 		snomed,
   icd.source_code			            AS		icd_code,
   cond.condition_type_concept_id  AS    diagnosis_type
 FROM
-(SELECT 
+(SELECT
   DISTINCT
   source_code,
   target_concept_id
@@ -198,38 +198,38 @@ FROM
   p21_cdm.source_to_concept_map
 WHERE
   source_vocabulary_id='ICD10GM') AS icd
-JOIN 
+JOIN
   p21_cdm.condition_occurrence AS cond ON
   cond.condition_concept_id = icd.target_concept_id
 WHERE
   cond.condition_type_concept_id IN (44786627, 44786629)
   AND cond.condition_type_concept_id != 0
-ORDER BY 
+ORDER BY
   cond.visit_occurrence_id;"
 
 
-dt_ops.db <- 
-  "SELECT 
+dt_ops.db <-
+  "SELECT
   visit_occurrence_id		  AS		encounter_id,
   procedure_concept_id		AS		snomed,
   procedure_source_value	AS		ops_code,
   procedure_date::date 		AS 		ops_date
 FROM
   p21_cdm.procedure_occurrence
-ORDER BY 
+ORDER BY
   visit_occurrence_id;"
 
 
-dt_fab.db <- 
-  "SELECT 
+dt_fab.db <-
+  "SELECT
   visit_occurrence_id		AS 		encounter_id,
   care_site_id				  AS		department
-FROM 
+FROM
   p21_cdm.visit_occurrence;"
 
 
-dt_pl_c5x.db <- 
-  "SELECT 
+dt_pl_c5x.db <-
+  "SELECT
   cond.visit_occurrence_id		AS 		encounter_id,
   cond.person_id				      AS 		patient_id,
   icd.source_code				      AS 		icd_code,
@@ -244,23 +244,23 @@ FROM
   p21_cdm.source_to_concept_map
 WHERE
   source_vocabulary_id='ICD10GM'
-ORDER BY 
+ORDER BY
   source_code) AS icd
-JOIN 
+JOIN
   p21_cdm.condition_occurrence AS cond ON
   cond.condition_concept_id = icd.target_concept_id
-LEFT OUTER JOIN 
-  p21_cdm.person AS per ON 
+LEFT OUTER JOIN
+  p21_cdm.person AS per ON
   cond.person_id = per.person_id
-LEFT OUTER JOIN 
-  p21_cdm.concept AS con ON 
+LEFT OUTER JOIN
+  p21_cdm.concept AS con ON
   per.gender_concept_id = con.concept_id
-ORDER BY 
+ORDER BY
   cond.visit_occurrence_id;"
 
 
-dt_pl_c6x.db <- 
-  "SELECT 
+dt_pl_c6x.db <-
+  "SELECT
   cond.visit_occurrence_id		AS 		encounter_id,
   cond.person_id				      AS 		patient_id,
   icd.source_code				      AS 		icd_code,
@@ -275,39 +275,39 @@ FROM
   p21_cdm.source_to_concept_map
 WHERE
   source_vocabulary_id='ICD10GM'
-ORDER BY 
+ORDER BY
   source_code) AS icd
-JOIN 
+JOIN
   p21_cdm.condition_occurrence AS cond ON
   cond.condition_concept_id = icd.target_concept_id
-LEFT OUTER JOIN 
-  p21_cdm.person AS per ON 
+LEFT OUTER JOIN
+  p21_cdm.person AS per ON
   cond.person_id = per.person_id
-LEFT OUTER JOIN 
-  p21_cdm.concept AS con ON 
+LEFT OUTER JOIN
+  p21_cdm.concept AS con ON
   per.gender_concept_id = con.concept_id
-ORDER BY 
+ORDER BY
   cond.visit_occurrence_id;"
 
 ## Mapping lt. ETL-Job (Stand 06.03.2019)
 # Aufnahmegrund: observation_type_concept_id = 43542355 = Referral Record
 # 05xx: 4214577: Inpatient care
 dt_pl_05xx.db <-
-  "SELECT 
+  "SELECT
   obs.visit_occurrence_id		  AS 		  encounter_id,
   obs.person_id					      AS 		  patient_id,
   obs.value_as_string     		AS    	admission_reason,
   obs.observation_concept_id	AS 		  snomed,
   con.concept_code  			    AS	    gender
-FROM 
+FROM
   p21_cdm.observation AS obs
-LEFT OUTER JOIN 
-  p21_cdm.person AS per ON 
+LEFT OUTER JOIN
+  p21_cdm.person AS per ON
   obs.person_id = per.person_id
-LEFT OUTER JOIN 
-  p21_cdm.concept AS con ON 
+LEFT OUTER JOIN
+  p21_cdm.concept AS con ON
   per.gender_concept_id = con.concept_id
-WHERE 
+WHERE
   obs.observation_concept_id = 4214577 AND
   obs.observation_type_concept_id = 43542355
 ORDER BY
@@ -315,7 +315,7 @@ ORDER BY
 
 
 dt_pl_o0099.db <-
-  "SELECT 
+  "SELECT
   cond.visit_occurrence_id		AS 		encounter_id,
   cond.person_id				      AS 		patient_id,
   icd.source_code				      AS 		icd_code,
@@ -330,18 +330,18 @@ FROM
   p21_cdm.source_to_concept_map
 WHERE
   source_vocabulary_id='ICD10GM'
-ORDER BY 
+ORDER BY
   source_code) AS icd
-JOIN 
+JOIN
   p21_cdm.condition_occurrence AS cond ON
   cond.condition_concept_id = icd.target_concept_id
-LEFT OUTER JOIN 
-  p21_cdm.person AS per ON 
+LEFT OUTER JOIN
+  p21_cdm.person AS per ON
   cond.person_id = per.person_id
-LEFT OUTER JOIN 
-  p21_cdm.concept AS con ON 
+LEFT OUTER JOIN
+  p21_cdm.concept AS con ON
   per.gender_concept_id = con.concept_id
-ORDER BY 
+ORDER BY
   cond.visit_occurrence_id;"
 
 

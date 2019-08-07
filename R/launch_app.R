@@ -1,5 +1,5 @@
-# miRacumDQA - The MIRACUM consortium's data quality assessment tool.
-# Copyright (C) 2019 MIRACUM - Medical Informatics in Research and Medicine
+# miRacumDQA - The MIRACUM consortium's data quality assessment tool
+# Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
