@@ -63,7 +63,7 @@ RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
     ifluatex
 
 # add TeX-installation to PATH
-ENV PATH="/home/user/bin:${PATH}"
+ENV PATH="/home/shiny/bin:${PATH}"
 
 # repository name
 ARG REPO_NAME=dqastats
