@@ -1,2 +1,2 @@
 library(miRacumDQA)
-launchApp()
+launchDQAtool()

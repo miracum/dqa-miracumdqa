@@ -63,10 +63,24 @@ RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
     ifluatex
 
 # repository name
-ARG REPO_NAME=miRacumDQA
+ARG REPO_NAME=dqastats
 
 # add cloned repo
 COPY ./addfolder /home/shiny/
+
+# install our R-Package
+RUN cd /home/shiny/${REPO_NAME}/ && \
+    R -q -e "devtools::install('.')"
+
+# repository name
+ARG REPO_NAME=dqagui
+
+# install our R-Package
+RUN cd /home/shiny/${REPO_NAME}/ && \
+    R -q -e "devtools::install('.')"
+
+# repository name
+ARG REPO_NAME=miracumdqa
 
 # install our R-Package
 RUN cd /home/shiny/${REPO_NAME}/ && \
