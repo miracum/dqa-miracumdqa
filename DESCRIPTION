@@ -13,27 +13,14 @@ URL: https://gitlab.miracum.org/miracum-dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum-dqa/miRacumDQA/issues
 Encoding: UTF-8
 Copyright: MIRACUM - Medical Informatics in Research and Medicine
-Date/Publication: 2019-08-05 08:23:54 UTC
+Date/Publication: 2019-08-07 08:05:56 UTC
 Imports: 
-    data.table,
     shiny,
-    shinydashboard,
-    shinyFiles,
     shinyjs,
-    ggplot2,
-    magrittr,
-    stats,
-    graphics,
-    ggpubr,
-    DT,
-    jsonlite,
-    RPostgres,
-    DBI,
-    e1071,
-    knitr,
-    rmarkdown,
-    config,
-    kableExtra
+    shinydashboard,
+    DQAstats (>= 0.0.0.9001),
+    DQAgui (>= 0.0.0.9000)
 Suggests: 
     testthat,
     processx
+RoxygenNote: 6.1.1

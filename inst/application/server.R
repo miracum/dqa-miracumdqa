@@ -1,62 +1,35 @@
-# miRacumDQA - The MIRACUM consortium's data quality assessment tool.
-# Copyright (C) 2019 MIRACUM - Medical Informatics in Research and Medicine
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 shiny::shinyServer(function(input, output, session) {
 
     # define reactive values here
-    rv <- shiny::reactiveValues(
-        started = NULL,
-        mdr = NULL,
-        target_keys = NULL,
-        source_keys = NULL,
-        sourcefiledir = NULL,
-        sitenames = NULL,
-        sitename = NULL,
-        user_settings = NULL,
-        db_settings = NULL,
-        db_con = NULL,
-        target_db = NULL,
-        target_getdata = NULL,
-        source_getdata = NULL,
-        data_objects = list(),
-        list_source = NULL,
-        list_target = NULL,
-        dash_summary_target = NULL,
-        dash_summary_source = NULL
-    )
+    rv <- shiny::reactiveValues()
 
+    # set headless
+    rv$headless = FALSE
+
+    # define our utils-path here
+    rv$utilspath <- DQAstats::cleanPathName_(system.file("application/_utilities", package = "miRacumDQA"))
+
+    # TODO remove later, when we have more input source
+    rv$db_source <- "csv"
 
     # run onStart here
-    onStart(session, rv, input, output)
+    DQAgui::onStart(session, rv, input, output)
 
     # handle reset
     shiny::observeEvent(input$reset, {
         shinyjs::js$reset()
     })
 
-
-
     # ########################
     # # tab_config
     # ########################
 
-    shiny::callModule(moduleConfigServer, "moduleConfig", rv, input_re=shiny::reactive({input}))
+    shiny::callModule(DQAgui::moduleConfigServer, "moduleConfig", rv, input_re=shiny::reactive({input}))
 
     shiny::observe({
-        if (!is.null(rv$target_getdata) && !is.null(rv$source_getdata)){
+
+        # first call (rv$target_getdata = TRUE and rv$source_getdata = TRUE), when load-data-button quality checks in moduleDashboard are passed
+        if (!is.null(rv$getdata_target) && !is.null(rv$getdata_source)){
 
             # hide load data button
             shinyjs::hide("moduleDashboard-dash_load_btn")
@@ -72,7 +45,21 @@ shiny::shinyServer(function(input, output, session) {
             shinyjs::disable("moduleConfig-config_targetdb_test_btn")
             shinyjs::disable("moduleConfig-config_sitename")
             shinyjs::disable("moduleConfig-config_sourcedir_in")
+
+            rv$start <- TRUE
         }
+    })
+
+    shiny::observe({
+        req(rv$mdr)
+        shinyjs::disable("moduleConfig-config_load_mdr")
+
+        output$mdr <- shinydashboard::renderMenu({
+            shinydashboard::sidebarMenu(
+                shinydashboard::menuItem("DQ MDR", tabName = "tab_mdr", icon = icon("database"))
+            )
+        })
+        shinydashboard::updateTabItems(session, "tabs", selected = "tab_config")
     })
 
     shiny::observe({
@@ -101,38 +88,32 @@ shiny::shinyServer(function(input, output, session) {
     ########################
     # tab_dashboard
     ########################
-    shiny::callModule(moduleDashboardServer, "moduleDashboard", rv, input_re=reactive({input}))
-
-
-    ########################
-    # tab_rawdata1
-    ########################
-    shiny::callModule(moduleRawdata1Server, "moduleRawdata1", rv, input_re=reactive({input}))
+    shiny::callModule(DQAgui::moduleDashboardServer, "moduleDashboard", rv, input_re=reactive({input}))
 
     ########################
     # tab_descriptive
     ########################
-    shiny::callModule(moduleDescriptiveServer, "moduleDescriptive", rv, input_re=reactive({input}))
+    shiny::callModule(DQAgui::moduleDescriptiveServer, "moduleDescriptive", rv, input_re=reactive({input}))
 
     ########################
     # tab_plausibility
     ########################
-    shiny::callModule(moduleAtempPlausibilityServer, "moduleAtempPlausibility", rv, input_re=reactive({input}))
-    shiny::callModule(moduleUniquePlausibilityServer, "moduleUniquePlausibility", rv, input_re=reactive({input}))
+    shiny::callModule(DQAgui::moduleAtempPlausibilityServer, "moduleAtempPlausibility", rv, input_re=reactive({input}))
+    shiny::callModule(DQAgui::moduleUniquePlausibilityServer, "moduleUniquePlausibility", rv, input_re=reactive({input}))
 
     ########################
     # tab_visualization
     ########################
-    shiny::callModule(moduleVisualizationsServer, "moduleVisulizations", rv, input_re=reactive({input}))
+    shiny::callModule(DQAgui::moduleVisualizationsServer, "moduleVisulizations", rv, input_re=reactive({input}))
 
     ########################
     # tab_report
     ########################
-    shiny::callModule(moduleReportServer, "moduleReport", rv, input_re=reactive({input}))
+    shiny::callModule(DQAgui::moduleReportServer, "moduleReport", rv, input_re=reactive({input}))
 
     ########################
     # tab_mdr
     ########################
-    shiny::callModule(moduleMDRServer, "moduleMDR", rv, input_re=reactive({input}))
+    shiny::callModule(DQAgui::moduleMDRServer, "moduleMDR", rv, input_re=reactive({input}))
 
 })

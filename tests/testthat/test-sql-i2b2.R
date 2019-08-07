@@ -6,16 +6,12 @@ context("test i2b2 SQL statements")
 prefix <- "./"
 utildir <- paste0(prefix, "../../miRacumDQA/")
 
-library(data.table)
-library(jsonlite)
-
-
 test_that("correct sql statments",{
 
-  rv <- headless_initialization(sourcefiledir = paste0(prefix, "testdata"), utilsdir = paste0(utildir, "application/_utilities/"), target_db = "i2b2")
-  rv$list_source <- headless_loadSource(rv)
+  rv <- list()
+  rv$sql_target <- DQAstats::loadSQLs_(system.file("application/_utilities/", package = "miRacumDQA"), "i2b2")
 
-  expect_type(rv$sql, "list")
+  expect_type(rv$sql_target, "list")
 
   # Loop over target_keys and check for hash and type
   known_hashes <- list("dt.admission_target" = "18c5d016c9",
@@ -42,9 +38,9 @@ test_that("correct sql statments",{
                        "pl.item03_target" = "e96899f877",
                        "pl.item04_target" = "409fe365b5",
                        "pl.item05_target" = "1381519f99")
-  for (i in rv$target_keys){
-    expect_type(rv$sql[[i]], "character")
-    expect_known_hash(rv$sql[[i]], known_hashes[[i]])
+  for (i in names(known_hashes)){
+    expect_type(rv$sql_target[[i]], "character")
+    expect_known_hash(rv$sql_target[[i]], known_hashes[[i]])
   }
 
 })

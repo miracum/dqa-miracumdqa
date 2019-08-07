@@ -2,13 +2,13 @@
 # This program is free software: you can redistribute it and/or modify
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 title: |
-  | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (`r rv$target_db` Forschungsdatenrepository) 
-  | Zeitraum `r substr(as.character(rv$dqa_descriptive_results$statistics$EpisodeOfCare_period_end$target_data[1,])[2], 1, 4)` bis `r substr(as.character(rv$dqa_descriptive_results$statistics$EpisodeOfCare_period_end$target_data[6,])[2], 1, 4)` 
+  | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (`r rv$db_target` Forschungsdatenrepository) 
+  | Zeitraum `r rv$time_interval$start` bis `r rv$time_interval$end` 
   | 
   | 
   | Datenqualitätsanalyse des §21-Datensatzes: 
   | Standort: `r rv$sitename` 
-date: '`r format(Sys.time(), "%d %B %Y")`' 
+date: '`r format(Sys.Date(), "%d. %B %Y")`' 
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
 output: 
   pdf_document:
@@ -35,23 +35,25 @@ options(tinytex.verbose = TRUE)
 
 \newpage
 
-# Deskriptive Analyse    
+# Descriptive Analysis
 
 ```{r results='asis'}
-renderResults(rv$dqa_descriptive_results)
+renderResults(rv$results_descriptive)
 ```
 
-# Plausibilitätsprüfungen  
+# Plausibility Checks
+
+## Atemporal Plausibility 
 
 ```{r results='asis'}
 # plausi results
-renderPlausis(rv$dqa_plausibility_results)
+renderPlausis(rv$results_plausibility_atemporal)
 ```
 
-# ETL-Checks
+# ETL Checks
 
 ```{r results='asis'}
-kableTable(quickETLChecks(rv$dqa_descriptive_results))
+kableTable(rv$checks$etl)
 ```
 
 # Conformance Checks
@@ -59,19 +61,19 @@ kableTable(quickETLChecks(rv$dqa_descriptive_results))
 ## Value Conformance
 
 ```{r results='asis'}
-kableTable(quickValueConformanceChecks(rv$conformance$value_conformance))
+kableTable(rv$checks$value_conformance)
 ```
 
 \newpage
 
-# Anhang
+# Appendix
 
-## Verwendete SQL-Befehle  
+## SQLs Target Data System  
 
 ```{r}
 for (i in names(rv$sql)){
   cat(paste0("  \nMDR key: ", i, "  \n  \n"))
-  cat(paste0(rv$sql[[i]]))
+  cat(paste0(rv$sql_target[[i]]))
   cat("  \n  \n")
 }
 ```

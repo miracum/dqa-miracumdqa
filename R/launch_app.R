@@ -16,18 +16,19 @@
 
 #' @title Launch the MIRACUM DQA Tool
 #'
-#' @param port The port, miRacumDQA is running on (default: 3838)
+#' @param port The port, the MIRACUM DQA Tool is running on (default: 3838)
 #'
-#' @return miRacum DQA Shiny application
+#' @return the MIRACUM DQA Tool Shiny application
 #'
-#' @import shiny shinydashboard
-#' @importFrom magrittr "%>%"
-#' @importFrom data.table .N ":="
+#' @import DQAgui shiny
 #'
 #' @export
 #'
 
-launchApp <- function(port=3838){
+launchDQAtool <- function(port=3838){
+
+  # set port and latex-options here
   options(shiny.port = port)
+
   shiny::shinyAppDir(appDir = system.file("application", package = "miRacumDQA"))
 }

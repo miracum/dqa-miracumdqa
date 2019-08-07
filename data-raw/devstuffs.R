@@ -50,25 +50,11 @@ usethis::use_gpl3_license(name="MIRACUM - Medical Informatics in Research and Me
 # Depends
 
 # Imports
-usethis::use_package("data.table", type="Imports")
-usethis::use_package("shiny", type="Imports")
-usethis::use_package("shinydashboard", type="Imports")
-usethis::use_package("shinyFiles", type="Imports")
-usethis::use_package("shinyjs", type="Imports")
-usethis::use_package("ggplot2", type="Imports")
-usethis::use_package("magrittr", type="Imports")
-usethis::use_package("stats", type="Imports")
-usethis::use_package("graphics", type="Imports")
-usethis::use_package("ggpubr", type="Imports")
-usethis::use_package("DT", type="Imports")
-usethis::use_package("jsonlite", type="Imports")
-usethis::use_package("RPostgres", type="Imports")
-usethis::use_package("DBI", type="Imports")
-usethis::use_package("e1071", type="Imports")
-usethis::use_package("knitr", type="Imports")
-usethis::use_package("rmarkdown", type="Imports")
-usethis::use_package("config", type="Imports")
-usethis::use_package("kableExtra", type="Imports")
+usethis::use_package("shiny", type = "Imports")
+usethis::use_package("shinyjs", type = "Imports")
+usethis::use_package("shinydashboard", type = "Imports")
+usethis::use_dev_package("DQAstats", type = "Imports")
+usethis::use_dev_package("DQAgui", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
