@@ -50,9 +50,7 @@ usethis::use_gpl3_license(name="Universitätsklinikum Erlangen")
 # Depends
 
 # Imports
-usethis::use_package("shiny", type = "Imports")
-usethis::use_package("shinyjs", type = "Imports")
-usethis::use_package("shinydashboard", type = "Imports")
+usethis::use_dev_package("shiny", type = "Imports")
 usethis::use_dev_package("DQAstats", type = "Imports")
 usethis::use_dev_package("DQAgui", type = "Imports")
 
