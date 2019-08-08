@@ -77,7 +77,7 @@ kableTable(rv$checks$value_conformance)
 ## SQLs Target Data System  
 
 ```{r}
-for (i in names(rv$sql)){
+for (i in names(rv$sql_target)){
   cat(paste0("  \nMDR key: ", i, "  \n  \n"))
   cat(paste0(rv$sql_target[[i]]))
   cat("  \n  \n")
