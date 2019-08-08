@@ -26,4 +26,3 @@ networks:
 # > library(miRacumDQA)
 # > options(shiny.host = "0.0.0.0")
 # > launchDQAtool(3839)
-# > options(tinytex.verbose = TRUE)
