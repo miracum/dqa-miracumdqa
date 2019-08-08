@@ -311,7 +311,7 @@ ORDER BY
 
 
 # create plausibility statements
-for (i in c("pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")){
+for (i in c("pl.atemp.item01_target", "pl.atemp.item02_target", "pl.atemp.item03_target", "pl.atemp.item04_target")){
   mdr.use <- mdr[key==i,]
 
   assign(i,
@@ -340,7 +340,7 @@ vec <- c("dt.patient_target", "dt.gender_target", "dt.zipcode_target", "dt.birth
          "dt.condition_target", "dt.conditioncategory_target",
          "dt.procedure_target", "dt.proceduredate_target",
          "dt.provider_target", "dt.providerstart_target", "dt.providerend_target",
-         "pl.item02_target", "pl.item03_target", "pl.item04_target", "pl.item05_target")
+         "pl.atemp.item01_target", "pl.atemp.item02_target", "pl.atemp.item03_target", "pl.atemp.item04_target")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)
 
 jsonlist <- toJSON(string_list, pretty = T, auto_unbox = F)
