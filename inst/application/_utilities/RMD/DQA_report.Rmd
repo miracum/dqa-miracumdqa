@@ -14,14 +14,15 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-title: |
-  | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (`r rv$db_target` Forschungsdatenrepository) 
-  | Zeitraum `r rv$time_interval$start` bis `r rv$time_interval$end` 
-  | 
-  | 
-  | Datenqualitätsanalyse des $21-Datensatzes: 
-  | Standort: `r rv$sitename` 
-  | 
+#title: |
+#  | Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (`r rv$db_target` #Forschungsdatenrepository)
+#  | Zeitraum `r rv$time_interval$start` bis `r rv$time_interval$end`
+#  |
+#  |
+#  | Datenqualitätsanalyse des $21-Datensatzes:
+#  | Standort: `r rv$sitename`
+#  |
+title: "Debugging"
 date: '`r format(Sys.Date(), "%d. %B %Y")`' 
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
 output: 
