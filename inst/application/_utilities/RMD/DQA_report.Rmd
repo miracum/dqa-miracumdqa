@@ -19,7 +19,7 @@ title: |
  | Zeitraum `r rv$time_interval$start` bis `r rv$time_interval$end`
  | Datenqualitätsanalyse des §21-Datensatzes:
  | Standort: `r rv$sitename`
-date: '`r format(Sys.Date(), "%d. %B %Y")`' 
+#date: '`r format(Sys.Date(), "%d. %B %Y")`' 
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
 output: 
   pdf_document:
