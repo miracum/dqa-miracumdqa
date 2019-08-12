@@ -19,6 +19,8 @@ library(data.table)
 # read mdr
 mdr <- fread(paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"))
 mdr[,value_set:=as.character(value_set)]
+mdr[,("value_set"):=gsub("\"\"", "\"", get("value_set"))][get("value_set")=="",("value_set"):=NA]
+mdr[,("plausibility_relation"):=gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation")=="",("plausibility_relation"):=NA]
 
 # Aufnahmeanlass
 mdr[name=="Aufnahmeanlass" & source_system=="csv", value_set := '{"value_set": "E, Z, N, R, V, A, G, B"}']
