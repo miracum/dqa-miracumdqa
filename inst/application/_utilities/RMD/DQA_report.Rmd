@@ -44,7 +44,7 @@ options(tinytex.verbose = TRUE)
 # Descriptive Analysis
 
 ```{r results='asis'}
-renderResults(rv$results_descriptive)
+renderResults(rv$results_descriptive, rv$conformance$value_conformance)
 ```
 
 # Plausibility Checks
@@ -53,7 +53,7 @@ renderResults(rv$results_descriptive)
 
 ```{r results='asis'}
 # plausi results
-renderPlausis(rv$results_plausibility_atemporal)
+renderPlausis(rv$results_plausibility_atemporal, rv$conformance$value_conformance)
 ```
 
 # ETL Checks
