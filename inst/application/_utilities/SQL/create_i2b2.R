@@ -310,26 +310,26 @@ ORDER BY
 	encounter_num;")
 
 
-# create plausibility statements
-for (i in c("pl.atemp.item01_target", "pl.atemp.item02_target", "pl.atemp.item03_target", "pl.atemp.item04_target")){
-  mdr.use <- mdr[key==i,]
-
-  assign(i,
-         paste0(
-           "SELECT
-  ob.encounter_num    AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  ob.patient_num      AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
-  ob.concept_cd       AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\",
-  pa.sex_cd           AS    \"", mdr.use[source_variable_name=="sex_cd",variable_name], "\"
-FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], " AS ob
-LEFT OUTER JOIN
-  i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
-WHERE
-  ob.", mdr.use[source_variable_name=="sex_cd",sql_where], "
-ORDER BY
-  ob.encounter_num;"))
-}
+# # create plausibility statements
+# for (i in c("pl.atemp.item01_target", "pl.atemp.item02_target", "pl.atemp.item03_target", "pl.atemp.item04_target")){
+#   mdr.use <- mdr[key==i,]
+#
+#   assign(i,
+#          paste0(
+#            "SELECT
+#   ob.encounter_num    AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
+#   ob.patient_num      AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
+#   ob.concept_cd       AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\",
+#   pa.sex_cd           AS    \"", mdr.use[source_variable_name=="sex_cd",variable_name], "\"
+# FROM
+#   i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], " AS ob
+# LEFT OUTER JOIN
+#   i2b2miracum.patient_dimension AS pa ON ob.patient_num = pa.patient_num
+# WHERE
+#   ob.", mdr.use[source_variable_name=="sex_cd",sql_where], "
+# ORDER BY
+#   ob.encounter_num;"))
+# }
 
 
 
@@ -339,8 +339,8 @@ vec <- c("dt.patient_target", "dt.gender_target", "dt.zipcode_target", "dt.birth
          "dt.discharge_target", "dt.ventilation_target",
          "dt.condition_target", "dt.conditioncategory_target",
          "dt.procedure_target", "dt.proceduredate_target",
-         "dt.provider_target", "dt.providerstart_target", "dt.providerend_target",
-         "pl.atemp.item01_target", "pl.atemp.item02_target", "pl.atemp.item03_target", "pl.atemp.item04_target")
+         "dt.provider_target", "dt.providerstart_target", "dt.providerend_target")
+         #"pl.atemp.item01_target", "pl.atemp.item02_target", "pl.atemp.item03_target", "pl.atemp.item04_target")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)
 
 jsonlist <- toJSON(string_list, pretty = T, auto_unbox = F)

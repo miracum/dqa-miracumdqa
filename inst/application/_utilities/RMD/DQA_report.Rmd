@@ -41,19 +41,18 @@ options(tinytex.verbose = TRUE)
 
 \newpage
 
-# Descriptive Analysis
+# Data Map
+
+## Target Data System
 
 ```{r results='asis'}
-renderResults(rv$results_descriptive, rv$conformance$value_conformance)
+renderDataMap(rv$datamap$target_data)
 ```
 
-# Plausibility Checks
-
-## Atemporal Plausibility 
+## Source Data System
 
 ```{r results='asis'}
-# plausi results
-renderPlausis(rv$results_plausibility_atemporal, rv$conformance$value_conformance)
+renderDataMap(rv$datamap$source_data)
 ```
 
 # ETL Checks
@@ -68,6 +67,32 @@ kableTable(rv$checks$etl)
 
 ```{r results='asis'}
 kableTable(rv$checks$value_conformance)
+```
+
+\newpage
+
+# Detailed Descriptive Analysis
+
+```{r results='asis'}
+renderResults(rv$results_descriptive, rv$conformance$value_conformance)
+```
+
+\newpage
+
+# Plausibility Checks
+
+## Uniqueness Plausibility
+
+```{r results='asis'}
+# plausi results
+renderUniqPlausis(rv$results_plausibility_uniqueness)
+```
+
+## Atemporal Plausibility 
+
+```{r results='asis'}
+# plausi results
+renderAtempPlausis(rv$results_plausibility_atemporal, rv$conformance$value_conformance)
 ```
 
 \newpage
