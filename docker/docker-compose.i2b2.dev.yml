@@ -3,7 +3,7 @@ version: '3'
 services:
   dqatool:
     container_name: dqa-miracum
-    image: dqa-miracum
+    image: docker.miracum.org/dqa/miracumdqa:latest
     restart: unless-stopped
     volumes:
       - /home/i2b2/start:/home/i2b2/start
