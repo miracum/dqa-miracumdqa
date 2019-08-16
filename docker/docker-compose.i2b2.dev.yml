@@ -11,10 +11,10 @@ services:
     - "3838:3838"
     # - "3839:3839" # debugging port
     networks:
-    - miracolix_diz_i2b2net
+    - miracum-net
 
 networks:
-    miracolix_diz_i2b2net:
+    miracum-net:
        external: true
 
 # debugging cmd:

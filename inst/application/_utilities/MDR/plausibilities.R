@@ -24,8 +24,6 @@ mdr[,("value_set"):=gsub("\"\"", "\"", get("value_set"))][get("value_set")=="",(
 mdr[,("plausibility_relation"):=gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation")=="",("plausibility_relation"):=NA]
 
 # Geburtsjahr
-mdr[grepl("dt\\.patient_", key) & variable_name=="patient_identifier_value" & source_system=="csv", plausibility_check := "1"]
-mdr[grepl("dt\\.patient_", key) & variable_name=="patient_identifier_value" & source_system=="i2b2", plausibility_check := "1"]
 mdr[grepl("dt\\.patient_", key) & variable_name=="patient_identifier_value" & source_system=="csv", plausibility_relation := paste0('{"uniqueness": {"patient_birthDate": {"name": "Pl.uniqueness.Item01", ',
                                                                                                           '"description": "Mit jeder Patienten-ID darf nur ein Geburtsjahr assoziiert sein."}',
                                                                                                           '}}')]
@@ -34,8 +32,6 @@ mdr[grepl("dt\\.patient_", key) & variable_name=="patient_identifier_value" & so
                                                                                                            '}}')]
 
 # Fallnummer & Patientennummer
-mdr[grepl("dt\\.encounter_", key) & variable_name=="encounter_identifier_value" & source_system=="csv", plausibility_check := "1"]
-mdr[grepl("dt\\.encounter_", key) & variable_name=="encounter_identifier_value" & source_system=="i2b2", plausibility_check := "1"]
 mdr[grepl("dt\\.encounter_", key) & variable_name=="encounter_identifier_value" & source_system=="csv", plausibility_relation := paste0('{"uniqueness": {"patient_identifier_value": {"name": "Pl.uniqueness.Item02", ',
                                                                                                      '"description": "Mit jeder Fallnummer darf nur eine Patienten-ID assoziiert sein."}',
                                                                                                      '}}')]
@@ -44,8 +40,6 @@ mdr[grepl("dt\\.encounter_", key) & variable_name=="encounter_identifier_value" 
                                                                                                       '}}')]
 
 # Fallnummer & Diagnoseart
-mdr[grepl("dt\\.condition_", key) & variable_name=="condition_encounter_identifier_value" & source_system=="csv", plausibility_check := "1"]
-mdr[grepl("dt\\.condition_", key) & variable_name=="condition_encounter_identifier_value" & source_system=="i2b2", plausibility_check := "1"]
 mdr[grepl("dt\\.condition_", key) & variable_name=="condition_encounter_identifier_value" & source_system=="csv", plausibility_relation := paste0('{"uniqueness": {"condition_category_encounter_diagnosis": {"name": "Pl.uniqueness.Item03", ',
                                                                                                               '"description": "Mit jeder Fallnummer darf nur eine Hauptdiagnose assoziiert sein.", ',
                                                                                                               '"filter": "HD"}',
@@ -56,8 +50,6 @@ mdr[grepl("dt\\.condition_", key) & variable_name=="condition_encounter_identifi
                                                                                                                '}}')]
 
 # Geschlecht & ICD-Code
-mdr[grepl("dt\\.gender_", key) & variable_name=="patient_gender" & source_system=="csv", plausibility_check := "1"]
-mdr[grepl("dt\\.gender_", key) & variable_name=="patient_gender" & source_system=="i2b2", plausibility_check := "1"]
 mdr[grepl("dt\\.gender_", key) & variable_name=="patient_gender" & source_system=="csv", plausibility_relation := paste0('{"atemporal": {"condition_code_coding_code": {"name": "Pl.atemporal.Item01", ',
                                                                                                                          '"description": "Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.", ',
                                                                                                                          '"filter": "O[0-9]", ',
