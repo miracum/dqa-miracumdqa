@@ -122,8 +122,6 @@ FROM
   i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE
   ", mdr.use[source_variable_name=="encounter_num",sql_where], "
-GROUP BY
-	encounter_num, patient_num, concept_cd, nval_num
 ORDER BY
   encounter_num;")
 
@@ -139,8 +137,6 @@ FROM
   i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 WHERE
   ", mdr.use[source_variable_name=="encounter_num",sql_where], "
-GROUP BY
-	encounter_num, patient_num, concept_cd, nval_num
 ORDER BY
   encounter_num;")
 

@@ -24,8 +24,8 @@ test_that("correct sql statments",{
                        "dt.proceduredate_target" = "e088420534",
                        "dt.providerstart_target" = "1014b9f09e",
                        "dt.providerend_target" = "bcc5a7623e",
-                       "dt.ageindays_target" = "f16a522232",
-                       "dt.ageinyears_target" = "d1b4c2e506",
+                       "dt.ageindays_target" = "13b3039049",
+                       "dt.ageinyears_target" = "184b4afe3a",
                        "dt.condition_target" = "aabb60fa64",
                        "dt.discharge_target" = "d30d2befdf",
                        "dt.encounter_target" = "e04436ffae",
@@ -33,11 +33,7 @@ test_that("correct sql statments",{
                        "dt.patient_target" = "3ed7ad8ce2",
                        "dt.procedure_target" = "e3f4c27b07",
                        "dt.provider_target" = "67eec0e3d5",
-                       "dt.ventilation_target" = "cc984a2ab6",
-                       "pl.item02_target" = "cccf5dc976",
-                       "pl.item03_target" = "e96899f877",
-                       "pl.item04_target" = "409fe365b5",
-                       "pl.item05_target" = "1381519f99")
+                       "dt.ventilation_target" = "cc984a2ab6")
   for (i in names(known_hashes)){
     expect_type(rv$sql_target[[i]], "character")
     expect_known_hash(rv$sql_target[[i]], known_hashes[[i]])
