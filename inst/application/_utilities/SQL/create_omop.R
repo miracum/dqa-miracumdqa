@@ -204,19 +204,15 @@ ORDER BY
 	visit_occurrence_id;")
 
 
-
-# TODO start over here 16.08.
 mdr.use <- mdr[key=="dt.condition_target",]
 
 dt.condition_target <-
   paste0(
     "SELECT
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
+  condition_source_value        AS    \"", mdr.use[source_variable_name=="condition_source_value",variable_name], "\"
 FROM
   p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -227,11 +223,9 @@ dt.conditioncategory_target <-
   paste0(
     "SELECT
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-	modifier_cd       AS    \"", mdr.use[source_variable_name=="modifier_cd",variable_name], "\"
+	condition_type_concept_id       AS    \"", mdr.use[source_variable_name=="condition_type_concept_id",variable_name], "\"
 FROM
   p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -242,11 +236,9 @@ dt.procedure_target <-
   paste0(
     "SELECT
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
+  procedure_source_value        AS    \"", mdr.use[source_variable_name=="procedure_source_value",variable_name], "\"
 FROM
   p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -257,11 +249,9 @@ dt.proceduredate_target <-
   paste0(
     "SELECT
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
+  procedure_date  AS    \"", mdr.use[source_variable_name=="procedure_date",variable_name], "\"
 FROM
   p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -272,11 +262,9 @@ dt.provider_target <-
   paste0(
     "SELECT
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  tval_char         AS    \"", mdr.use[source_variable_name=="tval_char",variable_name], "\"
+  care_site_id         AS    \"", mdr.use[source_variable_name=="care_site_id",variable_name], "\"
 FROM
 	p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
 ORDER BY
 	visit_occurrence_id;")
 
@@ -287,11 +275,9 @@ dt.providerstart_target <-
   paste0(
     "SELECT
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
+  visit_start_date  AS    \"", mdr.use[source_variable_name=="visit_start_date",variable_name], "\"
 FROM
 	p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
 ORDER BY
 	visit_occurrence_id;")
 
@@ -302,11 +288,9 @@ dt.providerend_target <-
   paste0(
     "SELECT
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  end_date::date    AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
+  visit_end_date    AS    \"", mdr.use[source_variable_name=="visit_end_date",variable_name], "\"
 FROM
 	p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
 ORDER BY
 	visit_occurrence_id;")
 
