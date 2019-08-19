@@ -139,10 +139,10 @@ Fallnummer;visit_occurrence_id;procedure_occurrence;omop;dt.proceduredate_target
 OPS Datum;procedure_date;procedure_occurrence;omop;dt.proceduredate_target;procedure_performedDateTime;procedure.performedDateTime;date;;;;1;;procedure_occurrence;;;;;;
 Fachabteilung;care_site_id;visit_occurrence;omop;dt.provider_target;encounter_serviceProvider_type_Organization_name;encounter.serviceProvider.type.Organization.name;factor;;;;1;;visit_occurence;;;;;;
 Fallnummer;visit_occurrence_id;visit_occurrence;omop;dt.provider_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;;visit_occurrence;;;;;;
-Entlassungsdatum (Fachabteilung);visit_end_date;visit_occurrence;omop;dt.providerend_target;encounter_period_end;encounter.period.end;date;;;;;;;;;;;;
-Fallnummer;visit_occurrence_id;visit_occurrence;omop;dt.providerend_target;encounter_identifier_value;encounter.identifier.value;factor;;;;;;;;;;;;
-Aufnahmedatum (Fachabteilung);visit_start_date;visit_occurrence;omop;dt.providerstart_target;encounter_period_start;encounter.period.start;date;;;;;;;;;;;;
-Fallnummer;visit_occurrence_id;visit_occurrence;omop;dt.providerstart_target;encounter_identifier_value;encounter.identifier.value;factor;;;;;;;;;;;;
+Entlassungsdatum (Fachabteilung);visit_end_date;visit_occurrence;omop;dt.providerend_target;encounter_period_end;encounter.period.end;date;;;;1;;;;;;;;
+Fallnummer;visit_occurrence_id;visit_occurrence;omop;dt.providerend_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;;;;;;;;
+Aufnahmedatum (Fachabteilung);visit_start_date;visit_occurrence;omop;dt.providerstart_target;encounter_period_start;encounter.period.start;date;;;;1;;;;;;;;
+Fallnummer;visit_occurrence_id;visit_occurrence;omop;dt.providerstart_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;;;;;;;;
 Beatmungsstunden;observation_source_value;observation;omop;dt.ventilation_target;procedure_code_coding_code_40617009;procedure.code.coding.code.40617009;integer;"{""min"": 0, ""max"": 8766}";;;1;;observation;;;;;;
 Fallnummer;visit_occurrence_id;observation;omop;dt.ventilation_target;procedure_encounter_identifier_value;procedure.encounter.identifier.value;factor;;;;0;;observation;;;; observation_concept_id = 4108449;;
 Patientennummer;person_id;person;omop;dt.zipcode_target;patient_identifier_value;patient.identifier.value;factor;;;;0;;person;;;;;;

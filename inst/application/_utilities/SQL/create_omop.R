@@ -94,7 +94,7 @@ dt.encounterstart_target <-
   paste0(
     "SELECT
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  visit_start_date::date  AS    \"", mdr.use[source_variable_name=="visit_start_date",variable_name], "\"
+  visit_start_date  AS    \"", mdr.use[source_variable_name=="visit_start_date",variable_name], "\"
 FROM
   p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
 ORDER BY
@@ -107,7 +107,7 @@ dt.encounterend_target <-
   paste0(
     "SELECT
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  visit_end_date::date  AS    \"", mdr.use[source_variable_name=="visit_end_date",variable_name], "\"
+  visit_end_date  AS    \"", mdr.use[source_variable_name=="visit_end_date",variable_name], "\"
 FROM
   p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
 ORDER BY
@@ -120,7 +120,7 @@ dt.ageindays_target <-
   paste0(
     "SELECT
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  observation_source_value          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
+  observation_source_value::numeric          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
 FROM
   p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
 WHERE
@@ -135,7 +135,7 @@ dt.ageinyears_target <-
   paste0(
     "SELECT
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  observation_source_value          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
+  observation_source_value::numeric          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
 FROM
   p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
 WHERE
