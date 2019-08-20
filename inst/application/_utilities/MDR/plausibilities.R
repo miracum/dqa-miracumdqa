@@ -24,74 +24,43 @@ mdr[,("value_set"):=gsub("\"\"", "\"", get("value_set"))][get("value_set")=="",(
 mdr[,("plausibility_relation"):=gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation")=="",("plausibility_relation"):=NA]
 
 # Geburtsjahr
-mdr[grepl("dt\\.patient_", key) & variable_name=="patient_identifier_value" & source_system=="csv", plausibility_relation := paste0('{"uniqueness": {"patient_birthDate": {"name": "Pl.uniqueness.Item01", ',
+mdr[grepl("dt\\.patient_", key) & variable_name=="patient_identifier_value" & source_system=="p21csv", plausibility_relation := paste0('{"uniqueness": {"patient_birthDate": {"name": "Pl.uniqueness.Item01", ',
                                                                                                           '"description": "Mit jeder Patienten-ID darf nur ein Geburtsjahr assoziiert sein."}',
                                                                                                           '}}')]
-mdr[grepl("dt\\.patient_", key) & variable_name=="patient_identifier_value" & source_system=="i2b2", plausibility_relation := paste0('{"uniqueness": {"patient_birthDate": {"name": "Pl.uniqueness.Item01", ',
-                                                                                                           '"description": "Mit jeder Patienten-ID darf nur ein Geburtsjahr assoziiert sein."}',
-                                                                                                           '}}')]
 
 # Fallnummer & Patientennummer
-mdr[grepl("dt\\.encounter_", key) & variable_name=="encounter_identifier_value" & source_system=="csv", plausibility_relation := paste0('{"uniqueness": {"patient_identifier_value": {"name": "Pl.uniqueness.Item02", ',
+mdr[grepl("dt\\.encounter_", key) & variable_name=="encounter_identifier_value" & source_system=="p21csv", plausibility_relation := paste0('{"uniqueness": {"patient_identifier_value": {"name": "Pl.uniqueness.Item02", ',
                                                                                                      '"description": "Mit jeder Fallnummer darf nur eine Patienten-ID assoziiert sein."}',
                                                                                                      '}}')]
-mdr[grepl("dt\\.encounter_", key) & variable_name=="encounter_identifier_value" & source_system=="i2b2", plausibility_relation := paste0('{"uniqueness": {"patient_identifier_value": {"name": "Pl.uniqueness.Item02", ',
-                                                                                                      '"description": "Mit jeder Fallnummer darf nur eine Patienten-ID assoziiert sein."}',
-                                                                                                      '}}')]
 
 # Fallnummer & Diagnoseart
-mdr[grepl("dt\\.condition_", key) & variable_name=="condition_encounter_identifier_value" & source_system=="csv", plausibility_relation := paste0('{"uniqueness": {"condition_category_encounter_diagnosis": {"name": "Pl.uniqueness.Item03", ',
+mdr[grepl("dt\\.condition_", key) & variable_name=="condition_encounter_identifier_value" & source_system=="p21csv", plausibility_relation := paste0('{"uniqueness": {"condition_category_encounter_diagnosis": {"name": "Pl.uniqueness.Item03", ',
                                                                                                               '"description": "Mit jeder Fallnummer darf nur eine Hauptdiagnose assoziiert sein.", ',
-                                                                                                              '"filter": "HD"}',
+                                                                                                              '"filter": {"i2b2": "HD", "p21csv": "HD", "omop": "44786627, 44786629"}}',
                                                                                                               '}}')]
-mdr[grepl("dt\\.condition_", key) & variable_name=="condition_encounter_identifier_value" & source_system=="i2b2", plausibility_relation := paste0('{"uniqueness": {"condition_category_encounter_diagnosis": {"name": "Pl.uniqueness.Item03", ',
-                                                                                                               '"description": "Mit jeder Fallnummer darf nur eine Hauptdiagnose assoziiert sein.", ',
-                                                                                                               '"filter": "HD"}',
-                                                                                                               '}}')]
 
 # Geschlecht & ICD-Code
-mdr[grepl("dt\\.gender_", key) & variable_name=="patient_gender" & source_system=="csv", plausibility_relation := paste0('{"atemporal": {"condition_code_coding_code": {"name": "Pl.atemporal.Item01", ',
+mdr[grepl("dt\\.gender_", key) & variable_name=="patient_gender" & source_system=="p21csv", plausibility_relation := paste0('{"atemporal": {"condition_code_coding_code": {"name": "Pl.atemporal.Item01", ',
                                                                                                                          '"description": "Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.", ',
-                                                                                                                         '"filter": "O[0-9]", ',
+                                                                                                                         '"filter": {"omop": "O[0-9]", "i2b2": "O[0-9]", "p21csv": "O[0-9]"}, ',
                                                                                                                          '"join_crit": "encounter_identifier_value", ',
-                                                                                                                         '"checks": {"value_set": "w"}}, ',
+                                                                                                                         '"checks": {"value_set": {"omop": "w", "i2b2": "w", "p21csv": "w"}}}, ',
                                                                                                                          '"condition_code_coding_code": {"name": "Pl.atemporal.Item02", ',
                                                                                                                          '"description": "Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.", ',
-                                                                                                                         '"filter": "C5[1-8]", ',
+                                                                                                                         '"filter": {"omop": "C5[1-8]", "i2b2": "C5[1-8]", "p21csv": "C5[1-8]"}, ',
                                                                                                                          '"join_crit": "encounter_identifier_value", ',
-                                                                                                                         '"checks": {"value_set": "w"}}, ',
+                                                                                                                         '"checks": {"value_set":  {"omop": "w", "i2b2": "w", "p21csv": "w"}}}, ',
                                                                                                                          '"condition_code_coding_code": {"name": "Pl.atemporal.Item03", ',
                                                                                                                          '"description": "Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.", ',
-                                                                                                                         '"filter": "C6[0-3]", ',
+                                                                                                                         '"filter": {"omop": "C6[0-3]", "i2b2": "C6[0-3]", "p21csv": "C6[0-3]"}, ',
                                                                                                                          '"join_crit": "encounter_identifier_value", ',
-                                                                                                                         '"checks": {"value_set": "m"}}, ',
+                                                                                                                         '"checks": {"value_set":  {"omop": "m", "i2b2": "m", "p21csv": "m"}}}, ',
                                                                                                                          '"encounter_hospitalization_class": {"name": "Pl.atemporal.Item04", ',
                                                                                                                          '"description": "Nur bei weiblichen Patientinnen ist \'stationäre Entbindung\' als Aufnahmegrund (05) erlaubt.", ',
-                                                                                                                         '"filter": "05xx", ',
+                                                                                                                         '"filter": {"omop": "05xx", "i2b2": "05xx", "p21csv": "05xx"}, ',
                                                                                                                          '"join_crit": "encounter_identifier_value", ',
-                                                                                                                         '"checks": {"value_set": "w"}}',
+                                                                                                                         '"checks": {"value_set":  {"omop": "w", "i2b2": "w", "p21csv": "w"}}}',
                                                                                                                          '}}')]
-mdr[grepl("dt\\.gender_", key) & variable_name=="patient_gender" & source_system=="i2b2", plausibility_relation := paste0('{"atemporal": {"condition_code_coding_code": {"name": "Pl.atemporal.Item01", ',
-                                                                                                                          '"description": "Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.", ',
-                                                                                                                          '"filter": "O[0-9]", ',
-                                                                                                                          '"join_crit": "encounter_identifier_value", ',
-                                                                                                                          '"checks": {"value_set": "w"}}, ',
-                                                                                                                          '"condition_code_coding_code": {"name": "Pl.atemporal.Item02", ',
-                                                                                                                          '"description": "Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.", ',
-                                                                                                                          '"filter": "C5[1-8]", ',
-                                                                                                                          '"join_crit": "encounter_identifier_value", ',
-                                                                                                                          '"checks": {"value_set": "w"}}, ',
-                                                                                                                          '"condition_code_coding_code": {"name": "Pl.atemporal.Item03", ',
-                                                                                                                          '"description": "Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.", ',
-                                                                                                                          '"filter": "C6[0-3]", ',
-                                                                                                                          '"join_crit": "encounter_identifier_value", ',
-                                                                                                                          '"checks": {"value_set": "m"}}, ',
-                                                                                                                          '"encounter_hospitalization_class": {"name": "Pl.atemporal.Item04", ',
-                                                                                                                          '"description": "Nur bei weiblichen Patientinnen ist \'stationäre Entbindung\' als Aufnahmegrund (05) erlaubt.", ',
-                                                                                                                          '"filter": "05xx", ',
-                                                                                                                          '"join_crit": "encounter_identifier_value", ',
-                                                                                                                          '"checks": {"value_set": "w"}}',
-                                                                                                                          '}}')]
 
 # write mdr
 fwrite(mdr, paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"), sep = ";")

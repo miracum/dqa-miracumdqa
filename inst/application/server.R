@@ -29,7 +29,7 @@ shiny::shinyServer(function(input, output, session) {
     rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
     # TODO remove later, when we have more input source
-    rv$db_source <- "csv"
+    rv$db_source <- "p21csv"
 
     # run onStart here
     DQAgui::onStart(session, rv, input, output)
