@@ -18,7 +18,6 @@ library(data.table)
 
 # read mdr
 mdr <- fread(paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"))
-mdr[,plausibility_check:=as.character(plausibility_check)]
 mdr[,plausibility_relation:=as.character(plausibility_relation)]
 mdr[,("value_set"):=gsub("\"\"", "\"", get("value_set"))][get("value_set")=="",("value_set"):=NA]
 mdr[,("plausibility_relation"):=gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation")=="",("plausibility_relation"):=NA]

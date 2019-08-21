@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2015 Working Group on Joint Research, University Medical Center Mainz Contact: info@osse-register.de This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+    the GNU General Public License for more details. You should have received a copy of the GNU Affero General Public License along with this program; if not, see <http://www.gnu.org/licenses>.
+    Additional permission under GNU GPL version 3 section 7: If you modify this Program, or any covered work, by linking or combining it with Jersey (https://jersey.java.net) (or a modified
+    version of that library), containing parts covered by the terms of the General Public License, version 2.0, the licensors of this Program grant you additional permission to convey the
+    resulting work. -->
+<xsd:schema attributeFormDefault="unqualified"
+    targetNamespace="http://schema.samply.de/mdr/common"
+    elementFormDefault="qualified"
+    jaxb:extensionBindingPrefixes="xjc" jaxb:version="1.0" version="1.0"
+    xmlns="http://schema.samply.de/mdr/common"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
+    xmlns:common="http://schema.samply.de/mdr/common">
+
+    <xsd:element name="catalog" type="catalog" substitutionGroup="element">
+        <xsd:unique name="codeId">
+            <xsd:selector xpath="common:code" />
+            <xsd:field xpath="@code" />
+        </xsd:unique>
+    </xsd:element>
+
+    <xsd:element name="export">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="element" minOccurs="0" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+
+        <xsd:key name="uuidKey">
+            <xsd:selector xpath="*" />
+            <xsd:field xpath="@uuid" />
+        </xsd:key>
+
+        <xsd:key name="namespaceUuidKey">
+            <xsd:selector xpath="./common:namespace" />
+            <xsd:field xpath="@uuid" />
+        </xsd:key>
+
+        <xsd:key name="valueDomainUuidKey">
+            <xsd:selector xpath="./common:enumeratedValueDomain|./common:describedValueDomain|./common:catalogValueDomain" />
+            <xsd:field xpath="@uuid" />
+        </xsd:key>
+
+        <xsd:key name="catalogUuidKey">
+            <xsd:selector xpath="./common:catalog"/>
+            <xsd:field xpath="@uuid"/>
+        </xsd:key>
+
+        <xsd:key name="codeUuidKey">
+            <xsd:selector xpath="./common:code"/>
+            <xsd:field xpath="@uuid"/>
+        </xsd:key>
+
+        <xsd:key name="scopedUuidKey">
+            <xsd:selector xpath="./common:scopedIdentifier"/>
+            <xsd:field xpath="@uuid"/>
+        </xsd:key>
+
+
+        <xsd:keyref name="definitionKeyRef" refer="uuidKey">
+            <xsd:selector xpath="./common:scopedIdentifier/common:definitions/common:definition" />
+            <xsd:field xpath="@uuid" />
+        </xsd:keyref>
+
+        <xsd:keyref name="catalogValueDomainKeyRef" refer="scopedUuidKey">
+            <xsd:selector xpath="./common:catalogValueDomain"/>
+            <xsd:field xpath="./common:catalog"/>
+        </xsd:keyref>
+
+        <xsd:keyref name="catalogValueDomainCodeKeyRef" refer="scopedUuidKey">
+            <xsd:selector xpath="./common:catalogValueDomain/common:permissibleCode"/>
+            <xsd:field xpath="."/>
+        </xsd:keyref>
+
+        <xsd:keyref name="codeCatalogKeyRef" refer="catalogUuidKey">
+            <xsd:selector xpath="./common:code"/>
+            <xsd:field xpath="./common:catalog"/>
+        </xsd:keyref>
+
+        <xsd:keyref name="valueDomainRef" refer="valueDomainUuidKey">
+            <xsd:selector xpath="./common:dataElement" />
+            <xsd:field xpath="./common:valueDomain" />
+        </xsd:keyref>
+
+        <xsd:keyref name="namespaceKeyRef" refer="namespaceUuidKey">
+            <xsd:selector xpath="./common:scopedIdentifier" />
+            <xsd:field xpath="./common:namespace" />
+        </xsd:keyref>
+
+        <xsd:keyref name="uuidKeyRef" refer="uuidKey">
+            <xsd:selector xpath="./common:scopedIdentifier" />
+            <xsd:field xpath="./common:element" />
+        </xsd:keyref>
+    </xsd:element>
+
+    <xsd:element name="element" type="element"/>
+
+    <xsd:element name="scopedIdentifier" type="scopedIdentifier" substitutionGroup="element" />
+
+    <xsd:element name="code" type="code" substitutionGroup="element" />
+    <xsd:element name="describedValueDomain" type="describedValueDomain" substitutionGroup="element" />
+    <xsd:element name="enumeratedValueDomain" type="enumeratedValueDomain" substitutionGroup="element" />
+    <xsd:element name="catalogValueDomain" type="catalogValueDomain" substitutionGroup="element" />
+    <xsd:element name="dataElement" type="dataElement" substitutionGroup="element" />
+    <xsd:element name="record" type="record" substitutionGroup="element" />
+    <xsd:element name="dataElementGroup" type="dataElementGroup" substitutionGroup="element" />
+    <xsd:element name="namespace" type="namespace" substitutionGroup="element" />
+    <xsd:element name="permissibleValue" type="permissibleValue" substitutionGroup="element"/>
+
+    <xsd:complexType name="scopedIdentifier">
+        <xsd:complexContent>
+            <xsd:extension base="element">
+                <xsd:sequence>
+                    <xsd:element name="namespace" type="uuid" />
+                    <xsd:element name="identifier" type="xsd:token" />
+                    <xsd:element name="version" type="xsd:token" />
+                    <xsd:element name="element" type="uuid" />
+                    <xsd:element name="status" type="status" minOccurs="1"/>
+                    <xsd:element name="sub" type="uuid" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="namespace">
+        <xsd:complexContent>
+            <xsd:extension base="element">
+                <xsd:sequence>
+                    <xsd:element name="name" type="xsd:token" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="record">
+        <xsd:complexContent>
+            <xsd:extension base="element">
+                <xsd:sequence>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="dataElement">
+        <xsd:complexContent>
+            <xsd:extension base="element">
+                <xsd:sequence>
+                    <xsd:element name="valueDomain" type="uuid" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="dataElementGroup">
+        <xsd:complexContent>
+            <xsd:extension base="element">
+                <xsd:sequence>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="catalogValueDomain">
+        <xsd:complexContent>
+            <xsd:extension base="valueDomain">
+                <xsd:sequence>
+                    <xsd:element name="catalog" type="uuid" />
+                    <xsd:element name="permissibleCode" type="uuid" minOccurs="0" maxOccurs="unbounded" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="enumeratedValueDomain">
+        <xsd:complexContent>
+            <xsd:extension base="valueDomain">
+                <xsd:sequence>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="describedValueDomain">
+        <xsd:complexContent>
+            <xsd:extension base="valueDomain">
+                <xsd:sequence>
+                    <xsd:element name="description" type="xsd:token" />
+                    <xsd:element name="validationType" type="xsd:token" />
+                    <xsd:element name="validationData" type="xsd:token" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="valueDomain" abstract="true">
+        <xsd:complexContent>
+            <xsd:extension base="element">
+                <xsd:sequence>
+                    <xsd:element name="format" type="xsd:token" />
+                    <xsd:element name="datatype" type="xsd:token" />
+                    <xsd:element name="maxCharacters" type="xsd:nonNegativeInteger" />
+                    <xsd:element name="unitOfMeasure" type="xsd:token" minOccurs="0" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="permissibleValue">
+        <xsd:complexContent>
+            <xsd:extension base="element">
+                <xsd:sequence>
+                    <xsd:element name="value" type="xsd:token" />
+                </xsd:sequence>
+
+                <xsd:attribute name="valueDomain" type="uuid" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="catalog">
+        <xsd:annotation>
+            <xsd:documentation>
+                A catalog is a list of codes, that may be optionally structured as a hierarchy, e.g. the ICD-10 catalog (systematic hierarchy).
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:complexContent>
+            <xsd:extension base="element">
+                <xsd:sequence>
+                    <xsd:element name="code" type="code" minOccurs="0" maxOccurs="unbounded" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="code">
+        <xsd:annotation>
+            <xsd:documentation>
+                A code represents a value inside a catalog, e.g. "C00.0" from the ICD-10 catalog, with its descriptions and slots.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:complexContent>
+            <xsd:extension base="element">
+                <xsd:sequence>
+                    <xsd:element name="subCode" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:attribute name="code" use="required" type="xsd:token" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="catalog" type="uuid" minOccurs="0" maxOccurs="1"/>
+                </xsd:sequence>
+
+                <xsd:attribute name="code" use="required" type="xsd:token">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            A code represents a value inside a catalog, e.g. "C00.0" from the ICD-10 catalog. This code must be used to store the value in the
+                            database.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+
+                <xsd:attribute name="isValid" use="required" type="xsd:boolean">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            If false, this code is just a node in the hierarchy and must not be used as a valid user selection. If true, this codes may be a node in
+                            the hierarchy but is also a valid user selection.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+
+                <xsd:attribute name="order" use="optional" type="xsd:int" default="0">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                            The order of this code in this catalog. Only the root codes should set this attribute manually.
+                        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="element" abstract="true">
+        <xsd:annotation>
+            <xsd:documentation>
+                An element is the abstract type used for catalogs and codes.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:sequence>
+            <xsd:element ref="common:definitions" minOccurs="0" maxOccurs="1" />
+            <xsd:element ref="common:slots" minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+
+        <xsd:attribute name="uuid" use="optional" type="common:uuid">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The optional UUID for this element.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="slot">
+        <xsd:annotation>
+            <xsd:documentation>
+                A slot is a simple key-value-pair.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:all>
+            <xsd:element name="key" type="xsd:token">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The key of this slot.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="value" type="xsd:token">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The value of this slot.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+    </xsd:complexType>
+
+    <xsd:element name="slots" type="slots">
+    </xsd:element>
+
+    <xsd:complexType name="slots">
+        <xsd:annotation>
+            <xsd:documentation>
+                A list of slots for this element.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="slot" type="slot" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="definitions" type="definitions">
+    </xsd:element>
+
+    <xsd:complexType name="definitions">
+        <xsd:annotation>
+            <xsd:documentation>
+                A list of definitions in different languages that describe this element.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="definition" type="definition" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="definition">
+        <xsd:annotation>
+            <xsd:documentation>
+                A definition describes an element in a specific language.
+            </xsd:documentation>
+        </xsd:annotation>
+
+        <xsd:all>
+            <xsd:element name="designation" type="xsd:token">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The short label for this code.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="definition" type="xsd:token">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        The thorough description of this code.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:all>
+
+        <xsd:attribute name="lang" use="required" type="xsd:token">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The language of this definition.
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+
+        <xsd:attribute name="uuid" use="optional" type="uuid">
+            <xsd:annotation>
+                <xsd:documentation>
+                    The UUID of the element that this definition describes
+                </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:simpleType name="uuid">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}">
+            </xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="urn">
+        <xsd:restriction base="xsd:token">
+            <xsd:pattern value="urn:[a-zA-Z0-9_-]+:[a-z]+:[a-zA-Z_-]+:\d+" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="status">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="OUTDATED"/>
+            <xsd:enumeration value="RELEASED"/>
+            <xsd:enumeration value="DRAFT"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <jaxb:globalBindings>
+                <xjc:serializable uid="1" />
+            </jaxb:globalBindings>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+</xsd:schema>

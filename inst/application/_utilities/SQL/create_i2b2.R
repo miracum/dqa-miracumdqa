@@ -41,7 +41,7 @@ dt.birthdate_target <-
     patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
     birth_date::date  AS    \"", mdr.use[source_variable_name=="birth_date",variable_name], "\"
 FROM
-	i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
+	i2b2miracum.", mdr.use[source_variable_name=="birth_date",source_table_name], "
 ORDER BY
 	patient_num;")
 
@@ -54,7 +54,7 @@ dt.gender_target <-
     patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
     sex_cd            AS    \"", mdr.use[source_variable_name=="sex_cd",variable_name], "\"
 FROM
-	i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
+	i2b2miracum.", mdr.use[source_variable_name=="sex_cd",source_table_name], "
 ORDER BY
 	patient_num;")
 
@@ -67,7 +67,7 @@ dt.zipcode_target <-
     patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
     zip_cd            AS    \"", mdr.use[source_variable_name=="zip_cd",variable_name], "\"
 FROM
-	i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
+	i2b2miracum.", mdr.use[source_variable_name=="zip_cd",source_table_name], "
 ORDER BY
 	patient_num;")
 
@@ -80,7 +80,7 @@ dt.encounter_target <-
 	patient_num       AS    \"", mdr.use[source_variable_name=="patient_num",variable_name], "\",
   encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="patient_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
 ORDER BY
   patient_num;")
 
@@ -93,7 +93,7 @@ dt.encounterstart_target <-
   encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="start_date",source_table_name], "
 ORDER BY
   encounter_num;")
 
@@ -106,7 +106,7 @@ dt.encounterend_target <-
   encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   end_date::date  AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="end_date",source_table_name], "
 ORDER BY
   encounter_num;")
 
@@ -119,9 +119,9 @@ dt.ageindays_target <-
   encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   nval_num          AS    \"", mdr.use[source_variable_name=="nval_num",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="nval_num",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="nval_num",sql_where], "
 ORDER BY
   encounter_num;")
 
@@ -134,9 +134,9 @@ dt.ageinyears_target <-
   encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   nval_num          AS    \"", mdr.use[source_variable_name=="nval_num",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="nval_num",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="nval_num",sql_where], "
 ORDER BY
   encounter_num;")
 
@@ -149,9 +149,9 @@ dt.admission_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
 ORDER BY
   encounter_num;")
 
@@ -164,9 +164,9 @@ dt.hospitalization_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
 ORDER BY
   encounter_num;")
 
@@ -179,9 +179,9 @@ dt.discharge_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
 ORDER BY
   encounter_num;")
 
@@ -194,9 +194,9 @@ dt.ventilation_target <-
   encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   nval_num          AS    \"", mdr.use[source_variable_name=="nval_num",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="nval_num",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="nval_num",sql_where], "
 ORDER BY
 	encounter_num;")
 
@@ -209,9 +209,9 @@ dt.condition_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
 ORDER BY
   encounter_num;")
 
@@ -224,9 +224,9 @@ dt.conditioncategory_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
 	modifier_cd       AS    \"", mdr.use[source_variable_name=="modifier_cd",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="modifier_cd",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="modifier_cd",sql_where], "
 ORDER BY
   encounter_num;")
 
@@ -239,9 +239,9 @@ dt.procedure_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
 ORDER BY
   encounter_num;")
 
@@ -254,9 +254,9 @@ dt.proceduredate_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name=="start_date",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="start_date",sql_where], "
 ORDER BY
   encounter_num;")
 
@@ -269,9 +269,9 @@ dt.provider_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   tval_char         AS    \"", mdr.use[source_variable_name=="tval_char",variable_name], "\"
 FROM
-	i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+	i2b2miracum.", mdr.use[source_variable_name=="tval_char",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="tval_char",sql_where], "
 ORDER BY
 	encounter_num;")
 
@@ -284,9 +284,9 @@ dt.providerstart_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
 FROM
-	i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+	i2b2miracum.", mdr.use[source_variable_name=="start_date",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="start_date",sql_where], "
 ORDER BY
 	encounter_num;")
 
@@ -299,9 +299,9 @@ dt.providerend_target <-
 	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
   end_date::date    AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
 FROM
-	i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
+	i2b2miracum.", mdr.use[source_variable_name=="end_date",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="encounter_num",sql_where], "
+  ", mdr.use[source_variable_name=="end_date",sql_where], "
 ORDER BY
 	encounter_num;")
 

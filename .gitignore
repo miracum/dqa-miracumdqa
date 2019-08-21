@@ -31,3 +31,4 @@ data-raw/TODO.R
 data-raw/debug-plotting.R
 tests/testthat/Rplots.pdf
 tests/testthat/plotdir/
+inst/application/_utilities/MDR/.~lock.*

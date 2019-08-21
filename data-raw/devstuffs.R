@@ -61,5 +61,9 @@ usethis::use_package("processx", type = "Suggests")
 
 # buildignore and gitignore
 usethis::use_build_ignore("docker")
+usethis::use_build_ignore("inst/application/_utilities/MDR/XLSX/")
+usethis::use_build_ignore("inst/application/_utilities/MDR/XSD/")
+usethis::use_build_ignore("inst/application/_utilities/MDR/.~lock.mdr.csv#")
 usethis::use_build_ignore("inst/application/_settings/")
 usethis::use_git_ignore("inst/application/_settings/")
+usethis::use_git_ignore("inst/application/_utilities/MDR/.~lock.*")

@@ -4,3 +4,6 @@
 ^\.Rproj\.user$
 ^docker$
 ^inst/application/_settings$
+^inst/application/_utilities/MDR/XLSX$
+^inst/application/_utilities/MDR/XSD$
+^inst/application/_utilities/MDR/\.~lock\.mdr\.csv#$

@@ -41,7 +41,7 @@ dt.birthdate_target <-
     person_id       AS    \"", mdr.use[source_variable_name=="person_id",variable_name], "\",
     year_of_birth  AS    \"", mdr.use[source_variable_name=="year_of_birth",variable_name], "\"
 FROM
-	p21_cdm.", mdr.use[source_variable_name=="person_id",source_table_name], "
+	p21_cdm.", mdr.use[source_variable_name=="year_of_birth",source_table_name], "
 ORDER BY
 	person_id;")
 
@@ -54,7 +54,7 @@ dt.gender_target <-
     person_id       AS    \"", mdr.use[source_variable_name=="person_id",variable_name], "\",
     gender_source_value            AS    \"", mdr.use[source_variable_name=="gender_source_value",variable_name], "\"
 FROM
-	p21_cdm.", mdr.use[source_variable_name=="person_id",source_table_name], "
+	p21_cdm.", mdr.use[source_variable_name=="gender_source_value",source_table_name], "
 ORDER BY
 	person_id;")
 
@@ -83,7 +83,7 @@ dt.encounter_target <-
 	person_id       AS    \"", mdr.use[source_variable_name=="person_id",variable_name], "\",
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="person_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
 ORDER BY
   person_id;")
 
@@ -96,7 +96,7 @@ dt.encounterstart_target <-
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   visit_start_date  AS    \"", mdr.use[source_variable_name=="visit_start_date",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="visit_start_date",source_table_name], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -109,7 +109,7 @@ dt.encounterend_target <-
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   visit_end_date  AS    \"", mdr.use[source_variable_name=="visit_end_date",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="visit_end_date",source_table_name], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -122,9 +122,9 @@ dt.ageindays_target <-
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   observation_source_value::numeric          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
+  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -137,9 +137,9 @@ dt.ageinyears_target <-
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   observation_source_value::numeric          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
+  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -152,9 +152,9 @@ dt.admission_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   observation_source_value        AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
+  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -167,9 +167,9 @@ dt.hospitalization_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   observation_source_value        AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
+  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -182,9 +182,9 @@ dt.discharge_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   observation_source_value        AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
+  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -197,9 +197,9 @@ dt.ventilation_target <-
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   observation_source_value::numeric          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="visit_occurrence_id",sql_where], "
+  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
 ORDER BY
 	visit_occurrence_id;")
 
@@ -212,7 +212,7 @@ dt.condition_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   condition_source_value        AS    \"", mdr.use[source_variable_name=="condition_source_value",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="condition_source_value",source_table_name], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -225,7 +225,7 @@ dt.conditioncategory_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
 	condition_type_concept_id       AS    \"", mdr.use[source_variable_name=="condition_type_concept_id",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="condition_type_concept_id",source_table_name], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -238,7 +238,7 @@ dt.procedure_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   procedure_source_value        AS    \"", mdr.use[source_variable_name=="procedure_source_value",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="procedure_source_value",source_table_name], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -251,7 +251,7 @@ dt.proceduredate_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   procedure_date  AS    \"", mdr.use[source_variable_name=="procedure_date",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name=="procedure_date",source_table_name], "
 ORDER BY
   visit_occurrence_id;")
 
@@ -264,7 +264,7 @@ dt.provider_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   care_site_id         AS    \"", mdr.use[source_variable_name=="care_site_id",variable_name], "\"
 FROM
-	p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+	p21_cdm.", mdr.use[source_variable_name=="care_site_id",source_table_name], "
 ORDER BY
 	visit_occurrence_id;")
 
@@ -277,7 +277,7 @@ dt.providerstart_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   visit_start_date  AS    \"", mdr.use[source_variable_name=="visit_start_date",variable_name], "\"
 FROM
-	p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+	p21_cdm.", mdr.use[source_variable_name=="visit_start_date",source_table_name], "
 ORDER BY
 	visit_occurrence_id;")
 
@@ -290,7 +290,7 @@ dt.providerend_target <-
 	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
   visit_end_date    AS    \"", mdr.use[source_variable_name=="visit_end_date",variable_name], "\"
 FROM
-	p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+	p21_cdm.", mdr.use[source_variable_name=="visit_end_date",source_table_name], "
 ORDER BY
 	visit_occurrence_id;")
 
