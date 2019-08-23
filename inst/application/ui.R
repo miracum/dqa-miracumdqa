@@ -39,7 +39,7 @@ shiny::shinyUI(shiny::tagList(shinydashboard::dashboardPage(skin = "black",
                                                               ),
                                                               shiny::div(class = "sidebar-menu", style = "position:fixed; bottom:0; left:0; white-space: normal; text-align:left;
                                                                               padding: 9.5px 9.5px 9.5px 9.5px; margin: 6px 10px 6px 10px; box-sizing:border-box; heigth: auto; width: 230px;",
-                                                                         shiny::HTML("\u00A9 Universitätsklinikum Erlangen<br/><i>programmed by Lorenz A. Kapsner</i>"))
+                                                                         shiny::HTML("\u00A9 Universitätsklinikum Erlangen<br/>"))
                                                             ),
 
                                                             shinydashboard::dashboardBody(
