@@ -118,7 +118,11 @@ looplist <- list("dt.ageindays_target" = list(var1 = "encounter_num", var2 = "nv
                   "dt.admission_target" = list(var1 = "encounter_num", var2 = "concept_cd"),
                   "dt.hospitalization_target" = list(var1 = "encounter_num", var2 = "concept_cd"),
                   "dt.discharge_target" = list(var1 = "encounter_num", var2 = "concept_cd"),
-                  "dt.ventilation_target" = list(var1 = "encounter_num", var2 = "nval_num"))
+                  "dt.ventilation_target" = list(var1 = "encounter_num", var2 = "nval_num"),
+                 "dt.condition_target" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                 "dt.conditioncategory_target" = list(var1 = "encounter_num", var2 = "modifier_cd"),
+                 "dt.procedure_target" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                 "dt.provider_target" = list(var1 = "encounter_num", var2 = "tval_char"))
 
 
 for (i in names(looplist)){
