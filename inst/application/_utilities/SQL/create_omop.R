@@ -88,211 +88,97 @@ ORDER BY
   person_id;")
 
 
-mdr.use <- mdr[key=="dt.encounterstart_target",]
+# simple
+looplist <- list("dt.encounterstart_target" = list(var1 = "visit_occurrence_id", var2 = "visit_start_date"),
+                 "dt.encounterend_target" = list(var1 = "visit_occurrence_id", var2 = "visit_end_date"),
+                 "dt.condition_target" = list(var1 = "visit_occurrence_id", var2 = "condition_source_value"),
+                 "dt.conditioncategory_target" = list(var1 = "visit_occurrence_id", var2 = "condition_type_concept_id"),
+                 "dt.procedure_target" = list(var1 = "visit_occurrence_id", var2 = "procedure_source_value"),
+                 "dt.provider_target" = list(var1 = "visit_occurrence_id", var2 = "care_site_id"),
+                 "dt.proceduredate_target" = list(var1 = "visit_occurrence_id", var2 = "procedure_date"),
+                 "dt.providerstart_target" = list(var1 = "visit_occurrence_id", var2 = "visit_start_date"),
+                 "dt.providerend_target" = list(var1 = "visit_occurrence_id", var2 = "visit_end_date"))
 
-dt.encounterstart_target <-
-  paste0(
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
     "SELECT
-  visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  visit_start_date  AS    \"", mdr.use[source_variable_name=="visit_start_date",variable_name], "\"
+  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  a.", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_start_date",source_table_name], "
+  p21_cdm.visit_occurrence AS b
+LEFT OUTER JOIN (
+SELECT
+  ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
+FROM
+  p21_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], ") AS a ON
+  a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
 ORDER BY
-  visit_occurrence_id;")
+  b.", looplist[[i]]$var1, ";")
+  )
+}
 
 
-mdr.use <- mdr[key=="dt.encounterend_target",]
 
-dt.encounterend_target <-
-  paste0(
+# where clause
+looplist <- list("dt.admission_target" = list(var1 = "visit_occurrence_id", var2 = "observation_source_value"),
+                 "dt.hospitalization_target" = list(var1 = "visit_occurrence_id", var2 = "observation_source_value"),
+                 "dt.discharge_target" = list(var1 = "visit_occurrence_id", var2 = "observation_source_value"))
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
     "SELECT
-  visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  visit_end_date  AS    \"", mdr.use[source_variable_name=="visit_end_date",variable_name], "\"
+  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  a.", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_end_date",source_table_name], "
-ORDER BY
-  visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.ageindays_target",]
-
-dt.ageindays_target <-
-  paste0(
-    "SELECT
-  visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  observation_source_value::numeric          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
+  p21_cdm.visit_occurrence AS b
+LEFT OUTER JOIN (
+SELECT
+  ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
+  p21_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ") AS a ON
+  a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
 ORDER BY
-  visit_occurrence_id;")
+  b.", looplist[[i]]$var1, ";")
+  )
+}
 
 
-mdr.use <- mdr[key=="dt.ageinyears_target",]
+# cast to numeric
+looplist <- list("dt.ageindays_target" = list(var1 = "visit_occurrence_id", var2 = "observation_source_value"),
+                 "dt.ageinyears_target" = list(var1 = "visit_occurrence_id", var2 = "observation_source_value"),
+                 "dt.ventilation_target" = list(var1 = "visit_occurrence_id", var2 = "observation_source_value"))
 
-dt.ageinyears_target <-
-  paste0(
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
     "SELECT
-  visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  observation_source_value::numeric          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
+  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  a.", looplist[[i]]$var2, "::numeric    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
+  p21_cdm.visit_occurrence AS b
+LEFT OUTER JOIN (
+SELECT
+  ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
+FROM
+  p21_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ") AS a ON
+  a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
 ORDER BY
-  visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.admission_target",]
-
-dt.admission_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  observation_source_value        AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
-FROM
-  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
-ORDER BY
-  visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.hospitalization_target",]
-
-dt.hospitalization_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  observation_source_value        AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
-FROM
-  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
-ORDER BY
-  visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.discharge_target",]
-
-dt.discharge_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  observation_source_value        AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
-FROM
-  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
-ORDER BY
-  visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.ventilation_target",]
-
-dt.ventilation_target <-
-  paste0(
-    "SELECT
-  visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  observation_source_value::numeric          AS    \"", mdr.use[source_variable_name=="observation_source_value",variable_name], "\"
-FROM
-  p21_cdm.", mdr.use[source_variable_name=="observation_source_value",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="observation_source_value",sql_where], "
-ORDER BY
-	visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.condition_target",]
-
-dt.condition_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  condition_source_value        AS    \"", mdr.use[source_variable_name=="condition_source_value",variable_name], "\"
-FROM
-  p21_cdm.", mdr.use[source_variable_name=="condition_source_value",source_table_name], "
-ORDER BY
-  visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.conditioncategory_target",]
-
-dt.conditioncategory_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-	condition_type_concept_id       AS    \"", mdr.use[source_variable_name=="condition_type_concept_id",variable_name], "\"
-FROM
-  p21_cdm.", mdr.use[source_variable_name=="condition_type_concept_id",source_table_name], "
-ORDER BY
-  visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.procedure_target",]
-
-dt.procedure_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  procedure_source_value        AS    \"", mdr.use[source_variable_name=="procedure_source_value",variable_name], "\"
-FROM
-  p21_cdm.", mdr.use[source_variable_name=="procedure_source_value",source_table_name], "
-ORDER BY
-  visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.proceduredate_target",]
-
-dt.proceduredate_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  procedure_date  AS    \"", mdr.use[source_variable_name=="procedure_date",variable_name], "\"
-FROM
-  p21_cdm.", mdr.use[source_variable_name=="procedure_date",source_table_name], "
-ORDER BY
-  visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.provider_target",]
-
-dt.provider_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  care_site_id         AS    \"", mdr.use[source_variable_name=="care_site_id",variable_name], "\"
-FROM
-	p21_cdm.", mdr.use[source_variable_name=="care_site_id",source_table_name], "
-ORDER BY
-	visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.providerstart_target",]
-
-dt.providerstart_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  visit_start_date  AS    \"", mdr.use[source_variable_name=="visit_start_date",variable_name], "\"
-FROM
-	p21_cdm.", mdr.use[source_variable_name=="visit_start_date",source_table_name], "
-ORDER BY
-	visit_occurrence_id;")
-
-
-mdr.use <- mdr[key=="dt.providerend_target",]
-
-dt.providerend_target <-
-  paste0(
-    "SELECT
-	visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\",
-  visit_end_date    AS    \"", mdr.use[source_variable_name=="visit_end_date",variable_name], "\"
-FROM
-	p21_cdm.", mdr.use[source_variable_name=="visit_end_date",source_table_name], "
-ORDER BY
-	visit_occurrence_id;")
+  b.", looplist[[i]]$var1, ";")
+  )
+}
 
 
 # # create plausibility statements

@@ -85,225 +85,94 @@ ORDER BY
   patient_num;")
 
 
-mdr.use <- mdr[key=="dt.encounterstart_target",]
+# simple cast to date
+looplist <- list("dt.ageindays_target" = list(var1 = "encounter_num", var2 = "nval_num"),
+                 "dt.encounterstart_target" = list(var1 = "encounter_num", var2 = "start_date"),
+                 "dt.encounterend_target" = list(var1 = "encounter_num", var2 = "end_date"))
 
-dt.encounterstart_target <-
-  paste0(
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
     "SELECT
-  encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
+  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  a.", looplist[[i]]$var2, "::date    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="start_date",source_table_name], "
+  i2b2miracum.encounter_mapping AS b
+LEFT OUTER JOIN (
+SELECT
+  ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
+FROM
+  i2b2miracum.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], ") AS a ON
+  a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
 ORDER BY
-  encounter_num;")
+  b.", looplist[[i]]$var1, ";")
+  )
+}
 
 
-mdr.use <- mdr[key=="dt.encounterend_target",]
+# where clause
+looplist <- list("dt.ageindays_target" = list(var1 = "encounter_num", var2 = "nval_num"),
+                  "dt.ageinyears_target" = list(var1 = "encounter_num", var2 = "nval_num"),
+                  "dt.admission_target" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                  "dt.hospitalization_target" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                  "dt.discharge_target" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                  "dt.ventilation_target" = list(var1 = "encounter_num", var2 = "nval_num"))
 
-dt.encounterend_target <-
-  paste0(
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
     "SELECT
-  encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  end_date::date  AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
+  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  a.", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="end_date",source_table_name], "
-ORDER BY
-  encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.ageindays_target",]
-
-dt.ageindays_target <-
-  paste0(
-    "SELECT
-  encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  nval_num          AS    \"", mdr.use[source_variable_name=="nval_num",variable_name], "\"
+  i2b2miracum.encounter_mapping AS b
+LEFT OUTER JOIN (
+SELECT
+  ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="nval_num",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="nval_num",sql_where], "
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ") AS a ON
+  a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
 ORDER BY
-  encounter_num;")
+  b.", looplist[[i]]$var1, ";")
+  )
+}
 
 
-mdr.use <- mdr[key=="dt.ageinyears_target",]
+# cast dates
+looplist <- list("dt.proceduredate_target" = list(var1 = "encounter_num", var2 = "start_date"),
+                 "dt.providerstart_target" = list(var1 = "encounter_num", var2 = "start_date"),
+                 "dt.providerend_target" = list(var1 = "encounter_num", var2 = "end_date"))
 
-dt.ageinyears_target <-
-  paste0(
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
     "SELECT
-  encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  nval_num          AS    \"", mdr.use[source_variable_name=="nval_num",variable_name], "\"
+  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  a.", looplist[[i]]$var2, "::date    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="nval_num",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="nval_num",sql_where], "
-ORDER BY
-  encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.admission_target",]
-
-dt.admission_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
+  i2b2miracum.encounter_mapping AS b
+LEFT OUTER JOIN (
+SELECT
+  ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
+  i2b2miracum.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ") AS a ON
+  a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
 ORDER BY
-  encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.hospitalization_target",]
-
-dt.hospitalization_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
-FROM
-  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
-ORDER BY
-  encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.discharge_target",]
-
-dt.discharge_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
-FROM
-  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
-ORDER BY
-  encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.ventilation_target",]
-
-dt.ventilation_target <-
-  paste0(
-    "SELECT
-  encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  nval_num          AS    \"", mdr.use[source_variable_name=="nval_num",variable_name], "\"
-FROM
-  i2b2miracum.", mdr.use[source_variable_name=="nval_num",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="nval_num",sql_where], "
-ORDER BY
-	encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.condition_target",]
-
-dt.condition_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
-FROM
-  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
-ORDER BY
-  encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.conditioncategory_target",]
-
-dt.conditioncategory_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-	modifier_cd       AS    \"", mdr.use[source_variable_name=="modifier_cd",variable_name], "\"
-FROM
-  i2b2miracum.", mdr.use[source_variable_name=="modifier_cd",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="modifier_cd",sql_where], "
-ORDER BY
-  encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.procedure_target",]
-
-dt.procedure_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  concept_cd        AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\"
-FROM
-  i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
-ORDER BY
-  encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.proceduredate_target",]
-
-dt.proceduredate_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
-FROM
-  i2b2miracum.", mdr.use[source_variable_name=="start_date",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="start_date",sql_where], "
-ORDER BY
-  encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.provider_target",]
-
-dt.provider_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  tval_char         AS    \"", mdr.use[source_variable_name=="tval_char",variable_name], "\"
-FROM
-	i2b2miracum.", mdr.use[source_variable_name=="tval_char",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="tval_char",sql_where], "
-ORDER BY
-	encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.providerstart_target",]
-
-dt.providerstart_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  start_date::date  AS    \"", mdr.use[source_variable_name=="start_date",variable_name], "\"
-FROM
-	i2b2miracum.", mdr.use[source_variable_name=="start_date",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="start_date",sql_where], "
-ORDER BY
-	encounter_num;")
-
-
-mdr.use <- mdr[key=="dt.providerend_target",]
-
-dt.providerend_target <-
-  paste0(
-    "SELECT
-	encounter_num     AS    \"", mdr.use[source_variable_name=="encounter_num",variable_name], "\",
-  end_date::date    AS    \"", mdr.use[source_variable_name=="end_date",variable_name], "\"
-FROM
-	i2b2miracum.", mdr.use[source_variable_name=="end_date",source_table_name], "
-WHERE
-  ", mdr.use[source_variable_name=="end_date",sql_where], "
-ORDER BY
-	encounter_num;")
+  b.", looplist[[i]]$var1, ";")
+  )
+}
 
 
 # # create plausibility statements
