@@ -96,10 +96,10 @@ for (i in names(looplist)){
 
   assign(i, paste0(
     "SELECT
-  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "::date    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.encounter_mapping AS b
+  i2b2miracum.visit_dimension AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
@@ -131,10 +131,10 @@ for (i in names(looplist)){
 
   assign(i, paste0(
     "SELECT
-  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.encounter_mapping AS b
+  i2b2miracum.visit_dimension AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
@@ -161,10 +161,10 @@ for (i in names(looplist)){
 
   assign(i, paste0(
     "SELECT
-  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "::date    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.encounter_mapping AS b
+  i2b2miracum.visit_dimension AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "

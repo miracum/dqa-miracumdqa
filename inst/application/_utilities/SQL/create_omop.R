@@ -105,7 +105,7 @@ for (i in names(looplist)){
 
   assign(i, paste0(
     "SELECT
-  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
   p21_cdm.visit_occurrence AS b
@@ -133,7 +133,7 @@ for (i in names(looplist)){
 
   assign(i, paste0(
     "SELECT
-  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
   p21_cdm.visit_occurrence AS b
@@ -163,7 +163,7 @@ for (i in names(looplist)){
 
   assign(i, paste0(
     "SELECT
-  DISTINCT b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "::numeric    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
   p21_cdm.visit_occurrence AS b
