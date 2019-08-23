@@ -99,6 +99,13 @@ renderAtempPlausis(rv$results_plausibility_atemporal, rv$conformance$value_confo
 
 # Appendix
 
+## R-Package Version 'DQAstats' 
+
+```{r}
+utils::packageVersion("DQAstats")
+```
+
+
 ## SQLs Target Data System  
 
 ```{r}
