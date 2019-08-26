@@ -67,7 +67,7 @@ kableTable(rv$checks$etl)
 
 ```{r results='asis'}
 kableTable(rv$completeness) %>%
-  kableExtra::column_spec(c(2:5), width. = "1.5cm")
+  kableExtra::column_spec(c(2:5), width = "1.5cm")
 ```
 
 # Conformance Checks
