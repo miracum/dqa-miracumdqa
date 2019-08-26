@@ -46,13 +46,13 @@ options(tinytex.verbose = TRUE)
 ## Target Data System
 
 ```{r results='asis'}
-renderDataMap(rv$datamap$target_data)
+DQAstats::renderDataMap(rv$datamap$target_data)
 ```
 
 ## Source Data System
 
 ```{r results='asis'}
-renderDataMap(rv$datamap$source_data)
+DQAstats::renderDataMap(rv$datamap$source_data)
 ```
 
 # Completeness 
@@ -60,14 +60,21 @@ renderDataMap(rv$datamap$source_data)
 ## ETL Checks
 
 ```{r results='asis'}
-kableTable(rv$checks$etl)
+DQAstats::kableTable(rv$checks$etl)
 ```
 
 # Missings
 
+## Absolute 
+
 ```{r results='asis'}
-kableTable(rv$completeness) %>%
-  kableExtra::column_spec(c(2:5), width = "1.5cm")
+DQAstats::kableTable(rv$completeness[,c(1,2,4)])
+```
+
+## Relative  
+
+```{r results='asis'}
+DQAstats::kableTable(rv$completeness[,c(1,3,5)])
 ```
 
 # Conformance Checks
