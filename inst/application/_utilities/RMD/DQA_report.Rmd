@@ -66,7 +66,8 @@ kableTable(rv$checks$etl)
 # Missings
 
 ```{r results='asis'}
-kableTable(rv$completeness)
+kableTable(rv$completeness) %>%
+  kableExtra::column_spec(c(2:5), width. = "1.5cm")
 ```
 
 # Conformance Checks
