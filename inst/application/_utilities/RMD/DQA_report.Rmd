@@ -55,10 +55,18 @@ renderDataMap(rv$datamap$target_data)
 renderDataMap(rv$datamap$source_data)
 ```
 
-# ETL Checks
+# Completeness 
+
+## ETL Checks
 
 ```{r results='asis'}
 kableTable(rv$checks$etl)
+```
+
+# Missings
+
+```{r results='asis'}
+kableTable(rv$completeness)
 ```
 
 # Conformance Checks
@@ -68,6 +76,7 @@ kableTable(rv$checks$etl)
 ```{r results='asis'}
 kableTable(rv$checks$value_conformance)
 ```
+
 
 \newpage
 

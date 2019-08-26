@@ -97,7 +97,8 @@ shiny::shinyServer(function(input, output, session) {
                 shinydashboard::menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle"),
                                          shinydashboard::menuSubItem("Atemporal Plausibility", tabName = "tab_atemp_plausibility"),
                                          shinydashboard::menuSubItem("Uniqueness Plausibility", tabName = "tab_unique_plausibility")),
-                shinydashboard::menuItem("Visualizations", tabName = "tab_visualizations", icon = icon("chart-line")),
+                shinydashboard::menuItem("Completeness", tabName = "tab_completeness", icon = icon("chart-line")),
+                #shinydashboard::menuItem("Visualizations", tabName = "tab_visualizations", icon = icon("chart-line")),
                 shinydashboard::menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
             )
         })
@@ -121,9 +122,14 @@ shiny::shinyServer(function(input, output, session) {
     shiny::callModule(DQAgui::moduleUniquePlausibilityServer, "moduleUniquePlausibility", rv, input_re=reactive({input}))
 
     ########################
-    # tab_visualization
+    # tab_completeness
     ########################
-    shiny::callModule(DQAgui::moduleVisualizationsServer, "moduleVisulizations", rv, input_re=reactive({input}))
+    shiny::callModule(DQAgui::moduleCompletenessServer, "moduleCompleteness", rv, input_re=reactive({input}))
+
+    # ########################
+    # # tab_visualization
+    # ########################
+    # shiny::callModule(DQAgui::moduleVisualizationsServer, "moduleVisulizations", rv, input_re=reactive({input}))
 
     ########################
     # tab_report

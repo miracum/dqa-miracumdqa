@@ -68,9 +68,13 @@ shiny::shinyUI(shiny::tagList(shinydashboard::dashboardPage(skin = "black",
                                                                                         DQAgui::moduleUniquePlausibilityUI("moduleUniquePlausibility")
                                                                 ),
 
-                                                                shinydashboard::tabItem(tabName = "tab_visualizations",
-                                                                                        DQAgui::moduleVisualizationsUI("moduleVisulizations")
+                                                                shinydashboard::tabItem(tabName = "tab_completeness",
+                                                                                        DQAgui::moduleCompletenessUI("moduleCompleteness")
                                                                 ),
+#
+#                                                                 shinydashboard::tabItem(tabName = "tab_visualizations",
+#                                                                                         DQAgui::moduleVisualizationsUI("moduleVisulizations")
+#                                                                 ),
 
                                                                 shinydashboard::tabItem(tabName = "tab_report",
                                                                                         DQAgui::moduleReportUI("moduleReport")
