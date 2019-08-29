@@ -55,23 +55,17 @@ renderDataMap(rv$datamap$target_data)
 renderDataMap(rv$datamap$source_data)
 ```
 
-# Completeness 
+# Completeness Checks 
 
-## ETL Checks
+## Validation 
+
+Completeness checks (validation) evaluate the ETL (extract transform load) jobs. They compare for each variable the exact matching of the number of distinct values, the number of valid values (=n), and the number of missing values between the source data system and the target data system.  
 
 ```{r results='asis'}
 kableTable(rv$checks$etl)
 ```
 
-# Missings
-
-## Absolute 
-
-```{r results='asis'}
-kableTable(rv$completeness[,c(1,2,4)])
-```
-
-## Relative  
+## Verification 
 
 ```{r results='asis'}
 kableTable(rv$completeness[,c(1,3,5)])
@@ -80,6 +74,8 @@ kableTable(rv$completeness[,c(1,3,5)])
 # Conformance Checks
 
 ## Value Conformance
+
+Value conformance checks (verification) compare for each variable the values of each data system to predefined constraints. Those constraints can be defined for each variable and data system individually in the metadata repository (MDR).
 
 ```{r results='asis'}
 kableTable(rv$checks$value_conformance)
