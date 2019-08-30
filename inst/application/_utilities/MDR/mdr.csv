@@ -148,9 +148,9 @@ Postleitzahl;zip_cd;patient_dimension;i2b2;dt.zipcode_target;patient_address_pos
 "";"";"";"";undefined;procedure_bodySite;procedure.bodySite;factor;;;;;"";"";"";"";"";;
 Aufnahmeanlass;observation_source_value;observation;omop;dt.admission_target;encounter_hospitalization_admitSource;encounter.hospitalization.admitSource;factor;"{""value_set"": ""E, Z, N, R, V, A, G, B""}";;;1;"";observation;"";"";observation_type_concept_id = 43542355 AND observation_concept_id IN (4164916, 4194310, 4138807, 4216316, 4079617, 4146925, 4123917);;
 Fallnummer;visit_occurrence_id;observation;omop;dt.admission_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;"";observation;"";"";"";;
-Alter (in Tagen);observation_source_value;observation;omop;dt.ageindays_target;encounter_subject_patient_age_days;undefined;integer;"{""min"": 0, ""max"": 366}";0;;1;"";observation;"";"";observation_concept_id = 4265453 AND unit_concept_id = 8512;;
+Alter (in Tagen);observation_source_value;observation;omop;dt.ageindays_target;encounter_subject_patient_age_days;undefined;integer;"{""range"": {""min"": 0, ""max"": 366}}";0;;1;"";observation;"";"";observation_concept_id = 4265453 AND unit_concept_id = 8512;;
 Fallnummer;visit_occurrence_id;observation;omop;dt.ageindays_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;"";observation;"";"";"";;
-Alter (in Jahren);observation_source_value;observation;omop;dt.ageinyears_target;encounter_subject_patient_age_years;undefined;integer;"{""min"": 0, ""max"": 110}";5;;1;"";observation;"";"";observation_concept_id = 4265453 AND unit_concept_id = 9448;;
+Alter (in Jahren);observation_source_value;observation;omop;dt.ageinyears_target;encounter_subject_patient_age_years;undefined;integer;"{""range"": {""min"": 0, ""max"": 110}}";5;;1;"";observation;"";"";observation_concept_id = 4265453 AND unit_concept_id = 9448;;
 Fallnummer;visit_occurrence_id;observation;omop;dt.ageinyears_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;"";observation;"";"";"";;
 Geburtsjahr;year_of_birth;person;omop;dt.birthdate_target;patient_birthDate;patient.birthDate;factor;;;;1;"";person;"";"";"";;
 Patientennummer;person_id;person;omop;dt.birthdate_target;patient_identifier_value;patient.identifier.value;factor;;;;0;"";observation;"";"";"";;
@@ -181,7 +181,7 @@ Entlassungsdatum (Fachabteilung);visit_end_date;visit_occurrence;omop;dt.provide
 Fallnummer;visit_occurrence_id;visit_occurrence;omop;dt.providerend_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;"";visit_occurence;"";"";"";;
 Aufnahmedatum (Fachabteilung);visit_start_date;visit_occurrence;omop;dt.providerstart_target;encounter_period_start;encounter.period.start;date;;;;1;"";visit_occurence;"";"";"";;
 Fallnummer;visit_occurrence_id;visit_occurrence;omop;dt.providerstart_target;encounter_identifier_value;encounter.identifier.value;factor;;;;0;"";visit_occurence;"";"";"";;
-Beatmungsstunden;observation_source_value;observation;omop;dt.ventilation_target;procedure_code_coding_code_40617009;procedure.code.coding.code.40617009;integer;"{""min"": 0, ""max"": 8766}";;;1;"";observation;"";"";observation_concept_id = 4108449;;
+Beatmungsstunden;observation_source_value;observation;omop;dt.ventilation_target;procedure_code_coding_code_40617009;procedure.code.coding.code.40617009;integer;"{""range"": {""min"": 0, ""max"": 8766}}";;;1;"";observation;"";"";observation_concept_id = 4108449;;
 Fallnummer;visit_occurrence_id;observation;omop;dt.ventilation_target;procedure_encounter_identifier_value;procedure.encounter.identifier.value;factor;;;;0;"";observation;"";"";"";;
 Patientennummer;person_id;person;omop;dt.zipcode_target;patient_identifier_value;patient.identifier.value;factor;;;;0;"";person;"";"";"";;
 Postleitzahl;zip;location;omop;dt.zipcode_target;patient_address_postalCode;patient.address.postalCode;factor;;;;1;"";location;location_id;left outer;"";;
