@@ -50,8 +50,8 @@ sourceSlot <- function(mdr, sourcesystem, name){
                   "fhir" = subs[,get("fhir")],
                   "source_variable_name" = subs[,get("source_variable_name")],
                   "source_table_name" = subs[,get("source_table_name")])
-  if (!is.na(subs[,get("value_set")])){
-    outlist <- c(outlist, list("value_set" = subs[,get("value_set")]))
+  if (!is.na(subs[,get("constraints")])){
+    outlist <- c(outlist, list("constraints" = subs[,get("constraints")]))
   }
   if (!is.na(subs[,get("value_threshold")])){
     outlist <- c(outlist, list("value_threshold" = subs[,get("value_threshold")]))
