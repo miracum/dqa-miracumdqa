@@ -21,7 +21,7 @@ library(jsonlite)
 # read mdr
 mdr <- fread(paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"))
 mdr[,plausibility_relation:=as.character(plausibility_relation)]
-mdr[,("value_set"):=gsub("\"\"", "\"", get("value_set"))][get("value_set")=="",("value_set"):=NA]
+mdr[,("constraints"):=gsub("\"\"", "\"", get("constraints"))][get("constraints")=="",("constraints"):=NA]
 mdr[,("plausibility_relation"):=gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation")=="",("plausibility_relation"):=NA]
 mdr[get("source_system")=="",("source_system"):=NA]
 mdr[get("sql_from")=="",("sql_from"):=NA]
@@ -36,9 +36,7 @@ mdr_list <- sapply(mdr_subset[,get("designation")], function(name){
 return(list("id" = which(mdr_subset[,get("designation")]==name),
             "designation" = name,
             "definition" = mdr_subset[get("designation")==name,get("definition")],
-            "validations" = ifelse(mdr_subset[get("designation")==name,get("variable_type")]=="factor", "permittedValues",
-                                   ifelse(mdr_subset[get("designation")==name,get("variable_type")]=="integer", "integer",
-                                          ifelse(mdr_subset[get("designation")==name,get("variable_type")]=="date", "calendar", NA)))))
+            "validations" = mdr_subset[get("designation")==name,get("variable_type")]))
 }, USE.NAMES = T, simplify = F)
 
 
@@ -102,8 +100,7 @@ dqaSlot <- function(mdr, sourcesystem = "p21csv", name){
   subs <- mdr[get("source_system") == sourcesystem & get("designation")==name & get("dqa_assessment")==1,]
   outlist <- list("dqa_assessment" = 1,
                   "variable_name" = subs[,get("variable_name")],
-                  "fhir" = subs[,get("fhir")],
-                  "variable_type" = subs[,get("variable_type")])
+                  "fhir" = subs[,get("fhir")])
   if (!is.na(subs[,get("plausibility_relation")])){
     outlist <- c(outlist, list("plausibility_relation" = subs[,get("plausibility_relation")]))
   }
@@ -138,49 +135,95 @@ colnames(xlsx_dataelements) <- gsub("\\.", " ", colnames(xlsx_dataelements))
 
 # read "definitions" sheets
 xlsx_definitions <- openxlsx::read.xlsx(wb, sheet = which(wb$sheet_names == "definitions"))
-xlsx_dataelements[1, "temp_id"] <- 0
-xlsx_dataelements[1, "element_type"] <- "dataelementgroup"
+
+# read "validations_permittedValues" sheets
+xlsx_validations_permittedValues <- openxlsx::read.xlsx(wb, sheet = which(wb$sheet_names == "validations_permittedValues"))
+colnames(xlsx_validations_permittedValues) <- gsub("\\.", " ", colnames(xlsx_validations_permittedValues))
 
 # read "slots" sheets
 xlsx_slots <- openxlsx::read.xlsx(wb, sheet = which(wb$sheet_names == "slots"))
 colnames(xlsx_slots) <- gsub("\\.", " ", colnames(xlsx_slots))
 
-# init slot_row
-slot_row <<- 1
+# write dataelementgroup
+xlsx_dataelements[1, "temp_id"] <- 0
+xlsx_dataelements[1, "element_type"] <- "dataelementgroup"
+xlsx_dataelements[1, "definition_id"] <- 0
+f <- paste0("=SVERWEIS(dataelements!$D", 2, ";definitions!$A:$D;3;FALSCH)")
+class(f) <- c(class(f), "formula")
+xlsx_dataelements[1, "Designation (first defined language)"] <- f
+xlsx_definitions[1, "id"] <- 0
+xlsx_definitions[1, "language"] <- "de"
+xlsx_definitions[1, "designation"] <- "Paragraph 21 (DQA)"
+xlsx_definitions[1, "definition"] <- "Diese Gruppe enthält die Datenelemente des Paragraph 21, die im Rahmen der DQ-Analyse geprüft werden."
 
-for (i in 1:length(mdr_list)){
+# init rows
+slot_row <<- 1
+permittedVals_row <<- 1
+
+# init validation ids
+permittedvalues_id <<- 1
+string_id <<- 1
+integer_id <<- 1
+calendar_id <<- 1
+
+
+for (tempid in 1:length(mdr_list)){
   # write dataelements
-  xlsx_dataelements[i+1, "temp_id"] <- mdr_list[[i]]$id
-  xlsx_dataelements[i+1, "parent_id"] <- mdr_list[[i]]$id
-  xlsx_dataelements[i+1, "element_type"] <- "dataelement"
-  xlsx_dataelements[i+1, "definition_id"] <- mdr_list[[i]]$id
-  xlsx_dataelements[i+1, "validation_type"] <- mdr_list[[i]]$validations
+  xlsx_dataelements[tempid+1, "temp_id"] <- tempid
+  xlsx_dataelements[tempid+1, "parent_id"] <- 0
+  xlsx_dataelements[tempid+1, "element_type"] <- "dataelement"
+  xlsx_dataelements[tempid+1, "definition_id"] <- tempid
+  xlsx_dataelements[tempid+1, "validation_type"] <- mdr_list[[tempid]]$validations
   # generate formula
-  f <- paste0("=SVERWEIS(dataelements!$D", i+2, ";definitions!$A:$D;3;FALSCH)")
+  f <- paste0("=SVERWEIS(dataelements!$D", tempid+2, ";definitions!$A:$D;3;FALSCH)")
   class(f) <- c(class(f), "formula")
-  xlsx_dataelements[i+1, "Designation (first defined language)"] <- f
+  xlsx_dataelements[tempid+1, "Designation (first defined language)"] <- f
 
   # write definitions
-  xlsx_definitions[i, "id"] <- mdr_list[[i]]$id
-  xlsx_definitions[i, "language"] <- "de"
-  xlsx_definitions[i, "designation"] <- mdr_list[[i]]$designation
-  xlsx_definitions[i, "definition"] <- mdr_list[[i]]$definition
+  xlsx_definitions[tempid+1, "id"] <- tempid
+  xlsx_definitions[tempid+1, "language"] <- "de"
+  xlsx_definitions[tempid+1, "designation"] <- mdr_list[[tempid]]$designation
+  xlsx_definitions[tempid+1, "definition"] <- mdr_list[[tempid]]$definition
 
   # write slots
-  for (j in 1:length(mdr_list[[i]]$slots)){
-    xlsx_slots[slot_row, "dataelement_id"] <- mdr_list[[i]]$id
-    xlsx_slots[slot_row, "key"] <- names(mdr_list[[i]]$slots)[j]
-    xlsx_slots[slot_row, "value"] <- mdr_list[[i]]$slots[[j]]
+  for (j in 1:length(mdr_list[[tempid]]$slots)){
+    xlsx_slots[slot_row, "dataelement_id"] <- tempid
+    xlsx_slots[slot_row, "key"] <- names(mdr_list[[tempid]]$slots)[j]
+    xlsx_slots[slot_row, "value"] <- mdr_list[[tempid]]$slots[[j]]
     # generate formula
     f <- paste0("=SVERWEIS($A", slot_row + 1, ";dataelements!A:G;7;FALSCH)")
     class(f) <- c(class(f), "formula")
     xlsx_slots[slot_row, "Designation of date element (first defined language)"] <- f
     slot_row <<- slot_row + 1
   }
+
+  # permitted values
+  if (mdr_list[[tempid]]$validations == "permittedValues"){
+    xlsx_dataelements[tempid+1, "validation_id"] <- permittedvalues_id
+
+    value_set <- unlist(
+      strsplit(
+        jsonlite::fromJSON(
+          jsonlite::fromJSON(
+            mdr_list[[tempid]]$slots$p21csv)$constraints)$value_set, ", ", fixed = T)
+    )
+
+    for (level in value_set){
+      xlsx_validations_permittedValues[permittedVals_row, "id"] <- permittedvalues_id
+      xlsx_validations_permittedValues[permittedVals_row, "value"] <- level
+      f <- paste0("=SVERWEIS(validations_permittedValues!$A", permittedVals_row+1, "; WENN(dataelements!$E:$E=\"permittedValues\"; dataelements!$F:$G);2)")
+      class(f) <- c(class(f), "formula")
+      xlsx_validations_permittedValues[permittedVals_row, "Designation of data element (in first defined language)"] <- f
+
+      permittedVals_row <<- permittedVals_row + 1
+    }
+    permittedvalues_id <<- permittedvalues_id + 1
+  }
 }
 
 openxlsx::writeDataTable(wb, "dataelements", x = xlsx_dataelements)
 openxlsx::writeDataTable(wb, "definitions", x = xlsx_definitions)
+openxlsx::writeDataTable(wb, "validations_permittedValues", x = xlsx_validations_permittedValues)
 openxlsx::writeDataTable(wb, "slots", x = xlsx_slots)
 
 
