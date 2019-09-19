@@ -6,7 +6,7 @@ services:
     image: docker.miracum.org/dqa/miracumdqa:latest
     restart: unless-stopped
     volumes:
-      - /home/i2b2/start:/home/i2b2/start
+      - /home/i2b2/start/Input:/home/input
     ports:
     - "3838:3838"
     # - "3839:3839" # debugging port

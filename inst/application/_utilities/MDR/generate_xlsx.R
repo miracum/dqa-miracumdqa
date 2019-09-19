@@ -221,6 +221,9 @@ for (tempid in 1:length(mdr_list)){
             mdr_list[[tempid]]$slots$p21csv)$constraints)$value_set, ", ", fixed = T)
     )
 
+    # augment definition_row + 1, otherwise we overwrite the dataelement's definition
+    definition_row <<- definition_row + 1
+
     for (level in value_set){
       xlsx_validations_permittedValues[permittedVals_row, "id"] <- permittedvalues_id
       xlsx_validations_permittedValues[permittedVals_row, "value"] <- level

@@ -22,14 +22,26 @@ shiny::shinyServer(function(input, output, session) {
     # set headless
     rv$headless = FALSE
 
-    # define our utils-path here
-    rv$utilspath <- DQAstats::cleanPathName_(system.file("application/_utilities", package = "miRacumDQA"))
+    # set utilspath
+    rv$utilspath <- DQAstats::cleanPathName_(utilspath)
+
+    # read datamap email
+    rv$datamap_email <- tryCatch({
+        # if existing, set email address for data-map button
+        out <- DQAstats::getConfig_(paste0(utilspath, "email.yml"), "email")
+    }, error = function(e){
+        print(e)
+        # otherwise set it to empty string
+        out <- ""
+    }, finally = function(f){
+        return(out)
+    })
 
     # current date
     rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
     # TODO remove later, when we have more input source
-    rv$db_source <- "p21csv"
+    rv$db_source <- db_source
 
     # run onStart here
     DQAgui::onStart(session, rv, input, output)

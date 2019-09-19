@@ -17,6 +17,12 @@
 #' @title Launch the MIRACUM DQA Tool
 #'
 #' @param port The port, the MIRACUM DQA Tool is running on (default: 3838)
+#' @param utilspath The path to the utilities-folder, containing the metadata repository files (`mdr.csv` inside the folder `MDR`),
+#'   JSON files with SQL statements (inside the folder `SQL`), config files for the database connection (`settings_default.yml`)
+#'   and the email address used for the data map (`email.yml`), a JSON file containing site names (inside the folder `MISC`) and a
+#'   markdown templated to create the PDF report (`DQA_report.Rmd` inside the folder `RMD`).
+#' @param db_source The name of the source database. Currently, the only allowed argument is `p21csv` used for the import of the
+#'   corresponding csv files.
 #'
 #' @return the MIRACUM DQA Tool Shiny application
 #'
@@ -25,10 +31,13 @@
 #' @export
 #'
 
-launchDQAtool <- function(port=3838){
-
-  # set port and latex-options here
+launchDQAtool <- function(port=3838, utilspath, db_source){
   options(shiny.port = port)
+  assign("utilspath", utilspath, envir = .GlobalEnv)
+  assign("db_source", db_source, envir = .GlobalEnv)
 
   shiny::shinyAppDir(appDir = system.file("application", package = "miRacumDQA"))
 }
+
+# debugging
+# launchDQAtool(utilspath = "./_utilities/", db_source = "p21csv")
