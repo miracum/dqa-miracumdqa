@@ -2,25 +2,16 @@
 
 This is the repository of the MIRACUM data quality assessment tool (DQA tool). 
 
-## Docker 
-
-To build a deployable docker container run:
-
-```
-cd ./docker/
-chmod +x build_image.sh
-./build_image.sh
-```
-
 ## Installation
 
-You can install the development version of miRacumDQA with:
+You can install the with the following commands. Please make sure to also install the required packages in the correct order.
 
 ``` r
 install.packages("devtools")
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqastats.git", credentials = git2r::cred_user_pass(rstudioapi::askForPassword(prompt = "Username"), rstudioapi::askForPassword()))
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqagui.git", credentials = git2r::cred_user_pass(rstudioapi::askForPassword(prompt = "Username"), rstudioapi::askForPassword()))
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/miracumdqa.git", credentials = git2r::cred_user_pass(rstudioapi::askForPassword(prompt = "Username"), rstudioapi::askForPassword()))
+options('repos' = 'https://ftp.fau.de/cran/')
+devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqastats.git")
+devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqagui.git")
+devtools::install_git("https://gitlab.miracum.org/miracum-dqa/miracumdqa.git")
 ```
 
 ## Example
@@ -29,11 +20,21 @@ This is a basic example which shows you how to launch the MIRACUM DQA tool:
 
 ``` r
 library(miRacumDQA)
-launchApp()
+launchApp(utilspath = "./_utilities/", db_source = "p21csv")
 ```
 
-To open the shiny application in your webbrowser, go to http://localhost:3838
+To open the shiny application in your webbrowser, go to http://localhost:3838.
 
+
+## Create a Docker Container
+
+Run the following commands to build a deployable docker container:
+
+```
+cd ./docker/
+chmod +x build_image.sh
+./build_image.sh
+```
 
 # More Infos:
 - about Shiny: https://www.rstudio.com/products/shiny/  
