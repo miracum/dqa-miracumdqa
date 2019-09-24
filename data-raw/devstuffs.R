@@ -9,14 +9,14 @@ my_desc$set("Package", packagename)
 # Set author names
 my_desc$set_authors(c(
   person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut')),
-  person("Franziska", "Bathelt", email = "lorenz.kapsner@uk-erlangen.de", role = c('ctb')))) #,
+  person("Franziska", "Bathelt", role = c('ctb')))) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Set copyright
 my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("1.3.2.9010")
+my_desc$set_version("1.3.2")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
