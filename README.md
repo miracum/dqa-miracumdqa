@@ -37,5 +37,8 @@ chmod +x build_image.sh
 ```
 
 # More Infos:
+
+- about MIRACUM: [https://www.miracum.org/](https://www.miracum.org/)
+- about the Medical Informatics Initiative: [https://www.medizininformatik-initiative.de/index.php/de](https://www.medizininformatik-initiative.de/index.php/de)
 - about Shiny: https://www.rstudio.com/products/shiny/  
-- RStudio and Shiny are trademarks of RStudio, Inc.  
+- RStudio and Shiny are trademarks of RStudio, Inc. 
