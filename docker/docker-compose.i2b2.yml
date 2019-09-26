@@ -6,7 +6,7 @@ services:
     image: docker.miracum.org/dqa/miracumdqa:2.0.0
     restart: unless-stopped
     volumes:
-      - /home/i2b2/start/Input:/home/input
+      - ./etl/input_files/p21_i2b2/merged:/home/input
     ports:
     - "3838:3838"
     networks:
