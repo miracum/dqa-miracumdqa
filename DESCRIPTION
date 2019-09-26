@@ -16,10 +16,10 @@ URL: https://gitlab.miracum.org/miracum-dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum-dqa/miRacumDQA/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date/Publication: 2019-09-24 10:24:37 UTC
+Date/Publication: 2019-09-26 06:21:25 UTC
 Imports: 
     shiny,
-    DQAstats (>= 0.0.2.9000),
+    DQAstats (>= 0.0.2),
     DQAgui (>= 0.0.2)
 Suggests: 
     testthat,
