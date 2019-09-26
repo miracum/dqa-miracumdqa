@@ -15,4 +15,4 @@ docker build -f Dockerfile -t dqa-miracum .
 # remove addfolder
 rm -rf ./addfolder
 
-docker-compose -f docker-compose.i2b2.yml up -d
+docker-compose -f docker-compose.dqatool.yml up -d
