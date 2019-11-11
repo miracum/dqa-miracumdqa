@@ -10,8 +10,6 @@ services:
     ports:
     - "3838:3838"
     # - "3839:3839" # debugging port
-    environment:
-      - ADD=shiny
     networks:
     - miracum-net
 

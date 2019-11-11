@@ -9,8 +9,6 @@ services:
       - /home/i2b2/start/Input:/home/input
     ports:
       - "3838:3838"
-    environment:
-      - ADD=shiny
     networks:
       - miracum-net
 
