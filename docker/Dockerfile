@@ -59,7 +59,8 @@ RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr update --self && \
     latex-graphics-dev \
     geometry \
     ec \
-    iftex
+    iftex \
+    grffile
 
 # add TeX-installation to PATH
 ENV PATH="/home/shiny/bin:${PATH}"
