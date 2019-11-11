@@ -20,7 +20,8 @@ Date: 2019-11-11
 Imports: 
     shiny
 Remotes: 
-    git::https://gitlab.miracum.org/miracum-dqa/dqagui.git@development
+    git::https://gitlab.miracum.org/miracum-dqa/dqagui.git@development,
+    git::https://gitlab.miracum.org/miracum-dqa/dqastats.git
 Suggests: 
     testthat,
     processx
