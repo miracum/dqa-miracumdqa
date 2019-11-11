@@ -57,8 +57,8 @@ usethis::use_package("shiny", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = "master", upgrade = "always")
 devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqagui.git", ref = "development", upgrade = "always")
-desc::desc_set_remotes(c("git::https://gitlab.miracum.org/miracum-dqa/dqagui.git@development",
-                         "git::https://gitlab.miracum.org/miracum-dqa/dqastats.git"),
+desc::desc_set_remotes(c("git::git://gitlab.miracum.org/miracum-dqa/dqagui@development",
+                         "git::git://gitlab.miracum.org/miracum-dqa/dqastats@master"),
                        file = usethis::proj_get())
 
 
