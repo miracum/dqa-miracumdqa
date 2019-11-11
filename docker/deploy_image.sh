@@ -18,7 +18,7 @@ mkdir addfolder
 cd addfolder
 # clone repository
 git clone -b master https://gitlab.miracum.org/miracum-dqa/dqastats.git
-git clone -b development https://gitlab.miracum.org/miracum-dqa/dqagui.git
+git clone -b master https://gitlab.miracum.org/miracum-dqa/dqagui.git
 git clone -b v2.0.1 https://gitlab.miracum.org/miracum-dqa/miracumdqa.git
 cd ..
 
