@@ -19,6 +19,7 @@
 !/inst/
 !/man/
 !/NAMESPACE
+!/.gitlab-ci.yml
 /inst/application/_settings/
 .Rproj.user
 *.Rproj
