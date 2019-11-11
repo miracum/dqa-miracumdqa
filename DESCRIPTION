@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 2.0.0
+Version: 2.0.1
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -16,12 +16,11 @@ URL: https://gitlab.miracum.org/miracum-dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum-dqa/miRacumDQA/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date/Publication: 2019-09-26 06:21:25 UTC
+Date: 2019-11-11
 Imports: 
-    shiny,
-    DQAstats (>= 0.0.2),
-    DQAgui (>= 0.0.2)
+    shiny
+Remotes: 
+    git::https://gitlab.miracum.org/miracum-dqa/dqagui.git@development
 Suggests: 
     testthat,
     processx
-RoxygenNote: 6.1.1

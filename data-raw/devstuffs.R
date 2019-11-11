@@ -16,13 +16,13 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.0")
+my_desc$set_version("2.0.1")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
 my_desc$set(Description = "The MIRACUM consortium's data quality assessment tool.")
 # The description of your package
-my_desc$set("Date/Publication" = paste(as.character(Sys.time()), "UTC"))
+my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
 my_desc$set("URL", "https://gitlab.miracum.org/miracum-dqa/miRacumDQA")
 my_desc$set("BugReports",
@@ -52,8 +52,14 @@ usethis::use_gpl3_license(name="Universitätsklinikum Erlangen")
 
 # Imports
 usethis::use_package("shiny", type = "Imports")
-usethis::use_dev_package("DQAstats", type = "Imports")
-usethis::use_dev_package("DQAgui", type = "Imports")
+
+# Development package
+# https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
+devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = "master", upgrade = "always")
+desc::desc_set_remotes("git::https://gitlab.miracum.org/miracum-dqa/dqastats.git", file = usethis::proj_get())
+devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqagui.git", ref = "development", upgrade = "always")
+desc::desc_set_remotes("git::https://gitlab.miracum.org/miracum-dqa/dqagui.git@development", file = usethis::proj_get())
+
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
