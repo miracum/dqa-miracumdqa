@@ -27,8 +27,8 @@ RUN R -q -e 'tinytex::install_tinytex()'
 USER root
 
 # install required LaTeX-Packages
-RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr update --self
-RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
+RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr update --self && \
+    ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
     multirow \
     xcolor \
     colortbl \
@@ -59,8 +59,7 @@ RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
     latex-graphics-dev \
     geometry \
     ec \
-    ifxetex \
-    ifluatex
+    iftex
 
 # add TeX-installation to PATH
 ENV PATH="/home/shiny/bin:${PATH}"
