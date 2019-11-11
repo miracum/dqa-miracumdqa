@@ -1,5 +1,4 @@
-# https://hub.docker.com/r/rocker/shiny/
-FROM rocker/shiny-verse
+FROM rocker/verse:3.6.1
 
 # install necessary system dependencies for r packages (e.g. devtools, RPostgres)
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -13,22 +12,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gpg-agent \
     git
 
-
-ARG p_base="devtools \
-    tinytex"
-
-RUN for package in $p_base; do \
-    R -q -e "p <- \"$package\"; if (isFALSE(p %in% installed.packages()[,\"Package\"])){; cat(paste(\"Installing package:\", p, \"\n\n\")); install.packages(p, repos = \"https://ftp.fau.de/cran/\", quiet=T);} else {;cat(paste(\"Package\", p, \"is already installed\n\n\"));}"; \
-    done
-
-# install tinytex
-USER shiny
-RUN R -q -e 'tinytex::install_tinytex()'
-USER root
-
 # install required LaTeX-Packages
-RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr update --self && \
-    ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr install \
+RUN tlmgr update --self && \
+    tlmgr install \
     multirow \
     xcolor \
     colortbl \
@@ -62,35 +48,32 @@ RUN ./home/shiny/.TinyTeX/bin/x86_64-linux/tlmgr update --self && \
     iftex \
     grffile
 
-# add TeX-installation to PATH
-ENV PATH="/home/shiny/bin:${PATH}"
-
 # repository name
 ARG REPO_NAME=dqastats
 
 # add cloned repo
-COPY ./addfolder /home/shiny/
+COPY ./addfolder /home/rstudio/
 
 # install our R-Package
-RUN cd /home/shiny/${REPO_NAME}/ && \
+RUN cd /home/rstudio/${REPO_NAME}/ && \
     R -q -e "devtools::install('.')"
 
 # repository name
 ARG REPO_NAME=dqagui
 
 # install our R-Package
-RUN cd /home/shiny/${REPO_NAME}/ && \
+RUN cd /home/rstudio/${REPO_NAME}/ && \
     R -q -e "devtools::install('.')"
 
 # repository name
 ARG REPO_NAME=miracumdqa
 
 # install our R-Package
-RUN cd /home/shiny/${REPO_NAME}/ && \
+RUN cd /home/rstudio/${REPO_NAME}/ && \
     R -q -e "devtools::install('.')"
 
 # add shiny app
-RUN cd /home/shiny/${REPO_NAME}/docker && \
+RUN cd /home/rstudio/${REPO_NAME}/docker && \
     cp app.R /srv/shiny-server/ && \
     # add custom server conf (running shiny as user 'shiny' is more secure than running as 'root')
     cp shiny-server.conf /etc/shiny-server/ && \
