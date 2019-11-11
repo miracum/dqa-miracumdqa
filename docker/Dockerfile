@@ -57,8 +57,7 @@ RUN tlmgr update --self && \
     latex-graphics-dev \
     geometry \
     ec \
-    iftex \
-    grffile
+    iftex
 
 # repository name
 ARG REPO_NAME=dqastats
