@@ -25,7 +25,8 @@ USER root
 ENV PATH="/home/shiny/bin:${PATH}"
 
 # install required LaTeX-Packages
-RUN tlmgr update --self && \
+RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
+    tlmgr update --self && \
     tlmgr install \
     multirow \
     xcolor \
