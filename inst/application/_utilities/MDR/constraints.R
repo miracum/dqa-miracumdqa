@@ -55,7 +55,7 @@ mdr[designation=="ICD Code" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="ICD Code" & source_system_name=="omop", constraints := c]
 
 # Fallnummer
-c <- jsonlite::toJSON(list("regex" = "^[[:alnum:]]{1,}"))
+c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
 mdr[designation=="Fallnummer" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Fallnummer" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Fallnummer" & source_system_name=="omop", constraints := c]
@@ -94,7 +94,7 @@ mdr[designation=="Geschlecht" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Geschlecht" & source_system_name=="omop", constraints := c]
 
 # Patientennummer
-c <- jsonlite::toJSON(list("regex" = "^[[:alnum:]]{1,}"))
+c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
 mdr[designation=="Patientennummer" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Patientennummer" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Patientennummer" & source_system_name=="omop", constraints := c]
@@ -106,7 +106,7 @@ mdr[designation=="OPS Code" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="OPS Code" & source_system_name=="omop", constraints := c]
 
 # Fachabteilung
-c <- jsonlite::toJSON(list("regex" = "^[[:alnum:]]{1,}"))
+c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
 mdr[designation=="Fachabteilung" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Fachabteilung" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Fachabteilung" & source_system_name=="omop", constraints := c]
