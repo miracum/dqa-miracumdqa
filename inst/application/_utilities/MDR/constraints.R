@@ -49,7 +49,7 @@ c <- jsonlite::toJSON(list("value_set" = "44786627, 44786629"))
 mdr[designation=="Diagnoseart" & source_system_name=="omop", constraints := c]
 
 # ICD Code
-c <- jsonlite::toJSON(list("regex" = "^([[:upper:]]){1}(\\d){1,2}((\\.)(\\d){1,2})?$"))
+c <- jsonlite::toJSON(list("regex" = "^([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?$"))
 mdr[designation=="ICD Code" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="ICD Code" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="ICD Code" & source_system_name=="omop", constraints := c]
@@ -76,13 +76,13 @@ mdr[designation=="Aufnahmegrund" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Aufnahmegrund" & source_system_name=="omop", constraints := c]
 
 # Postleitzahl
-c <- jsonlite::toJSON(list("regex" = "^(\\d){5}$"))
+c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{5})$"))
 mdr[designation=="Postleitzahl" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Postleitzahl" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Postleitzahl" & source_system_name=="omop", constraints := c]
 
 # Geburtsjahr
-c <- jsonlite::toJSON(list("regex" = "^(19|20)(\\d{2})((-\\d{2}){2})$"))
+c <- jsonlite::toJSON(list("regex" = "^(19|20)([[:digit:]]{2})((-[[:digit:]]{2}){2})?$"))
 mdr[designation=="Geburtsjahr" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Geburtsjahr" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Geburtsjahr" & source_system_name=="omop", constraints := c]
@@ -100,7 +100,7 @@ mdr[designation=="Patientennummer" & source_system_name=="i2b2", constraints := 
 mdr[designation=="Patientennummer" & source_system_name=="omop", constraints := c]
 
 # OPS Code
-c <- jsonlite::toJSON(list("regex" = "^(\\d){1}(\\-)(\\d){2}([[:lower:]]{1}|\\d{1})((\\.)[[:alnum:]]{1,2})?$"))
+c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
 mdr[designation=="OPS Code" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="OPS Code" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="OPS Code" & source_system_name=="omop", constraints := c]
