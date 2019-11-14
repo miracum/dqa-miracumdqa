@@ -46,13 +46,13 @@ options(tinytex.verbose = TRUE)
 ## Target Data System
 
 ```{r results='asis'}
-renderDataMap(rv$datamap$target_data)
+render_data_map(rv$datamap$target_data)
 ```
 
 ## Source Data System
 
 ```{r results='asis'}
-renderDataMap(rv$datamap$source_data)
+render_data_map(rv$datamap$source_data)
 ```
 
 # Completeness Checks 
@@ -62,13 +62,13 @@ renderDataMap(rv$datamap$source_data)
 Completeness checks (validation) evaluate the ETL (extract transform load) jobs. They compare for each variable the exact matching of the number of distinct values, the number of valid values (=n), and the number of missing values between the source data system and the target data system.  
 
 ```{r results='asis'}
-kableTable(rv$checks$etl)
+kable_table(rv$checks$etl)
 ```
 
 ## Verification 
 
 ```{r results='asis'}
-kableTable(rv$completeness[,c(1,3,5)])
+kable_table(rv$completeness[,c(1,3,5)])
 ```
 
 # Conformance Checks
@@ -78,7 +78,7 @@ kableTable(rv$completeness[,c(1,3,5)])
 Value conformance checks (verification) compare for each variable the values of each data system to predefined constraints. Those constraints can be defined for each variable and data system individually in the metadata repository (MDR).
 
 ```{r results='asis'}
-kableTable(rv$checks$value_conformance)
+kable_table(rv$checks$value_conformance)
 ```
 
 
@@ -87,7 +87,7 @@ kableTable(rv$checks$value_conformance)
 # Detailed Descriptive Analysis
 
 ```{r results='asis'}
-renderResults(rv$results_descriptive, rv$conformance$value_conformance)
+render_results(rv$results_descriptive, rv$conformance$value_conformance)
 ```
 
 \newpage
@@ -98,14 +98,14 @@ renderResults(rv$results_descriptive, rv$conformance$value_conformance)
 
 ```{r results='asis'}
 # plausi results
-renderUniqPlausis(rv$results_plausibility_uniqueness)
+render_uniq_plausis(rv$results_plausibility_uniqueness)
 ```
 
 ## Atemporal Plausibility 
 
 ```{r results='asis'}
 # plausi results
-renderAtempPlausis(rv$results_plausibility_atemporal, rv$conformance$value_conformance)
+render_atemp_plausis(rv$results_plausibility_atemporal, rv$conformance$value_conformance)
 ```
 
 \newpage
