@@ -5,9 +5,9 @@ mkdir addfolder
 cd addfolder
 
 # clone repositories
-git clone -b v0.0.3 https://gitlab.miracum.org/miracum-dqa/dqastats.git
-git clone -b v0.0.3 https://gitlab.miracum.org/miracum-dqa/dqagui.git
-git clone -b v2.0.1 https://gitlab.miracum.org/miracum-dqa/miracumdqa.git
+git clone -b v0.0.4 https://gitlab.miracum.org/miracum-dqa/dqastats.git
+git clone -b v0.0.4 https://gitlab.miracum.org/miracum-dqa/dqagui.git
+git clone -b v2.0.2 https://gitlab.miracum.org/miracum-dqa/miracumdqa.git
 cd ..
 
 docker build -f Dockerfile -t dqa-miracum .

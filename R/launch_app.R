@@ -35,9 +35,9 @@
 #' @export
 #'
 
-launchDQAtool <- function(port=3838,
-                          utilspath,
-                          db_source){
+launch_dqa_tool <- function(port=3838,
+                            utilspath,
+                            db_source) {
 
 
   global_env_hack <- function(key,
@@ -73,6 +73,3 @@ launchDQAtool <- function(port=3838,
     appDir = system.file("application", package = "miRacumDQA")
   )
 }
-
-# debugging
-# launchDQAtool(utilspath = "./_utilities/", db_source = "p21csv")

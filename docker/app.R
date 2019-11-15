@@ -15,4 +15,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 library(miRacumDQA)
-launchDQAtool(utilspath = "./_utilities/", db_source = "p21csv")
+launch_dqa_tool(utilspath = "./_utilities/", db_source = "p21csv")

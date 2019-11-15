@@ -16,16 +16,18 @@
 
 context("test i2b2 SQL statements")
 
-# debugging prefix
-# prefix <- "./tests/testthat/"
-# utildir <- paste0(prefix, "../../inst/")
 prefix <- "./"
 utildir <- paste0(prefix, "../../miRacumDQA/")
 
-test_that("correct sql statments",{
+test_that(
+  desc = "correct sql statments",
+  code = {
 
   rv <- list()
-  rv$sql_target <- DQAstats::loadSQLs_(system.file("application/_utilities/", package = "miRacumDQA"), "omop")
+  rv$sql_target <- DQAstats::load_sqls(
+    system.file("application/_utilities/",
+                package = "miRacumDQA"),
+    "omop")
 
   expect_type(rv$sql_target, "list")
 
@@ -50,7 +52,7 @@ test_that("correct sql statments",{
                        "dt.procedure_target" = "e028bc6936",
                        "dt.provider_target" = "06a54ef21c",
                        "dt.ventilation_target" = "7f713cc6ef")
-  for (i in names(known_hashes)){
+  for (i in names(known_hashes)) {
     expect_type(rv$sql_target[[i]], "character")
     expect_known_hash(rv$sql_target[[i]], known_hashes[[i]])
   }

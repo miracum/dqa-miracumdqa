@@ -16,7 +16,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.1")
+my_desc$set_version("2.0.2")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -54,17 +54,24 @@ usethis::use_gpl3_license(name="Universitätsklinikum Erlangen")
 usethis::use_package("shiny", type = "Imports")
 
 # Development package
-# https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = "v0.0.3", upgrade = "always")
-devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqagui.git", ref = "v0.0.3", upgrade = "always")
-desc::desc_set_remotes(c("url::https://gitlab.miracum.org/miracum-dqa/dqagui/-/archive/v0.0.3/dqagui-v0.0.3.zip",
-                         "url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/v0.0.3/dqastats-v0.0.3.zip"),
-                       file = usethis::proj_get())
+stats_tag <- "v0.0.4"
+gui_tag <-  "v0.0.4"
 
+# https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
+devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = stats_tag, upgrade = "always")
+devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqagui.git", ref = gui_tag, upgrade = "always")
+desc::desc_set_remotes(c(paste0(
+  "url::https://gitlab.miracum.org/miracum-dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"),
+  paste0(
+    "url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip")
+),
+file = usethis::proj_get())
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("processx", type = "Suggests")
+usethis::use_package("lintr", type = "Suggests")
+
 
 
 # buildignore and gitignore
