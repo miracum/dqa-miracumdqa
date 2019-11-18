@@ -275,6 +275,7 @@ for (tempid in 1:length(mdr_list)){
         mdr_list[[tempid]]$slots$p21csv)$constraints)$regex
 
     xlsx_validations_string[string_row, "id"] <- string_id
+    xlsx_validations_string[string_row, "max_length"] <- "30"
     xlsx_validations_string[string_row, "regex"] <- regex
     f <- paste0("=SVERWEIS(validations_string!$A", string_row+1, ";WENN(dataelements!$E:$E=\"string\";dataelements!$F:$G);2;FALSCH)")
     class(f) <- c(class(f), "formula")
