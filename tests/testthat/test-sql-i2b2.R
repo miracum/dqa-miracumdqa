@@ -32,26 +32,26 @@ test_that(
   expect_type(rv$sql_target, "list")
 
   # Loop over target_keys and check for hash and type
-  known_hashes <- list("dt.admission_target" = "8198d80cde",
-                       "dt.gender_target" = "556e9b677c",
-                       "dt.birthdate_target" = "0ea256fecc",
-                       "dt.zipcode_target" = "2b9cb2ad54",
-                       "dt.encounterstart_target" = "221bd12034",
-                       "dt.encounterend_target" = "21940b328f",
-                       "dt.conditioncategory_target" = "1a3049afbc",
-                       "dt.proceduredate_target" = "0b9933c396",
-                       "dt.providerstart_target" = "0e49175b01",
-                       "dt.providerend_target" = "9dc46cd975",
-                       "dt.ageindays_target" = "e1647fc283",
-                       "dt.ageinyears_target" = "e25fd4fabb",
-                       "dt.condition_target" = "d32784c9f6",
-                       "dt.discharge_target" = "e4ec9539b8",
-                       "dt.encounter_target" = "e04436ffae",
-                       "dt.hospitalization_target" = "fd77171844",
-                       "dt.patient_target" = "3ed7ad8ce2",
-                       "dt.procedure_target" = "50e04be749",
-                       "dt.provider_target" = "51541f137f",
-                       "dt.ventilation_target" = "2c7f68e3ec")
+  known_hashes <- list("dt.admission_target" = "8668a876f1",
+                       "dt.gender_target" = "765e2b4ce7",
+                       "dt.birthdate_target" = "f5f9b87310",
+                       "dt.zipcode_target" = "c66f14a5bb",
+                       "dt.encounterstart_target" = "19243c5c15",
+                       "dt.encounterend_target" = "f9b91db099",
+                       "dt.conditioncategory_target" = "8e0b0824bd",
+                       "dt.proceduredate_target" = "83252f50de",
+                       "dt.providerstart_target" = "78841ad143",
+                       "dt.providerend_target" = "1848705f06",
+                       "dt.ageindays_target" = "50ef28991a",
+                       "dt.ageinyears_target" = "b013274608",
+                       "dt.condition_target" = "a7de7a2714",
+                       "dt.discharge_target" = "f7883911f5",
+                       "dt.encounter_target" = "f3f149a5f1",
+                       "dt.hospitalization_target" = "21636f1b75",
+                       "dt.patient_target" = "bd0ed9b3ea",
+                       "dt.procedure_target" = "1451a3af3a",
+                       "dt.provider_target" = "6c66504624",
+                       "dt.ventilation_target" = "654d4fc7fd")
   for (i in names(known_hashes)) {
     expect_type(rv$sql_target[[i]], "character")
     expect_known_hash(rv$sql_target[[i]], known_hashes[[i]])
