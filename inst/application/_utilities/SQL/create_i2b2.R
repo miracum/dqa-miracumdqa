@@ -17,7 +17,8 @@
 library(jsonlite)
 library(data.table)
 
-mdr <- fread("./inst/application/_utilities/MDR/mdr.csv", header = T)
+# read mdr
+mdr <- DQAstats::read_mdr(utils = "inst/application/_utilities/")
 mdr <- mdr[source_system=="i2b2",]
 
 

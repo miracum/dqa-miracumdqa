@@ -18,10 +18,7 @@ library(data.table)
 library(jsonlite)
 
 # read mdr
-mdr <- fread(paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"))
-mdr[,constraints := as.character(constraints)]
-mdr[,("constraints") := gsub("\"\"", "\"", get("constraints"))][get("constraints") == "",("constraints") := NA]
-mdr[,("plausibility_relation") := gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation") == "",("plausibility_relation") := NA]
+mdr <- DQAstats::read_mdr(utils = "inst/application/_utilities/")
 
 # Aufnahmeanlass
 c <- jsonlite::toJSON(list("value_set" = "E, Z, N, R, V, A, G, B"))

@@ -17,10 +17,7 @@
 library(data.table)
 
 # read mdr
-mdr <- fread(paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"))
-mdr[,plausibility_relation:=as.character(plausibility_relation)]
-mdr[,("constraints"):=gsub("\"\"", "\"", get("constraints"))][get("constraints")=="",("constraints"):=NA]
-mdr[,("plausibility_relation"):=gsub("\"\"", "\"", get("plausibility_relation"))][get("plausibility_relation")=="",("plausibility_relation"):=NA]
+mdr <- DQAstats::read_mdr(utils = "inst/application/_utilities/")
 
 # Geburtsjahr
 p <- jsonlite::toJSON(
