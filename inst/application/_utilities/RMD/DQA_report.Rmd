@@ -98,7 +98,7 @@ render_results(rv$results_descriptive, rv$conformance$value_conformance)
 
 ```{r results='asis'}
 # plausi results
-render_uniq_plausis(rv$results_plausibility_uniqueness)
+render_uniq_plausis(rv$results_plausibility_unique)
 ```
 
 ## Atemporal Plausibility 
