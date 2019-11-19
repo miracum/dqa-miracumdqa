@@ -25,10 +25,10 @@ mdr <- DQAstats::read_mdr(utils = "inst/application/_utilities/")
 # create hierarchical list structure
 mdr_subset <- mdr[get("dqa_assessment")==1 & get("source_system_name")=="p21csv",]
 mdr_list <- sapply(mdr_subset[,get("designation")], function(name){
-return(list("id" = which(mdr_subset[,get("designation")]==name),
-            "designation" = name,
-            "definition" = mdr_subset[get("designation")==name,get("definition")],
-            "validations" = mdr_subset[get("designation")==name,get("variable_type")]))
+  return(list("id" = which(mdr_subset[,get("designation")]==name),
+              "designation" = name,
+              "definition" = mdr_subset[get("designation")==name,get("definition")],
+              "validations" = mdr_subset[get("designation")==name,get("variable_type")]))
 }, USE.NAMES = T, simplify = F)
 
 
@@ -96,6 +96,18 @@ dqaSlot <- function(mdr, sourcesystem = "p21csv", name){
   if (!is.na(subs[,get("plausibility_relation")])){
     outlist <- c(outlist, list("plausibility_relation" = subs[,get("plausibility_relation")]))
   }
+  for (j in unique(mdr[,get("source_system_type")])) {
+    if (!is.na(j)) {
+      if (is.null(outlist[[j]])) {
+        outlist[[j]] <- list()
+      }
+      for (k in unique(mdr[get("source_system_type") == j, get("source_system_name")])) {
+        if (!is.na(k)) {
+          outlist[[j]][[k]] <- sourceSlot(mdr, sourcesystem = k, name = name)
+        }
+      }
+    }
+  }
   return(jsonlite::toJSON(outlist))
 }
 
@@ -103,11 +115,6 @@ dqaSlot <- function(mdr, sourcesystem = "p21csv", name){
 # add slots
 for (i in names(mdr_list)){
   mdr_list[[i]]$slots$dqa <- dqaSlot(mdr, name = i)
-  for (j in unique(mdr[,get("source_system_name")])){
-    if (!is.na(j)){
-      mdr_list[[i]]$slots[[j]] <- sourceSlot(mdr, sourcesystem = j, name = i)
-    }
-  }
 }
 
 
