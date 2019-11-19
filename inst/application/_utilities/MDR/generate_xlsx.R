@@ -21,9 +21,12 @@ library(jsonlite)
 # read mdr
 mdr <- DQAstats::read_mdr(utils = "inst/application/_utilities/")
 
+# the system, where the "master information" is stored (definition, validations, etc.)
+master_system <- "p21csv"
+
 
 # create hierarchical list structure
-mdr_subset <- mdr[get("dqa_assessment")==1 & get("source_system_name")=="p21csv",]
+mdr_subset <- mdr[get("dqa_assessment")==1 & get("source_system_name")==master_system,]
 mdr_list <- sapply(mdr_subset[,get("designation")], function(name){
   return(list("id" = which(mdr_subset[,get("designation")]==name),
               "designation" = name,
@@ -88,7 +91,7 @@ sourceSlot <- function(mdr, sourcesystem, name){
 }
 
 # create dq-slots
-dqaSlot <- function(mdr, sourcesystem = "p21csv", name){
+dqaSlot <- function(mdr, sourcesystem = master_system, name){
   subs <- mdr[get("source_system_name") == sourcesystem & get("designation")==name & get("dqa_assessment")==1,]
   outlist <- list("dqa_assessment" = 1,
                   "variable_name" = subs[,get("variable_name")],
@@ -215,20 +218,21 @@ for (tempid in 1:length(mdr_list)){
   }
 
   # permitted values
-  if (mdr_list[[tempid]]$validations == "permittedValues"){
+  if (mdr_list[[tempid]]$validations == "permittedValues") {
     xlsx_dataelements[tempid+1, "validation_id"] <- permittedvalues_id
+
+    get_json <- jsonlite::fromJSON(jsonlite::fromJSON(mdr_list[[tempid]]$slots$dqa)$csv[[master_system]])
 
     value_set <- unlist(
       strsplit(
-        jsonlite::fromJSON(
           jsonlite::fromJSON(
-            mdr_list[[tempid]]$slots$p21csv)$constraints)$value_set, ", ", fixed = T)
+            get_json$constraints)$value_set, ", ", fixed = T)
     )
 
     # augment definition_row + 1, otherwise we overwrite the dataelement's definition
     definition_row <<- definition_row + 1
 
-    for (level in value_set){
+    for (level in value_set) {
       xlsx_validations_permittedValues[permittedVals_row, "id"] <- permittedvalues_id
       xlsx_validations_permittedValues[permittedVals_row, "value"] <- level
       xlsx_validations_permittedValues[permittedVals_row, "definition_id"] <- permittedvalues_definition_id
@@ -257,9 +261,10 @@ for (tempid in 1:length(mdr_list)){
   if (mdr_list[[tempid]]$validations == "integer"){
     xlsx_dataelements[tempid+1, "validation_id"] <- integer_id
 
+    get_json <- jsonlite::fromJSON(jsonlite::fromJSON(mdr_list[[tempid]]$slots$dqa)$csv[[master_system]])
+
     range <- jsonlite::fromJSON(
-      jsonlite::fromJSON(
-        mdr_list[[tempid]]$slots$p21csv)$constraints)$range
+        get_json$constraints)$range
 
     xlsx_validations_integer[integer_row, "id"] <- integer_id
     xlsx_validations_integer[integer_row, "range_from"] <- range$min
@@ -277,9 +282,10 @@ for (tempid in 1:length(mdr_list)){
   if (mdr_list[[tempid]]$validations == "string"){
     xlsx_dataelements[tempid+1, "validation_id"] <- string_id
 
+    get_json <- jsonlite::fromJSON(jsonlite::fromJSON(mdr_list[[tempid]]$slots$dqa)$csv[[master_system]])
+
     regex <- jsonlite::fromJSON(
-      jsonlite::fromJSON(
-        mdr_list[[tempid]]$slots$p21csv)$constraints)$regex
+        get_json$constraints)$regex
 
     xlsx_validations_string[string_row, "id"] <- string_id
     xlsx_validations_string[string_row, "max_length"] <- "30"
