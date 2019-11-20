@@ -130,6 +130,8 @@ if (length(rv$source$sql) > 0) {
     cat(paste0(rv$source$sql[[i]]))
     cat("  \n  \n")
   }
+} else {
+  cat("\nNo source data system SQL statements found.\n")
 }
 ```
 
@@ -142,6 +144,8 @@ if (length(rv$target$sql) > 0) {
     cat(paste0(rv$target$sql[[i]]))
     cat("  \n  \n")
   }
+} else {
+  cat("\nNo target data system SQL statements found.\n")
 }
 ```
 
