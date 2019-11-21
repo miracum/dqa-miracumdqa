@@ -24,37 +24,37 @@ test_that(
   code = {
 
   rv <- list()
-  rv$sql_target <- DQAstats::load_sqls(
+  rv$sql <- DQAstats::load_sqls(
     system.file("application/_utilities/",
                 package = "miRacumDQA"),
     "i2b2")
 
-  expect_type(rv$sql_target, "list")
+  expect_type(rv$sql, "list")
 
   # Loop over target_keys and check for hash and type
-  known_hashes <- list("dt.admission_target" = "8668a876f1",
-                       "dt.gender_target" = "765e2b4ce7",
-                       "dt.birthdate_target" = "f5f9b87310",
-                       "dt.zipcode_target" = "c66f14a5bb",
-                       "dt.encounterstart_target" = "19243c5c15",
-                       "dt.encounterend_target" = "f9b91db099",
-                       "dt.conditioncategory_target" = "8e0b0824bd",
-                       "dt.proceduredate_target" = "83252f50de",
-                       "dt.providerstart_target" = "78841ad143",
-                       "dt.providerend_target" = "1848705f06",
-                       "dt.ageindays_target" = "50ef28991a",
-                       "dt.ageinyears_target" = "b013274608",
-                       "dt.condition_target" = "a7de7a2714",
-                       "dt.discharge_target" = "f7883911f5",
-                       "dt.encounter_target" = "f3f149a5f1",
-                       "dt.hospitalization_target" = "21636f1b75",
-                       "dt.patient_target" = "bd0ed9b3ea",
-                       "dt.procedure_target" = "1451a3af3a",
-                       "dt.provider_target" = "6c66504624",
-                       "dt.ventilation_target" = "654d4fc7fd")
+  known_hashes <- list("dt.admission" = "8668a876f1",
+                       "dt.gender" = "765e2b4ce7",
+                       "dt.birthdate" = "f5f9b87310",
+                       "dt.zipcode" = "c66f14a5bb",
+                       "dt.encounterstart" = "19243c5c15",
+                       "dt.encounterend" = "f9b91db099",
+                       "dt.conditioncategory" = "8e0b0824bd",
+                       "dt.proceduredate" = "83252f50de",
+                       "dt.providerstart" = "78841ad143",
+                       "dt.providerend" = "1848705f06",
+                       "dt.ageindays" = "50ef28991a",
+                       "dt.ageinyears" = "b013274608",
+                       "dt.condition" = "a7de7a2714",
+                       "dt.discharge" = "f7883911f5",
+                       "dt.encounter" = "f3f149a5f1",
+                       "dt.hospitalization" = "21636f1b75",
+                       "dt.patient" = "bd0ed9b3ea",
+                       "dt.procedure" = "1451a3af3a",
+                       "dt.provider" = "6c66504624",
+                       "dt.ventilation" = "654d4fc7fd")
   for (i in names(known_hashes)) {
-    expect_type(rv$sql_target[[i]], "character")
-    expect_known_hash(rv$sql_target[[i]], known_hashes[[i]])
+    expect_type(rv$sql[[i]], "character")
+    expect_known_hash(rv$sql[[i]], known_hashes[[i]])
   }
 
 })
