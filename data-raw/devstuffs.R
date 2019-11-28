@@ -9,6 +9,7 @@ my_desc$set("Package", packagename)
 # Set author names
 my_desc$set_authors(c(
   person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut')),
+  person("Jonathan M.", "Mang", role = c('aut')),
   person("Franziska", "Bathelt", role = c('ctb')))) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Set copyright
@@ -52,6 +53,10 @@ usethis::use_gpl3_license(name="Universitätsklinikum Erlangen")
 
 # Imports
 usethis::use_package("shiny", type = "Imports")
+usethis::use_package("jsonlite", type = "Imports")
+usethis::use_package("data.table", type = "Imports")
+usethis::use_package("openxlsx", type = "Imports")
+
 
 # Development package
 stats_tag <- "v0.0.4"

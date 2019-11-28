@@ -6,6 +6,9 @@ Authors@R:
              family = "Kapsner",
              role = c("cre", "aut"),
              email = "lorenz.kapsner@uk-erlangen.de"),
+      person(given = "Jonathan M.",
+             family = "Mang",
+             role = "aut"),
       person(given = "Franziska",
              family = "Bathelt",
              role = "ctb"))
@@ -16,9 +19,12 @@ URL: https://gitlab.miracum.org/miracum-dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum-dqa/miRacumDQA/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2019-11-15
+Date: 2019-11-28
 Imports: 
-    shiny
+    shiny,
+    jsonlite,
+    data.table,
+    openxlsx
 Remotes: 
     url::https://gitlab.miracum.org/miracum-dqa/dqagui/-/archive/v0.0.4/dqagui-v0.0.4.zip,
     url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/v0.0.4/dqastats-v0.0.4.zip
@@ -26,4 +32,4 @@ Suggests:
     testthat,
     processx,
     lintr
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.1

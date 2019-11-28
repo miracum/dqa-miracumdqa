@@ -13,7 +13,9 @@ test_that(
   code = {
     lintlist <- list(
       "R" = list(
-        "launch_app.R" = NULL
+        "launch_app.R" = NULL,
+        "mdr_from_samply.R" = NULL,
+        "mdr_to_samply.R" = NULL
       ),
       "inst/application" = list(
         "server.R" = NULL,
