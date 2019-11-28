@@ -19,10 +19,10 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                             master_system_type = "csv",
                             master_system_name = "p21csv") {
 
-  base_url = "https://mdr.miracum.de/rest/api/mdr/"
-  namespace = "dqa"
-  master_system_type = "csv"
-  master_system_name = "p21csv"
+  # base_url = "https://mdr.miracum.de/rest/api/mdr/"
+  # namespace = "dqa"
+  # master_system_type = "csv"
+  # master_system_name = "p21csv"
 
   stopifnot(
     is.character(namespace),
@@ -123,7 +123,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     if (is.null(dqa_slot)) {
       # if there is no dqa slot, the dataelement is
       # not interesting for us
-      next()
+      next
     }
 
     stopifnot(length(dqa_slot$csv) > 0)

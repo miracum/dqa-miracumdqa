@@ -118,6 +118,7 @@ dqa_slot <- function(mdr, sourcesystem, name) {
   subs <- mdr[get("source_system_name") ==
                 sourcesystem & get("designation") ==
                 name & get("dqa_assessment") == 1, ]
+
   outlist <- list("variable_name" = subs[, get("variable_name")],
                   "fhir" = subs[, get("fhir")])
   if (!is.na(subs[, get("plausibility_relation")])) {
@@ -128,7 +129,7 @@ dqa_slot <- function(mdr, sourcesystem, name) {
   for (j in unique(mdr[, get("source_system_type")])) {
     if (!is.na(j)) {
       if (j == "") {
-        next()
+        next
       } else if (is.null(outlist[[j]])) {
         outlist[[j]] <- list()
       }
@@ -136,7 +137,7 @@ dqa_slot <- function(mdr, sourcesystem, name) {
                            get("source_system_name")])) {
         if (!is.na(k)) {
           if (k == "") {
-            next()
+            next
           } else {
             outlist[[j]][[k]] <- source_slot(
               mdr = mdr,
