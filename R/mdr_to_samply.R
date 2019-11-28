@@ -50,8 +50,6 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
   )
   stopifnot(data.table::is.data.table(rv$mdr))
 
-  rv$mdr <- data.table::data.table(rv$mdr)
-
   # create hierarchical list structure
   rv$mdr_subset <- rv$mdr[get("dqa_assessment") ==
                          1 & get("source_system_name") ==

@@ -5,7 +5,8 @@ Authors@R:
     c(person(given = "Lorenz A.",
              family = "Kapsner",
              role = c("cre", "aut"),
-             email = "lorenz.kapsner@uk-erlangen.de"),
+             email = "lorenz.kapsner@uk-erlangen.de",
+             comment = c(ORCID = "0000-0003-1866-860X")),
       person(given = "Jonathan M.",
              family = "Mang",
              role = "aut"),
@@ -27,7 +28,7 @@ Imports:
     openxlsx
 Remotes: 
     url::https://gitlab.miracum.org/miracum-dqa/dqagui/-/archive/v0.0.4/dqagui-v0.0.4.zip,
-    url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/v0.0.4/dqastats-v0.0.4.zip
+    url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/development/dqastats-development.zip
 Suggests: 
     testthat,
     processx,
