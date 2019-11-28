@@ -15,7 +15,17 @@ test_that(
       "R" = list(
         "launch_app.R" = NULL,
         "mdr_from_samply.R" = NULL,
-        "mdr_to_samply.R" = NULL
+        "mdr_to_samply.R" = NULL,
+        "mdr_converter_utils.R" = list(
+          list(
+            message = "cyclomatic complexity",
+            line_number = 20
+          ),
+          list(
+            message = "cyclomatic complexity",
+            line_number = 122
+          )
+        )
       ),
       "inst/application" = list(
         "server.R" = NULL,

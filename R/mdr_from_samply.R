@@ -19,10 +19,10 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                             master_system_type = "csv",
                             master_system_name = "p21csv") {
 
-  # base_url = "https://mdr.miracum.de/rest/api/mdr/"
-  # namespace = "dqa"
-  # master_system_type = "csv"
-  # master_system_name = "p21csv"
+  #% base_url = "https://mdr.miracum.de/rest/api/mdr/"
+  #% namespace = "dqa"
+  #% master_system_type = "csv"
+  #% master_system_name = "p21csv"
 
   stopifnot(
     is.character(namespace),
@@ -34,7 +34,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
   )
 
   # clean base url path
-  base_url = DQAstats::clean_path_name(base_url)
+  base_url <- DQAstats::clean_path_name(base_url)
 
   # set members url
   member_url <- paste0(
@@ -126,6 +126,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       next
     }
 
+    # TODO csv slot hard-coded
     stopifnot(length(dqa_slot$csv) > 0)
     # first look at all csv systems
     for (sys in names(dqa_slot$csv)) {
@@ -134,7 +135,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       csv_slot <- jsonlite::fromJSON(
         txt = dqa_slot$csv[[master_system_name]]
       )
-      append_basis <- cbind(
+      append_row <- cbind(
         append_basis,
         data.table::as.data.table(
           csv_slot
@@ -142,11 +143,46 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       )
     }
 
-
+    # add master row to mdr
     outmdr <- data.table::rbindlist(list(
       outmdr,
-      append_basis
-    ))
+      append_row
+    ),
+    fill = T)
+
+    # TODO postgres slot hard-coded
+    for (sys in names(dqa_slot$postgres)) {
+      postgres_slot <- jsonlite::fromJSON(
+        txt = dqa_slot$postgres[[sys]]
+      )
+      append_row <- cbind(
+        append_basis,
+        data.table::as.data.table(
+          postgres_slot$base
+        )
+      )
+      # add row to mdr
+      outmdr <- data.table::rbindlist(list(
+        outmdr,
+        append_row
+      ),
+      fill = T)
+
+      if (!is.null(postgres_slot$helper_vars)) {
+        append_row <- cbind(
+          append_basis,
+          data.table::as.data.table(
+            postgres_slot$helper_vars
+          )
+        )
+        # add row to mdr
+        outmdr <- data.table::rbindlist(list(
+          outmdr,
+          append_row
+        ),
+        fill = T)
+      }
+    }
   }
 }
 

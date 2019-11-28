@@ -23,57 +23,63 @@ source_slot <- function(mdr, sourcesystem, name) {
                 sourcesystem & get("designation") ==
                 name & get("dqa_assessment") == 1, ]
 
-  outlist <- list("dqa_assessment" = subs[, get("dqa_assessment")],
-                  "key" = subs[,get("key")],
-                  "variable_name" = subs[, get("variable_name")],
-                  "fhir" = subs[, get("fhir")],
-                  "source_variable_name" = subs[, get("source_variable_name")],
-                  "source_table_name" = subs[, get("source_table_name")])
+  # initialize outlist
+  outlist <- list()
+
+  outlist$base <- list(
+    "dqa_assessment" = subs[, get("dqa_assessment")],
+    "key" = subs[, get("key")],
+    "variable_name" = subs[, get("variable_name")],
+    "fhir" = subs[, get("fhir")],
+    "source_variable_name" = subs[, get("source_variable_name")],
+    "source_table_name" = subs[, get("source_table_name")]
+  )
   if (!is.na(subs[, get("constraints")])) {
-    outlist <- c(outlist, list(
+    outlist$base <- c(outlist$base, list(
       "constraints" = subs[, get("constraints")]
     ))
   }
   if (!is.na(subs[, get("value_threshold")])) {
-    outlist <- c(outlist, list(
+    outlist$base <- c(outlist$base, list(
       "value_threshold" = subs[, get("value_threshold")]
     ))
   }
   if (!is.na(subs[, get("data_map")])) {
-    outlist <- c(outlist, list(
+    outlist$base <- c(outlist$base, list(
       "data_map" = subs[, get("data_map")]
     ))
   }
   if (!is.na(subs[, get("sql_from")])) {
-    outlist <- c(outlist, list(
+    outlist$base <- c(outlist$base, list(
       "sql_from" = subs[, get("sql_from")]
     ))
   }
   if (!is.na(subs[, get("sql_join_on")])) {
-    outlist <- c(outlist, list(
+    outlist$base <- c(outlist$base, list(
       "sql_join_on" = subs[, get("sql_join_on")]
     ))
   }
   if (!is.na(subs[, get("sql_join_type")])) {
-    outlist <- c(outlist, list(
+    outlist$base <- c(outlist$base, list(
       "sql_join_type" = subs[, get("sql_join_type")]
     ))
   }
   if (!is.na(subs[, get("sql_where")])) {
-    outlist <- c(outlist, list(
+    outlist$base <- c(outlist$base, list(
       "sql_where" = subs[, get("sql_where")]
     ))
   }
   if (nrow(mdr[get("source_system_name") == sourcesystem &
                get("key") == subs[, get("key")] &
-               get("dqa_assessment") == 0,]) > 0) {
+               get("dqa_assessment") == 0, ]) > 0) {
+
     helps <- mdr[get("source_system_name") == sourcesystem &
                    get("key") == subs[, get("key")] &
-                   get("dqa_assessment") == 0,]
+                   get("dqa_assessment") == 0, ]
 
     helpsout <- list()
 
-    for (i in helps[, get("variable_name")]) {
+    for (i in unique(helps[, get("variable_name")])) {
       helpsout[[i]] <- list(
         "dqa_assessment" = 0,
         "designation" = helps[get("variable_name") == i,
@@ -90,7 +96,7 @@ source_slot <- function(mdr, sourcesystem, name) {
           "sql_from" = helps[, get("sql_from")]
         ))
       }
-      if (!is.na(helps[,get("sql_join_on")])) {
+      if (!is.na(helps[, get("sql_join_on")])) {
         helpsout[[i]] <- c(helpsout[[i]], list(
           "sql_join_on" = helps[, get("sql_join_on")]
         ))
