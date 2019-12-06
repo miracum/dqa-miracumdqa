@@ -25,6 +25,8 @@
 #'   (default: 'mdr.csv').
 #' @inheritParams launch_dqa_tool
 #'
+#' @import data.table
+#'
 #' @export
 #'
 mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
@@ -39,46 +41,44 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
     master_system_name == "p21csv"
   )
 
-  rv <- list()
-
-  rv$utilspath <- DQAstats::clean_path_name(utilspath)
+  utilspath <- DQAstats::clean_path_name(utilspath)
 
   # read mdr
-  rv$mdr <- DQAstats::read_mdr(
-    utils_path = rv$utilspath,
+  dqa_mdr <- DQAstats::read_mdr(
+    utils_path = utilspath,
     mdr_filename = mdr_filename
   )
-  stopifnot(data.table::is.data.table(rv$mdr))
+  stopifnot(data.table::is.data.table(dqa_mdr))
 
   # create hierarchical list structure
-  rv$mdr_subset <- rv$mdr[get("dqa_assessment") ==
+  dqa_mdr_subset <- dqa_mdr[get("dqa_assessment") ==
                          1 & get("source_system_name") ==
                          master_system_name, ]
 
-  rv$mdr_list <- sapply(
-    rv$mdr_subset[, get("designation")],
+  dqa_mdr_list <- sapply(
+    dqa_mdr_subset[, get("designation")],
     function(name) {
-      return(list("id" = which(rv$mdr_subset[, get("designation")] ==
+      return(list("id" = which(dqa_mdr_subset[, get("designation")] ==
                                  name),
                   "designation" = name,
-                  "definition" = rv$mdr_subset[get("designation") ==
+                  "definition" = dqa_mdr_subset[get("designation") ==
                                               name, get("definition")],
-                  "validations" = rv$mdr_subset[get("designation") ==
+                  "validations" = dqa_mdr_subset[get("designation") ==
                                                name, get("variable_type")]))
     }, USE.NAMES = T, simplify = F)
 
 
   # add slots
-  for (i in names(rv$mdr_list)) {
-    rv$mdr_list[[i]]$slots$dqa <- dqa_slot(
-      mdr = rv$mdr,
+  for (i in names(dqa_mdr_list)) {
+    dqa_mdr_list[[i]]$slots$dqa <- dqa_slot(
+      mdr = dqa_mdr,
       sourcesystem = master_system_name,
       name = i
     )
   }
 
   # create workbook
-  wbfilename <- paste0(rv$utilspath, "MDR/XLSX/mdr-import_template.xlsx")
+  wbfilename <- paste0(utilspath, "MDR/XLSX/mdr-import_template.xlsx")
   stopifnot(file.exists(wbfilename))
 
   # read template
@@ -178,7 +178,7 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
   calendar_id <- 1
 
 
-  for (tempid in seq_len(length(rv$mdr_list))) {
+  for (tempid in seq_len(length(dqa_mdr_list))) {
 
     updated_permitted_values <- FALSE
     # write dataelements
@@ -187,7 +187,7 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
     xlsx_dataelements[tempid + 1, "element_type"] <- "dataelement"
     xlsx_dataelements[tempid + 1, "definition_id"] <- tempid
     xlsx_dataelements[tempid + 1, "validation_type"] <-
-      rv$mdr_list[[tempid]]$validations
+      dqa_mdr_list[[tempid]]$validations
     # generate formula
     f <- paste0("=SVERWEIS(dataelements!$D",
                 tempid + 2,
@@ -199,15 +199,15 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
     xlsx_definitions[definition_row, "id"] <- tempid
     xlsx_definitions[definition_row, "language"] <- "de"
     xlsx_definitions[definition_row, "designation"] <-
-      rv$mdr_list[[tempid]]$designation
+      dqa_mdr_list[[tempid]]$designation
     xlsx_definitions[definition_row, "definition"] <-
-      rv$mdr_list[[tempid]]$definition
+      dqa_mdr_list[[tempid]]$definition
 
     # write slots
-    for (j in seq_len(length(rv$mdr_list[[tempid]]$slots))) {
+    for (j in seq_len(length(dqa_mdr_list[[tempid]]$slots))) {
       xlsx_slots[slot_row, "dataelement_id"] <- tempid
-      xlsx_slots[slot_row, "key"] <- names(rv$mdr_list[[tempid]]$slots)[j]
-      xlsx_slots[slot_row, "value"] <- rv$mdr_list[[tempid]]$slots[[j]]
+      xlsx_slots[slot_row, "key"] <- names(dqa_mdr_list[[tempid]]$slots)[j]
+      xlsx_slots[slot_row, "value"] <- dqa_mdr_list[[tempid]]$slots[[j]]
       # generate formula
       f <- paste0("=SVERWEIS($A", slot_row + 1, ";dataelements!A:G;7;FALSCH)")
       class(f) <- c(class(f), "formula")
@@ -217,19 +217,19 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
     }
 
     # permitted values
-    if (rv$mdr_list[[tempid]]$validations == "permittedValues") {
+    if (dqa_mdr_list[[tempid]]$validations == "permittedValues") {
       xlsx_dataelements[tempid + 1, "validation_id"] <- permittedvalues_id
 
       get_json <- jsonlite::fromJSON(
         jsonlite::fromJSON(
-          rv$mdr_list[[tempid]]$slots$dqa
+          dqa_mdr_list[[tempid]]$slots$dqa
         )$csv[[master_system_name]]
       )
 
       value_set <- unlist(
         strsplit(
           jsonlite::fromJSON(
-            get_json$constraints)$value_set, ", ", fixed = T)
+            get_json$base$constraints)$value_set, ", ", fixed = T)
       )
 
       # augment definition_row + 1, otherwise we overwrite the
@@ -272,17 +272,17 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
 
 
     # integer
-    if (rv$mdr_list[[tempid]]$validations == "integer") {
+    if (dqa_mdr_list[[tempid]]$validations == "integer") {
       xlsx_dataelements[tempid + 1, "validation_id"] <- integer_id
 
       get_json <- jsonlite::fromJSON(
         jsonlite::fromJSON(
-          rv$mdr_list[[tempid]]$slots$dqa
+          dqa_mdr_list[[tempid]]$slots$dqa
         )$csv[[master_system_name]]
       )
 
       range <- jsonlite::fromJSON(
-        get_json$constraints)$range
+        get_json$base$constraints)$range
 
       xlsx_validations_integer[integer_row, "id"] <- integer_id
       xlsx_validations_integer[integer_row, "range_from"] <- range$min
@@ -301,17 +301,17 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
     }
 
     # string
-    if (rv$mdr_list[[tempid]]$validations == "string") {
+    if (dqa_mdr_list[[tempid]]$validations == "string") {
       xlsx_dataelements[tempid + 1, "validation_id"] <- string_id
 
       get_json <- jsonlite::fromJSON(
         jsonlite::fromJSON(
-          rv$mdr_list[[tempid]]$slots$dqa
+          dqa_mdr_list[[tempid]]$slots$dqa
         )$csv[[master_system_name]]
       )
 
       regex <- jsonlite::fromJSON(
-        get_json$constraints)$regex
+        get_json$base$constraints)$regex
 
       xlsx_validations_string[string_row, "id"] <- string_id
       xlsx_validations_string[string_row, "max_length"] <- "30"
@@ -330,7 +330,7 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
 
 
     # calendar
-    if (rv$mdr_list[[tempid]]$validations == "calendar") {
+    if (dqa_mdr_list[[tempid]]$validations == "calendar") {
       xlsx_dataelements[tempid + 1, "validation_id"] <- calendar_id
 
       xlsx_validations_calendar[calendar_row, "id"] <- calendar_id
@@ -392,15 +392,15 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
   # write xlsx
   openxlsx::saveWorkbook(
     wb,
-    paste0(rv$utilspath, "MDR/XLSX/mdr-import_DQA.xlsx"),
+    paste0(utilspath, "MDR/XLSX/mdr-import_DQA.xlsx"),
     overwrite = T
   )
 
 
 
   jsonlist <- jsonlite::toJSON(
-    rv$mdr_list, pretty = T, auto_unbox = F
+    dqa_mdr_list, pretty = T, auto_unbox = F
   )
-  writeLines(jsonlist, paste0(rv$utilspath, "MDR/DQA_MDR.JSON"))
+  writeLines(jsonlist, paste0(utilspath, "MDR/DQA_MDR.JSON"))
 
 }

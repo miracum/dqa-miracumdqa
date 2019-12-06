@@ -19,11 +19,11 @@ test_that(
         "mdr_converter_utils.R" = list(
           list(
             message = "cyclomatic complexity",
-            line_number = 20
+            line_number = 18
           ),
           list(
             message = "cyclomatic complexity",
-            line_number = 122
+            line_number = 120
           )
         )
       ),

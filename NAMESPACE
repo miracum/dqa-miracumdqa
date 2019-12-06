@@ -2,4 +2,5 @@
 
 export(launch_dqa_tool)
 export(mdr_to_samply)
+import(data.table)
 import(shiny)

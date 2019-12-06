@@ -19,10 +19,10 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                             master_system_type = "csv",
                             master_system_name = "p21csv") {
 
-  #% base_url = "https://mdr.miracum.de/rest/api/mdr/"
-  #% namespace = "dqa"
-  #% master_system_type = "csv"
-  #% master_system_name = "p21csv"
+  # base_url = "https://mdr.miracum.de/rest/api/mdr/"
+  # namespace = "dqa"
+  # master_system_type = "csv"
+  # master_system_name = "p21csv"
 
   stopifnot(
     is.character(namespace),
@@ -130,33 +130,39 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     stopifnot(length(dqa_slot$csv) > 0)
     # first look at all csv systems
     for (sys in names(dqa_slot$csv)) {
-      if (sys == master_system_name)
-      # in a first level, extract our master_slot row
-      csv_slot <- jsonlite::fromJSON(
-        txt = dqa_slot$csv[[master_system_name]]
-      )
+      if (sys == master_system_name) {
+        # in a first level, extract our master_slot row
+        csv_slot <- jsonlite::fromJSON(
+          txt = dqa_slot$csv[[master_system_name]]
+        )
+      }
       append_row <- cbind(
         append_basis,
+        source_system_type = "csv",
+        source_system_name = sys,
         data.table::as.data.table(
-          csv_slot
+          csv_slot$base
         )
       )
+
+      # add master row to mdr
+      outmdr <- data.table::rbindlist(list(
+        outmdr,
+        append_row
+      ),
+      fill = T)
     }
 
-    # add master row to mdr
-    outmdr <- data.table::rbindlist(list(
-      outmdr,
-      append_row
-    ),
-    fill = T)
-
     # TODO postgres slot hard-coded
+    stopifnot(length(dqa_slot$postgres) > 0)
     for (sys in names(dqa_slot$postgres)) {
       postgres_slot <- jsonlite::fromJSON(
         txt = dqa_slot$postgres[[sys]]
       )
       append_row <- cbind(
         append_basis,
+        source_system_type = "postgres",
+        source_system_name = sys,
         data.table::as.data.table(
           postgres_slot$base
         )
@@ -169,21 +175,26 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       fill = T)
 
       if (!is.null(postgres_slot$helper_vars)) {
-        append_row <- cbind(
-          append_basis,
-          data.table::as.data.table(
-            postgres_slot$helper_vars
+
+        for (h in names(postgres_slot$helper_vars)) {
+          append_row <- cbind(
+            source_system_type = "postgres",
+            source_system_name = sys,
+            data.table::as.data.table(
+              postgres_slot$base
+            )
           )
-        )
-        # add row to mdr
-        outmdr <- data.table::rbindlist(list(
-          outmdr,
-          append_row
-        ),
-        fill = T)
+          # add row to mdr
+          outmdr <- data.table::rbindlist(list(
+            outmdr,
+            append_row
+          ),
+          fill = T)
+        }
       }
     }
   }
+  return(outmdr)
 }
 
 
