@@ -66,6 +66,8 @@ gui_tag <-  "v0.0.4"
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = stats_tag, upgrade = "always")
 devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqagui.git", ref = gui_tag, upgrade = "always")
+usethis::use_dev_package("DQAstats", type = "Imports")
+usethis::use_dev_package("DQAgui", type = "Imports")
 desc::desc_set_remotes(c(paste0(
   "url::https://gitlab.miracum.org/miracum-dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"),
   paste0(

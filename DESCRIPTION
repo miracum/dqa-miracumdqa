@@ -20,12 +20,14 @@ URL: https://gitlab.miracum.org/miracum-dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum-dqa/miRacumDQA/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2019-11-28
+Date: 2019-12-09
 Imports: 
     shiny,
     jsonlite,
     data.table,
-    openxlsx
+    openxlsx,
+    DQAstats (>= 0.0.4),
+    DQAgui (>= 0.0.4)
 Remotes: 
     url::https://gitlab.miracum.org/miracum-dqa/dqagui/-/archive/v0.0.4/dqagui-v0.0.4.zip,
     url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/development/dqastats-development.zip
