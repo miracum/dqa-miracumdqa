@@ -135,15 +135,22 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
         csv_slot <- jsonlite::fromJSON(
           txt = dqa_slot$csv[[master_system_name]]
         )
-      }
+
       append_row <- cbind(
         append_basis,
-        source_system_type = "csv",
-        source_system_name = sys,
+        "source_system_type" = "csv",
+        "source_system_name" = sys,
         data.table::as.data.table(
           csv_slot$base
         )
       )
+
+      if (!is.null(dqa_slot$plausibility_relation)) {
+        append_row <- cbind(
+          append_row,
+          "plausibility_relation" = dqa_slot$plausibility_relation
+        )
+      }
 
       # add master row to mdr
       outmdr <- data.table::rbindlist(list(
@@ -151,6 +158,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
         append_row
       ),
       fill = T)
+      }
     }
 
     # TODO postgres slot hard-coded
@@ -161,8 +169,8 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       )
       append_row <- cbind(
         append_basis,
-        source_system_type = "postgres",
-        source_system_name = sys,
+        "source_system_type" = "postgres",
+        "source_system_name" = sys,
         data.table::as.data.table(
           postgres_slot$base
         )
@@ -178,10 +186,10 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
 
         for (h in names(postgres_slot$helper_vars)) {
           append_row <- cbind(
-            source_system_type = "postgres",
-            source_system_name = sys,
+            "source_system_type" = "postgres",
+            "source_system_name" = sys,
             data.table::as.data.table(
-              postgres_slot$base
+              postgres_slot$helper_vars[[h]]
             )
           )
           # add row to mdr
@@ -194,6 +202,23 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       }
     }
   }
+  # change order of columns for better comparability
+  neworder <- c("designation", "source_variable_name", "source_table_name",
+                     "source_system_name", "source_system_type", "key",
+                     "variable_name", "fhir", "variable_type", "constraints",
+                     "value_threshold", "missing_threshold", "dqa_assessment",
+                     "definition", "sql_from", "sql_join_on", "sql_join_type",
+                     "sql_where", "data_map", "plausibility_relation")
+
+  check_missing_columns <- setdiff(neworder, colnames(outmdr))
+
+  if (length(check_missing_columns) > 0) {
+    for (mc in check_missing_columns) {
+      outmdr[, (mc) := NA]
+    }
+  }
+  # set new order
+  data.table::setcolorder(outmdr, neworder)
   return(outmdr)
 }
 

@@ -33,6 +33,10 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
                           mdr_filename = "mdr.csv",
                           master_system_name = "p21csv") {
 
+  # utilspath = "inst/application/_utilities/"
+  # mdr_filename = "mdr.csv"
+  # master_system_name = "p21csv"
+
   stopifnot(
     is.character(utilspath),
     is.character(mdr_filename),
