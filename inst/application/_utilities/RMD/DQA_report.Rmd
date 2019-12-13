@@ -14,7 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-title: "Überprüfung der ETL-Strecken zwischen Quellsystem (exportierte §21 Rohdaten) und Zielsystem (`r rv$db_target` Forschungsdatenrepository)  \nZeitraum `r rv$time_interval$start` bis `r rv$time_interval$end`"
+title: "Überprüfung der ETL-Strecken zwischen Quellsystem (`rv$source$system_name`) und Zielsystem (`rv$source$system_name` Forschungsdatenrepository)  \nZeitraum `r rv$time_interval$start` bis `r rv$time_interval$end`"
 author: "Datenqualitätsanalyse des §21-Datensatzes  \nStandort: `r rv$sitename`"
 date: \today
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
