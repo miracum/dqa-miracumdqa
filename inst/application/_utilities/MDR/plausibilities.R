@@ -41,10 +41,10 @@ p <- jsonlite::toJSON(
                                                                            "description" =  "Mit jeder Fallnummer darf nur eine Hauptdiagnose assoziiert sein.",
                                                                            "filter" = list("i2b2" = "HD",
                                                                                            "p21csv" = "HD",
-                                                                                           "omop" = "44786627, 44786629")))))
-mdr[grepl("dt\\.condition", key) & variable_name=="condition_encounter_identifier_value" & source_system_name=="p21csv" & dqa_assessment == 1, plausibility_relation := p]
-mdr[grepl("dt\\.condition", key) & variable_name=="condition_encounter_identifier_value" & source_system_name=="omop" & dqa_assessment == 1, plausibility_relation := p]
-mdr[grepl("dt\\.condition", key) & variable_name=="condition_encounter_identifier_value" & source_system_name=="i2b2" & dqa_assessment == 1, plausibility_relation := p]
+                                                                                           "omop" = "44786629")))))
+mdr[grepl("dt\\.condition$", key) & variable_name=="condition_encounter_identifier_value" & source_system_name=="p21csv", plausibility_relation := p]
+mdr[grepl("dt\\.condition$", key) & variable_name=="condition_encounter_identifier_value" & source_system_name=="omop", plausibility_relation := p]
+mdr[grepl("dt\\.condition$", key) & variable_name=="condition_encounter_identifier_value" & source_system_name=="i2b2", plausibility_relation := p]
 
 # Geschlecht & ICD-Code
 p <- jsonlite::toJSON(
