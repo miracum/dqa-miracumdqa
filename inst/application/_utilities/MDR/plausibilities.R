@@ -18,6 +18,7 @@ library(data.table)
 
 # read mdr
 mdr <- DQAstats::read_mdr(utils = "inst/application/_utilities/")
+mdr[, plausibility_relation := NA]
 
 # Geburtsjahr
 p <- jsonlite::toJSON(
@@ -31,9 +32,9 @@ mdr[grepl("dt\\.patient", key) & variable_name=="patient_identifier_value" & sou
 p <- jsonlite::toJSON(
   list("uniqueness" = list("patient_identifier_value" = list("name" = "Pl.uniqueness.Item02",
                                                              "description" = "Mit jeder Fallnummer darf nur eine Patienten-ID assoziiert sein."))))
-mdr[grepl("dt\\.encounter", key) & variable_name=="encounter_identifier_value" & source_system_name=="p21csv" & dqa_assessment == 1, plausibility_relation := p]
-mdr[grepl("dt\\.encounter", key) & variable_name=="encounter_identifier_value" & source_system_name=="omop" & dqa_assessment == 1, plausibility_relation := p]
-mdr[grepl("dt\\.encounter", key) & variable_name=="encounter_identifier_value" & source_system_name=="i2b2" & dqa_assessment == 1, plausibility_relation := p]
+mdr[grepl("dt\\.encounter$", key) & variable_name=="encounter_identifier_value" & source_system_name=="p21csv" & dqa_assessment == 1, plausibility_relation := p]
+mdr[grepl("dt\\.encounter$", key) & variable_name=="encounter_identifier_value" & source_system_name=="omop" & dqa_assessment == 1, plausibility_relation := p]
+mdr[grepl("dt\\.encounter$", key) & variable_name=="encounter_identifier_value" & source_system_name=="i2b2" & dqa_assessment == 1, plausibility_relation := p]
 
 # Fallnummer & Diagnoseart
 p <- jsonlite::toJSON(
