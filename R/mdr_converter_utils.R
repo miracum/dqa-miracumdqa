@@ -86,6 +86,10 @@ source_slot <- function(mdr, sourcesystem, name) {
                                        get("source_variable_name")],
         "source_table_name" = helps[get("variable_name") == i,
                                     get("source_table_name")],
+        "variable_name" = helps[get("variable_name") == i,
+                                get("variable_name")],
+        "key" = helps[get("variable_name") == i,
+                      get("key")],
         "fhir" = helps[get("variable_name") == i,
                        get("fhir")]
       )
@@ -109,6 +113,11 @@ source_slot <- function(mdr, sourcesystem, name) {
           "sql_where" = helps[, get("sql_where")]
         ))
       }
+      if (!is.na(helps[, get("plausibility_relation")])) {
+        helpsout[[i]] <- c(helpsout[[i]], list(
+          "plausibility_relation" = helps[, get("plausibility_relation")]
+        ))
+      }
     }
     outlist$helper_vars <- helpsout
   }
@@ -128,7 +137,7 @@ dqa_slot <- function(mdr, sourcesystem, name) {
   if (!is.na(subs[, get("plausibility_relation")])) {
     outlist <- c(outlist, list(
       "plausibility_relation" = subs[, get("plausibility_relation")]
-      ))
+    ))
   }
   for (j in unique(mdr[, get("source_system_type")])) {
     if (!is.na(j)) {

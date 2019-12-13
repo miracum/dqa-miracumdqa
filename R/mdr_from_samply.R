@@ -14,6 +14,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#' @title DQA-MDR to Samply.MDR Converter Function
+#'
+#' @param base_url The URL of the Samply.MDR, from which the `namespace`
+#'   should be imported.
+#' @param namespace A character string. The name of the DQA-MDR namespace in
+#'   the Samply.MDR (default: 'dqa').
+#' @param master_system_type A character string. The type of the master system
+#'   (the master system contains more information on the data elements;
+#'   currently, 'csv' is the only allowed value.)
+#' @param master_system_name A character string. The name of the master system
+#'   (the master system contains more information on the data elements;
+#'   currently, 'p21csv' is the only allowed value.)
+#'
+#' @references \cite{D. Kadioglu, B. Breil, C. Knell, M. Lablans, S. Mate,
+#'   D. Schlue, H. Serve, H. Storf, F. Ückert, T. Wagner, P. Weingardt,
+#'   and H.-U. Prokosch, Samply.MDR - A Metadata Repository and Its
+#'   Application in Various Research Networks, Studies in Health Technology
+#'   and Informatics. (2018) 50–54. doi:10/gf963s.}
+#'
+#' @seealso \url{http://ebooks.iospress.nl/publication/50022}
+#'
+#' @export
+#'
 mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                             namespace = "dqa",
                             master_system_type = "csv",
@@ -136,28 +159,47 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
           txt = dqa_slot$csv[[master_system_name]]
         )
 
-      append_row <- cbind(
-        append_basis,
-        "source_system_type" = "csv",
-        "source_system_name" = sys,
-        data.table::as.data.table(
-          csv_slot$base
-        )
-      )
-
-      if (!is.null(dqa_slot$plausibility_relation)) {
         append_row <- cbind(
-          append_row,
-          "plausibility_relation" = dqa_slot$plausibility_relation
+          append_basis,
+          "source_system_type" = "csv",
+          "source_system_name" = sys,
+          data.table::as.data.table(
+            csv_slot$base
+          )
         )
-      }
 
-      # add master row to mdr
-      outmdr <- data.table::rbindlist(list(
-        outmdr,
-        append_row
-      ),
-      fill = T)
+        if (!is.null(dqa_slot$plausibility_relation)) {
+          append_row <- cbind(
+            append_row,
+            "plausibility_relation" = dqa_slot$plausibility_relation
+          )
+        }
+
+        # add master row to mdr
+        outmdr <- data.table::rbindlist(list(
+          outmdr,
+          append_row
+        ),
+        fill = T)
+
+        if (!is.null(csv_slot$helper_vars)) {
+
+          for (h in names(csv_slot$helper_vars)) {
+            append_row <- cbind(
+              "source_system_type" = "postgres",
+              "source_system_name" = sys,
+              data.table::as.data.table(
+                csv_slot$helper_vars[[h]]
+              )
+            )
+            # add row to mdr
+            outmdr <- data.table::rbindlist(list(
+              outmdr,
+              append_row
+            ),
+            fill = T)
+          }
+        }
       }
     }
 
@@ -175,6 +217,14 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
           postgres_slot$base
         )
       )
+
+      if (!is.null(dqa_slot$plausibility_relation)) {
+        append_row <- cbind(
+          append_row,
+          "plausibility_relation" = dqa_slot$plausibility_relation
+        )
+      }
+
       # add row to mdr
       outmdr <- data.table::rbindlist(list(
         outmdr,
@@ -204,11 +254,11 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
   }
   # change order of columns for better comparability
   neworder <- c("designation", "source_variable_name", "source_table_name",
-                     "source_system_name", "source_system_type", "key",
-                     "variable_name", "fhir", "variable_type", "constraints",
-                     "value_threshold", "missing_threshold", "dqa_assessment",
-                     "definition", "sql_from", "sql_join_on", "sql_join_type",
-                     "sql_where", "data_map", "plausibility_relation")
+                "source_system_name", "source_system_type", "key",
+                "variable_name", "fhir", "variable_type", "constraints",
+                "value_threshold", "missing_threshold", "dqa_assessment",
+                "definition", "sql_from", "sql_join_on", "sql_join_type",
+                "sql_where", "data_map", "plausibility_relation")
 
   check_missing_columns <- setdiff(neworder, colnames(outmdr))
 
