@@ -186,7 +186,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
 
           for (h in names(csv_slot$helper_vars)) {
             append_row <- cbind(
-              "source_system_type" = "postgres",
+              "source_system_type" = "csv",
               "source_system_name" = sys,
               data.table::as.data.table(
                 csv_slot$helper_vars[[h]]

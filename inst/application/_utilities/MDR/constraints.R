@@ -27,13 +27,13 @@ mdr[designation=="Aufnahmeanlass" & source_system_name=="i2b2", constraints := c
 mdr[designation=="Aufnahmeanlass" & source_system_name=="omop", constraints := c]
 
 # Alter (in Tagen)
-c <- jsonlite::toJSON(list("range" = list("min" = 0, "max" = 366, "unit" = "d")))
+c <- jsonlite::toJSON(list("range" = list("min" = 1, "max" = 366, "unit" = "d")))
 mdr[designation=="Alter (in Tagen)" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Alter (in Tagen)" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Alter (in Tagen)" & source_system_name=="omop", constraints := c]
 
 # Alter (in Jahren)
-c <- jsonlite::toJSON(list("range" = list("min" = 0, "max" = 110, "unit" = "a")))
+c <- jsonlite::toJSON(list("range" = list("min" = 1, "max" = 115, "unit" = "a")))
 mdr[designation=="Alter (in Jahren)" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Alter (in Jahren)" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Alter (in Jahren)" & source_system_name=="omop", constraints := c]

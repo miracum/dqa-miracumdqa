@@ -88,6 +88,8 @@ source_slot <- function(mdr, sourcesystem, name) {
                                     get("source_table_name")],
         "variable_name" = helps[get("variable_name") == i,
                                 get("variable_name")],
+        "variable_type" = helps[get("variable_name") == i,
+                                get("variable_type")],
         "key" = helps[get("variable_name") == i,
                       get("key")],
         "fhir" = helps[get("variable_name") == i,
