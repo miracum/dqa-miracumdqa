@@ -40,9 +40,9 @@ mdr[grepl("dt\\.encounter$", key) & variable_name=="encounter_identifier_value" 
 p <- jsonlite::toJSON(
   list("uniqueness" = list("condition_category_encounter_diagnosis" = list("name" = "Pl.uniqueness.Item03",
                                                                            "description" =  "Mit jeder Fallnummer darf nur eine Hauptdiagnose assoziiert sein.",
-                                                                           "filter" = list("i2b2" = "HD",
+                                                                           "filter" = list("i2b2" = "DIAGNOSEART:HD",
                                                                                            "p21csv" = "HD",
-                                                                                           "omop" = "44786629")))))
+                                                                                           "omop" = "44786627")))))
 mdr[grepl("dt\\.condition$", key) & variable_name=="condition_encounter_identifier_value" & source_system_name=="p21csv", plausibility_relation := p]
 mdr[grepl("dt\\.condition$", key) & variable_name=="condition_encounter_identifier_value" & source_system_name=="omop", plausibility_relation := p]
 mdr[grepl("dt\\.condition$", key) & variable_name=="condition_encounter_identifier_value" & source_system_name=="i2b2", plausibility_relation := p]
@@ -55,7 +55,7 @@ p <- jsonlite::toJSON(
         "name" = "Pl.atemporal.Item01",
         "description" = "Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.",
         "filter" = list(
-          "omop" = "O[0-9]", "i2b2" = "O[0-9]", "p21csv" = "O[0-9]"
+          "omop" = "O[0-9]", "i2b2" = "^(ICD10\\:)O[0-9]", "p21csv" = "O[0-9]"
         ),
         "join_crit" = "encounter_identifier_value",
         "constraints" = list(
@@ -66,7 +66,7 @@ p <- jsonlite::toJSON(
         "name" = "Pl.atemporal.Item02",
         "description" = "Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.",
         "filter" = list(
-          "omop" = "C5[1-8]", "i2b2" = "C5[1-8]", "p21csv" = "C5[1-8]"
+          "omop" = "C5[1-8]", "i2b2" = "^(ICD10\\:)C5[1-8]", "p21csv" = "C5[1-8]"
         ),
         "join_crit" = "encounter_identifier_value",
         "constraints" = list(
@@ -77,7 +77,7 @@ p <- jsonlite::toJSON(
         "name" = "Pl.atemporal.Item03",
         "description" = "Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.",
         "filter" = list(
-          "omop" = "C6[0-3]", "i2b2" = "C6[0-3]", "p21csv" = "C6[0-3]"
+          "omop" = "C6[0-3]", "i2b2" = "^(ICD10\\:)C6[0-3]", "p21csv" = "C6[0-3]"
         ),
         "join_crit" = "encounter_identifier_value",
         "constraints" = list(
@@ -88,7 +88,7 @@ p <- jsonlite::toJSON(
         "name" = "Pl.atemporal.Item04",
         "description" = "Nur bei weiblichen Patientinnen ist \'stationäre Entbindung\' als Aufnahmegrund (05) erlaubt.",
         "filter" = list(
-          "omop" = "05xx", "i2b2" = "05xx", "p21csv" = "05xx"
+          "omop" = "^05", "i2b2" = "^05", "p21csv" = "^05"
         ),
         "join_crit" = "encounter_identifier_value",
         "constraints" = list(

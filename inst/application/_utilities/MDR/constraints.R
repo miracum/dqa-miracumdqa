@@ -41,6 +41,7 @@ mdr[designation=="Alter (in Jahren)" & source_system_name=="omop", constraints :
 # Diagnoseart
 c <- jsonlite::toJSON(list("value_set" = "HD, ND"))
 mdr[designation=="Diagnoseart" & source_system_name=="p21csv", constraints := c]
+c <- jsonlite::toJSON(list("value_set" = "DIAGNOSEART:HD, DIAGNOSEART:ND"))
 mdr[designation=="Diagnoseart" & source_system_name=="i2b2", constraints := c]
 c <- jsonlite::toJSON(list("value_set" = "44786627, 44786629"))
 mdr[designation=="Diagnoseart" & source_system_name=="omop", constraints := c]
@@ -48,8 +49,9 @@ mdr[designation=="Diagnoseart" & source_system_name=="omop", constraints := c]
 # ICD Code
 c <- jsonlite::toJSON(list("regex" = "^([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?$"))
 mdr[designation=="ICD Code" & source_system_name=="p21csv", constraints := c]
-mdr[designation=="ICD Code" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="ICD Code" & source_system_name=="omop", constraints := c]
+c <- jsonlite::toJSON(list("regex" = "^(ICD10\\:)([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?$"))
+mdr[designation=="ICD Code" & source_system_name=="i2b2", constraints := c]
 
 # Fallnummer
 c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
@@ -58,7 +60,7 @@ mdr[designation=="Fallnummer" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Fallnummer" & source_system_name=="omop", constraints := c]
 
 # Entlassungsgrund
-c <- jsonlite::toJSON(list("value_set" = "01x, 02x, 03x, 04x, 059, 069, 079, 089, 099, 109, 119, 139, 14x, 15x, 179, 229, 239, 249, 259"))
+c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{1,3})$"))
 mdr[designation=="Entlassungsgrund" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Entlassungsgrund" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Entlassungsgrund" & source_system_name=="omop", constraints := c]
@@ -67,7 +69,7 @@ mdr[designation=="Entlassungsgrund" & source_system_name=="omop", constraints :=
 # TODO value_set für Datumsvariablen überlegen
 
 # Aufnahmegrund
-c <- jsonlite::toJSON(list("value_set" = "01xx, 02xx, 03xx, 04xx, 05xx, 06xx, 08xx"))
+c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{1,4})$"))
 mdr[designation=="Aufnahmegrund" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Aufnahmegrund" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Aufnahmegrund" & source_system_name=="omop", constraints := c]
@@ -99,8 +101,9 @@ mdr[designation=="Patientennummer" & source_system_name=="omop", constraints := 
 # OPS Code
 c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
 mdr[designation=="OPS Code" & source_system_name=="p21csv", constraints := c]
-mdr[designation=="OPS Code" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="OPS Code" & source_system_name=="omop", constraints := c]
+c <- jsonlite::toJSON(list("regex" = "^(OPS\\:)([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
+mdr[designation=="OPS Code" & source_system_name=="i2b2", constraints := c]
 
 # Fachabteilung
 c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
