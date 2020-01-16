@@ -123,8 +123,30 @@ ORDER BY
   )
 }
 
+# where clause without left outer join on case-id
+looplist <- list("dt.procedure_medication" = list(var1 = "encounter_num", var2 = "concept_cd"))
 
-# where clause
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
+    "
+SELECT
+  ", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  ", looplist[[i]]$var2, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
+FROM
+  i2b2miracum.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+WHERE
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], "
+ORDER BY
+  ", looplist[[i]]$var1, ";")
+  )
+}
+
+
+# where clause with left outer join on case-id
 looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "nval_num"),
                   "dt.ageinyears" = list(var1 = "encounter_num", var2 = "nval_num"),
                   "dt.admission" = list(var1 = "encounter_num", var2 = "tval_char"),
@@ -220,6 +242,7 @@ vec <- c("dt.patient", "dt.gender", "dt.zipcode", "dt.birthdate",
          "dt.discharge", "dt.ventilation",
          "dt.condition", "dt.conditioncategory",
          "dt.procedure", "dt.proceduredate",
+         "dt.procedure_medication",
          "dt.provider", "dt.providerstart", "dt.providerend")
          #"pl.atemp.item01", "pl.atemp.item02", "pl.atemp.item03", "pl.atemp.item04")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)

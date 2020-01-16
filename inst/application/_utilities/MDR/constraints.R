@@ -19,6 +19,7 @@ library(jsonlite)
 
 # read mdr
 mdr <- DQAstats::read_mdr(utils = "inst/application/_utilities/")
+mdr[, constraints := NULL]
 
 # Aufnahmeanlass
 c <- jsonlite::toJSON(list("value_set" = "E, Z, N, R, V, A, G, B"))
@@ -104,6 +105,10 @@ mdr[designation=="OPS Code" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="OPS Code" & source_system_name=="omop", constraints := c]
 c <- jsonlite::toJSON(list("regex" = "^(OPS\\:)([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
 mdr[designation=="OPS Code" & source_system_name=="i2b2", constraints := c]
+
+# Medikation (OPS Code)
+c <- jsonlite::toJSON(list("regex" = "^(OPS\\:6\\-00)([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
+mdr[designation=="Medikation (OPS Code)" & source_system_name=="i2b2", constraints := c]
 
 # Fachabteilung
 c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
