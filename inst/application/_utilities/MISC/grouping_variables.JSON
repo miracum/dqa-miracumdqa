@@ -1,0 +1,8 @@
+{
+  "patient_identifier_value": [
+    "patient_identifier_value",
+    "patient_address_postalCode",
+    "patient_birthDate",
+    "patient_gender"
+  ]
+}

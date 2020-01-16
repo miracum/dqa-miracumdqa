@@ -1,5 +1,5 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ shiny::shinyServer(func = function(input, output, session) {
         expr = {
             # if existing, set email address for data-map button
             out <- DQAstats::get_config(
-                config_file = paste0(utilspath, "email.yml"),
+                config_file = paste0(utilspath, "/MISC/email.yml"),
                 config_key = "email"
             )
         }, error = function(e) {

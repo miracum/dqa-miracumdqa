@@ -11,14 +11,16 @@ my_desc$set_authors(c(
   person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut'),
          comment = c(ORCID = "0000-0003-1866-860X")),
   person("Jonathan M.", "Mang", role = c('aut')),
-  person("Franziska", "Bathelt", role = c('ctb')))) #,
+  person("Franziska", "Bathelt", role = c('ctb')),
+  person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = c("fnd"))
+)) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Set copyright
 my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.2.9001")
+my_desc$set_version("2.0.2.9002")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -35,7 +37,7 @@ my_desc$set("License", "GPL-3")
 my_desc$write(file = "DESCRIPTION")
 
 # License
-usethis::use_gpl3_license(name="Universitätsklinikum Erlangen")
+#usethis::use_gpl3_license(name="Universitätsklinikum Erlangen")
 
 
 # add Imports and Depends
@@ -60,18 +62,16 @@ usethis::use_package("openxlsx", type = "Imports")
 
 
 # Development package
-stats_tag <- "5440df4c"
+stats_tag <- "723aa9ee"
 gui_tag <-  "v0.0.4"
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = stats_tag, upgrade = "always")
-devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqagui.git", ref = gui_tag, upgrade = "always")
-usethis::use_dev_package("DQAstats", type = "Imports")
-usethis::use_dev_package("DQAgui", type = "Imports")
+devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
+devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
 desc::desc_set_remotes(c(paste0(
-  "url::https://gitlab.miracum.org/miracum-dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"),
+  "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/miracum/dqa/dqagui-", gui_tag, ".zip"),
   paste0(
-    "url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip")
+    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/miracum/dqa/dqastats-", stats_tag, ".zip")
 ),
 file = usethis::proj_get())
 

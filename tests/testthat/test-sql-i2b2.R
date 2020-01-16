@@ -1,5 +1,5 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ test_that(
   expect_type(rv$sql, "list")
 
   # Loop over target_keys and check for hash and type
-  known_hashes <- list("dt.admission" = "8668a876f1",
+  known_hashes <- list("dt.admission" = "96c232dc35",
                        "dt.gender" = "765e2b4ce7",
                        "dt.birthdate" = "f5f9b87310",
                        "dt.zipcode" = "c66f14a5bb",
@@ -45,9 +45,9 @@ test_that(
                        "dt.ageindays" = "50ef28991a",
                        "dt.ageinyears" = "b013274608",
                        "dt.condition" = "a7de7a2714",
-                       "dt.discharge" = "f7883911f5",
+                       "dt.discharge" = "c71f0b452a",
                        "dt.encounter" = "f3f149a5f1",
-                       "dt.hospitalization" = "21636f1b75",
+                       "dt.hospitalization" = "2fc68642bc",
                        "dt.patient" = "bd0ed9b3ea",
                        "dt.procedure" = "1451a3af3a",
                        "dt.provider" = "6c66504624",

@@ -1,5 +1,5 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -127,9 +127,9 @@ ORDER BY
 # where clause
 looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "nval_num"),
                   "dt.ageinyears" = list(var1 = "encounter_num", var2 = "nval_num"),
-                  "dt.admission" = list(var1 = "encounter_num", var2 = "concept_cd"),
-                  "dt.hospitalization" = list(var1 = "encounter_num", var2 = "concept_cd"),
-                  "dt.discharge" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                  "dt.admission" = list(var1 = "encounter_num", var2 = "tval_char"),
+                  "dt.hospitalization" = list(var1 = "encounter_num", var2 = "tval_char"),
+                  "dt.discharge" = list(var1 = "encounter_num", var2 = "tval_char"),
                   "dt.ventilation" = list(var1 = "encounter_num", var2 = "nval_num"),
                  "dt.condition" = list(var1 = "encounter_num", var2 = "concept_cd"),
                  "dt.conditioncategory" = list(var1 = "encounter_num", var2 = "modifier_cd"),

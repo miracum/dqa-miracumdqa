@@ -14,7 +14,7 @@ test_that(
     lintlist <- list(
       "R" = list(
         "launch_app.R" = NULL,
-        "mdr_from_samply.R" = NULL,
+        "mdr_from_samply.R" = "cyclomatic complexity",
         "mdr_to_samply.R" = NULL,
         "mdr_converter_utils.R" = list(
           list(
@@ -23,7 +23,7 @@ test_that(
           ),
           list(
             message = "cyclomatic complexity",
-            line_number = 120
+            line_number = 131
           )
         )
       ),

@@ -1,5 +1,5 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,11 +41,6 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                             namespace = "dqa",
                             master_system_type = "csv",
                             master_system_name = "p21csv") {
-
-  # base_url = "https://mdr.miracum.de/rest/api/mdr/"
-  # namespace = "dqa"
-  # master_system_type = "csv"
-  # master_system_name = "p21csv"
 
   stopifnot(
     is.character(namespace),
