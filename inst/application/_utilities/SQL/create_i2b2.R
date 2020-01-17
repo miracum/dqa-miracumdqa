@@ -124,7 +124,9 @@ ORDER BY
 }
 
 # where clause without left outer join on case-id
-looplist <- list("dt.procedure_medication" = list(var1 = "encounter_num", var2 = "concept_cd"))
+looplist <- list("dt.procedure_medication" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                 "dt.procedure" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                 "dt.provider" = list(var1 = "encounter_num", var2 = "tval_char"))
 
 
 for (i in names(looplist)){
@@ -154,9 +156,7 @@ looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "nval_num"
                   "dt.discharge" = list(var1 = "encounter_num", var2 = "tval_char"),
                   "dt.ventilation" = list(var1 = "encounter_num", var2 = "nval_num"),
                  "dt.condition" = list(var1 = "encounter_num", var2 = "concept_cd"),
-                 "dt.conditioncategory" = list(var1 = "encounter_num", var2 = "modifier_cd"),
-                 "dt.procedure" = list(var1 = "encounter_num", var2 = "concept_cd"),
-                 "dt.provider" = list(var1 = "encounter_num", var2 = "tval_char"))
+                 "dt.conditioncategory" = list(var1 = "encounter_num", var2 = "modifier_cd"))
 
 
 for (i in names(looplist)){
@@ -195,20 +195,14 @@ for (i in names(looplist)){
 
   assign(i, paste0(
     "SELECT
-  b.", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
-  a.", looplist[[i]]$var2, "::date\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
-FROM
-  i2b2miracum.visit_dimension AS b
-LEFT OUTER JOIN (
-SELECT
-  ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
+  ", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  ", looplist[[i]]$var2, "::date\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
   i2b2miracum.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ") AS a ON
-  a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], "
 ORDER BY
-  b.", looplist[[i]]$var1, ";")
+  ", looplist[[i]]$var1, ";")
   )
 }
 

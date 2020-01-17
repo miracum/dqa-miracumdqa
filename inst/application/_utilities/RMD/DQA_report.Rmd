@@ -94,18 +94,18 @@ render_results(rv$results_descriptive, rv$conformance$value_conformance)
 
 # Plausibility Checks
 
-## Uniqueness Plausibility
-
-```{r results='asis'}
-# plausi results
-render_uniq_plausis(rv$results_plausibility_unique)
-```
-
 ## Atemporal Plausibility 
 
 ```{r results='asis'}
 # plausi results
 render_atemp_plausis(rv$results_plausibility_atemporal, rv$conformance$value_conformance)
+```
+
+## Uniqueness Plausibility
+
+```{r results='asis'}
+# plausi results
+render_uniq_plausis(rv$results_plausibility_unique)
 ```
 
 \newpage
@@ -118,13 +118,16 @@ render_atemp_plausis(rv$results_plausibility_atemporal, rv$conformance$value_con
 utils::packageVersion("DQAstats")
 ```
 
-
-## SQL Statments
-
-### Source Data System  
+```{r}
+if (length(rv$source$sql) > 0 ||
+    length(rv$target$sql) > 0) {
+  cat("\n## SQL Statments  \n")
+}
+```
 
 ```{r}
 if (length(rv$source$sql) > 0) {
+  cat("\n### Source Data System  \n")
   for (i in names(rv$source$sql)) {
     cat(paste0("  \nMDR key: ", i, "  \n  \n"))
     cat(paste0(rv$source$sql[[i]]))
@@ -135,10 +138,11 @@ if (length(rv$source$sql) > 0) {
 }
 ```
 
-### Target Data System  
+  
 
 ```{r}
 if (length(rv$target$sql) > 0) {
+  cat("\n### Target Data System  \n")
   for (i in names(rv$target$sql)) {
     cat(paste0("  \nMDR key: ", i, "  \n  \n"))
     cat(paste0(rv$target$sql[[i]]))

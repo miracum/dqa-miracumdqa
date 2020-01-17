@@ -39,9 +39,9 @@ test_that(
                        "dt.encounterstart" = "19243c5c15",
                        "dt.encounterend" = "f9b91db099",
                        "dt.conditioncategory" = "8e0b0824bd",
-                       "dt.proceduredate" = "83252f50de",
-                       "dt.providerstart" = "78841ad143",
-                       "dt.providerend" = "1848705f06",
+                       "dt.proceduredate" = "1e8778d81c",
+                       "dt.providerstart" = "9235208a77",
+                       "dt.providerend" = "188453211a",
                        "dt.ageindays" = "50ef28991a",
                        "dt.ageinyears" = "b013274608",
                        "dt.condition" = "a7de7a2714",
@@ -49,8 +49,8 @@ test_that(
                        "dt.encounter" = "f3f149a5f1",
                        "dt.hospitalization" = "2fc68642bc",
                        "dt.patient" = "bd0ed9b3ea",
-                       "dt.procedure" = "1451a3af3a",
-                       "dt.provider" = "6c66504624",
+                       "dt.procedure" = "62e8ce5f85",
+                       "dt.provider" = "9b9d1d5490",
                        "dt.ventilation" = "654d4fc7fd")
   for (i in names(known_hashes)) {
     expect_type(rv$sql[[i]], "character")
