@@ -20,7 +20,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.2.9002")
+my_desc$set_version("2.0.2.9003")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -62,7 +62,7 @@ usethis::use_package("openxlsx", type = "Imports")
 
 
 # Development package
-stats_tag <- "723aa9ee"
+stats_tag <- "ad046d04"
 gui_tag <-  "v0.0.4"
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
