@@ -26,6 +26,7 @@ source_slot <- function(mdr, sourcesystem, name) {
 
   outlist$base <- list(
     "dqa_assessment" = subs[, get("dqa_assessment")],
+    "filter" = subs[, get("filter")],
     "key" = subs[, get("key")],
     "variable_name" = subs[, get("variable_name")],
     "fhir" = subs[, get("fhir")],
@@ -154,10 +155,13 @@ dqa_slot <- function(mdr, sourcesystem, name) {
           if (k == "") {
             next
           } else {
+            if (nrow(mdr[get("designation") == name &
+                         get("source_system_name") == k, ]) > 0) {
             outlist[[j]][[k]] <- source_slot(
               mdr = mdr,
               sourcesystem = k,
               name = name)
+            }
           }
         }
       }

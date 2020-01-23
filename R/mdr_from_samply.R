@@ -44,7 +44,6 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
 
   stopifnot(
     is.character(namespace),
-    namespace == "dqa",
     is.character(master_system_type),
     master_system_type == "csv",
     is.character(master_system_name),
@@ -249,6 +248,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
   }
   # change order of columns for better comparability
   neworder <- c("designation", "source_variable_name", "source_table_name",
+                "filter",
                 "source_system_name", "source_system_type", "key",
                 "variable_name", "fhir", "variable_type", "constraints",
                 "value_threshold", "missing_threshold", "dqa_assessment",
