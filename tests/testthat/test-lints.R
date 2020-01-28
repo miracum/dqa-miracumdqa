@@ -23,9 +23,10 @@ test_that(
           ),
           list(
             message = "cyclomatic complexity",
-            line_number = 131
+            line_number = 132
           )
-        )
+        ),
+        "moduleConfig.R" = "cyclomatic complexity"
       ),
       "inst/application" = list(
         "server.R" = NULL,

@@ -15,8 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 library(miRacumDQA)
+
 launch_dqa_tool(
-  utils_path = "home/shiny/miracumdqa/application/_utilities",
+  utils_path = "/home/shiny/miracumdqa/inst/application/_utilities/",
   config_file =
-    "home/shiny/miracumdqa/application/_utilities/settings/settings_default.yml"
+    paste0("/home/shiny/miracumdqa/inst/application/",
+           "_utilities/settings/settings_default.yml")
 )
+

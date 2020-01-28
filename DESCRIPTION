@@ -26,6 +26,7 @@ Date: 2020-01-28
 Imports: 
     shiny,
     shinydashboard,
+    shinyFiles,
     jsonlite,
     data.table,
     openxlsx

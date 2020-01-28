@@ -89,15 +89,36 @@ ORDER BY
   person_id;")
 
 
+# where clause without left outer join on case-id
+looplist <- list("dt.procedure_medication" = list(var1 = "visit_occurrence_id", var2 = "procedure_source_value"))
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
+    "SELECT
+  ", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  ", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
+FROM
+  p21_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+WHERE
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], "
+ORDER BY
+  ", looplist[[i]]$var1, ";")
+  )
+}
+
+
 # simple
 looplist <- list("dt.encounterstart" = list(var1 = "visit_occurrence_id", var2 = "visit_start_date"),
                  "dt.encounterend" = list(var1 = "visit_occurrence_id", var2 = "visit_end_date"),
                  "dt.condition" = list(var1 = "visit_occurrence_id", var2 = "condition_source_value"),
                  "dt.conditioncategory" = list(var1 = "visit_occurrence_id", var2 = "condition_type_concept_id"),
-                 "dt.procedure" = list(var1 = "visit_occurrence_id", var2 = "procedure_source_value"),
-                 "dt.provider" = list(var1 = "visit_occurrence_id", var2 = "care_site_id"),
                  "dt.proceduredate" = list(var1 = "visit_occurrence_id", var2 = "procedure_date"),
                  "dt.providerstart" = list(var1 = "visit_occurrence_id", var2 = "visit_start_date"),
+                 "dt.procedure" = list(var1 = "visit_occurrence_id", var2 = "procedure_source_value"),
+                 "dt.provider" = list(var1 = "visit_occurrence_id", var2 = "care_site_id"),
                  "dt.providerend" = list(var1 = "visit_occurrence_id", var2 = "visit_end_date"))
 
 for (i in names(looplist)){
@@ -211,6 +232,7 @@ vec <- c("dt.patient", "dt.gender", "dt.zipcode", "dt.birthdate",
          "dt.discharge", "dt.ventilation",
          "dt.condition", "dt.conditioncategory",
          "dt.procedure", "dt.proceduredate",
+         "dt.procedure_medication",
          "dt.provider", "dt.providerstart", "dt.providerend")
          #"pl.atemp.item01", "pl.atemp.item02", "pl.atemp.item03", "pl.atemp.item04")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)

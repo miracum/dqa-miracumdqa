@@ -50,6 +50,7 @@ test_that(
                        "dt.hospitalization" = "2fc68642bc",
                        "dt.patient" = "bd0ed9b3ea",
                        "dt.procedure" = "62e8ce5f85",
+                       "dt.procedure_medication" = "a058b9ac70",
                        "dt.provider" = "9b9d1d5490",
                        "dt.ventilation" = "654d4fc7fd")
   for (i in names(known_hashes)) {

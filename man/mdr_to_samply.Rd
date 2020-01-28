@@ -5,15 +5,15 @@
 \title{DQA-MDR to Samply.MDR Converter Function}
 \usage{
 mdr_to_samply(
-  utilspath = "inst/application/_utilities/",
+  utils_path = "inst/application/_utilities/",
   mdr_filename = "mdr.csv",
   master_system_name = "p21csv"
 )
 }
 \arguments{
-\item{utilspath}{The path to the utilities-folder, containing the metadata
-repository files (`mdr.csv` inside the folder `MDR`), JSON files with
-SQL statements (inside the folder `SQL`), config files for the database
+\item{utils_path}{The path to the utilities-folder, containing the metadata
+repository files (`mdr.csv` inside the folder `MDR`), JSON files with SQL
+statements (inside the folder `SQL`), config files for the database
 connection (`settings_default.yml`) and the email address used for the
 data map (`email.yml`), a JSON file containing site names (inside the
 folder `MISC`) and a markdown templated to create the PDF report

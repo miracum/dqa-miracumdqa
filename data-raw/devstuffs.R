@@ -57,6 +57,7 @@ my_desc$write(file = "DESCRIPTION")
 # Imports
 usethis::use_package("shiny", type = "Imports")
 usethis::use_package("shinydashboard", type = "Imports")
+usethis::use_package("shinyFiles", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("openxlsx", type = "Imports")

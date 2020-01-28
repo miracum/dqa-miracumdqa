@@ -10,6 +10,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # set cran repo
 RUN echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
 
+# install tinytex
+USER shiny
+RUN R -q -e "tinytex::install_tinytex()"
+USER root
+
 ENV PATH="/home/shiny/bin:${PATH}"
 
 # install required LaTeX-Packages

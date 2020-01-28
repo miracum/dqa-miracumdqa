@@ -29,23 +29,23 @@
 #'
 #' @export
 #'
-mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
+mdr_to_samply <- function(utils_path = "inst/application/_utilities/",
                           mdr_filename = "mdr.csv",
                           master_system_name = "p21csv") {
 
   stopifnot(
-    is.character(utilspath),
+    is.character(utils_path),
     is.character(mdr_filename),
     mdr_filename == "mdr.csv",
     is.character(master_system_name),
     master_system_name == "p21csv"
   )
 
-  utilspath <- DQAstats::clean_path_name(utilspath)
+  utils_path <- DQAstats::clean_path_name(utils_path)
 
   # read mdr
   dqa_mdr <- DQAstats::read_mdr(
-    utils_path = utilspath,
+    utils_path = utils_path,
     mdr_filename = mdr_filename
   )
   stopifnot(data.table::is.data.table(dqa_mdr))
@@ -78,7 +78,7 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
   }
 
   # create workbook
-  wbfilename <- paste0(utilspath, "MDR/XLSX/mdr-import_template.xlsx")
+  wbfilename <- paste0(utils_path, "MDR/XLSX/mdr-import_template.xlsx")
   stopifnot(file.exists(wbfilename))
 
   # read template
@@ -392,7 +392,7 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
   # write xlsx
   openxlsx::saveWorkbook(
     wb,
-    paste0(utilspath, "MDR/XLSX/mdr-import_DQA.xlsx"),
+    paste0(utils_path, "MDR/XLSX/mdr-import_DQA.xlsx"),
     overwrite = T
   )
 
@@ -401,6 +401,6 @@ mdr_to_samply <- function(utilspath = "inst/application/_utilities/",
   jsonlist <- jsonlite::toJSON(
     dqa_mdr_list, pretty = T, auto_unbox = F
   )
-  writeLines(jsonlist, paste0(utilspath, "MDR/DQA_MDR.JSON"))
+  writeLines(jsonlist, paste0(utils_path, "MDR/DQA_MDR.JSON"))
 
 }
