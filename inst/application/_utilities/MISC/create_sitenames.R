@@ -26,9 +26,9 @@ sitenamelist <- list(
   "Mainz" = "UMCMz",
   "Dresden" = "UMD",
   "Greifswald" = "UMG",
-  "Magedburg" = "UMMD",
+  "Magdeburg" = "UMMD",
   "Marburg" = "UMR"
 )
 
 jsonlist <- toJSON(sitenamelist, pretty = T, auto_unbox = F)
-writeLines(jsonlist, "./DQA_Tool/app/_utilities/MISC/sitenames.JSON")
+writeLines(jsonlist, "./inst/application/_utilities/MISC/sitenames.JSON")
