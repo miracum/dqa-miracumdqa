@@ -18,47 +18,28 @@ USER root
 ENV PATH="/home/shiny/bin:${PATH}"
 
 # install required LaTeX-Packages
-RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
-    tlmgr update --self && \
+RUN tlmgr update --self \
     tlmgr install \
     amsfonts \
     amsmath \
-    atbegshi \
-    atveryend \
     babel \
     babel-german \
-    bigintcalc \
-    bitset \
     caption \
     colortbl \
     ec \
     environ \
-    epstopdf-pkg \
-    etexcmds \
     float \
     geometry \
-    gettitlestring \
     graphics \
     graphics-def \
-    hycolor \
     hyperref \
     hyphen-german \
     iftex \
-    intcalc \
     koma-script \
-    kvdefinekeys \
-    kvsetkeys \
-    latex-graphics-dev \
-    letltxmacro \
     lm \
-    ltxcmds \
     makecell \
     multirow \
     oberdiek \
-    pdfescape \
-    pdflscape \
-    refcount \
-    rerunfilecheck \
     tabu \
     tex-gyre-math \
     threeparttable \
@@ -66,7 +47,6 @@ RUN tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet && \
     titling \
     tools \
     trimspaces \
-    uniquecounter \
     varwidth \
     wrapfig \
     ulem \
