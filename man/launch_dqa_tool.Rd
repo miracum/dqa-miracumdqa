@@ -4,7 +4,12 @@
 \alias{launch_dqa_tool}
 \title{Launch the MIRACUM DQA Tool}
 \usage{
-launch_dqa_tool(port = 3838, utilspath, db_source)
+launch_dqa_tool(
+  port = 3838,
+  utils_path = system.file("application/_utilities", package = "miRacumDQA"),
+  config_file = system.file("application/_utilities/settings/settings_default.yml",
+    package = "miRacumDQA")
+)
 }
 \arguments{
 \item{port}{The port, the MIRACUM DQA Tool is running on (default: 3838)}

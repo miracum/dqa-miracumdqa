@@ -30,14 +30,17 @@
 #'
 #' @return the MIRACUM DQA Tool Shiny application
 #'
-#' @import shiny
+#' @import shiny shinydashboard
 #'
 #' @export
 #'
 
 launch_dqa_tool <- function(port=3838,
-                            utilspath,
-                            db_source) {
+                            utils_path = system.file("application/_utilities",
+                                                    package = "miRacumDQA"),
+                            config_file = system.file(
+                              "application/_utilities/settings/settings_default.yml",
+                              package = "miRacumDQA")) {
 
 
   global_env_hack <- function(key,
@@ -51,14 +54,14 @@ launch_dqa_tool <- function(port=3838,
   }
 
   global_env_hack(
-    key = "utilspath",
-    val = utilspath,
+    key = "utils_path",
+    val = utils_path,
     pos = 1L
   )
 
   global_env_hack(
-    key = "db_source",
-    val = db_source,
+    key = "config_file",
+    val = config_file,
     pos = 1L
   )
 

@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 2.0.2.9003
+Version: 2.0.3
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -18,19 +18,20 @@ Authors@R:
 Description: The MIRACUM consortium's data quality assessment tool.
 License: GPL-3
 LazyData: true
-URL: https://gitlab.miracum.org/miracum-dqa/miRacumDQA
-BugReports: https://gitlab.miracum.org/miracum-dqa/miRacumDQA/issues
+URL: https://gitlab.miracum.org/miracum/dqa/miRacumDQA
+BugReports: https://gitlab.miracum.org/miracum/dqa/miRacumDQA/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2020-01-17
+Date: 2020-01-28
 Imports: 
     shiny,
+    shinydashboard,
     jsonlite,
     data.table,
     openxlsx
 Remotes: 
-    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/v0.0.4/miracum/dqa/dqagui-v0.0.4.zip,
-    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/ad046d04/miracum/dqa/dqastats-ad046d04.zip
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/v0.0.6/miracum/dqa/dqagui-v0.0.6.zip,
+    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/v0.0.6/miracum/dqa/dqastats-v0.0.6.zip
 Suggests: 
     testthat,
     processx,
