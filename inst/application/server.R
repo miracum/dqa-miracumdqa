@@ -47,9 +47,6 @@ shiny::shinyServer(
         # current date
         rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
-        # run on_start here
-        DQAgui::on_start(session, rv, input, output)
-
         # handle reset
         shiny::observeEvent(input$reset, {
             shinyjs::reset("moduleConfig-config_sourcedir_in")
