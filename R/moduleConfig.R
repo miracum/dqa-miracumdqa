@@ -427,7 +427,7 @@ module_config_server <-
 
     observeEvent(input$source_pg_test_connection, {
       rv$source$settings <-
-        get_db_settings(input = input_re(), target = F)
+        DQAgui::get_db_settings(input = input_re(), target = F)
 
       if (!is.null(rv$source$settings)) {
         rv$source$db_con <- DQAstats::test_db(settings = rv$source$settings,
@@ -469,7 +469,7 @@ module_config_server <-
 
     observeEvent(input$target_pg_test_connection, {
       rv$target$settings <-
-        get_db_settings(input = input_re(), target = T)
+        DQAgui::get_db_settings(input = input_re(), target = T)
 
       if (!is.null(rv$target$settings)) {
         rv$target$db_con <- DQAstats::test_db(settings = rv$target$settings,
