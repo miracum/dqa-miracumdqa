@@ -8,7 +8,8 @@ launch_dqa_tool(
   port = 3838,
   utils_path = system.file("application/_utilities", package = "miRacumDQA"),
   config_file = system.file("application/_utilities/settings/settings_default.yml",
-    package = "miRacumDQA")
+    package = "miRacumDQA"),
+  use_env_credentials = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,14 @@ folder `MISC`) and a markdown templated to create the PDF report
 \item{config_file}{The path to the configuration yml.
 E.g. config_file = system.file("application/_utilities/settings/settings_
 default.yml", package = "miRacumDQA").}
+
+\item{use_env_credentials}{A boolean. If environment variables should
+be used to pass database credentials (default: TRUE). If you want
+to use environment variables to pass database credentials, please
+provide one variable for the respective data system (the name, which
+is stored in the default settings file and correspsondingly in the MDR)
+with the following format: *SYSTEMNAME*_PASSWORD, where *SYSTEMNAME*
+should be replaced with the name of the datasystem.}
 }
 \value{
 the MIRACUM DQA Tool Shiny application

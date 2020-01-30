@@ -79,7 +79,7 @@ shiny::shinyUI(
 
           shinydashboard::tabItem(
             tabName = "tab_config",
-            module_config_ui("moduleConfig")
+            DQAgui::module_config_ui("moduleConfig")
           ),
 
           shinydashboard::tabItem(

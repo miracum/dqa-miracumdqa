@@ -27,6 +27,13 @@
 #' @param config_file The path to the configuration yml.
 #'   E.g. config_file = system.file("application/_utilities/settings/settings_
 #'   default.yml", package = "miRacumDQA").
+#' @param use_env_credentials A boolean. If environment variables should
+#'   be used to pass database credentials (default: TRUE). If you want
+#'   to use environment variables to pass database credentials, please
+#'   provide one variable for the respective data system (the name, which
+#'   is stored in the default settings file and correspsondingly in the MDR)
+#'   with the following format: *SYSTEMNAME*_PASSWORD, where *SYSTEMNAME*
+#'   should be replaced with the name of the datasystem.
 #'
 #' @return the MIRACUM DQA Tool Shiny application
 #'
@@ -41,7 +48,8 @@ launch_dqa_tool <- function(
                            package = "miRacumDQA"),
   config_file =
     system.file("application/_utilities/settings/settings_default.yml",
-                package = "miRacumDQA")) {
+                package = "miRacumDQA"),
+  use_env_credentials = TRUE) {
 
 
   global_env_hack <- function(key,
@@ -66,7 +74,25 @@ launch_dqa_tool <- function(
     pos = 1L
   )
 
+  global_env_hack(
+    key = "use_env_credentials",
+    val = use_env_credentials,
+    pos = 1L
+  )
+
   options(shiny.port = port)
+
+  # override DQAgui functions
+  assignInNamespace(
+    x = "button_mdr",
+    value = button_mdr,
+    ns = "DQAgui"
+  )
+  assignInNamespace(
+    x = "button_send_datamap",
+    value = button_send_datamap,
+    ns = "DQAgui"
+  )
 
 
   cat(paste0("\nVersion DQAstats: ", utils::packageVersion("DQAstats"),

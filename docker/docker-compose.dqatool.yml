@@ -7,7 +7,6 @@ services:
     restart: unless-stopped
     volumes:
       - /home/i2b2/start/Input:/home/input
-      - ./dqatool_utils:/home/shiny/miracumdqa/application/_utilities
     ports:
       - "3838:3838"
     networks:

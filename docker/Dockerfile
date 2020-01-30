@@ -53,22 +53,8 @@ RUN tlmgr update --self \
     url \
     xcolor
 
-# repository name
-ARG REPO_NAME=dqastats
-
 # add cloned repo
 COPY ./addfolder /home/shiny/
-
-# install our R-Package
-RUN cd /home/shiny/${REPO_NAME}/ && \
-    R -q -e "devtools::install('.')"
-
-# repository name
-ARG REPO_NAME=dqagui
-
-# install our R-Package
-RUN cd /home/shiny/${REPO_NAME}/ && \
-    R -q -e "devtools::install('.')"
 
 # repository name
 ARG REPO_NAME=miracumdqa

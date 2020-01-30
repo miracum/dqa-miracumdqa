@@ -3,8 +3,6 @@
 export(launch_dqa_tool)
 export(mdr_from_samply)
 export(mdr_to_samply)
-export(module_config_server)
-export(module_config_ui)
 import(data.table)
 import(shiny)
 import(shinydashboard)

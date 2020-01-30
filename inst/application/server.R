@@ -17,16 +17,13 @@
 shiny::shinyServer(
     function(input, output, session) {
         # define reactive values here
-        rv <- shiny::reactiveValues()
-
-        # set headless
-        rv$headless <- FALSE
-
-        # set launch_app arguments
-        rv$config_file <- config_file
-
-        # set utils_path
-        rv$utilspath <- DQAstats::clean_path_name(utils_path)
+        rv <- shiny::reactiveValues(
+            headless = FALSE,
+            config_file = config_file,
+            use_env_credentials = use_env_credentials,
+            utilspath = DQAstats::clean_path_name(utils_path),
+            current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
+        )
 
         # read datamap email
         rv$datamap_email <- tryCatch(
@@ -44,13 +41,8 @@ shiny::shinyServer(
                 return(out)
             })
 
-        # current date
-        rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
-
         # handle reset
         shiny::observeEvent(input$reset, {
-            shinyjs::reset("moduleConfig-config_sourcedir_in")
-            shinyjs::reset("moduleConfig-config_targetdir_in")
             shinyjs::js$reset()
         })
 
@@ -62,7 +54,7 @@ shiny::shinyServer(
         # # tab_config
         # ########################
 
-        shiny::callModule(module_config_server,
+        shiny::callModule(DQAgui::module_config_server,
                           "moduleConfig",
                           rv,
                           input_re = input_reactive)
@@ -193,6 +185,23 @@ shiny::shinyServer(
                 selected = "tab_dashboard"
             )
         })
+
+
+        # !!! trigger shinyjs from server.R only
+        shinyjs::onclick(
+            # https://stackoverflow.com/questions/27650331/adding-an-email-
+            # button-in-shiny-using-tabletools-or-otherwise
+            # https://stackoverflow.com/questions/27650331/adding-an-email-
+            # button-in-shiny-using-tabletools-or-otherwise
+            # https://stackoverflow.com/questions/37795760/r-shiny-add-
+            # weblink-to-actionbutton
+            # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-
+            # option-of-actionbutton-on-the-server-side
+            # https://stackoverflow.com/questions/45376976/use-actionbutton-to-
+            # send-email-in-rshiny
+            id = "moduleDashboard-dash_send_datamap",
+            expr = shinyjs::runjs(rv$send_datamap)
+        )
 
         ########################
         # tab_dashboard

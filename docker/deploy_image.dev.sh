@@ -17,9 +17,7 @@ printf "\n\ncloning repo ...\n"
 mkdir addfolder
 cd addfolder
 # clone repository
-git clone -b latest https://gitlab.miracum.org/miracum-dqa/dqastats.git
-git clone -b latest https://gitlab.miracum.org/miracum-dqa/dqagui.git
-git clone -b latest https://gitlab.miracum.org/miracum-dqa/miracumdqa.git
+git clone -b development https://gitlab.miracum.org/miracum-dqa/miracumdqa.git
 cd ..
 
 printf "\n\nbuilding images ...\n"

@@ -8,7 +8,8 @@ mdr_from_samply(
   base_url = "https://mdr.miracum.de/rest/api/mdr/",
   namespace = "dqa",
   master_system_type = "csv",
-  master_system_name = "p21csv"
+  master_system_name = "p21csv",
+  headless = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,10 @@ currently, 'csv' is the only allowed value.)}
 \item{master_system_name}{A character string. The name of the master system
 (the master system contains more information on the data elements;
 currently, 'p21csv' is the only allowed value.)}
+
+\item{headless}{A boolean (default: TRUE). Indicating, if the function is
+run only in the console (headless = TRUE) or on a GUI frontend
+(headless = FALSE).}
 }
 \description{
 DQA-MDR to Samply.MDR Converter Function

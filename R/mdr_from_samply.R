@@ -26,6 +26,9 @@
 #' @param master_system_name A character string. The name of the master system
 #'   (the master system contains more information on the data elements;
 #'   currently, 'p21csv' is the only allowed value.)
+#' @param headless A boolean (default: TRUE). Indicating, if the function is
+#'   run only in the console (headless = TRUE) or on a GUI frontend
+#'   (headless = FALSE).
 #'
 #' @references \cite{D. Kadioglu, B. Breil, C. Knell, M. Lablans, S. Mate,
 #'   D. Schlue, H. Serve, H. Storf, F. Ückert, T. Wagner, P. Weingardt,
@@ -40,7 +43,8 @@
 mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                             namespace = "dqa",
                             master_system_type = "csv",
-                            master_system_name = "p21csv") {
+                            master_system_name = "p21csv",
+                            headless = TRUE) {
 
   stopifnot(
     is.character(namespace),
@@ -49,6 +53,17 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     is.character(master_system_name),
     master_system_name == "p21csv"
   )
+
+  if (isFALSE(headless)) {
+    # Create a Progress object
+    progress <- shiny::Progress$new()
+    # Make sure it closes when we exit this reactive, even if
+    # there's an error
+    on.exit(progress$close())
+    progress$set(message = "Querying Samply.MDR REST API",
+                 value = 0)
+  }
+
 
   # clean base url path
   base_url <- DQAstats::clean_path_name(base_url)
@@ -100,7 +115,16 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       "dataelements/",
       element_id
     )
-    cat("\nDataelement URL: ", dataelement_url, "\n")
+
+    msg <- paste("Dataelement URL:", dataelement_url)
+    message("", msg, "\n")
+    if (isFALSE(headless)) {
+      shinyjs::logjs(msg)
+      # Increment the progress bar, and update the detail text.
+      progress$inc(
+        1 / length(response_group$results$id),
+        detail = paste("reading", dataelement_url))
+    }
 
     # get data elements
     response_dataelement <- jsonlite::fromJSON(
