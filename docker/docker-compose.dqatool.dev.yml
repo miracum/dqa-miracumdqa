@@ -8,13 +8,13 @@ services:
     volumes:
       - /home/i2b2/start/Input:/home/input
     ports:
-    - "3838:3838"
+      - "3838:3838"
     # - "3839:3839" # debugging port
     environment:
-    - I2B2_PASSWORD="i2b2"
-    - OMOP_PASSWORD="admin1"
+      - I2B2_PASSWORD=i2b2
+      - OMOP_PASSWORD=admin1
     networks:
-    - miracum-net
+     - miracum-net
 
 networks:
     miracum-net:
