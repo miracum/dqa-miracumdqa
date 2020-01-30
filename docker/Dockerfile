@@ -68,8 +68,6 @@ RUN cd /home/shiny/${REPO_NAME}/docker && \
     cp app.R /srv/shiny-server/ && \
     # add custom server conf (running shiny as user 'shiny' is more secure than running as 'root')
     cp shiny-server.conf /etc/shiny-server/ && \
-    cp shiny-server.sh /usr/bin/shiny-server.sh && \
-    chmod 775 /usr/bin/shiny-server.sh && \
     # add log-script
     cp show-log.sh /
 
@@ -77,4 +75,6 @@ RUN cd /home/shiny/${REPO_NAME}/docker && \
 RUN chown -R shiny:shiny /srv/shiny-server/
 RUN chmod +x show-log.sh
 
-CMD ["/usr/bin/shiny-server.sh"]
+ENTRYPOINT env >> /home/shiny/.Renviron && \
+    chown shiny.shiny /home/shiny/.Renviron && \
+    /usr/bin/shiny-server.sh
