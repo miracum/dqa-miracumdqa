@@ -83,12 +83,12 @@ launch_dqa_tool <- function(
   options(shiny.port = port)
 
   # override DQAgui functions
-  assignInNamespace(
+  utils::assignInNamespace(
     x = "button_mdr",
     value = button_mdr,
     ns = "DQAgui"
   )
-  assignInNamespace(
+  utils::assignInNamespace(
     x = "button_send_datamap",
     value = button_send_datamap,
     ns = "DQAgui"

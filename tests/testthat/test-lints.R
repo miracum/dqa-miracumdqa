@@ -13,6 +13,7 @@ test_that(
   code = {
     lintlist <- list(
       "R" = list(
+        "custom_buttons.R" = NULL,
         "launch_app.R" = NULL,
         "mdr_from_samply.R" = "cyclomatic complexity",
         "mdr_to_samply.R" = NULL,
@@ -25,8 +26,7 @@ test_that(
             message = "cyclomatic complexity",
             line_number = 132
           )
-        ),
-        "moduleConfig.R" = "cyclomatic complexity"
+        )
       ),
       "inst/application" = list(
         "server.R" = NULL,

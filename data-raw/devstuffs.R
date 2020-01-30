@@ -61,11 +61,13 @@ usethis::use_package("shinyFiles", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("openxlsx", type = "Imports")
+usethis::use_package("utils", type = "Imports")
+usethis::use_package("shinyjs", type = "Imports")
 
 
 # Development package
-stats_tag <- "v0.0.6"
-gui_tag <-  "v0.0.6"
+stats_tag <- "development"
+gui_tag <-  "development"
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
