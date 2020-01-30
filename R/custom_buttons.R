@@ -22,9 +22,7 @@ button_send_datamap <- function(rv) {
         "version_dqastats" = as.character(utils::packageVersion("DQAstats")),
         "version_dqagui" = as.character(utils::packageVersion("DQAgui"))
       ),
-      lapply(rv$datamap$target_data, function(x) {
-        unname(split(x, seq_len(nrow(x))))
-      })
+      rv$datamap$target_data
     ))
 
   # https://stackoverflow.com/questions/27650331/adding-an-email-

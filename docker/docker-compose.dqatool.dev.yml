@@ -11,7 +11,7 @@ services:
       - "3838:3838"
     # - "3839:3839" # debugging port
     environment:
-      - I2B2_PASSWORD=i2b2
+      - I2B2_PASSWORD=demouser
       - OMOP_PASSWORD=admin1
     networks:
      - miracum-net

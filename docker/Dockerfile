@@ -32,6 +32,7 @@ RUN tlmgr update --self \
     geometry \
     graphics \
     graphics-def \
+    epstopdf-pkg \
     hyperref \
     hyphen-german \
     iftex \
@@ -40,6 +41,7 @@ RUN tlmgr update --self \
     makecell \
     multirow \
     oberdiek \
+    pdflscape \
     tabu \
     tex-gyre-math \
     threeparttable \
