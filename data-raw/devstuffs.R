@@ -66,8 +66,8 @@ usethis::use_package("shinyjs", type = "Imports")
 
 
 # Development package
-stats_tag <- "development"
-gui_tag <-  "development"
+stats_tag <- "v0.0.6"
+gui_tag <-  "v0.0.6"
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")

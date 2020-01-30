@@ -33,8 +33,8 @@ Imports:
     utils,
     shinyjs
 Remotes: 
-    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/development/miracum/dqa/dqagui-development.zip,
-    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/miracum/dqa/dqastats-development.zip
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/v0.0.6/miracum/dqa/dqagui-v0.0.6.zip,
+    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/v0.0.6/miracum/dqa/dqastats-v0.0.6.zip
 Suggests: 
     testthat,
     processx,

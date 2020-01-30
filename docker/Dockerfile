@@ -75,6 +75,7 @@ RUN cd /home/shiny/${REPO_NAME}/docker && \
 RUN chown -R shiny:shiny /srv/shiny-server/
 RUN chmod +x show-log.sh
 
+# https://stackoverflow.com/questions/51080857/preserve-environment-variables-when-spawning-shiny-processes-within-a-container?rq=1
 ENTRYPOINT env >> /home/shiny/.Renviron && \
     chown shiny.shiny /home/shiny/.Renviron && \
     /usr/bin/shiny-server.sh
