@@ -16,13 +16,11 @@
 
 library(miRacumDQA)
 
-print("creds1:", Sys.getenv("I2B2_PASSWORD"))
-print("creds2:", Sys.getenv("OMOP_PASSWORD"))
-
 launch_dqa_tool(
   utils_path = "/home/shiny/miracumdqa/inst/application/_utilities/",
   config_file =
     paste0("/home/shiny/miracumdqa/inst/application/",
-           "_utilities/settings/settings_default.yml")
+           "_utilities/settings/settings_default.yml"),
+  use_env_credentials = TRUE
 )
 
