@@ -52,11 +52,11 @@ c <- jsonlite::toJSON(list("value_set" = "44786627, 44786629"))
 mdr[designation=="Diagnoseart" & source_system_name=="omop", constraints := c]
 
 # ICD Code
-c <- jsonlite::toJSON(list("regex" = "^([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*)?$"))
+c <- jsonlite::toJSON(list("regex" = "^([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$"))
 mdr[designation=="ICD Code" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="ICD Code" & source_system_name=="p21staging", constraints := c]
 mdr[designation=="ICD Code" & source_system_name=="omop", constraints := c]
-c <- jsonlite::toJSON(list("regex" = "^(ICD10\\:)([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*)?$"))
+c <- jsonlite::toJSON(list("regex" = "^(ICD10\\:)([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$"))
 mdr[designation=="ICD Code" & source_system_name=="i2b2", constraints := c]
 
 # Fallnummer
