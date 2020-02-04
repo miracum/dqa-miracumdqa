@@ -1,6 +1,6 @@
 {
   "dt.patient": ["SELECT\n\t\"Patientennummer\"\tAS\t\"patient_identifier_value\"\nFROM\n\tp21.fall\nORDER BY\n\t\"Patientennummer\";"],
-  "dt.gender": ["SELECT\n\t\"Geschlecht\"\tAS\t\"patient_gender\",\n\"Patientennummer\"\tAS\t\"patient_identifier_value\"\nFROM\n\tp21.fall\nORDER BY\n\t\"Patientennummer\";"],
+  "dt.gender": ["SELECT\n\t\"Geschlecht\"\tAS\t\"patient_gender\",\n\"KH-internes-Kennzeichen\"\tAS\t\"encounter_identifier_value\"\nFROM\n\tp21.fall\nORDER BY\n\t\"Patientennummer\";"],
   "dt.zipcode": ["SELECT\n\t\"KH-internes-Kennzeichen\"\tAS\t\"patient_identifier_value\",\n\"PLZ\"\tAS\t\"patient_address_postalCode\"\nFROM\n\tp21.fall\nORDER BY\n\t\"Patientennummer\";"],
   "dt.birthdate": ["SELECT\n\t\"Geburtsjahr\"\tAS\t\"patient_birthDate\",\n\"Patientennummer\"\tAS\t\"patient_identifier_value\"\nFROM\n\tp21.fall\nORDER BY\n\t\"Patientennummer\";"],
   "dt.encounter": ["SELECT\n\t\"KH-internes-Kennzeichen\"\tAS\t\"encounter_identifier_value\",\n\"Patientennummer\"\tAS\t\"encounter_subject_patient_identifier_value\"\nFROM\n  p21.fall\nORDER BY\n  \"Patientennummer\";"],
