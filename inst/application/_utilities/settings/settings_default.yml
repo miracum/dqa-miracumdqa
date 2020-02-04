@@ -27,3 +27,9 @@ default:
     port: 5432
     user: "ohdsi_admin_user"
     password: "admin1"
+  p21staging:
+    dbname: "staging"
+    host: ""
+    port: 5432
+    user: "staging"
+    password: "myStagingPassword"

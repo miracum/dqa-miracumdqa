@@ -98,8 +98,7 @@ ORDER BY
 
 
 # simple cast to date
-looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "nval_num"),
-                 "dt.encounterstart" = list(var1 = "encounter_num", var2 = "start_date"),
+looplist <- list("dt.encounterstart" = list(var1 = "encounter_num", var2 = "start_date"),
                  "dt.encounterend" = list(var1 = "encounter_num", var2 = "end_date"))
 
 for (i in names(looplist)){
