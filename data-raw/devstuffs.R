@@ -20,7 +20,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.3")
+my_desc$set_version("2.0.3.9001")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -66,8 +66,8 @@ usethis::use_package("shinyjs", type = "Imports")
 
 
 # Development package
-stats_tag <- "v0.0.6"
-gui_tag <-  "v0.0.6"
+stats_tag <- "development"
+gui_tag <-  "development"
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")

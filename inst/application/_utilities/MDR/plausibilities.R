@@ -40,7 +40,7 @@ mdr[grepl("dt\\.encounter$", key) & variable_name=="encounter_identifier_value" 
 
 # Fallnummer & Diagnoseart
 p <- jsonlite::toJSON(
-  list("uniqueness" = list("condition_category_encounter_diagnosis" = list("name" = "Pl.uniqueness.Item03",
+  list("uniqueness" = list("encounter_diagnosis_rank" = list("name" = "Pl.uniqueness.Item03",
                                                                            "description" =  "Mit jeder Fallnummer darf nur eine Hauptdiagnose assoziiert sein.",
                                                                            "filter" = list("i2b2" = "DIAGNOSEART:HD",
                                                                                            "p21csv" = "HD",

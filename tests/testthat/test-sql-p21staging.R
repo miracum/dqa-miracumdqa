@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-context("test i2b2 SQL statements")
+context("test p21staging SQL statements")
 
 prefix <- "./"
 utildir <- paste0(prefix, "../../miRacumDQA/")
@@ -27,32 +27,32 @@ test_that(
   rv$sql <- DQAstats::load_sqls(
     system.file("application/_utilities/",
                 package = "miRacumDQA"),
-    "i2b2")
+    "p21staging")
 
   expect_type(rv$sql, "list")
 
   # Loop over target_keys and check for hash and type
-  known_hashes <- list("dt.admission" = "96c232dc35",
-                       "dt.gender" = "765e2b4ce7",
-                       "dt.birthdate" = "f5f9b87310",
-                       "dt.zipcode" = "c66f14a5bb",
-                       "dt.encounterstart" = "f0e5fb3d19",
-                       "dt.encounterend" = "5286d0964f",
-                       "dt.conditioncategory" = "77ee19937e",
-                       "dt.proceduredate" = "1e8778d81c",
-                       "dt.providerstart" = "86894e028e",
-                       "dt.providerend" = "8e8ba1f648",
-                       "dt.ageindays" = "50ef28991a",
-                       "dt.ageinyears" = "b013274608",
-                       "dt.condition" = "a7de7a2714",
-                       "dt.discharge" = "c71f0b452a",
-                       "dt.encounter" = "f3f149a5f1",
-                       "dt.hospitalization" = "2fc68642bc",
-                       "dt.patient" = "bd0ed9b3ea",
-                       "dt.procedure" = "62e8ce5f85",
-                       "dt.procedure_medication" = "a058b9ac70",
-                       "dt.provider" = "209ab6a18e",
-                       "dt.ventilation" = "654d4fc7fd")
+  known_hashes <- list("dt.admission" = "f224eaf989",
+                       "dt.gender" = "edd19eda6e",
+                       "dt.birthdate" = "3b31759970",
+                       "dt.zipcode" = "7f5ad03318",
+                       "dt.encounterstart" = "5d21acab7a",
+                       "dt.encounterend" = "09ab284624",
+                       "dt.conditioncategory" = "31b2d1650b",
+                       "dt.proceduredate" = "514fc78fd4",
+                       "dt.providerstart" = "07dc32440f",
+                       "dt.providerend" = "5faba600ff",
+                       "dt.ageindays" = "3bd0da156d",
+                       "dt.ageinyears" = "6f34828d22",
+                       "dt.condition" = "94b646691a",
+                       "dt.discharge" = "ffd57d2673",
+                       "dt.encounter" = "764f06f3a4",
+                       "dt.hospitalization" = "5cb5b6b39c",
+                       "dt.patient" = "12f3af4496",
+                       "dt.procedure" = "c0b910ed59",
+                       "dt.procedure_medication" = "bb2f353b9b",
+                       "dt.provider" = "e2e55f42a2",
+                       "dt.ventilation" = "5843ba4aad")
   for (i in names(known_hashes)) {
     print(i)
     expect_type(rv$sql[[i]], "character")

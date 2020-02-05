@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-context("test i2b2 SQL statements")
+context("test omop SQL statements")
 
 prefix <- "./"
 utildir <- paste0(prefix, "../../miRacumDQA/")
@@ -36,12 +36,12 @@ test_that(
                        "dt.gender" = "f0b8920d07",
                        "dt.birthdate" = "d7f4bbda37",
                        "dt.zipcode" = "6947bb9e94",
-                       "dt.encounterstart" = "a5bc51524f",
-                       "dt.encounterend" = "2ccf876bd4",
-                       "dt.conditioncategory" = "311c1ccfd7",
+                       "dt.encounterstart" = "b7b3a86a30",
+                       "dt.encounterend" = "c770cf3e88",
+                       "dt.conditioncategory" = "3fce50006e",
                        "dt.proceduredate" = "363684fbdb",
-                       "dt.providerstart" = "b7b3a86a30",
-                       "dt.providerend" = "c770cf3e88",
+                       "dt.providerstart" = "262c3215f6",
+                       "dt.providerend" = "70fce9375a",
                        "dt.ageindays" = "90c488d63e",
                        "dt.ageinyears" = "c9ef48e00c",
                        "dt.condition" = "0963cbebc1",
@@ -51,9 +51,10 @@ test_that(
                        "dt.patient" = "2dc2a0de0b",
                        "dt.procedure" = "e028bc6936",
                        "dt.procedure_medication" = "5e0398c307",
-                       "dt.provider" = "06a54ef21c",
+                       "dt.provider" = "dd9a248836",
                        "dt.ventilation" = "7f713cc6ef")
   for (i in names(known_hashes)) {
+    print(i)
     expect_type(rv$sql[[i]], "character")
     expect_known_hash(rv$sql[[i]], known_hashes[[i]])
   }
