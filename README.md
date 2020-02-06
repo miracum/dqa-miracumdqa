@@ -25,21 +25,10 @@ This is a basic example which shows you how to launch the MIRACUM DQA tool:
 
 ``` r
 library(miRacumDQA)
-launchApp(utilspath = "./_utilities/", db_source = "p21csv")
+launch_dqa_tool()
 ```
 
 To open the shiny application in your webbrowser, go to http://localhost:3838.
-
-
-## Create a Docker Container
-
-Run the following commands to build a deployable docker container:
-
-```
-cd ./docker/
-chmod +x build_image.sh
-./build_image.sh
-```
 
 # More Infos:
 
