@@ -1,5 +1,10 @@
 # miRacumDQA  
 
+<!-- badges: start -->
+[![pipeline status](https://gitlab.miracum.org/miracum/dqa/miracumdqa/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/miracumdqa/commits/master)
+[![coverage report](https://gitlab.miracum.org/miracum/dqa/miracumdqa/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/miracumdqa/commits/master)
+<!-- badges: end -->
+
 This is the repository of the MIRACUM data quality assessment tool (DQA tool). 
 
 ## Installation
@@ -9,9 +14,9 @@ You can install the with the following commands. Please make sure to also instal
 ``` r
 install.packages("devtools")
 options('repos' = 'https://ftp.fau.de/cran/')
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqastats.git")
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqagui.git")
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/miracumdqa.git")
+devtools::install_git("https://gitlab.miracum.org/miracum/dqa/dqastats.git")
+devtools::install_git("https://gitlab.miracum.org/miracum/dqa/dqagui.git")
+devtools::install_git("https://gitlab.miracum.org/miracum/dqa/miracumdqa.git")
 ```
 
 ## Example
