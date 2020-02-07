@@ -20,7 +20,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.3.9001")
+my_desc$set_version("2.0.3.9002")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -66,17 +66,13 @@ usethis::use_package("shinyjs", type = "Imports")
 
 
 # Development package
-stats_tag <- "development"
 gui_tag <-  "development"
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
 desc::desc_set_remotes(c(paste0(
-  "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/miracum/dqa/dqagui-", gui_tag, ".zip"),
-  paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/miracum/dqa/dqastats-", stats_tag, ".zip")
-),
+  "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/miracum/dqa/dqagui-", gui_tag, ".zip")
+  ),
 file = usethis::proj_get())
 
 # Suggests
