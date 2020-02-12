@@ -63,6 +63,9 @@ usethis::use_package("data.table", type = "Imports")
 usethis::use_package("openxlsx", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("shinyjs", type = "Imports")
+usethis::use_package("influxdbr", type = "Imports") # for influxdb api-calls
+usethis::use_package("dplyr", type = "Imports") # for influxdb api-calls
+usethis::use_package("xts", type = "Imports") # for influxdb api-calls
 
 
 # Development package
