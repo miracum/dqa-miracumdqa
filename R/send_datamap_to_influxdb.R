@@ -1,10 +1,12 @@
-#' @title send_datamap_to_api
+require(influxdbr)
+
+#' @title send_datamap_to_influx
 #'
 #' @param rv The global rv object. Only the rv$datamap part will be used.
 #'
 #' @export
 #'
-send_datamap_to_api <- function(rv) {
+send_datamap_to_influx <- function(rv) {
   if (isTRUE(is.null(rv$datamap$target_data))) {
     DQAgui::feedback(
       paste0("While exporting: datamap --> influxdb: ",
@@ -54,7 +56,7 @@ send_datamap_to_api <- function(rv) {
           )
 
           # Set flag that the data was already exportet to avoid duplicates:
-          rv$datamap$exported2influx <- T
+          rv$datamap$exported <- T
 
           DQAgui::feedback(paste0(
             "Successfully finished export: ",
