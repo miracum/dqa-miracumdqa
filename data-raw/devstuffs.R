@@ -20,7 +20,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.3.9002")
+my_desc$set_version("2.0.3.9003")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -63,9 +63,7 @@ usethis::use_package("data.table", type = "Imports")
 usethis::use_package("openxlsx", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("shinyjs", type = "Imports")
-usethis::use_package("influxdbr", type = "Imports") # for influxdb api-calls
-usethis::use_package("dplyr", type = "Imports") # for influxdb api-calls
-usethis::use_package("xts", type = "Imports") # for influxdb api-calls
+usethis::use_package("influxdbr", type = "Imports")
 
 
 # Development package

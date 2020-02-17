@@ -1,5 +1,3 @@
-require(influxdbr)
-
 button_mdr <- function(utils_path, mdr_filename) {
   shiny::withProgress(message = "Loading MDR", value = 0, {
     incProgress(1 / 1,
@@ -10,9 +8,7 @@ button_mdr <- function(utils_path, mdr_filename) {
   return(mdr)
 }
 
-
 button_send_datamap <- function(rv) {
-  #% return(send_datamap_to_mail(rv))
   return(send_datamap_to_influx(rv))
 }
 
@@ -70,7 +66,7 @@ send_datamap_to_influx <- function(rv) {
           con_res <- get_influx_connection(rv)
 
           # write example data.frame to database
-          influx_write(
+          influxdbr::influx_write(
             con = con_res$con,
             db = con_res$config$dbname,
             x = datamap,
@@ -82,11 +78,13 @@ send_datamap_to_influx <- function(rv) {
           # Set flag that the data was already exportet to avoid duplicates:
           rv$datamap$exported <- T
 
+          # Console feedback:
           DQAgui::feedback(paste0(
             "Successfully finished export: ",
             "datamap --> influxdb."
           ),
           findme = "a087e237e5")
+          # GUI feedback:
           showNotification(
             "\U2714 Datamap successfully exported",
             type = "message",
@@ -94,17 +92,31 @@ send_datamap_to_influx <- function(rv) {
           )
         },
         error = function(cond) {
+          # Console feedback:
           DQAgui::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "5ba89e3577",
             type = "Error"
           )
+          # GUI feedback:
+          showNotification(
+            "\U2716 Error while exporting the Datamap.",
+            type = "error",
+            duration = 10
+          )
         },
         warning = function(cond) {
+          # Console feedback:
           DQAgui::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "010f0daea3",
             type = "Warning"
+          )
+          # GUI feedback:
+          showNotification(
+            "\U2716 Error while exporting the Datamap.",
+            type = "error",
+            duration = 10
           )
         })
       }
@@ -124,8 +136,14 @@ send_datamap_to_influx <- function(rv) {
 #'   and result$config (The config credentials extracted from the rv-object).
 #'
 get_influx_connection <- function(rv) {
+
   config <-
     DQAstats::get_config(config_file = rv$config_file, config_key = "influxdb")
+
+  if (isTRUE(rv$use_env_credentials)) {
+    config$host <- Sys.getenv("INFLUX_HOST")
+    config$pass <- Sys.getenv("INFLUX_PASSWORD")
+  }
 
   if (isTRUE(is.null(config$dbname) ||
              is.null(config$host) || is.null(config$port))) {
@@ -150,9 +168,12 @@ get_influx_connection <- function(rv) {
       )
 
       con <-
-        influx_connection(host = config$host,
-                          port = config$port,
-                          verbose = T)
+        influxdbr::influx_connection(
+          scheme = "https",
+          host = config$host,
+          port = config$port,
+          verbose = T
+        )
 
       DQAgui::feedback("Connection established", findme = "77dc31289f")
 
@@ -166,7 +187,8 @@ get_influx_connection <- function(rv) {
         findme = "accface388",
       )
       con <-
-        influx_connection(
+        influxdbr::influx_connection(
+          scheme = "https",
           host = config$host,
           port = config$port,
           user = config$user,
@@ -178,54 +200,4 @@ get_influx_connection <- function(rv) {
   }
   return(list("con" = con,
               "config" = config))
-}
-
-send_datamap_to_mail <- function(rv) {
-  # encode datamap to json string
-  json_string <-
-    jsonlite::toJSON(c(
-      list(
-        "sitename" = rv$sitename,
-        "lastrun" = as.character(rv$end_time),
-        "run_duration" = as.character(round(rv$duration, 2)),
-        "version_dqastats" = as.character(utils::packageVersion("DQAstats")),
-        "version_dqagui" = as.character(utils::packageVersion("DQAgui"))
-      ),
-      rv$datamap$target_data
-    ))
-
-  # https://stackoverflow.com/questions/27650331/adding-an-email-
-  # button-in-shiny-using-tabletools-or-otherwise
-  # https://stackoverflow.com/questions/37795760/r-shiny-add-
-  # weblink-to-actionbutton
-  # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-
-  # option-of-actionbutton-on-the-server-side
-  # https://stackoverflow.com/questions/45376976/use-actionbutton-to-
-  # send-email-in-rshiny
-
-  return(
-    paste0(
-      "window.open('mailto:",
-      rv$datamap_email,
-      "?",
-      "body=",
-      utils::URLencode(
-        paste0(
-          "Site name: ",
-          rv$sitename,
-          "\n\n(this is an automatically created email)\n\n",
-          "\n\nLast run: ",
-          rv$end_time,
-          "\nRun duration: ",
-          round(rv$duration, 2),
-          " min.",
-          "\n\nDatamap (JSON):\n",
-          json_string
-        )
-      ),
-      "&subject=",
-      paste0("Data Map - ", rv$sitename),
-      "')"
-    )
-  )
 }

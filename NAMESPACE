@@ -3,7 +3,6 @@
 export(launch_dqa_tool)
 export(mdr_from_samply)
 export(mdr_to_samply)
-export(send_datamap_to_influx)
 import(data.table)
 import(shiny)
 import(shinydashboard)
