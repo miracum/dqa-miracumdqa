@@ -31,8 +31,7 @@ Imports:
     data.table,
     openxlsx,
     utils,
-    shinyjs,
-    influxdbr
+    shinyjs
 Remotes: 
     url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/development/miracum/dqa/dqagui-development.zip
 Suggests: 
