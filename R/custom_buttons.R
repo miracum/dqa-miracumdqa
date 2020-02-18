@@ -42,6 +42,9 @@ send_datamap_to_influx <- function(rv) {
       item <- rv$datamap$target_data[, "variable"]
       n <- rv$datamap$target_data[, "n"]
 
+      # The column "variable" needs to be renamed to "item" for influxdb:
+      names(item)[names(item) == "variable"] <- "item"
+
       if (isTRUE(is.null(site) ||
                  is.null(item) ||
                  is.null(n) ||
@@ -58,6 +61,10 @@ send_datamap_to_influx <- function(rv) {
           datamap <-
             data.frame(site, system, item, n, stringsAsFactors = FALSE)
 
+          # The column "n" needs to be of type integer:
+          datamap$n <- as.integer(datamap$n)
+          str(datamap)
+
           # Set up the connection:
           # Port, Scheme and other settings are defaults here and therefore
           # not explicitely defined but can be modified in
@@ -70,9 +77,8 @@ send_datamap_to_influx <- function(rv) {
             con = con_res$con,
             db = con_res$config$dbname,
             x = datamap,
-            tag_cols = c("site", "system", "variable"),
-            # item = variable
-            measurement = "item_count"
+            tag_cols = c("site", "system", "item"),
+            measurement = "item_counts"
           )
 
           # Set flag that the data was already exportet to avoid duplicates:
@@ -142,15 +148,15 @@ get_influx_connection <- function(rv) {
 
   if (isTRUE(rv$use_env_credentials)) {
     config$host <- Sys.getenv("INFLUX_HOST")
-    config$pass <- Sys.getenv("INFLUX_PASSWORD")
+    config$password <- Sys.getenv("INFLUX_PASSWORD")
   }
 
-  if (isTRUE(is.null(config$dbname) ||
-             is.null(config$host) || is.null(config$port))) {
+  if (isTRUE(is.null(config$scheme) || is.null(config$dbname) ||
+             is.null(config$host) || is.null(config$port) || is.null(config$path) )) {
     DQAgui::feedback(
       paste0(
-        "One or more of these are not set in ",
-        "config_file for influxdb: dbname, host, port."
+        "One or more of the necessary input parameters out of ",
+        "config_file for influxdb connection is missing."
       ),
       findme = "9e673f0d8a",
       type = "Error"
@@ -169,9 +175,10 @@ get_influx_connection <- function(rv) {
 
       con <-
         influxdbr::influx_connection(
-          scheme = "https",
+          scheme = config$scheme,
           host = config$host,
           port = config$port,
+          path = config$path,
           verbose = T
         )
 
@@ -186,13 +193,15 @@ get_influx_connection <- function(rv) {
         ),
         findme = "accface388",
       )
+
       con <-
         influxdbr::influx_connection(
-          scheme = "https",
+          scheme = config$scheme,
           host = config$host,
           port = config$port,
           user = config$user,
-          pass = config$pass,
+          pass = config$password,
+          path = config$path,
           verbose = T
         )
       DQAgui::feedback("Connection established", findme = "d408ca173a")
