@@ -4,6 +4,15 @@ button_mdr <- function(utils_path, mdr_filename) {
                 detail = "... from MIRACUM Samply.MDR ...")
     # read MDR
     mdr <- mdr_from_samply(headless = FALSE)
+
+    # For debugging: just comment the line above (mdr_from_samply)
+    # and uncomment the 2 lines below. Doing this, you don't need to
+    # switch to DQAgui for testing local changes. However, you still need
+    # to "Install and Restart" miRacumDQA!
+
+    # mdr <- DQAstats::read_mdr(utils_path = utils_path,
+    #                           mdr_filename = "mdr.csv")
+
   })
   return(mdr)
 }
