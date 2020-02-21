@@ -41,6 +41,7 @@ send_datamap_to_influx <- function(rv) {
       system <- rv$target$system_name
       item <- rv$datamap$target_data[, "variable"]
       n <- rv$datamap$target_data[, "n"]
+      distinct <- rv$datamap$target_data[, "distinct"]
 
       # The column "variable" needs to be renamed to "item" for influxdb:
       names(item)[names(item) == "variable"] <- "item"
@@ -58,18 +59,20 @@ send_datamap_to_influx <- function(rv) {
           ## it throws an error:
 
           # Assign the data to one single dataframe for export
-          datamap <-
-            data.frame(site, system, item, n, stringsAsFactors = FALSE)
+          datamap <- data.frame(
+              site,
+              system,
+              item,
+              n,
+              distinct,
+              stringsAsFactors = FALSE
+              )
 
-          # The column "n" needs to be of type integer:
+          # The column "n" and "distinct" needs to be of type integer:
           datamap$n <- as.integer(datamap$n)
-          str(datamap)
+          datamap$distinct <- as.integer(datamap$distinct)
 
           # Set up the connection:
-          # Port, Scheme and other settings are defaults here and therefore
-          # not explicitely defined but can be modified in
-          # influx_connection(...):
-          # con <- influx_connection(host = "influxdb", verbose = T)
           con_res <- get_influx_connection(rv)
 
           # write example data.frame to database
@@ -142,7 +145,6 @@ send_datamap_to_influx <- function(rv) {
 #'   and result$config (The config credentials extracted from the rv-object).
 #'
 get_influx_connection <- function(rv) {
-
   config <-
     DQAstats::get_config(config_file = rv$config_file, config_key = "influxdb")
 
@@ -151,8 +153,11 @@ get_influx_connection <- function(rv) {
     config$password <- Sys.getenv("INFLUX_PASSWORD")
   }
 
-  if (isTRUE(is.null(config$scheme) || is.null(config$dbname) ||
-             is.null(config$host) || is.null(config$port) || is.null(config$path) )) {
+  if (isTRUE(
+    is.null(config$scheme) || is.null(config$dbname) ||
+    is.null(config$host) ||
+    is.null(config$port) || is.null(config$path)
+  )) {
     DQAgui::feedback(
       paste0(
         "One or more of the necessary input parameters out of ",
