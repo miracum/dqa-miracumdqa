@@ -7,7 +7,8 @@
 mdr_to_samply(
   utils_path = "inst/application/_utilities/",
   mdr_filename = "mdr.csv",
-  master_system_name = "p21csv"
+  master_system_name = "p21staging",
+  master_system_type = "postgres"
 )
 }
 \arguments{
@@ -22,10 +23,13 @@ folder `MISC`) and a markdown templated to create the PDF report
 \item{mdr_filename}{A character string. The name of the DQA-MDR CSV file
 (default: 'mdr.csv').}
 
-\item{master_system_name}{The name of the master system. Currently, the only
-allowed argument is `p21csv`. All necessary MDR items, including
-`definition` and `dqa_assessment`, are stored on the master system level
-in the metadata repository.}
+\item{master_system_name}{The name of the master system. Currently, the
+allowed arguments are `p21csv` and `p21staging`. All necessary MDR items,
+including `definition` and `dqa_assessment`, are stored on the master
+system level in the metadata repository.}
+
+\item{master_system_type}{The type of the master system. Currently, the
+allowed arguments are `csv` and `postgres`.}
 }
 \description{
 DQA-MDR to Samply.MDR Converter Function

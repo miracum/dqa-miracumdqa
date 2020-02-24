@@ -153,13 +153,26 @@ ORDER BY
 }
 
 
+mdr.use <- mdr[key=="dt.laboratory",]
+
+sel_vars <- select_vars(mdr.use)
+
+dt.laboratory <-
+  paste0(
+    "SELECT
+	", sel_vars, "
+FROM
+	laboratory.", mdr.use[source_variable_name=="case_id",source_table_name], ";")
+
+
+
 vec <- c("dt.patient", "dt.gender", "dt.zipcode", "dt.birthdate",
          "dt.encounter", "dt.encounterstart", "dt.encounterend",
          "dt.ageindays", "dt.ageinyears", "dt.admission", "dt.hospitalization",
          "dt.discharge", "dt.ventilation",
          "dt.condition", "dt.conditioncategory",
          "dt.procedure", "dt.proceduredate",
-         "dt.procedure_medication",
+         "dt.procedure_medication", "dt.laboratory",
          "dt.provider", "dt.providerstart", "dt.providerend")
          #"pl.atemp.item01", "pl.atemp.item02", "pl.atemp.item03", "pl.atemp.item04")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)

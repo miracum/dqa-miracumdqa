@@ -17,10 +17,12 @@
 
 #' @title DQA-MDR to Samply.MDR Converter Function
 #'
-#' @param master_system_name The name of the master system. Currently, the only
-#'   allowed argument is `p21csv`. All necessary MDR items, including
-#'   `definition` and `dqa_assessment`, are stored on the master system level
-#'   in the metadata repository.
+#' @param master_system_name The name of the master system. Currently, the
+#'   allowed arguments are `p21csv` and `p21staging`. All necessary MDR items,
+#'   including `definition` and `dqa_assessment`, are stored on the master
+#'   system level in the metadata repository.
+#' @param master_system_type The type of the master system. Currently, the
+#'   allowed arguments are `csv` and `postgres`.
 #' @param mdr_filename A character string. The name of the DQA-MDR CSV file
 #'   (default: 'mdr.csv').
 #' @inheritParams launch_dqa_tool
@@ -31,14 +33,16 @@
 #'
 mdr_to_samply <- function(utils_path = "inst/application/_utilities/",
                           mdr_filename = "mdr.csv",
-                          master_system_name = "p21csv") {
+                          master_system_name = "p21staging",
+                          master_system_type = "postgres") {
 
   stopifnot(
     is.character(utils_path),
     is.character(mdr_filename),
     mdr_filename == "mdr.csv",
     is.character(master_system_name),
-    master_system_name == "p21csv"
+    master_system_name %in% c("p21csv", "p21staging"),
+    master_system_type %in% c("csv", "postgres")
   )
 
   utils_path <- DQAstats::clean_path_name(utils_path)
@@ -223,7 +227,7 @@ mdr_to_samply <- function(utils_path = "inst/application/_utilities/",
       get_json <- jsonlite::fromJSON(
         jsonlite::fromJSON(
           dqa_mdr_list[[tempid]]$slots$dqa
-        )$csv[[master_system_name]]
+        )[[master_system_type]][[master_system_name]]
       )
 
       value_set <- unlist(
@@ -278,7 +282,7 @@ mdr_to_samply <- function(utils_path = "inst/application/_utilities/",
       get_json <- jsonlite::fromJSON(
         jsonlite::fromJSON(
           dqa_mdr_list[[tempid]]$slots$dqa
-        )$csv[[master_system_name]]
+        )[[master_system_type]][[master_system_name]]
       )
 
       range <- jsonlite::fromJSON(
@@ -307,7 +311,7 @@ mdr_to_samply <- function(utils_path = "inst/application/_utilities/",
       get_json <- jsonlite::fromJSON(
         jsonlite::fromJSON(
           dqa_mdr_list[[tempid]]$slots$dqa
-        )$csv[[master_system_name]]
+        )[[master_system_type]][[master_system_name]]
       )
 
       regex <- jsonlite::fromJSON(

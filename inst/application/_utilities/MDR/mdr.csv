@@ -222,6 +222,8 @@ Postleitzahl;zip_cd;;patient_dimension;i2b2;postgres;dt.zipcode;patient_address_
 Bei ausländischen oder wohnsitzlosen Patienten: ‚00000’.   ";patient_dimension;;;;;;"{""regex"":[""^([[:digit:]]{5})$""]}"
 ;;;;;postgres;undefined;condition_bodySite;condition.bodySite;factor;;;;;;;;;;;
 ;;;;;postgres;undefined;procedure_bodySite;procedure.bodySite;factor;;;;;;;;;;;
+Laborwerte;concept_cd;;observation_fact;i2b2;postgres;dt.laboratory;observation_code_coding_code;observation.code.coding.code;string;;;1;Die Laborwerte als LOINC Codes.;observation_fact;;;concept_cd LIKE 'LOINC%';1;;"{""regex"":[""^(LOINC\\:)[[:digit:]]{1,6}\\-[[:digit:]]{1}$""]}"
+Fallnummer;encounter_num;;observation_fact;i2b2;postgres;dt.laboratory;encounter_identifier_value;encounter.identifier.value;string;;;0;;observation_fact;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Aufnahmeanlass;observation_source_value;;observation;omop;postgres;dt.admission;encounter_hospitalization_admitSource;encounter.hospitalization.admitSource;permittedValues;;;1;;observation;;;observation_type_concept_id = 43542355 AND observation_concept_id IN (4164916, 4194310, 4138807, 4216316, 4079617, 4146925, 4123917);;;"{""value_set"":[""E, Z, N, R, V, A, G, B""]}"
 Fallnummer;visit_occurrence_id;;observation;omop;postgres;dt.admission;encounter_identifier_value;encounter.identifier.value;string;;;0;;observation;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Alter (in Tagen);observation_source_value;;observation;omop;postgres;dt.ageindays;encounter_subject_patient_age_days;undefined;integer;0;;1;;observation;;;observation_concept_id = 4265453 AND unit_concept_id = 8512;;;"{""range"":{""min"":[1],""max"":[366],""unit"":[""d""]}}"
@@ -377,3 +379,5 @@ Fallnummer;KH-internes-Kennzeichen;;fall;p21staging;postgres;dt.ventilation;proc
 Fallnummer;KH-internes-Kennzeichen;;fall;p21staging;postgres;dt.zipcode;patient_identifier_value;patient.identifier.value;string;;;0;;fall;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Postleitzahl;PLZ;;fall;p21staging;postgres;dt.zipcode;patient_address_postalCode;patient.address.postalCode;string;;;1;"Die Postleitzahl der Anschrift des Versicherten ist vollständig mit 5 Ziffern anzugeben.  
 Bei ausländischen oder wohnsitzlosen Patienten: ‚00000’.   ";fall;;;;;;"{""regex"":[""^([[:digit:]]{5})$""]}"
+Laborwerte;loinc_code;;laboratory;p21staging;postgres;dt.laboratory;observation_code_coding_code;observation.code.coding.code;string;;;1;Die Laborwerte als LOINC Codes.;laboratory;;;;1;;"{""regex"":[""^[[:digit:]]{1,6}\\-[[:digit:]]{1}$""]}"
+Fallnummer;case_id;;laboratory;p21staging;postgres;dt.laboratory;encounter_identifier_value;encounter.identifier.value;string;;;0;;laboratory;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"

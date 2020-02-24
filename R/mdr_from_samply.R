@@ -49,9 +49,9 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
   stopifnot(
     is.character(namespace),
     is.character(master_system_type),
-    master_system_type == "csv",
+    master_system_type %in% c("csv", "postgres"),
     is.character(master_system_name),
-    master_system_name == "p21csv"
+    master_system_name %in% c("p21csv", "p21staging")
   )
 
   if (isFALSE(headless)) {
@@ -167,8 +167,6 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       next
     }
 
-    # TODO csv slot hard-coded
-    stopifnot(length(dqa_slot$csv) > 0)
     # first look at all csv systems
     for (sys in names(dqa_slot$csv)) {
       if (sys == master_system_name) {
@@ -221,8 +219,6 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       }
     }
 
-    # TODO postgres slot hard-coded
-    stopifnot(length(dqa_slot$postgres) > 0)
     for (sys in names(dqa_slot$postgres)) {
       postgres_slot <- jsonlite::fromJSON(
         txt = dqa_slot$postgres[[sys]]
