@@ -92,9 +92,7 @@ dt.encounter <-
     "SELECT
 	", sel_vars, "
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
-ORDER BY
-  patient_num;")
+  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], ";")
 
 
 # simple cast to date
