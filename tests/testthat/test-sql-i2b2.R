@@ -46,7 +46,7 @@ test_that(
                        "dt.ageinyears" = "b013274608",
                        "dt.condition" = "a7de7a2714",
                        "dt.discharge" = "c71f0b452a",
-                       "dt.encounter" = "f3f149a5f1",
+                       "dt.encounter" = "d5ee19e8d5",
                        "dt.hospitalization" = "2fc68642bc",
                        "dt.patient" = "bd0ed9b3ea",
                        "dt.procedure" = "62e8ce5f85",

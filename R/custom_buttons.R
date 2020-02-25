@@ -48,12 +48,16 @@ send_datamap_to_influx <- function(rv) {
       # Assign the data
       site <- rv$sitename
       system <- rv$target$system_name
-      item <- rv$datamap$target_data[, "variable"]
-      n <- rv$datamap$target_data[, "n"]
-      distinct <- rv$datamap$target_data[, "distinct"]
+      item <- rv$datamap$target_data[, "variable", with = F]
+      # TODO datamap mappings for the symposium
+      item[get("variable") == "Patientennummer", ("variable") := "Patienten"]
+      item[get("variable") == "Fallnummer", ("variable") := "F\u00E4lle"]
+
+      n <- rv$datamap$target_data[, "n", with = F]
+      distinct <- rv$datamap$target_data[, "distinct", with = F]
 
       # The column "variable" needs to be renamed to "item" for influxdb:
-      names(item)[names(item) == "variable"] <- "item"
+      colnames(item) <- "item"
 
       if (isTRUE(is.null(site) ||
                  is.null(item) ||
