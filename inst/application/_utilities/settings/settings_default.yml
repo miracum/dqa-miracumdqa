@@ -35,7 +35,9 @@ default:
     password: "myStagingPassword"
   influxdb:
     dbname: "data_map"
+    scheme: "https"
     host: ""
-    port: 8086
+    port: ""
     user: "datamap_writer"
     password: ""
+    path: "/influx"
