@@ -36,7 +36,8 @@ test_that(
       "tests/testthat" = list(
         "test-lints.R" = NULL,
         "test-sql-i2b2.R" = NULL,
-        "test-sql-omop.R" = NULL
+        "test-sql-omop.R" = NULL,
+        "test-sql-p21staging.R" = NULL
       )
     )
 

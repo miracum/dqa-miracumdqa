@@ -16,47 +16,50 @@
 
 context("test omop SQL statements")
 
-prefix <- "./"
-utildir <- paste0(prefix, "../../miRacumDQA/")
+if (dir.exists("../../00_pkg_src")) {
+  prefix <- "../../00_pkg_src/miRacumDQA/"
+} else if (dir.exists("../../R")) {
+  prefix <- "../../"
+} else if (dir.exists("./R")) {
+  prefix <- "./"
+}
 
 test_that(
   desc = "correct sql statments",
   code = {
 
-  rv <- list()
-  rv$sql <- DQAstats::load_sqls(
-    system.file("application/_utilities/",
-                package = "miRacumDQA"),
-    "omop")
+    rv <- list()
+    rv$sql <- jsonlite::fromJSON(
+      paste0(prefix, "inst/application/_utilities/SQL/SQL_omop.JSON")
+    )
+    expect_type(rv$sql, "list")
 
-  expect_type(rv$sql, "list")
+    # Loop over target_keys and check for hash and type
+    known_hashes <- list("dt.admission" = "82e83232ef",
+                         "dt.gender" = "f0b8920d07",
+                         "dt.birthdate" = "d7f4bbda37",
+                         "dt.zipcode" = "6947bb9e94",
+                         "dt.encounterstart" = "b7b3a86a30",
+                         "dt.encounterend" = "c770cf3e88",
+                         "dt.conditioncategory" = "3fce50006e",
+                         "dt.proceduredate" = "363684fbdb",
+                         "dt.providerstart" = "262c3215f6",
+                         "dt.providerend" = "70fce9375a",
+                         "dt.ageindays" = "90c488d63e",
+                         "dt.ageinyears" = "c9ef48e00c",
+                         "dt.condition" = "0963cbebc1",
+                         "dt.discharge" = "b4d691dbb4",
+                         "dt.encounter" = "ee4fc87b05",
+                         "dt.hospitalization" = "5bdf8b4549",
+                         "dt.patient" = "2dc2a0de0b",
+                         "dt.procedure" = "e028bc6936",
+                         "dt.procedure_medication" = "5e0398c307",
+                         "dt.provider" = "dd9a248836",
+                         "dt.ventilation" = "7f713cc6ef")
+    for (i in names(known_hashes)) {
+      print(i)
+      expect_type(rv$sql[[i]], "character")
+      expect_known_hash(rv$sql[[i]], known_hashes[[i]])
+    }
 
-  # Loop over target_keys and check for hash and type
-  known_hashes <- list("dt.admission" = "82e83232ef",
-                       "dt.gender" = "f0b8920d07",
-                       "dt.birthdate" = "d7f4bbda37",
-                       "dt.zipcode" = "6947bb9e94",
-                       "dt.encounterstart" = "b7b3a86a30",
-                       "dt.encounterend" = "c770cf3e88",
-                       "dt.conditioncategory" = "3fce50006e",
-                       "dt.proceduredate" = "363684fbdb",
-                       "dt.providerstart" = "262c3215f6",
-                       "dt.providerend" = "70fce9375a",
-                       "dt.ageindays" = "90c488d63e",
-                       "dt.ageinyears" = "c9ef48e00c",
-                       "dt.condition" = "0963cbebc1",
-                       "dt.discharge" = "b4d691dbb4",
-                       "dt.encounter" = "ee4fc87b05",
-                       "dt.hospitalization" = "5bdf8b4549",
-                       "dt.patient" = "2dc2a0de0b",
-                       "dt.procedure" = "e028bc6936",
-                       "dt.procedure_medication" = "5e0398c307",
-                       "dt.provider" = "dd9a248836",
-                       "dt.ventilation" = "7f713cc6ef")
-  for (i in names(known_hashes)) {
-    print(i)
-    expect_type(rv$sql[[i]], "character")
-    expect_known_hash(rv$sql[[i]], known_hashes[[i]])
-  }
-
-})
+  })
