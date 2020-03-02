@@ -34,7 +34,7 @@ Imports:
     shinyjs,
     influxdbr
 Remotes: 
-    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/development/miracum/dqa/dqagui-development.zip
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/development/dqagui-development.zip
 Suggests: 
     testthat,
     processx,

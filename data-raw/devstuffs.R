@@ -72,7 +72,7 @@ gui_tag <-  "development"
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
 desc::desc_set_remotes(c(paste0(
-  "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/miracum/dqa/dqagui-", gui_tag, ".zip")
+  "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip")
   ),
 file = usethis::proj_get())
 
