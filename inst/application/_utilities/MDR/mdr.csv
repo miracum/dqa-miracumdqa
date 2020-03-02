@@ -379,5 +379,5 @@ Fallnummer;KH-internes-Kennzeichen;;fall;p21staging;postgres;dt.ventilation;proc
 Fallnummer;KH-internes-Kennzeichen;;fall;p21staging;postgres;dt.zipcode;patient_identifier_value;patient.identifier.value;string;;;0;;fall;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Postleitzahl;PLZ;;fall;p21staging;postgres;dt.zipcode;patient_address_postalCode;patient.address.postalCode;string;;;1;"Die Postleitzahl der Anschrift des Versicherten ist vollständig mit 5 Ziffern anzugeben.  
 Bei ausländischen oder wohnsitzlosen Patienten: ‚00000’.   ";fall;;;;;;"{""regex"":[""^([[:digit:]]{5})$""]}"
-Laborwerte (LOINC);loinc_code;;laboratory;p21staging;postgres;dt.laboratory;observation_code_coding_code;observation.code.coding.code;string;;;1;Die Laborwerte als LOINC Codes.;laboratory;;;;1;;"{""regex"":[""^[[:digit:]]{1,6}\\-[[:digit:]]{1}$""]}"
-Fallnummer;case_id;;laboratory;p21staging;postgres;dt.laboratory;encounter_identifier_value;encounter.identifier.value;string;;;0;;laboratory;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
+Laborwerte (LOINC);loinc_code;;laboratory_p21;p21staging;postgres;dt.laboratory;observation_code_coding_code;observation.code.coding.code;string;;;1;Die Laborwerte als LOINC Codes.;laboratory_p21;;;;1;;"{""regex"":[""^[[:digit:]]{1,6}\\-[[:digit:]]{1}$""]}"
+Fallnummer;case_id;;laboratory_p21;p21staging;postgres;dt.laboratory;encounter_identifier_value;encounter.identifier.value;string;;;0;;laboratory_p21;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"

@@ -64,7 +64,6 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                  value = 0)
   }
 
-
   # clean base url path
   base_url <- DQAstats::clean_path_name(base_url)
 
@@ -81,33 +80,78 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
   response_members <- jsonlite::fromJSON(
     txt = member_url
   )
+  response_members$results <- data.table::as.data.table(
+    response_members$results
+  )
   # namespace must have exactly 1 member --> dqa
-  stopifnot(nrow(response_members$results) == 1,
-            !is.null(response_members$results$id))
+  stopifnot(
+    nrow(response_members$results[get("type") ==
+                                    "DATAELEMENTGROUP", ]) > 0,
+    !is.null(response_members$results$id)
+  )
 
-  # set dataelement-groups url
-  groupmember_url <- paste0(
-    base_url,
-    "dataelementgroups/",
-    response_members$results$id,
-    "/members"
-  )
-  cat("\nGroup-member URL: ", groupmember_url, "\n")
+  # init element_store
+  element_store <- character(0)
 
-  # get group members
-  response_group <- jsonlite::fromJSON(
-    txt = groupmember_url
-  )
-  # transform results to data.table
-  response_group$results <- data.table::as.data.table(
-    response_group$results
-  )
+  # add dataelements to element_store
+  if (nrow(response_members$results[get("type") ==
+                                    "DATAELEMENT", ]) > 0) {
+    element_store <- response_members$results[
+      get("type") == "DATAELEMENT" &
+        get("identification.status") == "RELEASED", get("id")
+      ]
+  }
+
+  get_groups <- TRUE
+  group_ids <- response_members$results[
+    get("type") == "DATAELEMENTGROUP" &
+      get("identification.status") == "RELEASED", get("id")
+    ]
+
+  while (isTRUE(get_groups)) {
+    print("Get_groups is true")
+    g_ids <- character(0)
+
+    for (gid in group_ids) {
+      print(gid)
+      group_results <- load_members(
+        base_url = base_url,
+        dataelementgroup_id = gid
+      )
+
+      if (length(group_results[["DATAELEMENTS"]]) > 0) {
+        element_store <- c(
+          element_store,
+          group_results[["DATAELEMENTS"]]
+        )
+      }
+
+      if (length(group_results[["DATAELEMENTGROUPS"]]) > 0) {
+        g_ids <- c(
+          g_ids,
+          group_results[["DATAELEMENTGROUPS"]]
+        )
+      }
+    }
+
+    if (length(g_ids) == 0) {
+      get_groups <- FALSE
+      print("Get_groups is false")
+    } else {
+      print(g_ids)
+      group_ids <- g_ids
+    }
+  }
+
 
   # initialize empty data.table to store mdr
   outmdr <- data.table::data.table()
 
+  # remove duplicates
+  element_store <- element_store[!duplicated(element_store)]
+
   # loop over all dataelement-ids
-  for (element_id in response_group$results$id) {
+  for (element_id in element_store) {
 
     # set dataelement url
     dataelement_url <- paste0(
@@ -122,7 +166,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress$inc(
-        1 / length(response_group$results$id),
+        1 / length(element_store),
         detail = paste("reading", dataelement_url))
     }
 
@@ -298,6 +342,8 @@ transform_data_types <- function(type) {
     outdat <- "permittedValues"
   } else if (type == "STRING") {
     outdat <- "string"
+  } else {
+    outdat <- "test"
   }
   return(outdat)
 }

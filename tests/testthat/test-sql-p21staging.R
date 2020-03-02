@@ -56,7 +56,7 @@ test_that(
                          "dt.procedure_medication" = "bb2f353b9b",
                          "dt.provider" = "e2e55f42a2",
                          "dt.ventilation" = "5843ba4aad",
-                         "dt.laboratory" = "f962de286")
+                         "dt.laboratory" = "a552cdd46")
     for (i in names(known_hashes)) {
       print(i)
       expect_type(rv$sql[[i]], "character")
