@@ -52,6 +52,12 @@ send_datamap_to_influx <- function(rv) {
       # TODO datamap mappings for the symposium
       item[get("variable") == "Patientennummer", ("variable") := "Patienten"]
       item[get("variable") == "Fallnummer", ("variable") := "F\u00E4lle"]
+      item[get("variable") == "Laborwerte (LOINC)",
+           ("variable") := "Laborwerte"]
+      item[get("variable") == "Diagnosen (ICD)",
+           ("variable") := "Diagnosen"]
+      item[get("variable") == "Prozeduren (OPS)",
+           ("variable") := "Prozeduren"]
 
       n <- rv$datamap$target_data[, "n", with = F]
       distinct <- rv$datamap$target_data[, "distinct", with = F]
