@@ -108,7 +108,7 @@ for (i in names(looplist)){
   b.", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "::date\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.visit_dimension AS b
+  i2b2miracum.encounter_mapping AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
@@ -165,7 +165,7 @@ for (i in names(looplist)){
   b.", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.visit_dimension AS b
+  i2b2miracum.encounter_mapping AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "

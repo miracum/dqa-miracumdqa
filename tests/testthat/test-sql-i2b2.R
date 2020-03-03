@@ -35,27 +35,27 @@ test_that(
     expect_type(rv$sql, "list")
 
     # Loop over target_keys and check for hash and type
-    known_hashes <- list("dt.admission" = "96c232dc35",
+    known_hashes <- list("dt.admission" = "29ce83dfec",
                          "dt.gender" = "765e2b4ce7",
                          "dt.birthdate" = "f5f9b87310",
                          "dt.zipcode" = "c66f14a5bb",
-                         "dt.encounterstart" = "f0e5fb3d19",
-                         "dt.encounterend" = "5286d0964f",
-                         "dt.conditioncategory" = "77ee19937e",
+                         "dt.encounterstart" = "9350e8a7ef",
+                         "dt.encounterend" = "9476a8b433",
+                         "dt.conditioncategory" = "c653689a53",
                          "dt.proceduredate" = "1e8778d81c",
                          "dt.providerstart" = "86894e028e",
                          "dt.providerend" = "8e8ba1f648",
-                         "dt.ageindays" = "50ef28991a",
-                         "dt.ageinyears" = "b013274608",
-                         "dt.condition" = "a7de7a2714",
-                         "dt.discharge" = "c71f0b452a",
+                         "dt.ageindays" = "5b9bedf7ad",
+                         "dt.ageinyears" = "e5ad2dfa13",
+                         "dt.condition" = "ad4ac147ee",
+                         "dt.discharge" = "ed075a20f9",
                          "dt.encounter" = "ad7183153c",
-                         "dt.hospitalization" = "2fc68642bc",
+                         "dt.hospitalization" = "b6a6e04626",
                          "dt.patient" = "bd0ed9b3ea",
                          "dt.procedure" = "62e8ce5f85",
                          "dt.procedure_medication" = "a058b9ac70",
                          "dt.provider" = "209ab6a18e",
-                         "dt.ventilation" = "654d4fc7fd",
+                         "dt.ventilation" = "d5327b8ba8",
                          "dt.laboratory" = "a5ecc6cd")
     for (i in names(known_hashes)) {
       print(i)
