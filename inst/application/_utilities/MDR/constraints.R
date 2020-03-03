@@ -53,11 +53,11 @@ mdr[designation=="Diagnoseart" & source_system_name=="omop", constraints := c]
 
 # ICD Code
 c <- jsonlite::toJSON(list("regex" = "^([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$"))
-mdr[designation=="ICD Code" & source_system_name=="p21csv", constraints := c]
-mdr[designation=="ICD Code" & source_system_name=="p21staging", constraints := c]
-mdr[designation=="ICD Code" & source_system_name=="omop", constraints := c]
+mdr[designation=="Diagnosen (ICD)" & source_system_name=="p21csv", constraints := c]
+mdr[designation=="Diagnosen (ICD)" & source_system_name=="p21staging", constraints := c]
+mdr[designation=="Diagnosen (ICD)" & source_system_name=="omop", constraints := c]
 c <- jsonlite::toJSON(list("regex" = "^(ICD10\\:)([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$"))
-mdr[designation=="ICD Code" & source_system_name=="i2b2", constraints := c]
+mdr[designation=="Diagnosen (ICD)" & source_system_name=="i2b2", constraints := c]
 
 # Fallnummer
 c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
@@ -101,8 +101,9 @@ mdr[designation=="Geburtsjahr" & source_system_name=="omop", constraints := c]
 c <- jsonlite::toJSON(list("value_set" = "m, w, x"))
 mdr[designation=="Geschlecht" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Geschlecht" & source_system_name=="p21staging", constraints := c]
-mdr[designation=="Geschlecht" & source_system_name=="i2b2", constraints := c]
 mdr[designation=="Geschlecht" & source_system_name=="omop", constraints := c]
+c <- jsonlite::toJSON(list("value_set" = "m, f, u"))
+mdr[designation=="Geschlecht" & source_system_name=="i2b2", constraints := c]
 
 # Patientennummer
 c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
@@ -113,19 +114,19 @@ mdr[designation=="Patientennummer" & source_system_name=="omop", constraints := 
 
 # OPS Code
 c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
-mdr[designation=="OPS Code" & source_system_name=="p21csv", constraints := c]
-mdr[designation=="OPS Code" & source_system_name=="p21staging", constraints := c]
-mdr[designation=="OPS Code" & source_system_name=="omop", constraints := c]
+mdr[designation=="Prozeduren (OPS)" & source_system_name=="p21csv", constraints := c]
+mdr[designation=="Prozeduren (OPS)" & source_system_name=="p21staging", constraints := c]
+mdr[designation=="Prozeduren (OPS)" & source_system_name=="omop", constraints := c]
 c <- jsonlite::toJSON(list("regex" = "^(OPS\\:)([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
-mdr[designation=="OPS Code" & source_system_name=="i2b2", constraints := c]
+mdr[designation=="Prozeduren (OPS)" & source_system_name=="i2b2", constraints := c]
 
 # Medikation (OPS Code)
 c <- jsonlite::toJSON(list("regex" = "^(6\\-00)([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
-mdr[designation=="OPS-codierte Medikamente" & source_system_name=="p21csv", constraints := c]
-mdr[designation=="OPS-codierte Medikamente" & source_system_name=="p21staging", constraints := c]
-mdr[designation=="OPS-codierte Medikamente" & source_system_name=="omop", constraints := c]
+mdr[designation=="Medikation (OPS)" & source_system_name=="p21csv", constraints := c]
+mdr[designation=="Medikation (OPS)" & source_system_name=="p21staging", constraints := c]
+mdr[designation=="Medikation (OPS)" & source_system_name=="omop", constraints := c]
 c <- jsonlite::toJSON(list("regex" = "^(OPS\\:6\\-00)([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
-mdr[designation=="OPS-codierte Medikamente" & source_system_name=="i2b2", constraints := c]
+mdr[designation=="Medikation (OPS)" & source_system_name=="i2b2", constraints := c]
 
 # Fachabteilung
 c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
@@ -143,9 +144,9 @@ mdr[designation=="Beatmungsstunden" & source_system_name=="omop", constraints :=
 
 # Laborwerte (LOINC) (365.25 Tage * 24 Stunden = 8766 Stunden)
 c <- jsonlite::toJSON(list("regex" = "^[[:digit:]]{2,5}\\-[[:digit:]]{1}$"))
-mdr[designation=="Laborwerte" & source_system_name=="p21staging", constraints := c]
+mdr[designation=="Laborwerte (LOINC)" & source_system_name=="p21staging", constraints := c]
 c <- jsonlite::toJSON(list("regex" = "^(LOINC\\:)[[:digit:]]{2,5}\\-[[:digit:]]{1}$"))
-mdr[designation=="Laborwerte" & source_system_name=="i2b2", constraints := c]
+mdr[designation=="Laborwerte (LOINC)" & source_system_name=="i2b2", constraints := c]
 
 # write mdr
 fwrite(mdr, paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"), sep = ";")

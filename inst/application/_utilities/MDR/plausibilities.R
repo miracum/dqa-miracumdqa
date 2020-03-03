@@ -63,7 +63,7 @@ p <- jsonlite::toJSON(
         ),
         "join_crit" = "encounter_identifier_value",
         "constraints" = list(
-          "value_set" = list("omop" = "w", "i2b2" = "w", "p21csv" = "w", "p21staging" = "w")
+          "value_set" = list("omop" = "w", "i2b2" = "f", "p21csv" = "w", "p21staging" = "w")
         )
       ),
       "condition_code_coding_code" = list(
@@ -74,7 +74,7 @@ p <- jsonlite::toJSON(
         ),
         "join_crit" = "encounter_identifier_value",
         "constraints" = list(
-          "value_set" =  list("omop" = "w", "i2b2" = "w", "p21csv" = "w", "p21staging" = "w")
+          "value_set" =  list("omop" = "w", "i2b2" = "f", "p21csv" = "w", "p21staging" = "w")
         )
       ),
       "condition_code_coding_code" = list(
@@ -96,7 +96,7 @@ p <- jsonlite::toJSON(
         ),
         "join_crit" = "encounter_identifier_value",
         "constraints" = list(
-          "value_set" = list("omop" = "w", "i2b2" = "w", "p21csv" = "w", "p21staging" = "w")
+          "value_set" = list("omop" = "w", "i2b2" = "f", "p21csv" = "w", "p21staging" = "w")
         )
       )
     )
