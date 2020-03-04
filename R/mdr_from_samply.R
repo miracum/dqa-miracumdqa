@@ -74,7 +74,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     namespace,
     "/members"
   )
-  cat("\nMember URL: ", member_url, "\n")
+  message("\nMember URL: ", member_url, "\n")
 
   # get namespace members
   response_members <- jsonlite::fromJSON(
@@ -109,7 +109,6 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     ]
 
   while (isTRUE(get_groups)) {
-    print("Get_groups is true")
     g_ids <- character(0)
 
     for (gid in group_ids) {
@@ -136,7 +135,6 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
 
     if (length(g_ids) == 0) {
       get_groups <- FALSE
-      print("Get_groups is false")
     } else {
       print(g_ids)
       group_ids <- g_ids
@@ -170,61 +168,100 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
         detail = paste("reading", dataelement_url))
     }
 
-    # get data elements
-    response_dataelement <- jsonlite::fromJSON(
-      txt = dataelement_url
-    )
-    # transform results to data.table
-    response_dataelement$slots <- data.table::as.data.table(
-      response_dataelement$slots
+    # test, if dqa slot is available (else ignore this element)
+    response_dqa_slot <- jsonlite::fromJSON(
+      txt = paste0(dataelement_url, "/slots"),
+      simplifyDataFrame = T
     )
 
-    # set basic mdr variables
-    append_basis <- data.table::data.table(
-      "designation" = response_dataelement$designations$designation,
-      "definition" = response_dataelement$designations$definition,
-      "variable_type" = transform_data_types(
-        response_dataelement$validation$datatype
+    if ("dqa" %in% response_dqa_slot$slot_name) {
+
+      # get data elements
+      response_dataelement <- jsonlite::fromJSON(
+        txt = dataelement_url
       )
-    )
+      # transform results to data.table
+      response_dataelement$slots <- data.table::as.data.table(
+        response_dataelement$slots
+      )
 
-    # extract dqa slot
-    dqa_slot <- tryCatch(
-      expr = {
-        outdat <- jsonlite::fromJSON(
-          txt = response_dataelement$slots[get("slot_name") == "dqa",
-                                           get("slot_value")]
+      # set basic mdr variables
+      append_basis <- data.table::data.table(
+        "designation" = response_dataelement$designations$designation,
+        "definition" = response_dataelement$designations$definition,
+        "variable_type" = transform_data_types(
+          response_dataelement$validation$datatype
         )
-        outdat
-      }, error = function(e) {
-        print(e)
-        outdat <- NULL
-        outdat
-      }, finally = function(f) {
-        return(outdat)
+      )
+
+      # extract dqa slot
+      dqa_slot <- jsonlite::fromJSON(
+        txt = response_dataelement$slots[get("slot_name") == "dqa",
+                                         get("slot_value")]
+      )
+
+      # first look at all csv systems
+      for (sys in names(dqa_slot$csv)) {
+        if (sys == master_system_name) {
+          # in a first level, extract our master_slot row
+          csv_slot <- jsonlite::fromJSON(
+            txt = dqa_slot$csv[[master_system_name]]
+          )
+
+          append_row <- cbind(
+            append_basis,
+            "source_system_type" = "csv",
+            "source_system_name" = sys,
+            data.table::as.data.table(
+              csv_slot$base
+            )
+          )
+
+          if (!is.null(dqa_slot$plausibility_relation)) {
+            append_row <- cbind(
+              append_row,
+              "plausibility_relation" = dqa_slot$plausibility_relation
+            )
+          }
+
+          # add master row to mdr
+          outmdr <- data.table::rbindlist(list(
+            outmdr,
+            append_row
+          ),
+          fill = T)
+
+          if (!is.null(csv_slot$helper_vars)) {
+
+            for (h in names(csv_slot$helper_vars)) {
+              append_row <- cbind(
+                "source_system_type" = "csv",
+                "source_system_name" = sys,
+                data.table::as.data.table(
+                  csv_slot$helper_vars[[h]]
+                )
+              )
+              # add row to mdr
+              outmdr <- data.table::rbindlist(list(
+                outmdr,
+                append_row
+              ),
+              fill = T)
+            }
+          }
+        }
       }
-    )
 
-    if (is.null(dqa_slot)) {
-      # if there is no dqa slot, the dataelement is
-      # not interesting for us
-      next
-    }
-
-    # first look at all csv systems
-    for (sys in names(dqa_slot$csv)) {
-      if (sys == master_system_name) {
-        # in a first level, extract our master_slot row
-        csv_slot <- jsonlite::fromJSON(
-          txt = dqa_slot$csv[[master_system_name]]
+      for (sys in names(dqa_slot$postgres)) {
+        postgres_slot <- jsonlite::fromJSON(
+          txt = dqa_slot$postgres[[sys]]
         )
-
         append_row <- cbind(
           append_basis,
-          "source_system_type" = "csv",
+          "source_system_type" = "postgres",
           "source_system_name" = sys,
           data.table::as.data.table(
-            csv_slot$base
+            postgres_slot$base
           )
         )
 
@@ -235,21 +272,21 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
           )
         }
 
-        # add master row to mdr
+        # add row to mdr
         outmdr <- data.table::rbindlist(list(
           outmdr,
           append_row
         ),
         fill = T)
 
-        if (!is.null(csv_slot$helper_vars)) {
+        if (!is.null(postgres_slot$helper_vars)) {
 
-          for (h in names(csv_slot$helper_vars)) {
+          for (h in names(postgres_slot$helper_vars)) {
             append_row <- cbind(
-              "source_system_type" = "csv",
+              "source_system_type" = "postgres",
               "source_system_name" = sys,
               data.table::as.data.table(
-                csv_slot$helper_vars[[h]]
+                postgres_slot$helper_vars[[h]]
               )
             )
             # add row to mdr
@@ -261,53 +298,11 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
           }
         }
       }
-    }
-
-    for (sys in names(dqa_slot$postgres)) {
-      postgres_slot <- jsonlite::fromJSON(
-        txt = dqa_slot$postgres[[sys]]
+    } else {
+      message(
+        "Ignoring", element_id, ".\n",
+        "No 'dqa'-slot present"
       )
-      append_row <- cbind(
-        append_basis,
-        "source_system_type" = "postgres",
-        "source_system_name" = sys,
-        data.table::as.data.table(
-          postgres_slot$base
-        )
-      )
-
-      if (!is.null(dqa_slot$plausibility_relation)) {
-        append_row <- cbind(
-          append_row,
-          "plausibility_relation" = dqa_slot$plausibility_relation
-        )
-      }
-
-      # add row to mdr
-      outmdr <- data.table::rbindlist(list(
-        outmdr,
-        append_row
-      ),
-      fill = T)
-
-      if (!is.null(postgres_slot$helper_vars)) {
-
-        for (h in names(postgres_slot$helper_vars)) {
-          append_row <- cbind(
-            "source_system_type" = "postgres",
-            "source_system_name" = sys,
-            data.table::as.data.table(
-              postgres_slot$helper_vars[[h]]
-            )
-          )
-          # add row to mdr
-          outmdr <- data.table::rbindlist(list(
-            outmdr,
-            append_row
-          ),
-          fill = T)
-        }
-      }
     }
   }
   # change order of columns for better comparability

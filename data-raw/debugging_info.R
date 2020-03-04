@@ -24,3 +24,13 @@ mdr <- mdr_from_samply(base_url = "https://test.mdr.mig-frankfurt.de/rest/api/md
 
 test <- mdr_from_samply(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                        namespace = "miracum1")
+
+
+
+base_url = "https://mdr.miracum.de/rest/api/mdr/"
+namespace = "dqa"
+master_system_type = "csv"
+master_system_name = "p21csv"
+headless = TRUE
+
+test <- mdr_from_samply(namespace = "miracum1")

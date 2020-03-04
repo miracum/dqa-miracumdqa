@@ -7,7 +7,7 @@ load_members <- function(base_url, dataelementgroup_id) {
     dataelementgroup_id,
     "/members"
   )
-  cat("\nGroup-member URL: ", groupmember_url, "\n")
+  message("\nGroup-member URL: ", groupmember_url, "\n")
 
   # get group members
   response_group <- jsonlite::fromJSON(

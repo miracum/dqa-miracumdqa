@@ -17,6 +17,14 @@ button_mdr <- function(utils_path, mdr_filename) {
   return(mdr)
 }
 
+#' @title button_send_datamap
+#' @description This function is an exporte wrapper around the actual function
+#'   to send the datamap. This actual function can be customized by the user.
+#'
+#' @param rv The global rv object. rv$datamap and rv$config_file need to
+#'   be valid.
+#'
+#' @export
 button_send_datamap <- function(rv) {
   return(send_datamap_to_influx(rv))
 }
@@ -49,21 +57,26 @@ send_datamap_to_influx <- function(rv) {
       site <- rv$sitename
       system <- rv$target$system_name
       item <- rv$datamap$target_data[, "variable", with = F]
+
       # TODO datamap mappings for the symposium
-      item[get("variable") == "Patientennummer", ("variable") := "Patienten"]
-      item[get("variable") == "Fallnummer", ("variable") := "F\u00E4lle"]
-      item[get("variable") == "Laborwerte (LOINC)",
-           ("variable") := "Laborwerte"]
-      item[get("variable") == "Diagnosen (ICD)",
-           ("variable") := "Diagnosen"]
-      item[get("variable") == "Prozeduren (OPS)",
-           ("variable") := "Prozeduren"]
+      lay_term <- rv$datamap$target_data[, "variable", with = F]
+      lay_term[get("variable") == "Patientennummer",
+               ("variable") := "Patienten"]
+      lay_term[get("variable") == "Fallnummer",
+               ("variable") := "F\u00E4lle"]
+      lay_term[get("variable") == "Laborwerte (LOINC)",
+               ("variable") := "Laborwerte"]
+      lay_term[get("variable") == "Diagnosen (ICD)",
+               ("variable") := "Diagnosen"]
+      lay_term[get("variable") == "Prozeduren (OPS)",
+               ("variable") := "Prozeduren"]
 
       n <- rv$datamap$target_data[, "n", with = F]
       distinct <- rv$datamap$target_data[, "distinct", with = F]
 
       # The column "variable" needs to be renamed to "item" for influxdb:
       colnames(item) <- "item"
+      colnames(lay_term) <- "lay_term"
 
       if (isTRUE(is.null(site) ||
                  is.null(item) ||
@@ -82,6 +95,7 @@ send_datamap_to_influx <- function(rv) {
               site,
               system,
               item,
+              lay_term,
               n,
               distinct,
               stringsAsFactors = FALSE
@@ -104,7 +118,7 @@ send_datamap_to_influx <- function(rv) {
           )
 
           # Set flag that the data was already exportet to avoid duplicates:
-          rv$datamap$exported <- T
+          rv$datamap$exported <- TRUE
 
           # Console feedback:
           DQAgui::feedback(paste0(
