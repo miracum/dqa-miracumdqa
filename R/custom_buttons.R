@@ -114,7 +114,7 @@ send_datamap_to_influx <- function(rv) {
             x = datamap,
             tag_cols = c("site", "system", "item", "lay_term"),
             # tag_cols = c("site", "system", "item", "n"),
-            measurement = "n"
+            measurement = "item_counts"
           )
 
           # Set flag that the data was already exportet to avoid duplicates:
