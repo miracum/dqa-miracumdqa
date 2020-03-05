@@ -49,7 +49,8 @@ launch_dqa_tool <- function(
   config_file =
     system.file("application/_utilities/settings/settings_default.yml",
                 package = "miRacumDQA"),
-  use_env_credentials = TRUE) {
+  use_env_credentials = TRUE,
+  logfile_dir = tempdir()) {
 
 
   global_env_hack <- function(key,
@@ -79,6 +80,13 @@ launch_dqa_tool <- function(
     val = use_env_credentials,
     pos = 1L
   )
+
+  global_env_hack(
+    key = "logfile_dir",
+    val = logfile_dir,
+    pos = 1L
+  )
+  DQAstats::cleanup_old_logfile()
 
   options(shiny.port = port)
 

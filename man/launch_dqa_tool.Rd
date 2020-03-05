@@ -9,7 +9,8 @@ launch_dqa_tool(
   utils_path = system.file("application/_utilities", package = "miRacumDQA"),
   config_file = system.file("application/_utilities/settings/settings_default.yml",
     package = "miRacumDQA"),
-  use_env_credentials = TRUE
+  use_env_credentials = TRUE,
+  logfile_dir = tempdir()
 )
 }
 \arguments{

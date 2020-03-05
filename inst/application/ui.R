@@ -49,6 +49,11 @@ shiny::shinyUI(
             icon = icon("cogs")
           ),
           shinydashboard::sidebarMenuOutput("mdr"),
+          shinydashboard::menuItem(
+            text = "Logfile",
+            tabName = "tab_log",
+            icon = icon("terminal")
+          ),
           shiny::tags$hr(),
           shiny::actionButton(
             inputId = "reset",
@@ -123,6 +128,11 @@ shiny::shinyUI(
           shinydashboard::tabItem(
             tabName = "tab_mdr",
             DQAgui::module_mdr_ui("moduleMDR")
+          ),
+
+          shinydashboard::tabItem(
+            tabName = "tab_log",
+            DQAgui::module_log_ui("moduleLog")
           )
 
         )

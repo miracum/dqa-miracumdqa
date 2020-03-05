@@ -41,7 +41,7 @@ button_send_datamap <- function(rv) {
 #'
 send_datamap_to_influx <- function(rv) {
   if (isTRUE(is.null(rv$datamap$target_data))) {
-    DQAgui::feedback(
+    DQAstats::feedback(
       paste0("While exporting: datamap --> influxdb: ",
              "datamap is empty"),
       findme = "c51c05eeea",
@@ -49,7 +49,7 @@ send_datamap_to_influx <- function(rv) {
     )
   } else {
     if (isTRUE(rv$datamap$exported)) {
-      DQAgui::feedback("The datamap was already exported. Skipping.",
+      DQAstats::feedback("The datamap was already exported. Skipping.",
                        findme = "3fd547ccbf")
     } else {
       # Not exported yet so start it now:
@@ -72,7 +72,6 @@ send_datamap_to_influx <- function(rv) {
                ("variable") := "Prozeduren"]
 
       n <- rv$datamap$target_data[, "n", with = F]
-      distinct <- rv$datamap$target_data[, "distinct", with = F]
 
       # The column "variable" needs to be renamed to "item" for influxdb:
       colnames(item) <- "item"
@@ -82,7 +81,7 @@ send_datamap_to_influx <- function(rv) {
                  is.null(item) ||
                  is.null(n) ||
                  is.null(system))) {
-        DQAgui::feedback("One of the inputs for influxdb-export isn't valid.",
+        DQAstats::feedback("One of the inputs for influxdb-export isn't valid.",
                          findme = "1bb38be44b")
       } else {
         tryCatch({
@@ -97,13 +96,13 @@ send_datamap_to_influx <- function(rv) {
               item,
               lay_term,
               n,
-              distinct,
               stringsAsFactors = FALSE
               )
 
-          # The column "n" and "distinct" needs to be of type integer:
+          # The column "n" needs to be of type integer:
           datamap$n <- as.integer(datamap$n)
-          datamap$distinct <- as.integer(datamap$distinct)
+
+          print(datamap)
 
           # Set up the connection:
           con_res <- get_influx_connection(rv)
@@ -113,17 +112,18 @@ send_datamap_to_influx <- function(rv) {
             con = con_res$con,
             db = con_res$config$dbname,
             x = datamap,
-            tag_cols = c("site", "system", "item"),
-            measurement = "item_counts"
+            tag_cols = c("site", "system", "item", "lay_term"),
+            # tag_cols = c("site", "system", "item", "n"),
+            measurement = "n"
           )
 
           # Set flag that the data was already exportet to avoid duplicates:
           rv$datamap$exported <- TRUE
 
           # Console feedback:
-          DQAgui::feedback(paste0(
-            "Successfully finished export: ",
-            "datamap --> influxdb."
+          DQAstats::feedback(paste0(
+            "Successfully finished export:",
+            " datamap --> influxdb."
           ),
           findme = "a087e237e5")
           # GUI feedback:
@@ -135,28 +135,30 @@ send_datamap_to_influx <- function(rv) {
         },
         error = function(cond) {
           # Console feedback:
-          DQAgui::feedback(
+          DQAstats::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "5ba89e3577",
             type = "Error"
           )
           # GUI feedback:
           showNotification(
-            "\U2716 Error while exporting the Datamap.",
+            paste0("\U2716 Error while exporting the Datamap.",
+                   " See the logfile for more information."),
             type = "error",
             duration = 10
           )
         },
         warning = function(cond) {
           # Console feedback:
-          DQAgui::feedback(
+          DQAstats::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "010f0daea3",
             type = "Warning"
           )
           # GUI feedback:
           showNotification(
-            "\U2716 Error while exporting the Datamap.",
+            paste0("\U2716 Warning while exporting the Datamap.",
+                   " See the logfile for more information."),
             type = "error",
             duration = 10
           )
@@ -191,7 +193,7 @@ get_influx_connection <- function(rv) {
     is.null(config$host) ||
     is.null(config$port) || is.null(config$path)
   )) {
-    DQAgui::feedback(
+    DQAstats::feedback(
       paste0(
         "One or more of the necessary input parameters out of ",
         "config_file for influxdb connection is missing."
@@ -203,7 +205,7 @@ get_influx_connection <- function(rv) {
   } else {
     if (isTRUE(is.null(config$user) || config$user == "")) {
       # There is no username --> Authentification seems to be disabled
-      DQAgui::feedback(
+      DQAstats::feedback(
         paste0(
           "There is no username in the config_file. ",
           "Trying to connect without authentification."
@@ -220,11 +222,11 @@ get_influx_connection <- function(rv) {
           verbose = T
         )
 
-      DQAgui::feedback("Connection established", findme = "77dc31289f")
+      DQAstats::feedback("Connection established", findme = "77dc31289f")
 
     } else {
       # Authentification seems to be enabled so use username & password:
-      DQAgui::feedback(
+      DQAstats::feedback(
         paste0(
           "There is a username in the config_file. ",
           "Trying to connect with authentification."
@@ -242,7 +244,7 @@ get_influx_connection <- function(rv) {
           path = config$path,
           verbose = T
         )
-      DQAgui::feedback("Connection established", findme = "d408ca173a")
+      DQAstats::feedback("Connection established", findme = "d408ca173a")
     }
   }
   return(list("con" = con,

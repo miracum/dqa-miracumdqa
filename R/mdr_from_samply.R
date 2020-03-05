@@ -74,7 +74,8 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     namespace,
     "/members"
   )
-  message("\nMember URL: ", member_url, "\n")
+  DQAstats::feedback(print_this = paste0("Member URL: ", member_url),
+                   findme = "f381e687ca")
 
   # get namespace members
   response_members <- jsonlite::fromJSON(
@@ -159,7 +160,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     )
 
     msg <- paste("Dataelement URL:", dataelement_url)
-    message("", msg, "\n")
+    DQAstats::feedback(print_this = msg, findme = "d05ebcefef")
     if (isFALSE(headless)) {
       shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
@@ -299,9 +300,9 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
         }
       }
     } else {
-      message(
-        "Ignoring", element_id, ".\n",
-        "No 'dqa'-slot present"
+      DQAstats::feedback(
+        print_this = paste0("Ignoring", element_id, ". No 'dqa'-slot present"),
+        findme = "61aa00fdf7"
       )
     }
   }

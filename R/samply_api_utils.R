@@ -7,7 +7,8 @@ load_members <- function(base_url, dataelementgroup_id) {
     dataelementgroup_id,
     "/members"
   )
-  message("\nGroup-member URL: ", groupmember_url, "\n")
+  DQAstats::feedback(print_this = paste0("Group-member URL: ", groupmember_url),
+                   findme = "c212b28d7e")
 
   # get group members
   response_group <- jsonlite::fromJSON(

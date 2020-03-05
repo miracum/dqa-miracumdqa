@@ -22,6 +22,7 @@ shiny::shinyServer(
             config_file = config_file,
             # mdr_filename = mdr_filename,
             use_env_credentials = use_env_credentials,
+            logfile_dir = logfile_dir,
             utilspath = DQAstats::clean_path_name(utils_path),
             current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
         )
@@ -44,6 +45,12 @@ shiny::shinyServer(
 
         # handle reset
         shiny::observeEvent(input$reset, {
+            DQAstats::feedback(print_this = "\U2304")
+            DQAstats::feedback(
+                print_this = "############ APP WAS RESETTED ############",
+                findme = "9c57ce125a"
+            )
+            DQAstats::feedback(print_this = "\U2303")
             shinyjs::js$reset()
         })
 
@@ -288,6 +295,14 @@ shiny::shinyServer(
         ########################
         shiny::callModule(DQAgui::module_mdr_server,
                           "moduleMDR",
+                          rv,
+                          input_re = input_reactive)
+
+        ########################
+        # tab_log
+        ########################
+        shiny::callModule(DQAgui::module_log_server,
+                          "moduleLog",
                           rv,
                           input_re = input_reactive)
 
