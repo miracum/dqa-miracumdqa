@@ -160,9 +160,10 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     )
 
     msg <- paste("Dataelement URL:", dataelement_url)
-    DQAstats::feedback(print_this = msg, findme = "d05ebcefef")
+    DQAstats::feedback(print_this = msg,
+                       logjs = isFALSE(headless),
+                       findme = "d05ebcefef")
     if (isFALSE(headless)) {
-      shinyjs::logjs(msg)
       # Increment the progress bar, and update the detail text.
       progress$inc(
         1 / length(element_store),
