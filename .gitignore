@@ -6,10 +6,6 @@
 !/.gitignore
 !/README.md
 !/FAQ.md
-!/docker/
-/docker/addfolder/
-!/DQA_Tool/
-!/DQA_Tool/app/
 !/data-raw/
 !/R/
 !/tests/
@@ -21,16 +17,8 @@
 !/NAMESPACE
 !/.gitlab-ci.yml
 !/*.Rproj
-/inst/application/_settings/
-inst/application/_settings/
-data-raw/table.csv
-data-raw/TODO.R
-data-raw/debug-plotting.R
-tests/testthat/Rplots.pdf
-tests/testthat/plotdir/
 .Rhistory
 inst/application/_utilities/MDR/.~lock.*
-!NAMESPACE
 /.Rhistory
 /.Rproj*
 /.RData

@@ -35,6 +35,9 @@ provide one variable for the respective data system (the name, which
 is stored in the default settings file and correspsondingly in the MDR)
 with the following format: *SYSTEMNAME*_PASSWORD, where *SYSTEMNAME*
 should be replaced with the name of the datasystem.}
+
+\item{logfile_dir}{Is the absolute path to the directory where the logfile
+will be stored. If not path is provided the tempdir() will be used.}
 }
 \value{
 the MIRACUM DQA Tool Shiny application

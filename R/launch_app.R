@@ -34,6 +34,8 @@
 #'   is stored in the default settings file and correspsondingly in the MDR)
 #'   with the following format: *SYSTEMNAME*_PASSWORD, where *SYSTEMNAME*
 #'   should be replaced with the name of the datasystem.
+#' @param logfile_dir Is the absolute path to the directory where the logfile
+#'   will be stored. If not path is provided the tempdir() will be used.
 #'
 #' @return the MIRACUM DQA Tool Shiny application
 #'
@@ -53,40 +55,29 @@ launch_dqa_tool <- function(
   logfile_dir = tempdir()) {
 
 
-  global_env_hack <- function(key,
-                              val,
-                              pos) {
-    assign(
-      key,
-      val,
-      envir = as.environment(pos)
-    )
-  }
-
-  global_env_hack(
+  DQAstats::global_env_hack(
     key = "utils_path",
     val = utils_path,
     pos = 1L
   )
 
-  global_env_hack(
+  DQAstats::global_env_hack(
     key = "config_file",
     val = config_file,
     pos = 1L
   )
 
-  global_env_hack(
+  DQAstats::global_env_hack(
     key = "use_env_credentials",
     val = use_env_credentials,
     pos = 1L
   )
 
-  global_env_hack(
+  DQAstats::global_env_hack(
     key = "logfile_dir",
     val = logfile_dir,
     pos = 1L
   )
-  DQAstats::cleanup_old_logfile()
 
   options(shiny.port = port)
 
