@@ -9,7 +9,8 @@ mdr_from_samply(
   namespace = "dqa",
   master_system_type = "csv",
   master_system_name = "p21csv",
-  headless = TRUE
+  headless = TRUE,
+  logfile_dir
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ currently, 'p21csv' is the only allowed value.)}
 \item{headless}{A boolean (default: TRUE). Indicating, if the function is
 run only in the console (headless = TRUE) or on a GUI frontend
 (headless = FALSE).}
+
+\item{logfile_dir}{A character string. Path to the logfile.}
 }
 \description{
 DQA-MDR to Samply.MDR Converter Function

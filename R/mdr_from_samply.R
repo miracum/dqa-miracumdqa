@@ -29,6 +29,7 @@
 #' @param headless A boolean (default: TRUE). Indicating, if the function is
 #'   run only in the console (headless = TRUE) or on a GUI frontend
 #'   (headless = FALSE).
+#' @param logfile_dir A character string. Path to the logfile.
 #'
 #' @references \cite{D. Kadioglu, B. Breil, C. Knell, M. Lablans, S. Mate,
 #'   D. Schlue, H. Serve, H. Storf, F. Ückert, T. Wagner, P. Weingardt,
@@ -44,14 +45,17 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                             namespace = "dqa",
                             master_system_type = "csv",
                             master_system_name = "p21csv",
-                            headless = TRUE) {
+                            headless = TRUE,
+                            logfile_dir
+) {
 
   stopifnot(
     is.character(namespace),
     is.character(master_system_type),
     master_system_type %in% c("csv", "postgres"),
     is.character(master_system_name),
-    master_system_name %in% c("p21csv", "p21staging")
+    master_system_name %in% c("p21csv", "p21staging"),
+    dir.exists(logfile_dir)
   )
 
   if (isFALSE(headless)) {
@@ -74,8 +78,12 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     namespace,
     "/members"
   )
-  DQAstats::feedback(print_this = paste0("Member URL: ", member_url),
-                   findme = "f381e687ca")
+  DQAstats::feedback(
+    print_this = paste0("Member URL: ", member_url),
+    findme = "f381e687ca",
+    logfile_dir = logfile_dir,
+    headless = headless
+  )
 
   # get namespace members
   response_members <- jsonlite::fromJSON(
@@ -116,7 +124,9 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
       print(gid)
       group_results <- load_members(
         base_url = base_url,
-        dataelementgroup_id = gid
+        dataelementgroup_id = gid,
+        logfile_dir = logfile_dir,
+        headless = headless
       )
 
       if (length(group_results[["DATAELEMENTS"]]) > 0) {
@@ -137,7 +147,6 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     if (length(g_ids) == 0) {
       get_groups <- FALSE
     } else {
-      print(g_ids)
       group_ids <- g_ids
     }
   }
@@ -160,9 +169,13 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     )
 
     msg <- paste("Dataelement URL:", dataelement_url)
-    DQAstats::feedback(print_this = msg,
-                       logjs = isFALSE(headless),
-                       findme = "d05ebcefef")
+    DQAstats::feedback(
+      print_this = msg,
+      logjs = isFALSE(headless),
+      findme = "d05ebcefef",
+      logfile_dir = logfile_dir,
+      headless = headless
+    )
     if (isFALSE(headless)) {
       # Increment the progress bar, and update the detail text.
       progress$inc(
@@ -303,7 +316,9 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     } else {
       DQAstats::feedback(
         print_this = paste0("Ignoring", element_id, ". No 'dqa'-slot present"),
-        findme = "61aa00fdf7"
+        findme = "61aa00fdf7",
+        logfile_dir = logfile_dir,
+        headless = headless
       )
     }
   }

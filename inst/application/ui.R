@@ -134,7 +134,6 @@ shiny::shinyUI(
             tabName = "tab_log",
             DQAgui::module_log_ui("moduleLog")
           )
-
         )
       )
     )

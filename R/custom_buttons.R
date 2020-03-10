@@ -1,9 +1,17 @@
-button_mdr <- function(utils_path, mdr_filename) {
+button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
+  DQAstats::feedback(
+    print_this = "Loading the metadata repository",
+    logfile_dir = logfile_dir,
+    headless = headless
+  )
   shiny::withProgress(message = "Loading MDR", value = 0, {
     incProgress(1 / 1,
-                detail = "... from MIRACUM Samply.MDR ...")
+                detail = "... from local file ...")
     # read MDR
-    mdr <- mdr_from_samply(headless = FALSE)
+    mdr <- mdr_from_samply(
+      headless = headless,
+      logfile_dir = logfile_dir
+    )
 
     # For debugging: just comment the line above (mdr_from_samply)
     # and uncomment the 2 lines below. Doing this, you don't need to
@@ -26,6 +34,11 @@ button_mdr <- function(utils_path, mdr_filename) {
 #'
 #' @export
 button_send_datamap <- function(rv) {
+  DQAstats::feedback(
+    print_this = "Sending the datamap",
+    logfile_dir = rv$log$logfile_dir,
+    headless = rv$headless
+  )
   return(send_datamap_to_influx(rv))
 }
 
@@ -45,12 +58,18 @@ send_datamap_to_influx <- function(rv) {
       paste0("While exporting: datamap --> influxdb: ",
              "datamap is empty"),
       findme = "c51c05eeea",
-      type = "Error"
+      type = "Error",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless
     )
   } else {
     if (isTRUE(rv$datamap$exported)) {
-      DQAstats::feedback("The datamap was already exported. Skipping.",
-                       findme = "3fd547ccbf")
+      DQAstats::feedback(
+        "The datamap was already exported. Skipping.",
+        findme = "3fd547ccbf",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
+      )
     } else {
       # Not exported yet so start it now:
       # Assign the data
@@ -81,8 +100,12 @@ send_datamap_to_influx <- function(rv) {
                  is.null(item) ||
                  is.null(n) ||
                  is.null(system))) {
-        DQAstats::feedback("One of the inputs for influxdb-export isn't valid.",
-                         findme = "1bb38be44b")
+        DQAstats::feedback(
+          "One of the inputs for influxdb-export isn't valid.",
+          findme = "1bb38be44b",
+          logfile_dir = rv$log$logfile_dir,
+          headless = rv$headless
+        )
       } else {
         tryCatch({
           ## If the data-frame crashes, or (and this is more likely) the
@@ -91,13 +114,13 @@ send_datamap_to_influx <- function(rv) {
 
           # Assign the data to one single dataframe for export
           datamap <- data.frame(
-              site,
-              system,
-              item,
-              lay_term,
-              n,
-              stringsAsFactors = FALSE
-              )
+            site,
+            system,
+            item,
+            lay_term,
+            n,
+            stringsAsFactors = FALSE
+          )
 
           # The column "n" needs to be of type integer:
           datamap$n <- as.integer(datamap$n)
@@ -121,11 +144,15 @@ send_datamap_to_influx <- function(rv) {
           rv$datamap$exported <- TRUE
 
           # Console feedback:
-          DQAstats::feedback(paste0(
-            "Successfully finished export:",
-            " datamap --> influxdb."
-          ),
-          findme = "a087e237e5")
+          DQAstats::feedback(
+            paste0(
+              "Successfully finished export:",
+              " datamap --> influxdb."
+            ),
+            findme = "a087e237e5",
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless
+          )
           # GUI feedback:
           showNotification(
             "\U2714 Datamap successfully exported",
@@ -138,7 +165,9 @@ send_datamap_to_influx <- function(rv) {
           DQAstats::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "5ba89e3577",
-            type = "Error"
+            type = "Error",
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless
           )
           # GUI feedback:
           showNotification(
@@ -153,7 +182,9 @@ send_datamap_to_influx <- function(rv) {
           DQAstats::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "010f0daea3",
-            type = "Warning"
+            type = "Warning",
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless
           )
           # GUI feedback:
           showNotification(
@@ -181,7 +212,12 @@ send_datamap_to_influx <- function(rv) {
 #'
 get_influx_connection <- function(rv) {
   config <-
-    DQAstats::get_config(config_file = rv$config_file, config_key = "influxdb")
+    DQAstats::get_config(
+      config_file = rv$config_file,
+      config_key = "influxdb",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless
+    )
 
   if (isTRUE(rv$use_env_credentials)) {
     config$host <- Sys.getenv("INFLUX_HOST")
@@ -199,7 +235,9 @@ get_influx_connection <- function(rv) {
         "config_file for influxdb connection is missing."
       ),
       findme = "9e673f0d8a",
-      type = "Error"
+      type = "Error",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless
     )
     stop()
   } else {
@@ -211,6 +249,8 @@ get_influx_connection <- function(rv) {
           "Trying to connect without authentification."
         ),
         findme = "9a01a5ce12",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
       )
 
       con <-
@@ -222,7 +262,12 @@ get_influx_connection <- function(rv) {
           verbose = T
         )
 
-      DQAstats::feedback("Connection established", findme = "77dc31289f")
+      DQAstats::feedback(
+        "Connection established",
+        findme = "77dc31289f",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
+      )
 
     } else {
       # Authentification seems to be enabled so use username & password:
@@ -232,6 +277,8 @@ get_influx_connection <- function(rv) {
           "Trying to connect with authentification."
         ),
         findme = "accface388",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
       )
 
       con <-
@@ -244,7 +291,12 @@ get_influx_connection <- function(rv) {
           path = config$path,
           verbose = T
         )
-      DQAstats::feedback("Connection established", findme = "d408ca173a")
+      DQAstats::feedback(
+        "Connection established",
+        findme = "d408ca173a",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
+      )
     }
   }
   return(list("con" = con,

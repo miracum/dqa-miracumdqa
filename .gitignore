@@ -23,3 +23,5 @@ inst/application/_utilities/MDR/.~lock.*
 /.Rproj*
 /.RData
 .Rproj.user
+inst/application/_settings/
+!NAMESPACE

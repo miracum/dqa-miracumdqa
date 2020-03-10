@@ -2,11 +2,10 @@ launch_dqa_tool(config_file = "/home/rstudio/git-local/dqagui/inst/application/_
                 use_env_credentials = FALSE,
                 logfile_dir = "~/share/logfiles/")
 
-# launch_dqa_tool(
-#   config_file = "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml",
-#   use_env_credentials = FALSE,
-#   logfile_dir = "~/share/logfiles/"
-# )
+launch_dqa_tool(
+  config_file = "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml",
+  use_env_credentials = FALSE
+)
 
 # launch_dqa_tool(config_file = "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml",
 #                 use_env_credentials = FALSE)
