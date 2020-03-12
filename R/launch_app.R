@@ -45,7 +45,7 @@
 #'
 
 launch_dqa_tool <- function(
-  port=3838,
+  port = 3838,
   utils_path = system.file("application/_utilities",
                            package = "miRacumDQA"),
   config_file =
