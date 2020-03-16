@@ -29,7 +29,7 @@ invisible(gc()) # Garbage collector/Clear unused RAM
 ## ##############
 # --> Input:
 influx_dir <- "~/share/influx_data/"
-influx_filename <- "response_2020-03-12-1041.json"
+influx_filename <- "response_2020-03-13-0933.json"
 
 # --> Output:
 output_dir <- influx_dir
@@ -68,8 +68,12 @@ key_pos_system <- match("system", keys)
 
 print("Starting to export json data to txt ...")
 
-i <- 1
-for (value in json[["results"]][[1]][["series"]][[1]][["values"]]) {
+values <- json[["results"]][[1]][["series"]][[1]][["values"]]
+print(paste0("Input has ", length(values), " entries."))
+
+i <- 0
+for (value in values) {
+  i <- i + 1
   new_line <- paste0(
     ifelse(i == 1, "", "\n"),
     "item_counts,site=",
@@ -87,8 +91,6 @@ for (value in json[["results"]][[1]][["series"]][[1]][["values"]]) {
   # write new line to the file
   # print(new_line)
   cat(new_line, file = output_file_con)
-
-  i <- i + 1
 }
-print(paste0("Finished. Wrote ", i, " items to ", output_file))
+print(paste0("Finished. Wrote ", i, " entries to ", output_file))
 close(output_file_con)
