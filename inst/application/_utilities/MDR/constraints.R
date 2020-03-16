@@ -113,7 +113,7 @@ mdr[designation=="Patientennummer" & source_system_name=="i2b2", constraints := 
 mdr[designation=="Patientennummer" & source_system_name=="omop", constraints := c]
 
 # OPS Code
-c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{1})([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))(([[:alnum:]]){1,2})?$"))
+c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{1})(\\-)?([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)?([[:alnum:]]){1,2})?$"))
 mdr[designation=="Prozeduren (OPS)" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Prozeduren (OPS)" & source_system_name=="p21staging", constraints := c]
 c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))

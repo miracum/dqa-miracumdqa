@@ -1,9 +1,9 @@
-launch_dqa_tool(config_file = "/home/rstudio/git-local/dqagui/inst/application/_settings/demo_settings_INTERNAL.yml",
+launch_dqa_tool(config_file = "/home/rstudio/git-local/demo_settings_INTERNAL.yml",
                 use_env_credentials = FALSE,
                 logfile_dir = "~/share/logfiles/")
 
 launch_dqa_tool(
-  config_file = "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml",
+  config_file = "/home/rstudio/development/Rpackages/dqa/demo_settings_INTERNAL.yml",
   use_env_credentials = FALSE
 )
 

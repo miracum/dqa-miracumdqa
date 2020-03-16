@@ -40,8 +40,14 @@ dt.patient <-
 	", sel_vars, "
 FROM
 	p21.", mdr.use[source_variable_name=="Patientennummer",source_table_name], "
+WHERE
+  ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="Patientennummer",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
+          "\"\\1\"",
+          mdr.use[source_variable_name=="Patientennummer",sql_where]), "
 ORDER BY
 	\"Patientennummer\";")
+
+
 
 
 
@@ -54,6 +60,10 @@ dt.birthdate <-
 	", sel_vars, "
 FROM
 	p21.", mdr.use[source_variable_name=="Geburtsjahr",source_table_name], "
+WHERE
+  ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="Geburtsjahr",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
+          "\"\\1\"",
+          mdr.use[source_variable_name=="Geburtsjahr",sql_where]), "
 ORDER BY
 	\"Patientennummer\";")
 
@@ -67,6 +77,10 @@ dt.gender <-
 	", sel_vars, "
 FROM
 	p21.", mdr.use[source_variable_name=="Geschlecht",source_table_name], "
+WHERE
+  ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="Geschlecht",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
+          "\"\\1\"",
+          mdr.use[source_variable_name=="Geschlecht",sql_where]), "
 ORDER BY
 	\"Patientennummer\";")
 
@@ -80,6 +94,10 @@ dt.zipcode <-
 	", sel_vars, "
 FROM
 	p21.", mdr.use[source_variable_name=="PLZ",source_table_name], "
+WHERE
+  ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="PLZ",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
+          "\"\\1\"",
+          mdr.use[source_variable_name=="PLZ",sql_where]), "
 ORDER BY
 	\"Patientennummer\";")
 
@@ -93,21 +111,17 @@ dt.encounter <-
 	", sel_vars, "
 FROM
   p21.", mdr.use[source_variable_name=="KH-internes-Kennzeichen",source_table_name], "
+WHERE
+  ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="KH-internes-Kennzeichen",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
+          "\"\\1\"",
+          mdr.use[source_variable_name=="KH-internes-Kennzeichen",sql_where]), "
 ORDER BY
   \"Patientennummer\";")
 
 
-# simple cast to date
-looplist <- list("dt.encounterstart" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmedatum"),
-                 "dt.encounterend" = list(var1 = "KH-internes-Kennzeichen", var2 = "Entlassungsdatum"),
-                 "dt.procedure" = list(var1 = "KH-internes-Kennzeichen", var2 = "OPS-Kode"),
+# simple
+looplist <- list("dt.procedure" = list(var1 = "KH-internes-Kennzeichen", var2 = "OPS-Kode"),
                  "dt.provider" = list(var1 = "KH-internes-Kennzeichen", var2 = "FAB"),
-                 "dt.ageindays" = list(var1 = "KH-internes-Kennzeichen", var2 = "Alter-in-Tagen-am-Aufnahmetag"),
-                 "dt.ageinyears" = list(var1 = "KH-internes-Kennzeichen", var2 = "Alter-in-Jahren-am-Aufnahmetag"),
-                 "dt.admission" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmeanlass"),
-                 "dt.hospitalization" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmegrund"),
-                 "dt.discharge" = list(var1 = "KH-internes-Kennzeichen", var2 = "Entlassungsgrund"),
-                 "dt.ventilation" = list(var1 = "KH-internes-Kennzeichen", var2 = "Beatmungsstunden"),
                  "dt.condition" = list(var1 = "KH-internes-Kennzeichen", var2 = "ICD-Kode"),
                  "dt.conditioncategory" = list(var1 = "KH-internes-Kennzeichen", var2 = "Diagnoseart"),
                  "dt.proceduredate" = list(var1 = "KH-internes-Kennzeichen", var2 = "OPS-Datum"),
@@ -125,6 +139,36 @@ SELECT
   \"", looplist[[i]]$var2, "\"\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
   p21.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+ORDER BY
+  \"", looplist[[i]]$var1, "\";")
+  )
+}
+
+# more complex; where statement
+looplist <- list("dt.encounterstart" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmedatum"),
+                 "dt.encounterend" = list(var1 = "KH-internes-Kennzeichen", var2 = "Entlassungsdatum"),
+                 "dt.ageindays" = list(var1 = "KH-internes-Kennzeichen", var2 = "Alter-in-Tagen-am-Aufnahmetag"),
+                 "dt.ageinyears" = list(var1 = "KH-internes-Kennzeichen", var2 = "Alter-in-Jahren-am-Aufnahmetag"),
+                 "dt.admission" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmeanlass"),
+                 "dt.hospitalization" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmegrund"),
+                 "dt.discharge" = list(var1 = "KH-internes-Kennzeichen", var2 = "Entlassungsgrund"),
+                 "dt.ventilation" = list(var1 = "KH-internes-Kennzeichen", var2 = "Beatmungsstunden"))
+
+for (i in names(looplist)) {
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
+    "
+SELECT
+  \"", looplist[[i]]$var1, "\"\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  \"", looplist[[i]]$var2, "\"\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
+FROM
+  p21.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+WHERE
+  ", gsub(paste0("(", strsplit(mdr.use[source_variable_name==looplist[[i]]$var2, sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
+          "\"\\1\"",
+          mdr.use[source_variable_name==looplist[[i]]$var2, sql_where]), "
 ORDER BY
   \"", looplist[[i]]$var1, "\";")
   )
