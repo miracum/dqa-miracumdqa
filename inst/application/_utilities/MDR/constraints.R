@@ -122,9 +122,10 @@ c <- jsonlite::toJSON(list("regex" = "^(OPS\\:)([[:digit:]]{1})(\\-)([[:digit:]]
 mdr[designation=="Prozeduren (OPS)" & source_system_name=="i2b2", constraints := c]
 
 # Medikation (OPS Code)
-c <- jsonlite::toJSON(list("regex" = "^(6\\-00)([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
+c <- jsonlite::toJSON(list("regex" = "^(6(\\-)?(00))([[:lower:]]{1}|([[:digit:]]{1}))((\\.)?([[:alnum:]]){1,2})?$"))
 mdr[designation=="Medikation (OPS)" & source_system_name=="p21csv", constraints := c]
 mdr[designation=="Medikation (OPS)" & source_system_name=="p21staging", constraints := c]
+c <- jsonlite::toJSON(list("regex" = "^(6\\-00)([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
 mdr[designation=="Medikation (OPS)" & source_system_name=="omop", constraints := c]
 c <- jsonlite::toJSON(list("regex" = "^(OPS\\:6\\-00)([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"))
 mdr[designation=="Medikation (OPS)" & source_system_name=="i2b2", constraints := c]
