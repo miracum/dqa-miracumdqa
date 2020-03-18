@@ -5,6 +5,23 @@ variables:
   CI_IMAGE_TAG: "3.6.2"
   R_PKG_NAME: "miRacumDQA"
 
+
+.template_check:
+  allow_failure: true # necessary when having development-packages (in remotes-section of DESCRIPTION)
+  script:
+    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')"
+    - R -e "devtools::check(pkg = '.', args = c('--no-tests, --no-vignettes'), build_args = c('--no-build-vignettes'), check_dir = '${CI_PROJECT_DIR}/ci')"
+
+.template_test:
+  script:
+    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
+    - R -e "devtools::test(pkg = '.')"
+
+.template_install:
+  script:
+    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
+    - R -e "devtools::install(pkg = '.', upgrade = 'always')"
+
 default:
   image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
   before_script:
@@ -19,10 +36,7 @@ stages:
 
 check:
   stage: build
-  allow_failure: true # necessary when having development-packages (in remotes-section of DESCRIPTION)
-  script:
-    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')"
-    - R -e "devtools::check(pkg = '.', args = c('--no-tests, --no-vignettes'), build_args = c('--no-build-vignettes'), check_dir = '${CI_PROJECT_DIR}/ci')"
+  extends: .template_check
   artifacts:
     paths:
       - "${CI_PROJECT_DIR}/ci/*.Rcheck"
@@ -79,9 +93,7 @@ build_source_and_binary:
 
 testing:
   stage: build
-  script:
-    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
-    - R -e "devtools::test(pkg = '.')"
+  extends: .template_test
   except:
     refs:
       - tags
@@ -95,9 +107,7 @@ testing:
 
 install:
   stage: install
-  script:
-    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
-    - R -e "devtools::install(pkg = '.', upgrade = 'always')"
+  extends: .template_install
   except:
     refs:
       - tags
@@ -107,30 +117,28 @@ install:
       - development
 
 
+## Until here, everything will be evaluated if there is NO tag in the commit
+# ---------------------------------------------------------------------------
+## From here on, everything will be evaluated if there IS a tag in the commit
+## (this is nearly the same like the pieline without a tag but with an additional deployment stage):
+
 predeploy_check:
   stage: predeploy
-  allow_failure: true # necessary when having development-packages (in remotes-section of DESCRIPTION)
-  script:
-    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')"
-    - R -e "devtools::check(pkg = '.', args = c('--no-tests, --no-vignettes'), build_args = c('--no-build-vignettes'), check_dir = '${CI_PROJECT_DIR}/ci')"
+  extends: .template_check
   only:
     refs:
       - tags
 
 predeploy_testing:
   stage: predeploy
-  script:
-    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
-    - R -e "devtools::test(pkg = '.')"
+  extends: .template_test
   only:
     refs:
       - tags
 
 predeploy_install:
   stage: predeploy
-  script:
-    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
-    - R -e "devtools::install(pkg = '.', upgrade = 'always')"
+  extends: .template_install
   only:
     refs:
       - tags
