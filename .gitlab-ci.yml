@@ -5,6 +5,11 @@ variables:
   CI_IMAGE_TAG: "3.6.2"
   R_PKG_NAME: "miRacumDQA"
 
+default:
+  image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
+  before_script:
+    - echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
+    - mkdir -p ci
 
 .template_check:
   allow_failure: true # necessary when having development-packages (in remotes-section of DESCRIPTION)
@@ -21,12 +26,6 @@ variables:
   script:
     - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
     - R -e "devtools::install(pkg = '.', upgrade = 'always')"
-
-default:
-  image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
-  before_script:
-    - echo "options('repos' = 'https://ftp.fau.de/cran/')" >> /usr/local/lib/R/etc/Rprofile.site
-    - mkdir -p ci
 
 stages:
   - build
