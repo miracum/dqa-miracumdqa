@@ -114,6 +114,28 @@ deployment_to_deploy_repo:
     - mkdir ci_tmp
     - cd ci_tmp
     - git clone https://${CI_DEPLOYMENT_GIT_USR}:${CI_DEPLOYMENT_GIT_PWD}@gitlab.miracum.org/miracum/dqa/DQAstats.git
+    - - cd DQAstats
+    - git describe --tags `git rev-list --tags --max-count=1`
+    - DQAstats_tag=$(git describe --tags `git rev-list --tags --max-count=1`) # gets tags across all branches, not just the current branch
+    - cd ../
+    - git clone https://${CI_DEPLOYMENT_GIT_USR}:${CI_DEPLOYMENT_GIT_PWD}@gitlab.miracum.org/miracum/dqa/DQAgui.git
+    - cd DQAgui
+    - git describe --tags `git rev-list --tags --max-count=1`
+    - DQAgui_tag=$(git describe --tags `git rev-list --tags --max-count=1`) # gets tags across all branches, not just the current branch
+    - cd ../
+    - git clone https://${CI_DEPLOYMENT_GIT_USR}:${CI_DEPLOYMENT_GIT_PWD}@gitlab.miracum.org/miracum/dqa/miRacumDQA.git
+    - cd miRacumDQA
+    - miRacumDQA_tag=$(git describe --tags `git rev-list --tags --max-count=1`) # gets tags across all branches, not just the current branch
+    - miRacumDQA_tag_no_prefix=$(echo ${miRacumDQA_tag} | sed "s/v//") # Replaces every 'v' in the tag with a blank ''.
+    - cd ../
+    - git clone https://${GITHUB_USER}:${K8S_SECRET_GITHUB_ACCESS_TOKEN}@gitlab.miracum.org/miracum/dqa/dqatool_deployment.git
+    - cd dqatool_deployment
+    - echo "#!/bin/bash" > deployvars.sh
+    - echo "export DQASTATS_TAG=${DQAstats_tag}" >> deployvars.sh
+    - echo "export DQAGUI_TAG=${DQAgui_tag}" >> deployvars.sh
+    - echo "export MIRACUMDQA_TAG=${miRacumDQA_tag}" >> deployvars.sh
+    - echo "export DEPLOY_TAG=${miRacumDQA_tag_no_prefix}" >> deployvars.sh
+    - git push origin master
   only:
     refs:
       - tags
