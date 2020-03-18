@@ -112,6 +112,8 @@ deployment_to_deploy_repo:
   when: on_success
   script:
     - mkdir ci_tmp
+    - cd ci_tmp
+    - git clone https://${CI_DEPLOYMENT_GIT_USR}:${CI_DEPLOYMENT_GIT_PWD}@gitlab.miracum.org/miracum/dqa/DQAstats.git
   only:
     refs:
       - tags
