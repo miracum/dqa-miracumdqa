@@ -111,7 +111,7 @@ deployment_to_deploy_repo:
   image: ubuntu:19.10
   when: on_success
   before_script: 
-    - ls -al
+    - apt-get update && apt-get install git -y --no-install-recommends
   script:
     - mkdir ci_tmp
     - cd ci_tmp
