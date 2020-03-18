@@ -94,10 +94,9 @@ testing:
 # https://about.gitlab.com/2016/11/03/publish-code-coverage-report-with-gitlab-pages/
 
 install:
+  image: ubuntu:19.10
   stage: deploy
   script:
-    # The syntax to get the newest tag from all branches is from https://gist.github.com/rponte/fdc0724dd984088606b0
-    # Remove old repos:
     - rm -rf ci_tmp
     - mkdir ci_tmp
     - cd ci_tmp
