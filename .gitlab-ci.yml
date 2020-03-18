@@ -111,7 +111,7 @@ deployment_to_deploy_repo:
   stage: deploy
   when: on_success
   script:
-    - ls -al
+    - mkdir ci_tmp
   only:
     refs:
       - tags
