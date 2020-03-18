@@ -14,6 +14,7 @@ default:
 stages:
   - build
   - install
+  - predeploy
   - deploy
 
 check:
@@ -105,6 +106,34 @@ install:
       - master
       - development
 
+
+predeploy_check:
+  stage: predeploy
+  allow_failure: true # necessary when having development-packages (in remotes-section of DESCRIPTION)
+  script:
+    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')"
+    - R -e "devtools::check(pkg = '.', args = c('--no-tests, --no-vignettes'), build_args = c('--no-build-vignettes'), check_dir = '${CI_PROJECT_DIR}/ci')"
+  only:
+    refs:
+      - tags
+
+predeploy_testing:
+  stage: predeploy
+  script:
+    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
+    - R -e "devtools::test(pkg = '.')"
+  only:
+    refs:
+      - tags
+
+predeploy_install:
+  stage: predeploy
+  script:
+    - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
+    - R -e "devtools::install(pkg = '.', upgrade = 'always')"
+  only:
+    refs:
+      - tags
 
 deployment_to_deploy_repo:
   stage: deploy
