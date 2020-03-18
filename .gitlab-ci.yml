@@ -77,8 +77,6 @@ build_source_and_binary:
 
 testing:
   stage: build
-  allow_failure: true
-  when: on_success
   script:
     - R -e "devtools::install_dev_deps(pkg = '.', upgrade = 'always')" # we only need dev_deps for the vignette and testing
     - R -e "devtools::test(pkg = '.')"
@@ -97,7 +95,7 @@ install:
   image: ubuntu:19.10
   stage: deploy
   script:
-    - rm -rf ci_tmp
+    - bash -c "rm -rf ci_tmp"
     - mkdir ci_tmp
     - cd ci_tmp
     # Pull copy of DQAstats:
