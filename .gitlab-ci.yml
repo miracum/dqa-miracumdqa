@@ -110,7 +110,8 @@ deployment_to_deploy_repo:
   stage: deploy
   image: ubuntu:19.10
   when: on_success
-  before_script: ls -al
+  before_script: 
+    - ls -al
   script:
     - mkdir ci_tmp
     - cd ci_tmp
