@@ -121,26 +121,26 @@ install:
 ## From here on, everything will be evaluated if there IS a tag in the commit
 ## (this is nearly the same like the pieline without a tag but with an additional deployment stage):
 
-# predeploy_check:
-#   stage: predeploy
-#   extends: .template_check
-#   only:
-#     refs:
-#       - tags
+predeploy_check:
+  stage: predeploy
+  extends: .template_check
+  only:
+    refs:
+      - tags
 
-# predeploy_testing:
-#   stage: predeploy
-#   extends: .template_test
-#   only:
-#     refs:
-#       - tags
+predeploy_testing:
+  stage: predeploy
+  extends: .template_test
+  only:
+    refs:
+      - tags
 
-# predeploy_install:
-#   stage: predeploy
-#   extends: .template_install
-#   only:
-#     refs:
-#       - tags
+predeploy_install:
+  stage: predeploy
+  extends: .template_install
+  only:
+    refs:
+      - tags
 
 deployment_to_deploy_repo:
   stage: deploy
@@ -180,7 +180,7 @@ deployment_to_deploy_repo:
     - git add deployvars.sh
     - git config --global user.email "releasebot@gitlab.miracum.org"
     - git config --global user.name "Release Bot"
-    - git commit -m "[Automated commit from miRacumDQA] Version update --> ${miRacumDQA_tag_no_prefix}"
+    - git commit -m "[Autocommit from miRacumDQA] Version updated to ${miRacumDQA_tag_no_prefix}"
     - git push origin master
   only:
     refs:
