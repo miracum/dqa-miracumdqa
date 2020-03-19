@@ -180,7 +180,7 @@ deployment_to_deploy_repo:
     - git add deployvars.sh
     - git config --global user.email "releasebot@gitlab.miracum.org"
     - git config --global user.name "Release Bot"
-    - git commit -m "[Automated commit from miRacumDQA] Version update to ${miRacumDQA_tag_no_prefix}"
+    - git commit -m "[Automated commit from miRacumDQA] Version update --> ${miRacumDQA_tag_no_prefix}"
     - git push origin master
   only:
     refs:
