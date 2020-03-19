@@ -124,9 +124,15 @@ install:
 predeploy_check:
   stage: predeploy
   extends: .template_check
+  artifacts:
+    paths:
+      - "${CI_PROJECT_DIR}/ci/*.Rcheck"
+    when: on_failure # upload check artifacts when job fails!
+    expire_in: 1 week
   only:
     refs:
       - tags
+
 
 predeploy_testing:
   stage: predeploy
@@ -135,12 +141,14 @@ predeploy_testing:
     refs:
       - tags
 
+
 predeploy_install:
   stage: predeploy
   extends: .template_install
   only:
     refs:
       - tags
+
 
 deployment_to_deploy_repo:
   stage: deploy
