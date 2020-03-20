@@ -67,7 +67,7 @@ usethis::use_package("influxdbr", type = "Imports")
 
 
 # Development package
-gui_tag <-  "development"
+gui_tag <-  "v0.1.1"
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
