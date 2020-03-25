@@ -26,3 +26,4 @@ inst/application/_utilities/MDR/.~lock.*
 inst/application/_settings/
 !NAMESPACE
 !/ci/
+/.vscode

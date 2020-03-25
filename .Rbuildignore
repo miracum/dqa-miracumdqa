@@ -8,3 +8,4 @@
 ^inst/application/_utilities/MDR/XSD$
 ^inst/application/_utilities/MDR/\.~lock\.mdr\.csv#$
 ^\.gitlab-ci\.yml$
+^\.vscode$
