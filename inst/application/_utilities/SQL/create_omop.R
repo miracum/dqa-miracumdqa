@@ -17,6 +17,8 @@
 library(jsonlite)
 library(data.table)
 
+# nolint start
+
 # read mdr
 mdr <- DQAstats::read_mdr(utils = "inst/application/_utilities/", mdr_filename = "mdr.csv")
 mdr <- mdr[source_system_name=="omop",]
@@ -244,3 +246,5 @@ writeLines(jsonlist, "./inst/application/_utilities/SQL/SQL_omop.JSON")
 # # debugging
 # txt <- fromJSON("./sql.JSON")
 # txt$"dt_patient.db"
+
+# nolint end

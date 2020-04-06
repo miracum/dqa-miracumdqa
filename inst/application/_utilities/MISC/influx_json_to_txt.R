@@ -39,7 +39,7 @@ output_filename <- "output.txt"
 ## ##############
 ## Here starts the program
 ## ##############
-# install.packages("rjson")
+#%install.packages("rjson")
 library("rjson")
 
 output_file <- paste0(output_dir, output_filename)
@@ -89,7 +89,7 @@ for (value in values) {
   )
 
   # write new line to the file
-  # print(new_line)
+  #%print(new_line)
   cat(new_line, file = output_file_con)
 }
 print(paste0("Finished. Wrote ", i, " entries to ", output_file))

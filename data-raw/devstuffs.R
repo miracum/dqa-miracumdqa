@@ -20,7 +20,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.6.9000")
+my_desc$set_version("2.0.6.9001")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -57,17 +57,15 @@ my_desc$write(file = "DESCRIPTION")
 # Imports
 usethis::use_package("shiny", type = "Imports")
 usethis::use_package("shinydashboard", type = "Imports")
-usethis::use_package("shinyFiles", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("openxlsx", type = "Imports")
 usethis::use_package("utils", type = "Imports")
-usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("influxdbr", type = "Imports")
 
 
 # Development package
-gui_tag <-  "v0.1.1"
+gui_tag <-  "development"
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
@@ -90,6 +88,7 @@ usethis::use_build_ignore("inst/application/_utilities/MDR/XSD/")
 usethis::use_build_ignore("inst/application/_utilities/MDR/.~lock.mdr.csv#")
 usethis::use_build_ignore("inst/application/_settings/")
 usethis::use_build_ignore(".vscode")
+usethis::use_build_ignore(".lintr")
 usethis::use_git_ignore("inst/application/_settings/")
 usethis::use_git_ignore("inst/application/_utilities/MDR/.~lock.*")
 usethis::use_git_ignore("/*")
