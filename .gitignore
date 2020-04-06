@@ -27,3 +27,4 @@ inst/application/_settings/
 !NAMESPACE
 !/ci/
 /.vscode
+!/.lintr
