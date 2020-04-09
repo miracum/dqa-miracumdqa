@@ -55,25 +55,25 @@ launch_dqa_tool <- function(
   logfile_dir = tempdir()) {
 
 
-  DQAstats::global_env_hack(
+  DIZutils::global_env_hack(
     key = "utils_path",
     val = utils_path,
     pos = 1L
   )
 
-  DQAstats::global_env_hack(
+  DIZutils::global_env_hack(
     key = "config_file",
     val = config_file,
     pos = 1L
   )
 
-  DQAstats::global_env_hack(
+  DIZutils::global_env_hack(
     key = "use_env_credentials",
     val = use_env_credentials,
     pos = 1L
   )
 
-  DQAstats::global_env_hack(
+  DIZutils::global_env_hack(
     key = "logfile_dir",
     val = logfile_dir,
     pos = 1L

@@ -1,5 +1,5 @@
 button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
-  DQAstats::feedback(
+  DIZutils::feedback(
     print_this = "Loading the metadata repository",
     logfile_dir = logfile_dir,
     headless = headless
@@ -34,7 +34,7 @@ button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
 #'
 #' @export
 button_send_datamap <- function(rv) {
-  DQAstats::feedback(
+  DIZutils::feedback(
     print_this = "Sending the datamap",
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless
@@ -54,7 +54,7 @@ button_send_datamap <- function(rv) {
 #'
 send_datamap_to_influx <- function(rv) {
   if (isTRUE(is.null(rv$datamap$target_data))) {
-    DQAstats::feedback(
+    DIZutils::feedback(
       paste0("While exporting: datamap --> influxdb: ",
              "datamap is empty"),
       findme = "c51c05eeea",
@@ -64,7 +64,7 @@ send_datamap_to_influx <- function(rv) {
     )
   } else {
     if (isTRUE(rv$datamap$exported)) {
-      DQAstats::feedback(
+      DIZutils::feedback(
         "The datamap was already exported. Skipping.",
         findme = "3fd547ccbf",
         logfile_dir = rv$log$logfile_dir,
@@ -100,7 +100,7 @@ send_datamap_to_influx <- function(rv) {
                  is.null(item) ||
                  is.null(n) ||
                  is.null(system))) {
-        DQAstats::feedback(
+        DIZutils::feedback(
           "One of the inputs for influxdb-export isn't valid.",
           findme = "1bb38be44b",
           logfile_dir = rv$log$logfile_dir,
@@ -144,7 +144,7 @@ send_datamap_to_influx <- function(rv) {
           rv$datamap$exported <- TRUE
 
           # Console feedback:
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0(
               "Successfully finished export:",
               " datamap --> influxdb."
@@ -162,7 +162,7 @@ send_datamap_to_influx <- function(rv) {
         },
         error = function(cond) {
           # Console feedback:
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "5ba89e3577",
             type = "Error",
@@ -179,7 +179,7 @@ send_datamap_to_influx <- function(rv) {
         },
         warning = function(cond) {
           # Console feedback:
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "010f0daea3",
             type = "Warning",
@@ -229,7 +229,7 @@ get_influx_connection <- function(rv) {
     is.null(config$host) ||
     is.null(config$port) || is.null(config$path)
   )) {
-    DQAstats::feedback(
+    DIZutils::feedback(
       paste0(
         "One or more of the necessary input parameters out of ",
         "config_file for influxdb connection is missing."
@@ -243,7 +243,7 @@ get_influx_connection <- function(rv) {
   } else {
     if (isTRUE(is.null(config$user) || config$user == "")) {
       # There is no username --> Authentification seems to be disabled
-      DQAstats::feedback(
+      DIZutils::feedback(
         paste0(
           "There is no username in the config_file. ",
           "Trying to connect without authentification."
@@ -262,7 +262,7 @@ get_influx_connection <- function(rv) {
           verbose = T
         )
 
-      DQAstats::feedback(
+      DIZutils::feedback(
         "Connection established",
         findme = "77dc31289f",
         logfile_dir = rv$log$logfile_dir,
@@ -271,7 +271,7 @@ get_influx_connection <- function(rv) {
 
     } else {
       # Authentification seems to be enabled so use username & password:
-      DQAstats::feedback(
+      DIZutils::feedback(
         paste0(
           "There is a username in the config_file. ",
           "Trying to connect with authentification."
@@ -291,7 +291,7 @@ get_influx_connection <- function(rv) {
           path = config$path,
           verbose = T
         )
-      DQAstats::feedback(
+      DIZutils::feedback(
         "Connection established",
         findme = "d408ca173a",
         logfile_dir = rv$log$logfile_dir,
