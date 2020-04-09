@@ -18,8 +18,8 @@ button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
     # switch to DQAgui for testing local changes. However, you still need
     # to "Install and Restart" miRacumDQA!
 
-    # mdr <- DQAstats::read_mdr(utils_path = utils_path,
-    #                           mdr_filename = "mdr.csv")
+    #% mdr <- DQAstats::read_mdr(utils_path = utils_path,
+    #%                           mdr_filename = "mdr.csv")
 
   })
   return(mdr)
@@ -212,7 +212,7 @@ send_datamap_to_influx <- function(rv) {
 #'
 get_influx_connection <- function(rv) {
   config <-
-    DQAstats::get_config(
+    DIZutils::get_config(
       config_file = rv$config_file,
       config_key = "influxdb",
       logfile_dir = rv$log$logfile_dir,
