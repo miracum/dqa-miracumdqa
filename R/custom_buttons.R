@@ -7,8 +7,14 @@ button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
   shiny::withProgress(message = "Loading MDR", value = 0, {
     incProgress(1 / 1,
                 detail = "... from local file ...")
+
+    base_url <- Sys.getenv("MDR_BASEURL")
+    namespace <- Sys.getenv("MDR_NAMESPACE")
+
     # read MDR
     mdr <- mdr_from_samply(
+      base_url = base_url,
+      namespace = namespace,
       headless = headless,
       logfile_dir = logfile_dir
     )

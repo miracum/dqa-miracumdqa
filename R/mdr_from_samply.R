@@ -41,8 +41,8 @@
 #'
 #' @export
 #'
-mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
-                            namespace = "dqa",
+mdr_from_samply <- function(base_url,
+                            namespace,
                             master_system_type = "csv",
                             master_system_name = "p21csv",
                             headless = TRUE,
