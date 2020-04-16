@@ -1,35 +1,37 @@
-button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
-  DIZutils::feedback(
-    print_this = "Loading the metadata repository",
-    logfile_dir = logfile_dir,
-    headless = headless
-  )
-  shiny::withProgress(message = "Loading MDR", value = 0, {
-    incProgress(1 / 1,
-                detail = "... from local file ...")
+button_mdr <-
+  function(utils_path,
+           mdr_filename,
+           logfile_dir,
+           headless) {
+    DIZutils::feedback(print_this = "Loading the metadata repository",
+                       logfile_dir = logfile_dir,
+                       headless = headless)
+    shiny::withProgress(message = "Loading MDR", value = 0, {
+      incProgress(1 / 1,
+                  detail = "... from local file ...")
 
-    base_url <- Sys.getenv("MDR_BASEURL")
-    namespace <- Sys.getenv("MDR_NAMESPACE")
+      base_url <- Sys.getenv("MDR_BASEURL")
+      namespace <- Sys.getenv("MDR_NAMESPACE")
 
-    # read MDR
-    mdr <- mdr_from_samply(
-      base_url = base_url,
-      namespace = namespace,
-      headless = headless,
-      logfile_dir = logfile_dir
-    )
+      # read MDR
+      mdr <- mdr_from_samply(
+        base_url = base_url,
+        namespace = namespace,
+        headless = headless,
+        logfile_dir = logfile_dir
+      )
 
-    # For debugging: just comment the line above (mdr_from_samply)
-    # and uncomment the 2 lines below. Doing this, you don't need to
-    # switch to DQAgui for testing local changes. However, you still need
-    # to "Install and Restart" miRacumDQA!
+      # For debugging: just comment the line above (mdr_from_samply)
+      # and uncomment the 2 lines below. Doing this, you don't need to
+      # switch to DQAgui for testing local changes. However, you still need
+      # to "Install and Restart" miRacumDQA!
 
-    #% mdr <- DQAstats::read_mdr(utils_path = utils_path,
-    #%                           mdr_filename = "mdr.csv")
+      #% mdr <- DQAstats::read_mdr(utils_path = utils_path,
+      #%                           mdr_filename = "mdr.csv")
 
-  })
-  return(mdr)
-}
+    })
+    return(mdr)
+  }
 
 #' @title button_send_datamap
 #' @description This function is an exporte wrapper around the actual function
@@ -119,14 +121,12 @@ send_datamap_to_influx <- function(rv) {
           ## it throws an error:
 
           # Assign the data to one single dataframe for export
-          datamap <- data.frame(
-            site,
-            system,
-            item,
-            lay_term,
-            n,
-            stringsAsFactors = FALSE
-          )
+          datamap <- data.frame(site,
+                                system,
+                                item,
+                                lay_term,
+                                n,
+                                stringsAsFactors = FALSE)
 
           # The column "n" needs to be of type integer:
           datamap$n <- as.integer(datamap$n)
@@ -177,8 +177,10 @@ send_datamap_to_influx <- function(rv) {
           )
           # GUI feedback:
           showNotification(
-            paste0("\U2716 Error while exporting the Datamap.",
-                   " See the logfile for more information."),
+            paste0(
+              "\U2716 Error while exporting the Datamap.",
+              " See the logfile for more information."
+            ),
             type = "error",
             duration = 10
           )
@@ -194,8 +196,10 @@ send_datamap_to_influx <- function(rv) {
           )
           # GUI feedback:
           showNotification(
-            paste0("\U2716 Warning while exporting the Datamap.",
-                   " See the logfile for more information."),
+            paste0(
+              "\U2716 Warning while exporting the Datamap.",
+              " See the logfile for more information."
+            ),
             type = "error",
             duration = 10
           )
@@ -217,18 +221,15 @@ send_datamap_to_influx <- function(rv) {
 #'   and result$config (The config credentials extracted from the rv-object).
 #'
 get_influx_connection <- function(rv) {
-  config <-
-    DIZutils::get_config(
-      config_file = rv$config_file,
-      config_key = "influxdb",
-      logfile_dir = rv$log$logfile_dir,
-      headless = rv$headless
-    )
+  config <- list()
 
-  if (isTRUE(rv$use_env_credentials)) {
-    config$host <- Sys.getenv("INFLUX_HOST")
-    config$password <- Sys.getenv("INFLUX_PASSWORD")
-  }
+  config$host <- Sys.getenv("INFLUX_HOST")
+  config$password <- Sys.getenv("INFLUX_PASSWORD")
+  config$user <- Sys.getenv("INFLUX_USER")
+  config$port <- Sys.getenv("INFLUX_PORT")
+  config$dbname <- Sys.getenv("INFLUX_DBNAME")
+  config$scheme <- Sys.getenv("INFLUX_SCHEME")
+  config$path <- Sys.getenv("INFLUX_PATH")
 
   if (isTRUE(
     is.null(config$scheme) || is.null(config$dbname) ||
