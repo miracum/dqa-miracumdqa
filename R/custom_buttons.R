@@ -37,8 +37,7 @@ button_mdr <-
 #' @description This function is an exporte wrapper around the actual function
 #'   to send the datamap. This actual function can be customized by the user.
 #'
-#' @param rv The global rv object. rv$datamap and rv$config_file need to
-#'   be valid.
+#' @param rv The global rv object. rv$datamap needs to be valid.
 #'
 #' @export
 button_send_datamap <- function(rv) {

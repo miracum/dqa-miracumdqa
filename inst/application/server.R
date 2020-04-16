@@ -19,9 +19,7 @@ shiny::shinyServer(
         # define reactive values here
         rv <- shiny::reactiveValues(
             headless = FALSE,
-            config_file = config_file,
             # mdr_filename = mdr_filename,
-            use_env_credentials = use_env_credentials,
             log = list(logfile_dir = DIZutils::clean_path_name(logfile_dir)),
             utilspath = DIZutils::clean_path_name(utils_path),
             current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
@@ -60,24 +58,8 @@ shiny::shinyServer(
                 )
                 DIZutils::feedback(
                     print_this = paste0(
-                        "Config file: ",
-                        rv$config_file
-                    ),
-                    logfile_dir = rv$log$logfile_dir,
-                    headless = rv$headless
-                )
-                DIZutils::feedback(
-                    print_this = paste0(
                         "MDR filename: ",
                         rv$mdr_filename
-                    ),
-                    logfile_dir = rv$log$logfile_dir,
-                    headless = rv$headless
-                )
-                DIZutils::feedback(
-                    print_this = paste0(
-                        "Using environment variables: ",
-                        rv$use_env_credentials
                     ),
                     logfile_dir = rv$log$logfile_dir,
                     headless = rv$headless

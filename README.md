@@ -19,6 +19,10 @@ devtools::install_git("https://gitlab.miracum.org/miracum/dqa/dqagui.git")
 devtools::install_git("https://gitlab.miracum.org/miracum/dqa/miracumdqa.git")
 ```
 
+# Configuration 
+
+The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`. A detailed description on which environment variables need to be set for the specific databases can be found [here](https://gitlab.miracum.org/miracum/misc/dizutils/-/blob/master/README.md).
+
 ## Example
 
 This is a basic example which shows you how to launch the MIRACUM DQA tool:

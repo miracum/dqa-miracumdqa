@@ -7,9 +7,6 @@
 launch_dqa_tool(
   port = 3838,
   utils_path = system.file("application/_utilities", package = "miRacumDQA"),
-  config_file = system.file("application/_utilities/settings/settings_default.yml",
-    package = "miRacumDQA"),
-  use_env_credentials = TRUE,
   logfile_dir = tempdir()
 )
 }
@@ -23,18 +20,6 @@ connection (`settings_default.yml`) and the email address used for the
 data map (`email.yml`), a JSON file containing site names (inside the
 folder `MISC`) and a markdown templated to create the PDF report
 (`DQA_report.Rmd` inside the folder `RMD`).}
-
-\item{config_file}{The path to the configuration yml.
-E.g. config_file = system.file("application/_utilities/settings/settings_
-default.yml", package = "miRacumDQA").}
-
-\item{use_env_credentials}{A boolean. If environment variables should
-be used to pass database credentials (default: TRUE). If you want
-to use environment variables to pass database credentials, please
-provide one variable for the respective data system (the name, which
-is stored in the default settings file and correspsondingly in the MDR)
-with the following format: *SYSTEMNAME*_PASSWORD, where *SYSTEMNAME*
-should be replaced with the name of the datasystem.}
 
 \item{logfile_dir}{Is the absolute path to the directory where the logfile
 will be stored. If not path is provided the tempdir() will be used.}

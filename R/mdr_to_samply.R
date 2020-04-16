@@ -29,8 +29,6 @@
 #'
 #' @import data.table
 #'
-#' @export
-#'
 mdr_to_samply <- function(utils_path = "inst/application/_utilities/",
                           mdr_filename = "mdr.csv",
                           master_system_name = "p21staging",

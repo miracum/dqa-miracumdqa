@@ -20,7 +20,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.6.9003")
+my_desc$set_version("2.0.6.9004")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -66,20 +66,16 @@ usethis::use_package("influxdbr", type = "Imports")
 
 # Development package
 gui_tag <-  "development"
-stats_tag <- "development"
-mytag <- "master"
+dizutils_tag <- "master"
 
-devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dizutils.git", ref = mytag, upgrade = "always")
+devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dizutils.git", ref = dizutils_tag, upgrade = "always")
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
-devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
 desc::desc_set_remotes(c(paste0(
   "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"),
   paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dizutils/-/archive/", mytag, "/dizutils-", mytag, ".zip"),
-  paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip")
+    "url::https://gitlab.miracum.org/miracum/dqa/dizutils/-/archive/", dizutils_tag, "/dizutils-", dizutils_tag, ".zip")
   ),
 file = usethis::proj_get())
 
