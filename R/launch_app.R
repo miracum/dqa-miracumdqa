@@ -68,8 +68,10 @@ launch_dqa_tool <- function(
   )
 
 
-  cat(paste0("\nVersion DQAstats: ", utils::packageVersion("DQAstats"),
+  cat(paste0("\nVersion DIZutils: ", utils::packageVersion("DIZutils"),
+             "\nVersion DQAstats: ", utils::packageVersion("DQAstats"),
              "\nVersion DQAgui: ", utils::packageVersion("DQAgui"),
+             "\nVersion miRacumDQA: ", utils::packageVersion("miRacumDQA"),
              "\n"))
 
   shiny::shinyAppDir(

@@ -118,6 +118,12 @@ render_uniq_plausis(rv$results_plausibility_unique)
 utils::packageVersion("DQAstats")
 ```
 
+## R-Package Version 'DIZutils' 
+
+```{r}
+utils::packageVersion("DIZutils")
+```
+
 ```{r}
 if (length(rv$source$sql) > 0 ||
     length(rv$target$sql) > 0) {
