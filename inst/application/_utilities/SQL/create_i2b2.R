@@ -17,6 +17,8 @@
 library(jsonlite)
 library(data.table)
 
+# nolint start
+
 select_vars <- function(mdr_use) {
   sel_vars <- sapply(mdr.use[,get("source_variable_name")], function(x){paste0(x, "\tAS\t\"", mdr.use[source_variable_name==x,variable_name], "\"")})
   if (length(sel_vars) > 1) {
@@ -259,3 +261,5 @@ writeLines(jsonlist, "./inst/application/_utilities/SQL/SQL_i2b2.JSON")
 # # debugging
 # txt <- fromJSON("./sql.JSON")
 # txt$"dt_patient.db"
+
+# nolint end

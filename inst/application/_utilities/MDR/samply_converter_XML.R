@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# nolint start
+
 library(data.table)
 library(XML)
 library(xslt)
@@ -24,13 +26,16 @@ library(magrittr)
 # https://stackoverflow.com/questions/46690742/xml-to-list-and-back-to-xml
 # https://stackoverflow.com/questions/48510579/extracting-schema-information-from-xml-to-a-data-frame
 
-xsd <- xml2::read_xml("./inst/application/_utilities/MDR/XSD/common.xsd")
+xsd <-
+  xml2::read_xml("./inst/application/_utilities/MDR/XSD/common.xsd")
 
-xsd2 <- XML::xmlToList("./inst/application/_utilities/MDR/XSD/common.xsd")
+xsd2 <-
+  XML::xmlToList("./inst/application/_utilities/MDR/XSD/common.xsd")
 xsd3 <- XML::xml("./inst/application/_utilities/MDR/XSD/common.xsd")
 
 
-flatxml1 <- flatxml::fxml_importXMLFlat("./inst/application/_utilities/MDR/XSD/common.xsd")
+flatxml1 <-
+  flatxml::fxml_importXMLFlat("./inst/application/_utilities/MDR/XSD/common.xsd")
 
 
 
@@ -39,7 +44,8 @@ url <- "./inst/application/_utilities/MDR/XSD/common.xsd"
 xmldoc <- xmlParse(url)
 rootNode <- xmlRoot(xmldoc)
 rootNode[4]
-data <- xmlSApply(rootNode,function(x) xmlSApply(x, xmlValue))
+data <- xmlSApply(rootNode, function(x)
+  xmlSApply(x, xmlValue))
 
 
 
@@ -53,7 +59,7 @@ nodeset <- xml2::xml_children(xr)
 nodeset %>% xml2::xml_structure()
 
 
-for (i in xr){
+for (i in xr) {
   print(i)
 }
 
@@ -73,21 +79,30 @@ xr <- xml2::read_xml(url) %>%
 
 
 # https://stackoverflow.com/questions/48510579/extracting-schema-information-from-xml-to-a-data-frame
-get_stuff <- function(y, stuff) { unlist(lapply(y, function(x) x[[stuff]])) }
+get_stuff <-
+  function(y, stuff) {
+    unlist(lapply(y, function(x)
+      x[[stuff]]))
+  }
 
-xml_list <- xml2::read_xml("./inst/application/_utilities/MDR/XSD/common.xsd")[["schema"]][["complexType"]][["sequence"]]
+xml_list <-
+  xml2::read_xml("./inst/application/_utilities/MDR/XSD/common.xsd")[["schema"]][["complexType"]][["sequence"]]
 
-DF <- data.frame(name = get_stuff(xml_list, "name"),
-                 type = get_stuff(xml_list, "type"),
-                 minOccurs = get_stuff(xml_list, "minOccurs"),
-                 maxOccurs = get_stuff(xml_list, "maxOccurs"),
-                 saw_sql_type = get_stuff(xml_list, "type"),
-                 saw_sql_displayFormula = get_stuff(xml_list, "displayFormula"))
+DF <- data.frame(
+  name = get_stuff(xml_list, "name"),
+  type = get_stuff(xml_list, "type"),
+  minOccurs = get_stuff(xml_list, "minOccurs"),
+  maxOccurs = get_stuff(xml_list, "maxOccurs"),
+  saw_sql_type = get_stuff(xml_list, "type"),
+  saw_sql_displayFormula = get_stuff(xml_list, "displayFormula")
+)
 
 
 
 
 
-sc <- XML::xmlTreeParse("./inst/application/_utilities/MDR/XSD/common.xsd")
+sc <-
+  XML::xmlTreeParse("./inst/application/_utilities/MDR/XSD/common.xsd")
 
 XML::xmlChildren(sc)
+# nolint end

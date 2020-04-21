@@ -41,8 +41,8 @@
 #'
 #' @export
 #'
-mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
-                            namespace = "dqa",
+mdr_from_samply <- function(base_url,
+                            namespace,
                             master_system_type = "csv",
                             master_system_name = "p21csv",
                             headless = TRUE,
@@ -69,7 +69,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
   }
 
   # clean base url path
-  base_url <- DQAstats::clean_path_name(base_url)
+  base_url <- DIZutils::clean_path_name(base_url)
 
   # set members url
   member_url <- paste0(
@@ -78,7 +78,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     namespace,
     "/members"
   )
-  DQAstats::feedback(
+  DIZutils::feedback(
     print_this = paste0("Member URL: ", member_url),
     findme = "f381e687ca",
     logfile_dir = logfile_dir,
@@ -169,7 +169,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
     )
 
     msg <- paste("Dataelement URL:", dataelement_url)
-    DQAstats::feedback(
+    DIZutils::feedback(
       print_this = msg,
       logjs = isFALSE(headless),
       findme = "d05ebcefef",
@@ -314,7 +314,7 @@ mdr_from_samply <- function(base_url = "https://mdr.miracum.de/rest/api/mdr/",
         }
       }
     } else {
-      DQAstats::feedback(
+      DIZutils::feedback(
         print_this = paste0("Ignoring", element_id, ". No 'dqa'-slot present"),
         findme = "61aa00fdf7",
         logfile_dir = logfile_dir,

@@ -29,8 +29,6 @@
 #'
 #' @import data.table
 #'
-#' @export
-#'
 mdr_to_samply <- function(utils_path = "inst/application/_utilities/",
                           mdr_filename = "mdr.csv",
                           master_system_name = "p21staging",
@@ -45,7 +43,7 @@ mdr_to_samply <- function(utils_path = "inst/application/_utilities/",
     master_system_type %in% c("csv", "postgres")
   )
 
-  utils_path <- DQAstats::clean_path_name(utils_path)
+  utils_path <- DIZutils::clean_path_name(utils_path)
 
   # read mdr
   dqa_mdr <- DQAstats::read_mdr(

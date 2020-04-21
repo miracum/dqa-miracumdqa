@@ -19,11 +19,9 @@ shiny::shinyServer(
         # define reactive values here
         rv <- shiny::reactiveValues(
             headless = FALSE,
-            config_file = config_file,
             # mdr_filename = mdr_filename,
-            use_env_credentials = use_env_credentials,
-            log = list(logfile_dir = DQAstats::clean_path_name(logfile_dir)),
-            utilspath = DQAstats::clean_path_name(utils_path),
+            log = list(logfile_dir = DIZutils::clean_path_name(logfile_dir)),
+            utilspath = DIZutils::clean_path_name(utils_path),
             current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
         )
 
@@ -31,18 +29,18 @@ shiny::shinyServer(
             if (is.null(rv$finished_onstart)) {
 
                 # Clean old connections (e.g. after reloading the app):
-                DQAstats::close_all_connections(
+                DIZutils::close_all_connections(
                     logfile_dir = rv$log$logfile_dir,
                     headless = rv$headless
                 )
 
                 # Create new logfile:
-                DQAstats::cleanup_old_logfile(
+                DIZutils::cleanup_old_logfile(
                     logfile_dir = rv$log$logfile_dir
                 )
 
                 # feedback directories
-                DQAstats::feedback(
+                DIZutils::feedback(
                     print_this = paste0(
                         "Logfile dir: ",
                         rv$log$logfile_dir
@@ -50,7 +48,7 @@ shiny::shinyServer(
                     logfile_dir = rv$log$logfile_dir,
                     headless = rv$headless
                 )
-                DQAstats::feedback(
+                DIZutils::feedback(
                     print_this = paste0(
                         "Utils path: ",
                         rv$utilspath
@@ -58,26 +56,10 @@ shiny::shinyServer(
                     logfile_dir = rv$log$logfile_dir,
                     headless = rv$headless
                 )
-                DQAstats::feedback(
-                    print_this = paste0(
-                        "Config file: ",
-                        rv$config_file
-                    ),
-                    logfile_dir = rv$log$logfile_dir,
-                    headless = rv$headless
-                )
-                DQAstats::feedback(
+                DIZutils::feedback(
                     print_this = paste0(
                         "MDR filename: ",
                         rv$mdr_filename
-                    ),
-                    logfile_dir = rv$log$logfile_dir,
-                    headless = rv$headless
-                )
-                DQAstats::feedback(
-                    print_this = paste0(
-                        "Using environment variables: ",
-                        rv$use_env_credentials
                     ),
                     logfile_dir = rv$log$logfile_dir,
                     headless = rv$headless
@@ -87,7 +69,7 @@ shiny::shinyServer(
                 rv$datamap_email <- tryCatch(
                     expr = {
                         # if existing, set email address for data-map button
-                        out <- DQAstats::get_config(
+                        out <- DIZutils::get_config(
                             config_file = paste0(
                                 utils_path, "/MISC/email.yml"
                             ),
@@ -108,23 +90,23 @@ shiny::shinyServer(
 
         # handle reset
         shiny::observeEvent(input$reset, {
-            DQAstats::feedback(
+            DIZutils::feedback(
                 print_this = "\U2304",
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
             )
-            DQAstats::feedback(
+            DIZutils::feedback(
                 print_this = "############ APP WAS RESETTED ############",
                 findme = "9c57ce125a",
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
             )
-            DQAstats::feedback(
+            DIZutils::feedback(
                 print_this = "\U2303",
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
             )
-            DQAstats::close_all_connections(
+            DIZutils::close_all_connections(
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
             )

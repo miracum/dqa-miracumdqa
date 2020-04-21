@@ -22,11 +22,13 @@ mdr[, filter := as.character(filter)]
 mdr[, filter := NA]
 
 # Medikation (OPS Code)
-f <- jsonlite::toJSON(
-  list("filter_var" = "procedure_code_coding_code",
-       "filter_logic" = "6\\-00")
-)
-mdr[grepl("dt\\.procedure_medication", key) & variable_name=="procedure_code_coding_code" & source_system_name=="p21csv" & dqa_assessment == 1, filter := f]
+f <- jsonlite::toJSON(list("filter_var" = "procedure_code_coding_code",
+                           "filter_logic" = "6\\-00"))
+mdr[grepl("dt\\.procedure_medication", key) &
+      variable_name == "procedure_code_coding_code" &
+      source_system_name == "p21csv" & dqa_assessment == 1, filter := f]
 
 # write mdr
-fwrite(mdr, paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"), sep = ";")
+fwrite(mdr,
+       paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"),
+       sep = ";")

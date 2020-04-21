@@ -5,8 +5,8 @@
 \title{DQA-MDR to Samply.MDR Converter Function}
 \usage{
 mdr_from_samply(
-  base_url = "https://mdr.miracum.de/rest/api/mdr/",
-  namespace = "dqa",
+  base_url,
+  namespace,
   master_system_type = "csv",
   master_system_name = "p21csv",
   headless = TRUE,

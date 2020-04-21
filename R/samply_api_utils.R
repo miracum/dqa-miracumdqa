@@ -10,7 +10,7 @@ load_members <- function(base_url,
     dataelementgroup_id,
     "/members"
   )
-  DQAstats::feedback(
+  DIZutils::feedback(
     print_this = paste0("Group-member URL: ", groupmember_url),
                    findme = "c212b28d7e",
     logfile_dir = logfile_dir,

@@ -20,7 +20,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.6")
+my_desc$set_version("2.0.7")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -57,22 +57,25 @@ my_desc$write(file = "DESCRIPTION")
 # Imports
 usethis::use_package("shiny", type = "Imports")
 usethis::use_package("shinydashboard", type = "Imports")
-usethis::use_package("shinyFiles", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("openxlsx", type = "Imports")
 usethis::use_package("utils", type = "Imports")
-usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("influxdbr", type = "Imports")
 
 
 # Development package
-gui_tag <-  "v0.1.1"
+gui_tag <-  "v0.1.2" # e.g. "v0.1.2"
+dizutils_tag <- "v0.0.2" # e.g. "v0.0.2"
+
+devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dizutils.git", ref = dizutils_tag, upgrade = "always")
 
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
 desc::desc_set_remotes(c(paste0(
-  "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip")
+  "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"),
+  paste0(
+    "url::https://gitlab.miracum.org/miracum/dqa/dizutils/-/archive/", dizutils_tag, "/dizutils-", dizutils_tag, ".zip")
   ),
 file = usethis::proj_get())
 
@@ -89,6 +92,8 @@ usethis::use_build_ignore("inst/application/_utilities/MDR/XLSX/")
 usethis::use_build_ignore("inst/application/_utilities/MDR/XSD/")
 usethis::use_build_ignore("inst/application/_utilities/MDR/.~lock.mdr.csv#")
 usethis::use_build_ignore("inst/application/_settings/")
+usethis::use_build_ignore(".vscode")
+usethis::use_build_ignore(".lintr")
 usethis::use_git_ignore("inst/application/_settings/")
 usethis::use_git_ignore("inst/application/_utilities/MDR/.~lock.*")
 usethis::use_git_ignore("/*")
@@ -111,3 +116,5 @@ usethis::use_git_ignore("/.Rhistory")
 usethis::use_git_ignore("/.Rproj*")
 usethis::use_git_ignore("/.RData")
 usethis::use_git_ignore("!/ci/")
+usethis::use_git_ignore("/.vscode")
+usethis::use_git_ignore("!/.lintr")

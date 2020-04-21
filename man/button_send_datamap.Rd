@@ -7,8 +7,7 @@
 button_send_datamap(rv)
 }
 \arguments{
-\item{rv}{The global rv object. rv$datamap and rv$config_file need to
-be valid.}
+\item{rv}{The global rv object. rv$datamap needs to be valid.}
 }
 \description{
 This function is an exporte wrapper around the actual function

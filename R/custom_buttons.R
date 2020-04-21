@@ -1,40 +1,47 @@
-button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
-  DQAstats::feedback(
-    print_this = "Loading the metadata repository",
-    logfile_dir = logfile_dir,
-    headless = headless
-  )
-  shiny::withProgress(message = "Loading MDR", value = 0, {
-    incProgress(1 / 1,
-                detail = "... from local file ...")
-    # read MDR
-    mdr <- mdr_from_samply(
-      headless = headless,
-      logfile_dir = logfile_dir
-    )
+button_mdr <-
+  function(utils_path,
+           mdr_filename,
+           logfile_dir,
+           headless) {
+    DIZutils::feedback(print_this = "Loading the metadata repository",
+                       logfile_dir = logfile_dir,
+                       headless = headless)
+    shiny::withProgress(message = "Loading MDR", value = 0, {
+      incProgress(1 / 1,
+                  detail = "... from local file ...")
 
-    # For debugging: just comment the line above (mdr_from_samply)
-    # and uncomment the 2 lines below. Doing this, you don't need to
-    # switch to DQAgui for testing local changes. However, you still need
-    # to "Install and Restart" miRacumDQA!
+      base_url <- Sys.getenv("MDR_BASEURL")
+      namespace <- Sys.getenv("MDR_NAMESPACE")
 
-    # mdr <- DQAstats::read_mdr(utils_path = utils_path,
-    #                           mdr_filename = "mdr.csv")
+      # read MDR
+      mdr <- mdr_from_samply(
+        base_url = base_url,
+        namespace = namespace,
+        headless = headless,
+        logfile_dir = logfile_dir
+      )
 
-  })
-  return(mdr)
-}
+      # For debugging: just comment the line above (mdr_from_samply)
+      # and uncomment the 2 lines below. Doing this, you don't need to
+      # switch to DQAgui for testing local changes. However, you still need
+      # to "Install and Restart" miRacumDQA!
+
+      #% mdr <- DQAstats::read_mdr(utils_path = utils_path,
+      #%                           mdr_filename = "mdr.csv")
+
+    })
+    return(mdr)
+  }
 
 #' @title button_send_datamap
 #' @description This function is an exporte wrapper around the actual function
 #'   to send the datamap. This actual function can be customized by the user.
 #'
-#' @param rv The global rv object. rv$datamap and rv$config_file need to
-#'   be valid.
+#' @param rv The global rv object. rv$datamap needs to be valid.
 #'
 #' @export
 button_send_datamap <- function(rv) {
-  DQAstats::feedback(
+  DIZutils::feedback(
     print_this = "Sending the datamap",
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless
@@ -54,7 +61,7 @@ button_send_datamap <- function(rv) {
 #'
 send_datamap_to_influx <- function(rv) {
   if (isTRUE(is.null(rv$datamap$target_data))) {
-    DQAstats::feedback(
+    DIZutils::feedback(
       paste0("While exporting: datamap --> influxdb: ",
              "datamap is empty"),
       findme = "c51c05eeea",
@@ -64,7 +71,7 @@ send_datamap_to_influx <- function(rv) {
     )
   } else {
     if (isTRUE(rv$datamap$exported)) {
-      DQAstats::feedback(
+      DIZutils::feedback(
         "The datamap was already exported. Skipping.",
         findme = "3fd547ccbf",
         logfile_dir = rv$log$logfile_dir,
@@ -100,7 +107,7 @@ send_datamap_to_influx <- function(rv) {
                  is.null(item) ||
                  is.null(n) ||
                  is.null(system))) {
-        DQAstats::feedback(
+        DIZutils::feedback(
           "One of the inputs for influxdb-export isn't valid.",
           findme = "1bb38be44b",
           logfile_dir = rv$log$logfile_dir,
@@ -113,14 +120,12 @@ send_datamap_to_influx <- function(rv) {
           ## it throws an error:
 
           # Assign the data to one single dataframe for export
-          datamap <- data.frame(
-            site,
-            system,
-            item,
-            lay_term,
-            n,
-            stringsAsFactors = FALSE
-          )
+          datamap <- data.frame(site,
+                                system,
+                                item,
+                                lay_term,
+                                n,
+                                stringsAsFactors = FALSE)
 
           # The column "n" needs to be of type integer:
           datamap$n <- as.integer(datamap$n)
@@ -144,7 +149,7 @@ send_datamap_to_influx <- function(rv) {
           rv$datamap$exported <- TRUE
 
           # Console feedback:
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0(
               "Successfully finished export:",
               " datamap --> influxdb."
@@ -162,7 +167,7 @@ send_datamap_to_influx <- function(rv) {
         },
         error = function(cond) {
           # Console feedback:
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "5ba89e3577",
             type = "Error",
@@ -171,15 +176,17 @@ send_datamap_to_influx <- function(rv) {
           )
           # GUI feedback:
           showNotification(
-            paste0("\U2716 Error while exporting the Datamap.",
-                   " See the logfile for more information."),
+            paste0(
+              "\U2716 Error while exporting the Datamap.",
+              " See the logfile for more information."
+            ),
             type = "error",
             duration = 10
           )
         },
         warning = function(cond) {
           # Console feedback:
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "010f0daea3",
             type = "Warning",
@@ -188,8 +195,10 @@ send_datamap_to_influx <- function(rv) {
           )
           # GUI feedback:
           showNotification(
-            paste0("\U2716 Warning while exporting the Datamap.",
-                   " See the logfile for more information."),
+            paste0(
+              "\U2716 Warning while exporting the Datamap.",
+              " See the logfile for more information."
+            ),
             type = "error",
             duration = 10
           )
@@ -211,25 +220,22 @@ send_datamap_to_influx <- function(rv) {
 #'   and result$config (The config credentials extracted from the rv-object).
 #'
 get_influx_connection <- function(rv) {
-  config <-
-    DQAstats::get_config(
-      config_file = rv$config_file,
-      config_key = "influxdb",
-      logfile_dir = rv$log$logfile_dir,
-      headless = rv$headless
-    )
+  config <- list()
 
-  if (isTRUE(rv$use_env_credentials)) {
-    config$host <- Sys.getenv("INFLUX_HOST")
-    config$password <- Sys.getenv("INFLUX_PASSWORD")
-  }
+  config$host <- Sys.getenv("INFLUX_HOST")
+  config$password <- Sys.getenv("INFLUX_PASSWORD")
+  config$user <- Sys.getenv("INFLUX_USER")
+  config$port <- Sys.getenv("INFLUX_PORT")
+  config$dbname <- Sys.getenv("INFLUX_DBNAME")
+  config$scheme <- Sys.getenv("INFLUX_SCHEME")
+  config$path <- Sys.getenv("INFLUX_PATH")
 
   if (isTRUE(
     is.null(config$scheme) || is.null(config$dbname) ||
     is.null(config$host) ||
     is.null(config$port) || is.null(config$path)
   )) {
-    DQAstats::feedback(
+    DIZutils::feedback(
       paste0(
         "One or more of the necessary input parameters out of ",
         "config_file for influxdb connection is missing."
@@ -243,7 +249,7 @@ get_influx_connection <- function(rv) {
   } else {
     if (isTRUE(is.null(config$user) || config$user == "")) {
       # There is no username --> Authentification seems to be disabled
-      DQAstats::feedback(
+      DIZutils::feedback(
         paste0(
           "There is no username in the config_file. ",
           "Trying to connect without authentification."
@@ -262,7 +268,7 @@ get_influx_connection <- function(rv) {
           verbose = T
         )
 
-      DQAstats::feedback(
+      DIZutils::feedback(
         "Connection established",
         findme = "77dc31289f",
         logfile_dir = rv$log$logfile_dir,
@@ -271,7 +277,7 @@ get_influx_connection <- function(rv) {
 
     } else {
       # Authentification seems to be enabled so use username & password:
-      DQAstats::feedback(
+      DIZutils::feedback(
         paste0(
           "There is a username in the config_file. ",
           "Trying to connect with authentification."
@@ -291,7 +297,7 @@ get_influx_connection <- function(rv) {
           path = config$path,
           verbose = T
         )
-      DQAstats::feedback(
+      DIZutils::feedback(
         "Connection established",
         findme = "d408ca173a",
         logfile_dir = rv$log$logfile_dir,
