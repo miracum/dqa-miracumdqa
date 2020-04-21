@@ -179,7 +179,7 @@ deployment_to_deploy_repo:
     - git clone https://${GITHUB_USER}:${K8S_SECRET_GITHUB_ACCESS_TOKEN}@gitlab.miracum.org/miracum/dqa/dqatool_deployment.git
     - cd dqatool_deployment
     - echo "#!/bin/bash" > deployvars.sh
-    - echo "export DIZutils_tag=${DIZutils_tag}" >> deployvars.sh
+    - echo "export DIZUTILS_TAG=${DIZutils_tag}" >> deployvars.sh
     - echo "export DQASTATS_TAG=${DQAstats_tag}" >> deployvars.sh
     - echo "export DQAGUI_TAG=${DQAgui_tag}" >> deployvars.sh
     - echo "export MIRACUMDQA_TAG=${miRacumDQA_tag}" >> deployvars.sh
