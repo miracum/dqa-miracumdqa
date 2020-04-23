@@ -1,6 +1,18 @@
 launch_dqa_tool(logfile_dir = "~/share/logfiles/")
 
+
+devtools::load_all()
+logfile_dir = tempdir()
+utils_path = paste0(getwd(), "/inst/application/_utilities/")
+utils::assignInNamespace(
+  x = "button_mdr",
+  value = button_mdr,
+  ns = "DQAgui"
+)
 DIZutils::set_env_vars("../env_INTERNAL")
+shiny::shinyAppDir("inst/application/")
+
+
 launch_dqa_tool()
 
 
