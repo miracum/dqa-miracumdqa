@@ -20,7 +20,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.0.7")
+my_desc$set_version("2.0.7.9001")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -65,7 +65,7 @@ usethis::use_package("influxdbr", type = "Imports")
 
 
 # Development package
-gui_tag <-  "v0.1.2" # e.g. "v0.1.2"
+gui_tag <-  "development" # e.g. "v0.1.2"
 dizutils_tag <- "v0.0.2" # e.g. "v0.0.2"
 
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dizutils.git", ref = dizutils_tag, upgrade = "always")
