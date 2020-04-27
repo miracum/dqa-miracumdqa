@@ -119,12 +119,13 @@ mdr[designation == "Entlassungsgrund" &
 mdr[designation == "Entlassungsgrund" &
       source_system_name == "p21staging", constraints := c]
 mdr[designation == "Entlassungsgrund" &
-      source_system_name == "i2b2", constraints := c]
-mdr[designation == "Entlassungsgrund" &
       source_system_name == "omop", constraints := c]
 c <- jsonlite::toJSON(list("regex" = "^(aadvice|exp|home|hosp|oth|other\\-hcf|rehab|snf|alt\\-home|long|psy)$"))
 mdr[designation == "Entlassungsgrund" &
       source_system_name == "fhirgw", constraints := c]
+c <- jsonlite::toJSON(list("regex" = "^DISCHARGEDISPOSITION\\:(AADVICE|EXP|HOME|HOSP|OTH|OTHER\\-HCF|REHAB|SNF|ALT\\-HOME|LONG|PSY)$"))
+mdr[designation == "Entlassungsgrund" &
+      source_system_name == "i2b2", constraints := c]
 
 # Entlassungsdatum, Aufnahmedatum, OPS Datum, Entlassungsdatum (Fachabteilung), Aufnahmedatum (Fachabteilung)
 # TODO value_set für Datumsvariablen überlegen
@@ -136,9 +137,12 @@ mdr[designation == "Aufnahmegrund" &
 mdr[designation == "Aufnahmegrund" &
       source_system_name == "p21staging", constraints := c]
 mdr[designation == "Aufnahmegrund" &
-      source_system_name == "i2b2", constraints := c]
-mdr[designation == "Aufnahmegrund" &
       source_system_name == "omop", constraints := c]
+mdr[designation == "Aufnahmegrund" &
+      source_system_name == "fhirgw", constraints := c]
+c <- jsonlite::toJSON(list("regex" = "^FALL\\|AUFNAHMEGRUND\\:([[:digit:]]{1,4})$"))
+mdr[designation == "Aufnahmegrund" &
+      source_system_name == "i2b2", constraints := c]
 
 # Postleitzahl
 c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{5})$"))
@@ -175,7 +179,7 @@ mdr[designation == "Geschlecht" &
       source_system_name == "p21staging", constraints := c]
 mdr[designation == "Geschlecht" &
       source_system_name == "omop", constraints := c]
-c <- jsonlite::toJSON(list("value_set" = "m, w, d, x"))
+c <- jsonlite::toJSON(list("value_set" = "DEM|GESCHLECHT:m, DEM|GESCHLECHT:w, DEM|GESCHLECHT:d, DEM|GESCHLECHT:x"))
 mdr[designation == "Geschlecht" &
       source_system_name == "i2b2", constraints := c]
 c <- jsonlite::toJSON(list("value_set" = "male, female, unknown, other"))
@@ -204,6 +208,8 @@ mdr[designation == "Prozeduren (OPS)" &
       source_system_name == "p21csv", constraints := c]
 mdr[designation == "Prozeduren (OPS)" &
       source_system_name == "p21staging", constraints := c]
+mdr[designation == "Prozeduren (OPS)" &
+      source_system_name == "fhirgw", constraints := c]
 c <-
   jsonlite::toJSON(
     list("regex" = "^([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$")
@@ -265,12 +271,16 @@ mdr[designation == "Beatmungsstunden" &
       source_system_name == "i2b2", constraints := c]
 mdr[designation == "Beatmungsstunden" &
       source_system_name == "omop", constraints := c]
+mdr[designation == "Beatmungsstunden" &
+      source_system_name == "fhirgw", constraints := c]
 
 # Laborwerte (LOINC) (365.25 Tage * 24 Stunden = 8766 Stunden)
 c <-
   jsonlite::toJSON(list("regex" = "^[[:digit:]]{2,5}\\-[[:digit:]]{1}$"))
 mdr[designation == "Laborwerte (LOINC)" &
       source_system_name == "p21staging", constraints := c]
+mdr[designation == "Laborwerte (LOINC)" &
+      source_system_name == "fhirgw", constraints := c]
 c <-
   jsonlite::toJSON(list("regex" = "^(LOINC\\:)[[:digit:]]{2,5}\\-[[:digit:]]{1}$"))
 mdr[designation == "Laborwerte (LOINC)" &

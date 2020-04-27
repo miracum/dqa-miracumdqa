@@ -36,7 +36,7 @@ test_that(
 
     # Loop over target_keys and check for hash and type
     known_hashes <- list(#"dt.admission" = "29ce83dfec",
-                         "dt.gender" = "07c0d5a96d",
+                         "dt.gender" = "860207a381",
                          "dt.birthdate" = "4425528c9a",
                          "dt.zipcode" = "1a597b53a6",
                          "dt.encounterstart" = "c7b34a5b8d",
@@ -55,7 +55,7 @@ test_that(
                          "dt.procedure" = "3031a3dc1f",
                          #"dt.procedure_medication" = "a058b9ac70",
                          #"dt.provider" = "209ab6a18e",
-                         "dt.ventilation" = "98744046b0",
+                         "dt.ventilation" = "76e34855c0",
                          "dt.laboratory" = "a0916cb9")
     for (i in names(known_hashes)) {
       print(i)

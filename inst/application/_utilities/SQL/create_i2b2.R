@@ -68,7 +68,9 @@ dt.gender <-
     "SELECT
 	", sel_vars, "
 FROM
-	i2b2miracum.", mdr.use[source_variable_name=="sex_cd",source_table_name], "
+	i2b2miracum.", mdr.use[source_variable_name=="concept_cd",source_table_name], "
+WHERE
+  ", mdr.use[source_variable_name=="concept_cd",sql_where], "
 ORDER BY
 	patient_num;")
 
@@ -151,8 +153,8 @@ ORDER BY
 looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "nval_num"),
                   "dt.ageinyears" = list(var1 = "encounter_num", var2 = "nval_num"),
                   "dt.admission" = list(var1 = "encounter_num", var2 = "tval_char"),
-                  "dt.hospitalization" = list(var1 = "encounter_num", var2 = "tval_char"),
-                  "dt.discharge" = list(var1 = "encounter_num", var2 = "tval_char"),
+                  "dt.hospitalization" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                  "dt.discharge" = list(var1 = "encounter_num", var2 = "concept_cd"),
                   "dt.ventilation" = list(var1 = "encounter_num", var2 = "nval_num"),
                  "dt.condition" = list(var1 = "encounter_num", var2 = "concept_cd"),
                  "dt.conditioncategory" = list(var1 = "encounter_num", var2 = "modifier_cd"))

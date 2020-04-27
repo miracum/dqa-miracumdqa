@@ -44,6 +44,10 @@ mdr[grepl("dt\\.patient", key) &
       variable_name == "patient_identifier_value" &
       source_system_name == "i2b2" &
       dqa_assessment == 1, plausibility_relation := p]
+mdr[grepl("dt\\.patient", key) &
+      variable_name == "patient_identifier_value" &
+      source_system_name == "fhirgw" &
+      dqa_assessment == 1, plausibility_relation := p]
 
 # Fallnummer & Patientennummer
 p <- jsonlite::toJSON(list("uniqueness" = list(
@@ -65,6 +69,10 @@ mdr[grepl("dt\\.encounter$", key) &
 mdr[grepl("dt\\.encounter$", key) &
       variable_name == "encounter_identifier_value" &
       source_system_name == "i2b2" &
+      dqa_assessment == 1, plausibility_relation := p]
+mdr[grepl("dt\\.encounter$", key) &
+      variable_name == "encounter_identifier_value" &
+      source_system_name == "fhirgw" &
       dqa_assessment == 1, plausibility_relation := p]
 
 # Fallnummer & Diagnoseart
@@ -104,15 +112,17 @@ p <- jsonlite::toJSON(list(
         "omop" = "^O[0-9]",
         "i2b2" = "^(ICD10\\:)O[0-9]",
         "p21csv" = "^O[0-9]",
-        "p21staging" = "^O[0-9]"
+        "p21staging" = "^O[0-9]",
+        "fhirgw" = "^O[0-9]"
       ),
       "join_crit" = "encounter_identifier_value",
       "constraints" = list(
         "value_set" = list(
           "omop" = "w",
-          "i2b2" = "f",
+          "i2b2" = "DEM|GESCHLECHT:w",
           "p21csv" = "w",
-          "p21staging" = "w"
+          "p21staging" = "w",
+          "fhirgw" = "female"
         )
       )
     ),
@@ -123,15 +133,17 @@ p <- jsonlite::toJSON(list(
         "omop" = "^C5[1-8]",
         "i2b2" = "^(ICD10\\:)C5[1-8]",
         "p21csv" = "^C5[1-8]",
-        "p21staging" = "^C5[1-8]"
+        "p21staging" = "^C5[1-8]",
+        "fhirgw" = "^C5[1-8]"
       ),
       "join_crit" = "encounter_identifier_value",
       "constraints" = list(
         "value_set" =  list(
           "omop" = "w",
-          "i2b2" = "f",
+          "i2b2" = "DEM|GESCHLECHT:w",
           "p21csv" = "w",
-          "p21staging" = "w"
+          "p21staging" = "w",
+          "fhirgw" = "female"
         )
       )
     ),
@@ -142,15 +154,17 @@ p <- jsonlite::toJSON(list(
         "omop" = "^C6[0-3]",
         "i2b2" = "^(ICD10\\:)C6[0-3]",
         "p21csv" = "^C6[0-3]",
-        "p21staging" = "^C6[0-3]"
+        "p21staging" = "^C6[0-3]",
+        "fhirgw" = "^C6[0-3]"
       ),
       "join_crit" = "encounter_identifier_value",
       "constraints" = list(
         "value_set" =  list(
           "omop" = "m",
-          "i2b2" = "m",
+          "i2b2" = "DEM|GESCHLECHT:m",
           "p21csv" = "m",
-          "p21staging" = "m"
+          "p21staging" = "m",
+          "fhirgw" = "male"
         )
       )
     ),
@@ -161,35 +175,41 @@ p <- jsonlite::toJSON(list(
         "omop" = "^05",
         "i2b2" = "^05",
         "p21csv" = "^05",
-        "p21staging" = "^05"
+        "p21staging" = "^05",
+        "fhirgw" = "^05"
       ),
       "join_crit" = "encounter_identifier_value",
       "constraints" = list(
         "value_set" = list(
           "omop" = "w",
-          "i2b2" = "f",
+          "i2b2" = "DEM|GESCHLECHT:w",
           "p21csv" = "w",
-          "p21staging" = "w"
+          "p21staging" = "w",
+          "fhirgw" = "female"
         )
       )
     )
   )
 ))
 mdr[grepl("dt\\.gender", key) &
-      variable_name == "patient_gender" &
+      variable_name == "encounter_subject_patient_gender" &
       source_system_name == "p21csv" &
       dqa_assessment == 1, plausibility_relation := p]
 mdr[grepl("dt\\.gender", key) &
-      variable_name == "patient_gender" &
+      variable_name == "encounter_subject_patient_gender" &
       source_system_name == "p21staging" &
       dqa_assessment == 1, plausibility_relation := p]
 mdr[grepl("dt\\.gender", key) &
-      variable_name == "patient_gender" &
+      variable_name == "encounter_subject_patient_gender" &
       source_system_name == "omop" &
       dqa_assessment == 1, plausibility_relation := p]
 mdr[grepl("dt\\.gender", key) &
-      variable_name == "patient_gender" &
+      variable_name == "encounter_subject_patient_gender" &
       source_system_name == "i2b2" &
+      dqa_assessment == 1, plausibility_relation := p]
+mdr[grepl("dt\\.gender", key) &
+      variable_name == "encounter_subject_patient_gender" &
+      source_system_name == "fhirgw" &
       dqa_assessment == 1, plausibility_relation := p]
 
 # write mdr

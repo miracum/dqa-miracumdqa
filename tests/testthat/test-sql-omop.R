@@ -36,7 +36,7 @@ test_that(
 
     # Loop over target_keys and check for hash and type
     known_hashes <- list("dt.admission" = "82e83232ef",
-                         "dt.gender" = "f0b8920d07",
+                         "dt.gender" = "73b163bb9e",
                          "dt.birthdate" = "d7f4bbda37",
                          "dt.zipcode" = "6947bb9e94",
                          "dt.encounterstart" = "b7b3a86a30",
@@ -55,7 +55,7 @@ test_that(
                          "dt.procedure" = "e028bc6936",
                          "dt.procedure_medication" = "5e0398c307",
                          "dt.provider" = "dd9a248836",
-                         "dt.ventilation" = "7f713cc6ef")
+                         "dt.ventilation" = "e37d19f525")
     for (i in names(known_hashes)) {
       print(i)
       expect_type(rv$sql[[i]], "character")
