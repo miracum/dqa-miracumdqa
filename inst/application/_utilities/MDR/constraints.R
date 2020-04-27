@@ -122,6 +122,9 @@ mdr[designation == "Entlassungsgrund" &
       source_system_name == "i2b2", constraints := c]
 mdr[designation == "Entlassungsgrund" &
       source_system_name == "omop", constraints := c]
+c <- jsonlite::toJSON(list("regex" = "^(aadvice|exp|home|hosp|oth|other\\-hcf|rehab|snf|alt\\-home|long|psy)$"))
+mdr[designation == "Entlassungsgrund" &
+      source_system_name == "fhirgw", constraints := c]
 
 # Entlassungsdatum, Aufnahmedatum, OPS Datum, Entlassungsdatum (Fachabteilung), Aufnahmedatum (Fachabteilung)
 # TODO value_set für Datumsvariablen überlegen

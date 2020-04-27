@@ -69,7 +69,7 @@ Bei Angabe der Pseudofachabteilungen ‚0001’, ‚0002’ und ‚0003‘ ist a
 Fallnummer;KH_INTERNES_KENNZEICHEN;;FAB.CSV;p21csv;csv;dt.provider;encounter_identifier_value;encounter.identifier.value;string;;;0;;;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Entlassungsdatum (Fachabteilung);FAB_ENTLASSUNGSDATUM;;FAB.CSV;p21csv;csv;dt.providerend;encounter_location_period_end;encounter.location.period.end;calendar;;;1;Bei nachstationärer Behandlung ist der letzte vollstationäre Behandlungstag (Entlassungsdatum) anzugeben. Der Wechsel von vollstationär zu nachstationär innerhalb der gleichen Fachabteilung muss nicht durch eine gesonderte Wiederholung der Fachabteilungsangabe dokumentiert werden. Die nachstationären Behandlungstage sind bei den Falldaten gesondert anzugeben.;;;;;;;
 Aufnahmedatum (Fachabteilung);FAB_AUFNAHMEDATUM;;FAB.CSV;p21csv;csv;dt.providerstart;encounter_location_period_start;encounter.location.period.start;calendar;;;1;Bei vorstationärer Behandlung ist der erste vollstationäre Behandlungstag (Aufnahmedatum) anzugeben. Der Wechsel von vorstationär zu vollstationär innerhalb der gleichen Fachabteilung muss nicht durch eine gesonderte Wiederholung der Fachabteilungsangabe dokumentiert werden.;;;;;;;
-Beatmungsstunden;BEATMUNGSSTUNDEN;;FALL.CSV;p21csv;csv;dt.ventilation;procedure_code_coding_code_40617009;procedure.code.coding.code.40617009;integer;;;1;Die Beatmungsstunden sind als Gesamtbeatmungszeit für den Krankenhausfall entsprechend DKR anzugeben. Der Wert entspricht der Angabe „Beatmungsstunden“ in der Entlassungsanzeige (Segment DAU).;;;;;;;"{""range"":{""min"":[0],""max"":[8766],""unit"":[""h""]}}"
+Beatmungsstunden;BEATMUNGSSTUNDEN;;FALL.CSV;p21csv;csv;dt.ventilation;observation_code_coding_code;observation.code.coding.code;integer;;;1;Die Beatmungsstunden sind als Gesamtbeatmungszeit für den Krankenhausfall entsprechend DKR anzugeben. Der Wert entspricht der Angabe „Beatmungsstunden“ in der Entlassungsanzeige (Segment DAU).;;;;;;;"{""range"":{""min"":[0],""max"":[8766],""unit"":[""h""]}}"
 Postleitzahl;PLZ;;FALL.CSV;p21csv;csv;dt.zipcode;patient_address_postalCode;patient.address.postalCode;string;;;1;"Die Postleitzahl der Anschrift des Versicherten ist vollständig mit 5 Ziffern anzugeben.  
 Bei ausländischen oder wohnsitzlosen Patienten: ‚00000’.   ";;;;;;;"{""regex"":[""^([[:digit:]]{5})$""]}"
 Belegungstage in anderem Entgeltbereich;BELEGUNGSTAGE_IN_ANDEREM_ENTGELTBEREICH;;FALL.CSV;p21csv;csv;undefined;;;;;;;;;;;;;;
@@ -167,7 +167,7 @@ Entlassungsdatum (Fachabteilung);end_date;;observation_fact;i2b2;postgres;dt.pro
 Fallnummer;encounter_num;;observation_fact;i2b2;postgres;dt.providerend;encounter_identifier_value;encounter.identifier.value;string;;;0;;observation_fact;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Aufnahmedatum (Fachabteilung);start_date;;observation_fact;i2b2;postgres;dt.providerstart;encounter_location_period_start;encounter.location.period.start;calendar;;;1;Bei vorstationärer Behandlung ist der erste vollstationäre Behandlungstag (Aufnahmedatum) anzugeben. Der Wechsel von vorstationär zu vollstationär innerhalb der gleichen Fachabteilung muss nicht durch eine gesonderte Wiederholung der Fachabteilungsangabe dokumentiert werden.;observation_fact;;;concept_cd LIKE 'FACHABT%';;;
 Fallnummer;encounter_num;;observation_fact;i2b2;postgres;dt.providerstart;encounter_identifier_value;encounter.identifier.value;string;;;0;;observation_fact;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
-Beatmungsstunden;nval_num;;observation_fact;i2b2;postgres;dt.ventilation;procedure_code_coding_code_40617009;procedure.code.coding.code.40617009;integer;;;1;Die Beatmungsstunden sind als Gesamtbeatmungszeit für den Krankenhausfall entsprechend DKR anzugeben. Der Wert entspricht der Angabe „Beatmungsstunden“ in der Entlassungsanzeige (Segment DAU).;observation_fact;;;concept_cd LIKE 'FALL:BEATMST';;;"{""range"":{""min"":[0],""max"":[8766],""unit"":[""h""]}}"
+Beatmungsstunden;nval_num;;observation_fact;i2b2;postgres;dt.ventilation;observation_code_coding_code;observation.code.coding.code;integer;;;1;Die Beatmungsstunden sind als Gesamtbeatmungszeit für den Krankenhausfall entsprechend DKR anzugeben. Der Wert entspricht der Angabe „Beatmungsstunden“ in der Entlassungsanzeige (Segment DAU).;observation_fact;;;concept_cd LIKE 'FALL:BEATMST';;;"{""range"":{""min"":[0],""max"":[8766],""unit"":[""h""]}}"
 Fallnummer;encounter_num;;observation_fact;i2b2;postgres;dt.ventilation;procedure_encounter_identifier_value;procedure.encounter.identifier.value;string;;;0;;observation_fact;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Patientennummer;patient_num;;patient_dimension;i2b2;postgres;dt.zipcode;patient_identifier_value;patient.identifier.value;string;;;0;;patient_dimension;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Postleitzahl;zip_cd;;patient_dimension;i2b2;postgres;dt.zipcode;patient_address_postalCode;patient.address.postalCode;string;;;1;"Die Postleitzahl der Anschrift des Versicherten ist vollständig mit 5 Ziffern anzugeben.  
@@ -213,7 +213,7 @@ Entlassungsdatum (Fachabteilung);visit_end_date;;visit_occurrence;omop;postgres;
 Fallnummer;visit_occurrence_id;;visit_occurrence;omop;postgres;dt.providerend;encounter_identifier_value;encounter.identifier.value;string;;;0;;visit_occurence;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Aufnahmedatum (Fachabteilung);visit_start_date;;visit_occurrence;omop;postgres;dt.providerstart;encounter_location_period_start;encounter.location.period.start;calendar;;;1;;visit_occurence;;;;;;
 Fallnummer;visit_occurrence_id;;visit_occurrence;omop;postgres;dt.providerstart;encounter_identifier_value;encounter.identifier.value;string;;;0;;visit_occurence;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
-Beatmungsstunden;observation_source_value;;observation;omop;postgres;dt.ventilation;procedure_code_coding_code_40617009;procedure.code.coding.code.40617009;integer;;;1;;observation;;;observation_concept_id = 4108449;;;"{""range"":{""min"":[0],""max"":[8766],""unit"":[""h""]}}"
+Beatmungsstunden;observation_source_value;;observation;omop;postgres;dt.ventilation;observation_code_coding_code;observation.code.coding.code;integer;;;1;;observation;;;observation_concept_id = 4108449;;;"{""range"":{""min"":[0],""max"":[8766],""unit"":[""h""]}}"
 Fallnummer;visit_occurrence_id;;observation;omop;postgres;dt.ventilation;procedure_encounter_identifier_value;procedure.encounter.identifier.value;string;;;0;;observation;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Patientennummer;person_id;;person;omop;postgres;dt.zipcode;patient_identifier_value;patient.identifier.value;string;;;0;;person;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Postleitzahl;zip;;location;omop;postgres;dt.zipcode;patient_address_postalCode;patient.address.postalCode;string;;;1;;location;location_id;left outer;;;;"{""regex"":[""^([[:digit:]]{5})$""]}"
@@ -302,7 +302,7 @@ Entlassungsdatum (Fachabteilung);FAB-Entlassungsdatum;;fab;p21staging;postgres;d
 Fallnummer;KH-internes-Kennzeichen;;fab;p21staging;postgres;dt.providerend;encounter_identifier_value;encounter.identifier.value;string;;;0;;fab;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Aufnahmedatum (Fachabteilung);FAB-Aufnahmedatum;;fab;p21staging;postgres;dt.providerstart;encounter_location_period_start;encounter.location.period.start;calendar;;;1;Bei vorstationärer Behandlung ist der erste vollstationäre Behandlungstag (Aufnahmedatum) anzugeben. Der Wechsel von vorstationär zu vollstationär innerhalb der gleichen Fachabteilung muss nicht durch eine gesonderte Wiederholung der Fachabteilungsangabe dokumentiert werden.;fab;;;;;;
 Fallnummer;KH-internes-Kennzeichen;;fab;p21staging;postgres;dt.providerstart;encounter_identifier_value;encounter.identifier.value;string;;;0;;fab;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
-Beatmungsstunden;Beatmungsstunden;;fall;p21staging;postgres;dt.ventilation;procedure_code_coding_code_40617009;procedure.code.coding.code.40617009;integer;;;1;Die Beatmungsstunden sind als Gesamtbeatmungszeit für den Krankenhausfall entsprechend DKR anzugeben. Der Wert entspricht der Angabe „Beatmungsstunden“ in der Entlassungsanzeige (Segment DAU).;fall;;;Aufnahmeanlass != 'B' OR Aufnahmeanlass IS NULL;;;"{""range"":{""min"":[0],""max"":[8766],""unit"":[""h""]}}"
+Beatmungsstunden;Beatmungsstunden;;fall;p21staging;postgres;dt.ventilation;observation_code_coding_code;observation.code.coding.code;integer;;;1;Die Beatmungsstunden sind als Gesamtbeatmungszeit für den Krankenhausfall entsprechend DKR anzugeben. Der Wert entspricht der Angabe „Beatmungsstunden“ in der Entlassungsanzeige (Segment DAU).;fall;;;Aufnahmeanlass != 'B' OR Aufnahmeanlass IS NULL;;;"{""range"":{""min"":[0],""max"":[8766],""unit"":[""h""]}}"
 Fallnummer;KH-internes-Kennzeichen;;fall;p21staging;postgres;dt.ventilation;procedure_encounter_identifier_value;procedure.encounter.identifier.value;string;;;0;;fall;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Fallnummer;KH-internes-Kennzeichen;;fall;p21staging;postgres;dt.zipcode;patient_identifier_value;patient.identifier.value;string;;;0;;fall;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Postleitzahl;PLZ;;fall;p21staging;postgres;dt.zipcode;patient_address_postalCode;patient.address.postalCode;string;;;1;"Die Postleitzahl der Anschrift des Versicherten ist vollständig mit 5 Ziffern anzugeben.  
@@ -337,3 +337,40 @@ Fallnummer;id;;resources;fhirgw;postgres;dt.encounterstart;encounter_identifier_
 Fallnummer;encounter.reference;;resources;fhirgw;postgres;dt.condition;condition_encounter_identifier_value;condition.encounter.identifier.value;string;;;0;;resources;;;;;"{""uniqueness"":{""encounter_diagnosis_rank"":{""name"":[""Pl.uniqueness.Item03""],""description"":[""Mit jeder Fallnummer darf nur eine Hauptdiagnose assoziiert sein.""],""all_observations"":[""1""],""filter"":{""i2b2"":[""DIAGNOSEART:HD""],""p21csv"":[""HD""],""p21staging"":[""HD""],""omop"":[""44786627""]}}}}";"{""regex"":[""^([[:alnum:]]){1,}""]}"
 Diagnosen (ICD);code.coding.code;;resources;fhirgw;postgres;dt.condition;condition_code_coding_code;condition.code.coding.code;string;;;1;"Diagnoseschlüssel sind in der gültigen ICD-10GM-Version analog zur § 301-Vereinbarung zu übermitteln: d.h. mit Sonderzeichen.  
 Als erste Diagnose soll die Hauptdiagnose (Diagnoseart: ‚HD’) übermittelt werden.  ";resources;;;type = 'Condition';1;;"{""regex"":[""^([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$""]}"
+Fallnummer;encounter.reference;;resources;fhirgw;postgres;dt.procedure;procedure_encounter_identifier_value;procedure.encounter.identifier.value;string;;;0;;resources;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
+Prozeduren (OPS);code.coding.code;;resources;fhirgw;postgres;dt.procedure;procedure_code_coding_code;procedure.code.coding.code;string;;;1;"Prozedurenschlüssel sind in der gültigen OPS-Version analog zur § 301-Vereinbarung zu übermitteln: d.h. ohne Sonderzeichen.  
+Zur Reihenfolge der Prozedurenschlüssel für Fälle im KHEntgG-Entgeltbereich siehe DKR.  ";resources;;;type = 'Procedure';1;;
+Entlassungsgrund;hospitalization.dischargeDisposition.coding.code;;resources;fhirgw;postgres;dt.discharge;encounter_hospitalization_dischargeDisposition;encounter.hospitalization.dischargeDisposition;string;;;1;"- 01x Behandlung regulär beendet 
+- 02x Behandlung regulär beendet, nachstationäre Behandlung vorgesehen 
+- 03x Behandlung aus sonstigen Gründen beendet 
+- 04x Behandlung gegen ärztlichen Rat beendet 
+- 059 Zuständigkeitswechsel des Kostenträgers (bei tagesbezogenen Entgelten) 
+- 069 Verlegung in ein anderes Krankenhaus 
+- 079 Tod 
+- 089 Verlegung in ein anderes Krankenhaus im Rahmen einer Kooperation 
+- 099 Entlassung in eine Rehabilitationseinrichtung 
+- 109 Entlassung in eine Pflegeeinrichtung 
+- 119 Entlassung in ein Hospiz 
+- 139 externe Verlegung zur psychiatrischen Behandlung 
+- 14x Behandlung aus sonstigen Gründen beendet, nachstationäre Behandlung vorgesehen 
+- 15x Behandlung gegen ärztlichen Rat beendet, nachstationäre Behandlung vorgesehen 
+- 179 interne Verlegung mit Wechsel zwischen den Entgeltbereichen der DRG-Fallpauschalen, nach der BPflV oder für besondere Einrichtungen nach § 17b Abs. 1 Satz 15 KHG 
+- 229 Fallabschluss (interne Verlegung) bei Wechsel zwischen voll- und teilstationärer Behandlung 
+- 239 Beginn eines externen Aufenthalts mit Abwesenheit über Mitternacht (BPflV-Bereich, für verlegende Fachabteilung) 
+- 249 Beendigung eines externen Aufenthalts mit Abwesenheit über Mitternacht (BPflV-Bereich, für Pseudo-Fachabteilung 0003) 
+- 259 Entlassung zum Jahresende bei Aufnahme im Vorjahr (für Zwecke der Abrechnung, § 4 PEPPV) ";resources;;;type = 'Encounter';;;"{""regex"":[""^(aadvice|exp|home|hosp|oth|other\\-hcf|rehab|snf|alt\\-home|long|psy)$""]}"
+Fallnummer;id;;resources;fhirgw;postgres;dt.discharge;encounter_identifier_value;encounter.identifier.value;string;;;0;;resources;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
+Aufnahmegrund;extension.valueCodeableConcept.coding.code;;resources;fhirgw;postgres;dt.hospitalization;encounter_hospitalization_class;encounter.hospitalization.class;string;;;1;"- 01xx Krankenhausbehandlung, vollstationär 
+- 02xx Krankenhausbehandlung, vollstationär mit vorausgegangener vorstationärer Behandlung 
+- 03xx Krankenhausbehandlung, teilstationär 
+- 04xx vorstationäre Behandlung ohne anschließende vollstationäre Behandlung 
+- 05xx stationäre Entbindung 
+- 06xx Geburt 
+- 08xx Stationäre Aufnahme zur Organentnahme  ";resources;;;type = 'Encounter';;;
+Fallnummer;id;;resources;fhirgw;postgres;dt.hospitalization;encounter_identifier_value;encounter.identifier.value;string;;;0;;resources;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
+Fallnummer;encounter.reference;;resources;fhirgw;postgres;dt.proceduredate;procedure_encounter_identifier_value;procedure.encounter.identifier.value;string;;;0;;resources;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
+OPS Datum;performedDateTime;;resources;fhirgw;postgres;dt.proceduredate;procedure_performedDateTime;procedure.performedDateTime;calendar;;;1;Es ist der Beginn der Prozedur anzugeben. Bei Prozeduren, für die keine Startzeit (HHMM) erfasst ist, kann ‚JJJJMMTT0000’ angegeben werden.;resources;;;type = 'Procedure';;;
+Laborwerte (LOINC);code.coding.code;;resources;fhirgw;postgres;dt.laboratory;observation_code_coding_code;observation.code.coding.code;string;;;1;Die Laborwerte als LOINC Codes.;resources;;;type = 'Observation' AND DATA -> 'meta' ->> 'source' = '#laboratory';1;;
+Fallnummer;encounter.reference;;resources;fhirgw;postgres;dt.laboratory;encounter_identifier_value;encounter.identifier.value;string;;;0;;resources;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
+Beatmungsstunden;code.coding.code;;resources;fhirgw;postgres;dt.ventilation;observation_code_coding_code;observation.code.coding.code;integer;;;1;Die Beatmungsstunden sind als Gesamtbeatmungszeit für den Krankenhausfall entsprechend DKR anzugeben. Der Wert entspricht der Angabe „Beatmungsstunden“ in der Entlassungsanzeige (Segment DAU).;fall;;;type = 'Observation' AND DATA -> 'meta' ->> 'source' = '#p21' AND DATA -> 'code' -> 'coding' -> 0 ->> 'code' = '74201-5';;;
+Fallnummer;encounter.reference;;resources;fhirgw;postgres;dt.ventilation;procedure_encounter_identifier_value;procedure.encounter.identifier.value;string;;;0;;fall;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"

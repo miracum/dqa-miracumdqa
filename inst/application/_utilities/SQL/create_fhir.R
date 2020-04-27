@@ -79,6 +79,36 @@ select_vars <- function(mdr_use, pattern = NULL, replace = NULL, todate = NULL) 
           )
         }
         # "." if you want to access data
+      } else if (pattern == "array_third") {
+        if (grepl("\\.", sel_vars[x])) {
+          sel_vars[x] <- gsub("->>", "->", sel_vars[x])
+          str_sp <- unlist(strsplit(sel_vars[x], ".", fixed = T))
+          sel_vars[x] <- paste0(
+            str_sp[1],
+            "' -> '",
+            str_sp[2],
+            "' -> '",
+            str_sp[3],
+            "' -> 0 ->> '",
+            str_sp[4]
+          )
+        }
+        # "." if you want to access data
+      } else if (pattern == "array_first_third") {
+        if (grepl("\\.", sel_vars[x])) {
+          sel_vars[x] <- gsub("->>", "->", sel_vars[x])
+          str_sp <- unlist(strsplit(sel_vars[x], ".", fixed = T))
+          sel_vars[x] <- paste0(
+            str_sp[1],
+            "' -> 0 -> '",
+            str_sp[2],
+            "' -> '",
+            str_sp[3],
+            "' -> 0 ->> '",
+            str_sp[4]
+          )
+        }
+        # "." if you want to access data
       } else if (pattern == "regular") {
         if (grepl("\\.", sel_vars[x])) {
           sel_vars[x] <- gsub("->>", "->", sel_vars[x])
@@ -118,9 +148,7 @@ dt.patient <-
 FROM
 	", mdr.use[source_variable_name=="id",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="id",sql_where], "
-ORDER BY
-	data ->> 'id';")
+  ", mdr.use[source_variable_name=="id",sql_where], ";")
 
 
 
@@ -134,9 +162,7 @@ dt.birthdate <-
 FROM
 	", mdr.use[source_variable_name=="birthDate",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="birthDate",sql_where], "
-ORDER BY
-	data ->> 'id';")
+  ", mdr.use[source_variable_name=="birthDate",sql_where], ";")
 
 
 mdr.use <- mdr[key=="dt.gender",]
@@ -149,9 +175,7 @@ dt.gender <-
 FROM
 	", mdr.use[source_variable_name=="gender",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="gender",sql_where], "
-ORDER BY
-	data ->> 'id';")
+  ", mdr.use[source_variable_name=="gender",sql_where], ";")
 
 
 mdr.use <- mdr[key=="dt.zipcode",]
@@ -164,9 +188,7 @@ dt.zipcode <-
 FROM
 	", mdr.use[source_variable_name=="address.postalCode",source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name=="address.postalCode",sql_where], "
-ORDER BY
-	data ->> 'id';")
+  ", mdr.use[source_variable_name=="address.postalCode",sql_where], ";")
 
 
 mdr.use <- mdr[key=="dt.encounter",]
@@ -197,14 +219,33 @@ for (i in names(looplist)){
 FROM
 	", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
-  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], "
-ORDER BY
-  DATA ->>'", looplist[[i]]$var1, "';")
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ";")
   )
 }
 
-# mixed
-looplist <- list("dt.condition" = list(var1 = "encounter.reference", var2 = "code.coding.code"))
+# cast to date
+looplist <- list("dt.proceduredate" = list(var1 = "encounter.reference", var2 = "performedDateTime"))
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
+    "SELECT
+  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var1,], pattern = "regular", replace = "Encounter/"), ",
+  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var2,], pattern = "regular", todate = TRUE), "
+FROM
+	", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+WHERE
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ";")
+  )
+}
+
+# mixed, array_second
+looplist <- list("dt.condition" = list(var1 = "encounter.reference", var2 = "code.coding.code"),
+                 "dt.procedure" = list(var1 = "encounter.reference", var2 = "code.coding.code"),
+                 "dt.laboratory" = list(var1 = "encounter.reference", var2 = "code.coding.code"),
+                 "dt.ventilation" = list(var1 = "encounter.reference", var2 = "code.coding.code"))
 
 for (i in names(looplist)){
 
@@ -221,11 +262,46 @@ WHERE
   )
 }
 
+# mixed, array_third
+looplist <- list("dt.discharge" = list(var1 = "id", var2 = "hospitalization.dischargeDisposition.coding.code"))
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
+    "SELECT
+  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var1,]), ",
+  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var2,], pattern = "array_third"), "
+FROM
+	", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+WHERE
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ";")
+  )
+}
+
+# mixed, array_first_third
+looplist <- list("dt.hospitalization" = list(var1 = "id", var2 = "extension.valueCodeableConcept.coding.code"))
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
+    "SELECT
+  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var1,]), ",
+  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var2,], pattern = "array_first_third"), "
+FROM
+	", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+WHERE
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ";")
+  )
+}
+
 
 #
 # # where clause without left outer join on case-id
 # looplist <- list("dt.procedure_medication" = list(var1 = "encounter_num", var2 = "concept_cd"),
-#                  "dt.procedure" = list(var1 = "encounter_num", var2 = "concept_cd"),
 #                  "dt.provider" = list(var1 = "encounter_num", var2 = "tval_char"))
 #
 #
@@ -252,10 +328,6 @@ WHERE
 # looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "nval_num"),
 #                   "dt.ageinyears" = list(var1 = "encounter_num", var2 = "nval_num"),
 #                   "dt.admission" = list(var1 = "encounter_num", var2 = "tval_char"),
-#                   "dt.hospitalization" = list(var1 = "encounter_num", var2 = "tval_char"),
-#                   "dt.discharge" = list(var1 = "encounter_num", var2 = "tval_char"),
-#                   "dt.ventilation" = list(var1 = "encounter_num", var2 = "nval_num"),
-#                  "dt.condition" = list(var1 = "encounter_num", var2 = "concept_cd"),
 #                  "dt.conditioncategory" = list(var1 = "encounter_num", var2 = "modifier_cd"))
 #
 #
@@ -284,7 +356,7 @@ WHERE
 #
 #
 # # cast dates
-# looplist <- list("dt.proceduredate" = list(var1 = "encounter_num", var2 = "start_date"),
+# looplist <- list(
 #                  "dt.providerstart" = list(var1 = "encounter_num", var2 = "start_date"),
 #                  "dt.providerend" = list(var1 = "encounter_num", var2 = "end_date"))
 #
@@ -328,30 +400,18 @@ WHERE
 # #   ob.encounter_num;"))
 # # }
 # #
-#
-# mdr.use <- mdr[key=="dt.laboratory",]
-#
-# sel_vars <- select_vars(mdr.use)
-#
-# dt.laboratory <-
-#   paste0(
-#     "SELECT
-# 	", sel_vars, "
-# FROM
-# 	fhirmiracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], "
-# WHERE
-#   ", mdr.use[source_variable_name=="concept_cd",sql_where], ";")
-
 
 
 vec <- c("dt.patient", "dt.gender", "dt.zipcode", "dt.birthdate"
          , "dt.encounter", "dt.encounterstart", "dt.encounterend"
-         # , "dt.ageindays", "dt.ageinyears", "dt.admission", "dt.hospitalization"
-         # , "dt.discharge", "dt.ventilation"
+         # , "dt.ageindays", "dt.ageinyears", "dt.admission"
+         , "dt.hospitalization"
+         , "dt.discharge", "dt.ventilation"
          , "dt.condition"
          #, "dt.conditioncategory"
-         # , "dt.procedure", "dt.proceduredate"
-         # , "dt.procedure_medication", "dt.laboratory"
+         , "dt.procedure", "dt.proceduredate"
+         # , "dt.procedure_medication"
+         , "dt.laboratory"
          # , "dt.provider", "dt.providerstart", "dt.providerend"
 )
 #"pl.atemp.item01", "pl.atemp.item02", "pl.atemp.item03", "pl.atemp.item04")

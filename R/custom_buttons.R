@@ -10,25 +10,26 @@ button_mdr <-
       incProgress(1 / 1,
                   detail = "... from local file ...")
 
-      # base_url <- Sys.getenv("MDR_BASEURL")
-      # namespace <- Sys.getenv("MDR_NAMESPACE")
-      #
-      # # read MDR
-      # mdr <- mdr_from_samply(
-      #   base_url = base_url,
-      #   namespace = namespace,
-      #   headless = headless,
-      #   logfile_dir = logfile_dir
-      # )
+      # read MDR
+      base_url <- Sys.getenv("MDR_BASEURL")
+      namespace <- Sys.getenv("MDR_NAMESPACE")
+
+      mdr <- mdr_from_samply(
+        base_url = base_url,
+        namespace = namespace,
+        headless = headless,
+        logfile_dir = logfile_dir
+      )
 
       # For debugging: just comment the line above (mdr_from_samply)
       # and uncomment the 2 lines below. Doing this, you don't need to
       # switch to DQAgui for testing local changes. However, you still need
       # to "Install and Restart" miRacumDQA!
 
-      mdr <- DQAstats::read_mdr(utils_path = utils_path,
-                               mdr_filename = "mdr.csv")
-
+      # start nolint
+      # mdr <- DQAstats::read_mdr(utils_path = utils_path,
+      #                          mdr_filename = "mdr.csv")
+      # end nolint
     })
     return(mdr)
   }
