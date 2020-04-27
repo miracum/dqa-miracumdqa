@@ -1,6 +1,0 @@
-{
-  "dt.patient": ["SELECT\n\tDATA ->> 'id'\tAS\t\"patient_identifier_value\"\nFROM\n\tresources\nWHERE\n  type = 'Patient'\nORDER BY\n\tdata ->> 'id';"],
-  "dt.gender": ["SELECT\n\tDATA ->> 'gender'\tAS\t\"patient_gender\",\nDATA ->> 'id'\tAS\t\"patient_identifier_value\"\nFROM\n\tresources\nWHERE\n  type = 'Patient'\nORDER BY\n\tdata ->> 'id';"],
-  "dt.zipcode": ["SELECT\n\tDATA ->> 'id'\tAS\t\"patient_identifier_value\",\nDATA -> 'address' -> 0 ->> 'postalCode'\tAS\t\"patient_address_postalCode\"\nFROM\n\tresources\nWHERE\n  type = 'Patient'\nORDER BY\n\tdata ->> 'id';"],
-  "dt.birthdate": ["SELECT\n\tDATA ->> 'birthDate'\tAS\t\"patient_birthDate\",\nDATA ->> 'id'\tAS\t\"patient_identifier_value\"\nFROM\n\tresources\nWHERE\n  type = 'Patient'\nORDER BY\n\tdata ->> 'id';"]
-}

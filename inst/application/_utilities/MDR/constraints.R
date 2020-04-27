@@ -90,6 +90,8 @@ mdr[designation == "Diagnosen (ICD)" &
       source_system_name == "p21staging", constraints := c]
 mdr[designation == "Diagnosen (ICD)" &
       source_system_name == "omop", constraints := c]
+mdr[designation == "Diagnosen (ICD)" &
+      source_system_name == "fhirgw", constraints := c]
 c <-
   jsonlite::toJSON(
     list("regex" = "^(ICD10\\:)([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$")
@@ -107,6 +109,8 @@ mdr[designation == "Fallnummer" &
       source_system_name == "i2b2", constraints := c]
 mdr[designation == "Fallnummer" &
       source_system_name == "omop", constraints := c]
+mdr[designation == "Fallnummer" &
+      source_system_name == "fhirgw", constraints := c]
 
 # Entlassungsgrund
 c <- jsonlite::toJSON(list("regex" = "^([[:digit:]]{1,3})$"))
@@ -118,6 +122,9 @@ mdr[designation == "Entlassungsgrund" &
       source_system_name == "i2b2", constraints := c]
 mdr[designation == "Entlassungsgrund" &
       source_system_name == "omop", constraints := c]
+c <- jsonlite::toJSON(list("regex" = "^(aadvice|exp|home|hosp|oth|other\\-hcf|rehab|snf|alt\\-home|long|psy)$"))
+mdr[designation == "Entlassungsgrund" &
+      source_system_name == "fhirgw", constraints := c]
 
 # Entlassungsdatum, Aufnahmedatum, OPS Datum, Entlassungsdatum (Fachabteilung), Aufnahmedatum (Fachabteilung)
 # TODO value_set für Datumsvariablen überlegen
@@ -143,6 +150,8 @@ mdr[designation == "Postleitzahl" &
       source_system_name == "i2b2", constraints := c]
 mdr[designation == "Postleitzahl" &
       source_system_name == "omop", constraints := c]
+mdr[designation == "Postleitzahl" &
+      source_system_name == "fhirgw", constraints := c]
 
 # Geburtsjahr
 c <-
@@ -155,6 +164,8 @@ mdr[designation == "Geburtsjahr" &
       source_system_name == "i2b2", constraints := c]
 mdr[designation == "Geburtsjahr" &
       source_system_name == "omop", constraints := c]
+mdr[designation == "Geburtsjahr" &
+      source_system_name == "fhirgw", constraints := c]
 
 # Geschlecht
 c <- jsonlite::toJSON(list("value_set" = "m, w, x"))
@@ -164,9 +175,12 @@ mdr[designation == "Geschlecht" &
       source_system_name == "p21staging", constraints := c]
 mdr[designation == "Geschlecht" &
       source_system_name == "omop", constraints := c]
-c <- jsonlite::toJSON(list("value_set" = "m, f, u"))
+c <- jsonlite::toJSON(list("value_set" = "m, w, d, x"))
 mdr[designation == "Geschlecht" &
       source_system_name == "i2b2", constraints := c]
+c <- jsonlite::toJSON(list("value_set" = "male, female, unknown, other"))
+mdr[designation == "Geschlecht" &
+      source_system_name == "fhirgw", constraints := c]
 
 # Patientennummer
 c <- jsonlite::toJSON(list("regex" = "^([[:alnum:]]){1,}"))
@@ -178,6 +192,8 @@ mdr[designation == "Patientennummer" &
       source_system_name == "i2b2", constraints := c]
 mdr[designation == "Patientennummer" &
       source_system_name == "omop", constraints := c]
+mdr[designation == "Patientennummer" &
+      source_system_name == "fhirgw", constraints := c]
 
 # OPS Code
 c <-
