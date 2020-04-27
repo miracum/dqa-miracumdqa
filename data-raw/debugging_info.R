@@ -21,7 +21,7 @@ launch_dqa_tool()
 #                 use_env_credentials = FALSE)
 
 # mdr to samply
-mdr_to_samply()
+miRacumDQA:::mdr_to_samply()
 
 # export from samply
 mdr <- mdr_from_samply()
