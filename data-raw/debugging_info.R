@@ -13,6 +13,7 @@ DIZutils::set_env_vars("../env_INTERNAL")
 shiny::shinyAppDir("inst/application/")
 
 
+DIZutils::set_env_vars("../env_INTERNAL")
 launch_dqa_tool()
 
 
