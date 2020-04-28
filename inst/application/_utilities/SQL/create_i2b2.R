@@ -135,8 +135,7 @@ for (i in names(looplist)){
   mdr.use <- mdr[key==i,]
 
   assign(i, paste0(
-    "
-SELECT
+    "SELECT
   ", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   ", looplist[[i]]$var2, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
@@ -150,8 +149,8 @@ ORDER BY
 
 
 # where clause with left outer join on case-id
-looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "nval_num"),
-                  "dt.ageinyears" = list(var1 = "encounter_num", var2 = "nval_num"),
+looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                  "dt.ageinyears" = list(var1 = "encounter_num", var2 = "concept_cd"),
                   "dt.admission" = list(var1 = "encounter_num", var2 = "tval_char"),
                   "dt.hospitalization" = list(var1 = "encounter_num", var2 = "concept_cd"),
                   "dt.discharge" = list(var1 = "encounter_num", var2 = "concept_cd"),
@@ -248,7 +247,8 @@ WHERE
 vec <- c("dt.patient", "dt.gender", "dt.zipcode", "dt.birthdate",
          "dt.encounter", "dt.encounterstart", "dt.encounterend",
          "dt.ageindays", "dt.ageinyears", "dt.admission", "dt.hospitalization",
-         "dt.discharge", "dt.ventilation",
+         "dt.discharge",
+         "dt.ventilation",
          "dt.condition", "dt.conditioncategory",
          "dt.procedure", "dt.proceduredate",
          "dt.procedure_medication", "dt.laboratory",
