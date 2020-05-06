@@ -9,11 +9,14 @@ utils::assignInNamespace(
   value = button_mdr,
   ns = "DQAgui"
 )
-DIZutils::set_env_vars("../env_INTERNAL")
+DIZutils::set_env_vars(
+  paste0(
+    "../",
+    list.files(path = "../", pattern = "^env_INTERNAL.*")
+  )
+)
+
 shiny::shinyAppDir("inst/application/")
-
-
-DIZutils::set_env_vars("../env_INTERNAL")
 launch_dqa_tool()
 
 

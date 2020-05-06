@@ -169,6 +169,9 @@ shiny::shinyServer(
                 shinyjs::disable("moduleConfig-config_targetdb_user")
                 shinyjs::disable("moduleConfig-config_targetdb_password")
                 shinyjs::disable("moduleConfig-target_pg_test_connection")
+                shinyjs::disable("moduleConfig-select_dqa_assessment_variables")
+                shinyjs::disable("moduleConfig-select_all_assessment_variables")
+                shinyjs::disable("moduleConfig-select_no_assessment_variables")
 
                 shinyjs::disable("moduleConfig-config_sitename")
                 shinyjs::disable(
