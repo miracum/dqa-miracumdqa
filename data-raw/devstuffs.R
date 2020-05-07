@@ -66,7 +66,7 @@ usethis::use_package("influxdbr", type = "Imports")
 
 # Development package
 gui_tag <-  "v0.1.4" # e.g. "v0.1.4"
-dizutils_tag <- "v0.0.2" # e.g. "v0.0.2"
+dizutils_tag <- "v0.0.3" # e.g. "v0.0.2"
 
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dizutils.git", ref = dizutils_tag, upgrade = "always")
 

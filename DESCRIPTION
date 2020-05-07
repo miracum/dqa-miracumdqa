@@ -33,7 +33,7 @@ Imports:
     influxdbr
 Remotes: 
     url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/v0.1.4/dqagui-v0.1.4.zip,
-    url::https://gitlab.miracum.org/miracum/dqa/dizutils/-/archive/v0.0.2/dizutils-v0.0.2.zip
+    url::https://gitlab.miracum.org/miracum/dqa/dizutils/-/archive/v0.0.3/dizutils-v0.0.3.zip
 Suggests: 
     testthat,
     processx,
