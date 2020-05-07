@@ -191,6 +191,8 @@ deployment_to_deploy_repo:
     - git config --global user.name "Release Bot"
     - git commit -m "[Autocommit from miRacumDQA] Version updated to ${miRacumDQA_tag_no_prefix}"
     - git push origin master
+    - git tag -a ${miRacumDQA_tag} -m "Release ${miRacumDQA_tag}"
+    - git push ${miRacumDQA_tag}
   only:
     refs:
       - tags
