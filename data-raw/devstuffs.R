@@ -12,15 +12,14 @@ my_desc$set_authors(c(
          comment = c(ORCID = "0000-0003-1866-860X")),
   person("Jonathan M.", "Mang", role = c('aut')),
   person("Franziska", "Bathelt", role = c('ctb')),
-  person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = c("fnd"))
+  person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = c("fnd")),
+  person("Universitätsklinikum Erlangen", role = "cph")
 )) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
-# Set copyright
-my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.0.9001")
+my_desc$set_version("2.1.0.9002")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -66,7 +65,7 @@ usethis::use_package("DIZutils", type = "Imports")
 
 
 # Development package
-gui_tag <-  "v0.1.4" # e.g. "v0.1.4"
+gui_tag <-  "development" # e.g. "v0.1.4"
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
 desc::desc_set_remotes(c(paste0(
