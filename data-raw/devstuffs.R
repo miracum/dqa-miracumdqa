@@ -8,18 +8,18 @@ my_desc <- desc::description$new("!new")
 my_desc$set("Package", packagename)
 # Set author names
 my_desc$set_authors(c(
-  person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c('cre', 'aut'),
+  person("Lorenz A.", "Kapsner", email = "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
          comment = c(ORCID = "0000-0003-1866-860X")),
-  person("Jonathan M.", "Mang", role = c('aut')),
-  person("Franziska", "Bathelt", role = c('ctb')),
-  person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = c("fnd")),
+  person("Jonathan M.", "Mang", role = "aut"),
+  person("Franziska", "Bathelt", role = "ctb"),
+  person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
   person("Universitätsklinikum Erlangen", role = "cph")
 )) #,
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.0.9002")
+my_desc$set_version("2.1.0.9003")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
