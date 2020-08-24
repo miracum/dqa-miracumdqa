@@ -26,8 +26,13 @@
 #'   (`DQA_report.Rmd` inside the folder `RMD`).
 #' @param logfile_dir Is the absolute path to the directory where the logfile
 #'   will be stored. If not path is provided the tempdir() will be used.
+#' @param parallel A boolean. If TRUE (the default value), initializing
+#'   `future::plan("multiprocess")` before running the code.
+#' @param ncores A integer. The number of cores to use. Caution: you would
+#'   probably like to choose a low number when operating on large datasets.
+#'   Default: 2.
 #'
-#' @return the MIRACUM DQA Tool Shiny application
+#' @return The MIRACUM DQA Tool Shiny application.
 #'
 #' @import shiny shinydashboard
 #'
@@ -38,7 +43,10 @@ launch_dqa_tool <- function(
   port = 3838,
   utils_path = system.file("application/_utilities",
                            package = "miRacumDQA"),
-  logfile_dir = tempdir()) {
+  logfile_dir = tempdir(),
+  parallel = TRUE,
+  ncores = 2
+) {
 
 
   DIZutils::global_env_hack(
@@ -50,6 +58,18 @@ launch_dqa_tool <- function(
   DIZutils::global_env_hack(
     key = "logfile_dir",
     val = logfile_dir,
+    pos = 1L
+  )
+
+  DIZutils::global_env_hack(
+    key = "parallel",
+    val = parallel,
+    pos = 1L
+  )
+
+  DIZutils::global_env_hack(
+    key = "ncores",
+    val = ncores,
     pos = 1L
   )
 
@@ -68,11 +88,15 @@ launch_dqa_tool <- function(
   )
 
 
-  cat(paste0("\nVersion DIZutils: ", utils::packageVersion("DIZutils"),
-             "\nVersion DQAstats: ", utils::packageVersion("DQAstats"),
-             "\nVersion DQAgui: ", utils::packageVersion("DQAgui"),
-             "\nVersion miRacumDQA: ", utils::packageVersion("miRacumDQA"),
-             "\n"))
+  message(
+    paste0(
+      "\nVersion DIZutils: ", utils::packageVersion("DIZutils"),
+      "\nVersion DQAstats: ", utils::packageVersion("DQAstats"),
+      "\nVersion DQAgui: ", utils::packageVersion("DQAgui"),
+      "\nVersion miRacumDQA: ", utils::packageVersion("miRacumDQA"),
+      "\n"
+    )
+  )
 
   shiny::shinyAppDir(
     appDir = system.file("application", package = "miRacumDQA")

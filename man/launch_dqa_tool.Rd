@@ -7,7 +7,9 @@
 launch_dqa_tool(
   port = 3838,
   utils_path = system.file("application/_utilities", package = "miRacumDQA"),
-  logfile_dir = tempdir()
+  logfile_dir = tempdir(),
+  parallel = TRUE,
+  ncores = 2
 )
 }
 \arguments{
@@ -23,9 +25,16 @@ folder `MISC`) and a markdown templated to create the PDF report
 
 \item{logfile_dir}{Is the absolute path to the directory where the logfile
 will be stored. If not path is provided the tempdir() will be used.}
+
+\item{parallel}{A boolean. If TRUE (the default value), initializing
+`future::plan("multiprocess")` before running the code.}
+
+\item{ncores}{A integer. The number of cores to use. Caution: you would
+probably like to choose a low number when operating on large datasets.
+Default: 2.}
 }
 \value{
-the MIRACUM DQA Tool Shiny application
+The MIRACUM DQA Tool Shiny application.
 }
 \description{
 Launch the MIRACUM DQA Tool
