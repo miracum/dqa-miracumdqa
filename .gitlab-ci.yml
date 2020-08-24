@@ -186,13 +186,13 @@ deployment_to_deploy_repo:
     - echo "export MIRACUMDQA_TAG=${miRacumDQA_tag}" >> deployvars.sh
     - echo "export DEPLOY_TAG=${miRacumDQA_tag_no_prefix}" >> deployvars.sh
     - sed -i -e 's/IMAGE_TAG=[0-9]\.[0-9]\.[0-9]/IMAGE_TAG='"${miRacumDQA_tag_no_prefix}"'/' deploy/.env
-    - git add deployvars.sh
+    - git add deployvars.sh deploy/.env
     - git config --global user.email "releasebot@gitlab.miracum.org"
     - git config --global user.name "Release Bot"
     - git commit -m "[Autocommit from miRacumDQA] Version updated to ${miRacumDQA_tag_no_prefix}"
     - git push origin master
     - git tag -a ${miRacumDQA_tag} -m "Release ${miRacumDQA_tag}"
-    - git push ${miRacumDQA_tag}
+    - git push origin ${miRacumDQA_tag}
   only:
     refs:
       - tags
