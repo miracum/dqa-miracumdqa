@@ -28,6 +28,21 @@ mdr[grepl("dt\\.procedure_medication", key) &
       variable_name == "procedure_code_coding_code" &
       source_system_name == "p21csv" & dqa_assessment == 1, filter := f]
 
+# ICD-Diagnosen
+# Hauptdiagnosen
+f <- jsonlite::toJSON(list("filter_var" = "encounter_diagnosis_rank",
+                           "filter_logic" = "HD"))
+mdr[grepl("dt\\.condition_principal", key) &
+      variable_name == "condition_code_coding_code" &
+      source_system_name == "p21csv" & dqa_assessment == 1, filter := f]
+
+# Nebendiagnosen
+f <- jsonlite::toJSON(list("filter_var" = "encounter_diagnosis_rank",
+                           "filter_logic" = "ND"))
+mdr[grepl("dt\\.condition_secondary", key) &
+      variable_name == "condition_code_coding_code_rank2" &
+      source_system_name == "p21csv" & dqa_assessment == 1, filter := f]
+
 # write mdr
 fwrite(mdr,
        paste0(getwd(), "/inst/application/_utilities/MDR/mdr.csv"),

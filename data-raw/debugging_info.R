@@ -16,9 +16,11 @@ DIZutils::set_env_vars(
   )
 )
 
-shiny::shinyAppDir("inst/application/")
-launch_dqa_tool()
+launch_dqa_tool(parallel = TRUE)
 
+
+
+shiny::shinyAppDir("inst/application/")
 
 
 # launch_dqa_tool(config_file = "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml",

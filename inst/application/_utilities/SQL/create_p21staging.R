@@ -123,12 +123,8 @@ ORDER BY
 
 # simple
 looplist <- list("dt.procedure" = list(var1 = "KH-internes-Kennzeichen", var2 = "OPS-Kode"),
-                 "dt.provider" = list(var1 = "KH-internes-Kennzeichen", var2 = "FAB"),
-                 "dt.condition" = list(var1 = "KH-internes-Kennzeichen", var2 = "ICD-Kode"),
                  "dt.conditioncategory" = list(var1 = "KH-internes-Kennzeichen", var2 = "Diagnoseart"),
-                 "dt.proceduredate" = list(var1 = "KH-internes-Kennzeichen", var2 = "OPS-Datum"),
-                 "dt.providerstart" = list(var1 = "KH-internes-Kennzeichen", var2 = "FAB-Aufnahmedatum"),
-                 "dt.providerend" = list(var1 = "KH-internes-Kennzeichen", var2 = "FAB-Entlassungsdatum"))
+                 "dt.proceduredate" = list(var1 = "KH-internes-Kennzeichen", var2 = "OPS-Datum"))
 
 for (i in names(looplist)){
 
@@ -147,14 +143,18 @@ ORDER BY
 }
 
 # more complex; where statement
-looplist <- list("dt.encounterstart" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmedatum"),
-                 "dt.encounterend" = list(var1 = "KH-internes-Kennzeichen", var2 = "Entlassungsdatum"),
-                 "dt.ageindays" = list(var1 = "KH-internes-Kennzeichen", var2 = "Alter-in-Tagen-am-Aufnahmetag"),
-                 "dt.ageinyears" = list(var1 = "KH-internes-Kennzeichen", var2 = "Alter-in-Jahren-am-Aufnahmetag"),
-                 "dt.admission" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmeanlass"),
-                 "dt.hospitalization" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmegrund"),
-                 "dt.discharge" = list(var1 = "KH-internes-Kennzeichen", var2 = "Entlassungsgrund"),
-                 "dt.ventilation" = list(var1 = "KH-internes-Kennzeichen", var2 = "Beatmungsstunden"))
+looplist <- list(
+  "dt.condition_principal" = list(var1 = "KH-internes-Kennzeichen", var2 = "ICD-Kode"),
+  "dt.condition_secondary" = list(var1 = "KH-internes-Kennzeichen", var2 = "ICD-Kode"),
+  "dt.encounterstart" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmedatum"),
+  "dt.encounterend" = list(var1 = "KH-internes-Kennzeichen", var2 = "Entlassungsdatum"),
+  "dt.ageindays" = list(var1 = "KH-internes-Kennzeichen", var2 = "Alter-in-Tagen-am-Aufnahmetag"),
+  "dt.ageinyears" = list(var1 = "KH-internes-Kennzeichen", var2 = "Alter-in-Jahren-am-Aufnahmetag"),
+  "dt.admission" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmeanlass"),
+  "dt.hospitalization" = list(var1 = "KH-internes-Kennzeichen", var2 = "Aufnahmegrund"),
+  "dt.discharge" = list(var1 = "KH-internes-Kennzeichen", var2 = "Entlassungsgrund"),
+  "dt.ventilation" = list(var1 = "KH-internes-Kennzeichen", var2 = "Beatmungsstunden")
+)
 
 for (i in names(looplist)) {
 
@@ -216,10 +216,9 @@ vec <- c("dt.patient", "dt.gender", "dt.zipcode", "dt.birthdate",
          "dt.encounter", "dt.encounterstart", "dt.encounterend",
          "dt.ageindays", "dt.ageinyears", "dt.admission", "dt.hospitalization",
          "dt.discharge", "dt.ventilation",
-         "dt.condition", "dt.conditioncategory",
+         "dt.condition_principal", "dt.condition_secondary", "dt.conditioncategory",
          "dt.procedure", "dt.proceduredate",
-         "dt.procedure_medication", "dt.laboratory",
-         "dt.provider", "dt.providerstart", "dt.providerend")
+         "dt.procedure_medication", "dt.laboratory")
          #"pl.atemp.item01", "pl.atemp.item02", "pl.atemp.item03", "pl.atemp.item04")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)
 

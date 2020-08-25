@@ -26,7 +26,7 @@ button_mdr <-
       # switch to DQAgui for testing local changes. However, you still need
       # to "Install and Restart" miRacumDQA!
 
-      # start nolint
+      # # start nolint
       # mdr <- DQAstats::read_mdr(utils_path = utils_path,
       #                          mdr_filename = "mdr.csv")
       # end nolint

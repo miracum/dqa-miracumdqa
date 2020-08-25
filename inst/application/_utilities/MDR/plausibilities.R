@@ -89,16 +89,16 @@ p <- jsonlite::toJSON(list("uniqueness" = list(
     )
   )
 )))
-mdr[grepl("dt\\.condition$", key) &
+mdr[grepl("dt\\.condition_principal$", key) &
       variable_name == "condition_encounter_identifier_value" &
       source_system_name == "p21csv", plausibility_relation := p]
-mdr[grepl("dt\\.condition$", key) &
+mdr[grepl("dt\\.condition_principal$", key) &
       variable_name == "condition_encounter_identifier_value" &
       source_system_name == "p21staging", plausibility_relation := p]
-mdr[grepl("dt\\.condition$", key) &
+mdr[grepl("dt\\.condition_principal$", key) &
       variable_name == "condition_encounter_identifier_value" &
       source_system_name == "omop", plausibility_relation := p]
-mdr[grepl("dt\\.condition$", key) &
+mdr[grepl("dt\\.condition_principal$", key) &
       variable_name == "condition_encounter_identifier_value" &
       source_system_name == "i2b2", plausibility_relation := p]
 
@@ -173,7 +173,7 @@ p <- jsonlite::toJSON(list(
       "description" = "Nur bei weiblichen Patientinnen ist \'stationäre Entbindung\' als Aufnahmegrund (05) erlaubt.",
       "filter" = list(
         "omop" = "^05",
-        "i2b2" = "^05",
+        "i2b2" = "^FALL\\|AUFNAHMEGRUND\\:05",
         "p21csv" = "^05",
         "p21staging" = "^05",
         "fhirgw" = "^05"

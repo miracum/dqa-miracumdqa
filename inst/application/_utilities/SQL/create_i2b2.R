@@ -88,15 +88,39 @@ ORDER BY
 	patient_num;")
 
 
-mdr.use <- mdr[key=="dt.encounter",]
-sel_vars <- select_vars(mdr.use)
+# mdr.use <- mdr[key=="dt.encounter",]
+# sel_vars <- select_vars(mdr.use)
+#
+# dt.encounter <-
+#   paste0(
+#     "SELECT
+# 	", sel_vars, "
+# FROM
+#   i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], ";")
 
-dt.encounter <-
-  paste0(
+
+looplist <- list("dt.encounter" = list(var1 = "encounter_num", var2 = "patient_num"))
+
+for (i in names(looplist)){
+
+  mdr.use <- mdr[key==i,]
+
+  assign(i, paste0(
     "SELECT
-	", sel_vars, "
+  b.", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
+  a.", looplist[[i]]$var2, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], ";")
+  i2b2miracum.encounter_mapping AS b
+LEFT OUTER JOIN (
+SELECT
+  patient_ide, ", looplist[[i]]$var2, "
+FROM
+  i2b2miracum.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], ") AS a ON
+  a.patient_ide = b.patient_ide
+ORDER BY
+  b.", looplist[[i]]$var1, ";")
+  )
+}
 
 
 # simple cast to date
@@ -126,8 +150,7 @@ ORDER BY
 
 # where clause without left outer join on case-id
 looplist <- list("dt.procedure_medication" = list(var1 = "encounter_num", var2 = "concept_cd"),
-                 "dt.procedure" = list(var1 = "encounter_num", var2 = "concept_cd"),
-                 "dt.provider" = list(var1 = "encounter_num", var2 = "tval_char"))
+                 "dt.procedure" = list(var1 = "encounter_num", var2 = "concept_cd"))
 
 
 for (i in names(looplist)){
@@ -149,13 +172,14 @@ ORDER BY
 
 
 # where clause with left outer join on case-id
-looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "concept_cd"),
-                  "dt.ageinyears" = list(var1 = "encounter_num", var2 = "concept_cd"),
-                  "dt.admission" = list(var1 = "encounter_num", var2 = "tval_char"),
+looplist <- list("dt.ageindays" = list(var1 = "encounter_num", var2 = "nval_num"),
+                  "dt.ageinyears" = list(var1 = "encounter_num", var2 = "nval_num"),
+                  "dt.admission" = list(var1 = "encounter_num", var2 = "concept_cd"),
                   "dt.hospitalization" = list(var1 = "encounter_num", var2 = "concept_cd"),
                   "dt.discharge" = list(var1 = "encounter_num", var2 = "concept_cd"),
                   "dt.ventilation" = list(var1 = "encounter_num", var2 = "nval_num"),
-                 "dt.condition" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                 "dt.condition_principal" = list(var1 = "encounter_num", var2 = "concept_cd"),
+                 "dt.condition_secondary" = list(var1 = "encounter_num", var2 = "concept_cd"),
                  "dt.conditioncategory" = list(var1 = "encounter_num", var2 = "modifier_cd"))
 
 
@@ -184,9 +208,7 @@ ORDER BY
 
 
 # cast dates
-looplist <- list("dt.proceduredate" = list(var1 = "encounter_num", var2 = "start_date"),
-                 "dt.providerstart" = list(var1 = "encounter_num", var2 = "start_date"),
-                 "dt.providerend" = list(var1 = "encounter_num", var2 = "end_date"))
+looplist <- list("dt.proceduredate" = list(var1 = "encounter_num", var2 = "start_date"))
 
 
 for (i in names(looplist)){
@@ -249,10 +271,10 @@ vec <- c("dt.patient", "dt.gender", "dt.zipcode", "dt.birthdate",
          "dt.ageindays", "dt.ageinyears", "dt.admission", "dt.hospitalization",
          "dt.discharge",
          "dt.ventilation",
-         "dt.condition", "dt.conditioncategory",
+         "dt.condition_principal", "dt.conditioncategory",
+         "dt.condition_secondary",
          "dt.procedure", "dt.proceduredate",
-         "dt.procedure_medication", "dt.laboratory",
-         "dt.provider", "dt.providerstart", "dt.providerend")
+         "dt.procedure_medication", "dt.laboratory")
          #"pl.atemp.item01", "pl.atemp.item02", "pl.atemp.item03", "pl.atemp.item04")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)
 
