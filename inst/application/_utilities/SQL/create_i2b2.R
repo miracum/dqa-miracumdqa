@@ -88,16 +88,6 @@ ORDER BY
 	patient_num;")
 
 
-# mdr.use <- mdr[key=="dt.encounter",]
-# sel_vars <- select_vars(mdr.use)
-#
-# dt.encounter <-
-#   paste0(
-#     "SELECT
-# 	", sel_vars, "
-# FROM
-#   i2b2miracum.", mdr.use[source_variable_name=="encounter_num",source_table_name], ";")
-
 
 looplist <- list("dt.encounter" = list(var1 = "encounter_num", var2 = "patient_num"))
 
@@ -110,13 +100,15 @@ for (i in names(looplist)){
   b.", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.encounter_mapping AS b
+  i2b2miracum.visit_dimension AS b
 LEFT OUTER JOIN (
 SELECT
   patient_ide, ", looplist[[i]]$var2, "
 FROM
   i2b2miracum.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], ") AS a ON
   a.patient_ide = b.patient_ide
+WHERE
+  b.visit_blob = 'True encounter'
 ORDER BY
   b.", looplist[[i]]$var1, ";")
   )
@@ -136,20 +128,23 @@ for (i in names(looplist)){
   b.", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "::date\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.encounter_mapping AS b
+  i2b2miracum.visit_dimension AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
 FROM
   i2b2miracum.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], ") AS a ON
   a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
+WHERE
+  b.visit_blob = 'True encounter'
 ORDER BY
   b.", looplist[[i]]$var1, ";")
   )
 }
 
 # where clause without left outer join on case-id
-looplist <- list("dt.procedure_medication" = list(var1 = "encounter_num", var2 = "concept_cd"),
+looplist <- list("dt.encounter" = list(var1 = "encounter_num", var2 = "patient_num"),
+                 "dt.procedure_medication" = list(var1 = "encounter_num", var2 = "concept_cd"),
                  "dt.procedure" = list(var1 = "encounter_num", var2 = "concept_cd"))
 
 
@@ -192,7 +187,7 @@ for (i in names(looplist)){
   b.", looplist[[i]]$var1, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  i2b2miracum.encounter_mapping AS b
+  i2b2miracum.visit_dimension AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
@@ -201,6 +196,8 @@ FROM
 WHERE
   ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ") AS a ON
   a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
+WHERE
+  b.visit_blob = 'True encounter'
 ORDER BY
   b.", looplist[[i]]$var1, ";")
   )

@@ -7,21 +7,50 @@ button_mdr <-
                        logfile_dir = logfile_dir,
                        headless = headless)
     shiny::withProgress(message = "Loading MDR", value = 0, {
-      incProgress(1 / 1,
-                  detail = "... from local file ...")
 
       # read MDR
-      base_url <- Sys.getenv("MDR_BASEURL")
-      namespace <- Sys.getenv("MDR_NAMESPACE")
 
-      mdr <- mdr_from_samply(
-        base_url = base_url,
-        namespace = namespace,
-        headless = headless,
-        logfile_dir = logfile_dir
+      mdr <- tryCatch(
+        expr = {
+          incProgress(
+            1,
+            detail = "... from Samply.MDR ..."
+          )
+          base_url <- Sys.getenv("MDR_BASEURL")
+          namespace <- Sys.getenv("MDR_NAMESPACE")
+          mdr <- mdr_from_samply(
+            base_url = base_url,
+            namespace = namespace,
+            headless = headless,
+            logfile_dir = logfile_dir
+          )
+          DIZutils::feedback(
+            print_this = "Loading MDR from Samply.MDR web API",
+            logfile_dir = logfile_dir,
+            headless = headless
+          )
+          mdr
+        }, error = function(e) {
+          incProgress(
+            1,
+            detail = "... from local file ..."
+          )
+          DIZutils::feedback(
+            print_this = "Fallback to load MDR from local file",
+            logfile_dir = logfile_dir,
+            headless = headless
+          )
+          mdr <- DQAstats::read_mdr(
+            utils_path = utils_path,
+            mdr_filename = "mdr.csv"
+          )
+          mdr
+        }, finally = function(f) {
+          return(mdr)
+        }
       )
 
-      # For debugging: just comment the line above (mdr_from_samply)
+      # For debugging: just comment the lines above (mdr_from_samply)
       # and uncomment the 2 lines below. Doing this, you don't need to
       # switch to DQAgui for testing local changes. However, you still need
       # to "Install and Restart" miRacumDQA!
