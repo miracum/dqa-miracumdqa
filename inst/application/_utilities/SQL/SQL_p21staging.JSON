@@ -18,5 +18,8 @@
   "dt.procedure": ["\nSELECT\n  \"KH-internes-Kennzeichen\"\tAS\t\"procedure_encounter_identifier_value\",\n  \"OPS-Kode\"\tAS\t\"procedure_code_coding_code\"\nFROM\n  p21.ops\nORDER BY\n  \"KH-internes-Kennzeichen\";"],
   "dt.proceduredate": ["\nSELECT\n  \"KH-internes-Kennzeichen\"\tAS\t\"procedure_encounter_identifier_value\",\n  \"OPS-Datum\"\tAS\t\"procedure_performedDateTime\"\nFROM\n  p21.ops\nORDER BY\n  \"KH-internes-Kennzeichen\";"],
   "dt.procedure_medication": ["\nSELECT\n  \"KH-internes-Kennzeichen\"\tAS\t\"procedure_encounter_identifier_value\",\n  \"OPS-Kode\"\tAS\t\"procedure_code_coding_code\"\nFROM\n  p21.ops\nWHERE\n  \"OPS-Kode\" LIKE '6-00%'\nORDER BY\n  \"KH-internes-Kennzeichen\";"],
-  "dt.laboratory": ["SELECT\n\t\"loinc_code\"\tAS\t\"observation_code_coding_code\",\n\"case_id\"\tAS\t\"encounter_identifier_value\"\nFROM\n\tlaboratory.laboratory_p21;"]
+  "dt.laboratory": ["SELECT\n\t\"loinc_code\"\tAS\t\"observation_code_coding_code\",\n\"case_id\"\tAS\t\"encounter_identifier_value\"\nFROM\n\tlaboratory.laboratory_p21;"],
+  "dt.provider": ["\nSELECT\n  \"KH-internes-Kennzeichen\"\tAS\t\"encounter_identifier_value\",\n  \"FAB\"\tAS\t\"location_identifier_value\"\nFROM\n  p21.fab\nORDER BY\n  \"KH-internes-Kennzeichen\";"],
+  "dt.providerstart": ["\nSELECT\n  \"KH-internes-Kennzeichen\"\tAS\t\"encounter_identifier_value\",\n  \"FAB-Aufnahmedatum\"\tAS\t\"encounter_location_period_start\"\nFROM\n  p21.fab\nORDER BY\n  \"KH-internes-Kennzeichen\";"],
+  "dt.providerend": ["\nSELECT\n  \"KH-internes-Kennzeichen\"\tAS\t\"encounter_identifier_value\",\n  \"FAB-Entlassungsdatum\"\tAS\t\"encounter_location_period_end\"\nFROM\n  p21.fab\nORDER BY\n  \"KH-internes-Kennzeichen\";"]
 }

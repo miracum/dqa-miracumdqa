@@ -16,7 +16,7 @@ DIZutils::set_env_vars(
   )
 )
 
-launch_dqa_tool(parallel = TRUE)
+launch_dqa_tool(parallel = FALSE)
 
 
 

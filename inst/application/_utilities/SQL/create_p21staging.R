@@ -123,8 +123,11 @@ ORDER BY
 
 # simple
 looplist <- list("dt.procedure" = list(var1 = "KH-internes-Kennzeichen", var2 = "OPS-Kode"),
+                 "dt.provider" = list(var1 = "KH-internes-Kennzeichen", var2 = "FAB"),
                  "dt.conditioncategory" = list(var1 = "KH-internes-Kennzeichen", var2 = "Diagnoseart"),
-                 "dt.proceduredate" = list(var1 = "KH-internes-Kennzeichen", var2 = "OPS-Datum"))
+                 "dt.proceduredate" = list(var1 = "KH-internes-Kennzeichen", var2 = "OPS-Datum"),
+                 "dt.providerstart" = list(var1 = "KH-internes-Kennzeichen", var2 = "FAB-Aufnahmedatum"),
+                 "dt.providerend" = list(var1 = "KH-internes-Kennzeichen", var2 = "FAB-Entlassungsdatum"))
 
 for (i in names(looplist)){
 
@@ -218,7 +221,8 @@ vec <- c("dt.patient", "dt.gender", "dt.zipcode", "dt.birthdate",
          "dt.discharge", "dt.ventilation",
          "dt.condition_principal", "dt.condition_secondary", "dt.conditioncategory",
          "dt.procedure", "dt.proceduredate",
-         "dt.procedure_medication", "dt.laboratory")
+         "dt.procedure_medication", "dt.laboratory",
+         "dt.provider", "dt.providerstart", "dt.providerend")
          #"pl.atemp.item01", "pl.atemp.item02", "pl.atemp.item03", "pl.atemp.item04")
 string_list <- sapply(vec, function(i){eval(parse(text=i))}, simplify = F, USE.NAMES = T)
 
