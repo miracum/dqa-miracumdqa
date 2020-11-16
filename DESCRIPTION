@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 2.1.0.9006
+Version: 2.1.0.9007
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -9,7 +9,8 @@ Authors@R:
              comment = c(ORCID = "0000-0003-1866-860X")),
       person(given = "Jonathan M.",
              family = "Mang",
-             role = "aut"),
+             role = "aut",
+             comment = c(ORCID = "0000-0003-0518-4710")),
       person(given = "Franziska",
              family = "Bathelt",
              role = "ctb"),
@@ -23,7 +24,7 @@ LazyData: true
 URL: https://gitlab.miracum.org/miracum/dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum/dqa/miRacumDQA/issues
 Encoding: UTF-8
-Date: 2020-08-25
+Date: 2020-11-16
 Imports: 
     shiny,
     shinydashboard,
