@@ -37,7 +37,7 @@ mdr_to_samply <- function(utils_path = "inst/application/_utilities/",
   stopifnot(
     is.character(utils_path),
     is.character(mdr_filename),
-    mdr_filename == "mdr.csv",
+    grepl("\\.csv$", tolower(mdr_filename)),
     is.character(master_system_name),
     master_system_name %in% c("p21csv", "p21staging"),
     master_system_type %in% c("csv", "postgres")
