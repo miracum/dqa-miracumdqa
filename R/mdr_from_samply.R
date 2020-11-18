@@ -313,6 +313,53 @@ mdr_from_samply <- function(base_url,
           }
         }
       }
+
+      for (sys in names(dqa_slot$oracle)) {
+        oracle_slot <- jsonlite::fromJSON(
+          txt = dqa_slot$oracle[[sys]]
+        )
+        append_row <- cbind(
+          append_basis,
+          "source_system_type" = "oracle",
+          "source_system_name" = sys,
+          data.table::as.data.table(
+            oracle_slot$base
+          )
+        )
+
+        if (!is.null(dqa_slot$plausibility_relation)) {
+          append_row <- cbind(
+            append_row,
+            "plausibility_relation" = dqa_slot$plausibility_relation
+          )
+        }
+
+        # add row to mdr
+        outmdr <- data.table::rbindlist(list(
+          outmdr,
+          append_row
+        ),
+        fill = T)
+
+        if (!is.null(oracle_slot$helper_vars)) {
+
+          for (h in names(oracle_slot$helper_vars)) {
+            append_row <- cbind(
+              "source_system_type" = "oracle",
+              "source_system_name" = sys,
+              data.table::as.data.table(
+                oracle_slot$helper_vars[[h]]
+              )
+            )
+            # add row to mdr
+            outmdr <- data.table::rbindlist(list(
+              outmdr,
+              append_row
+            ),
+            fill = T)
+          }
+        }
+      }
     } else {
       DIZutils::feedback(
         print_this = paste0("Ignoring", element_id, ". No 'dqa'-slot present"),
@@ -340,6 +387,7 @@ mdr_from_samply <- function(base_url,
   }
   # set new order
   data.table::setcolorder(outmdr, neworder)
+  outmdr <- outmdr[!duplicated(outmdr), ]
   return(outmdr)
 }
 

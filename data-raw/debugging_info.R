@@ -38,6 +38,11 @@ data.table::fwrite(mdr, file = "inst/application/_utilities/MDR/samply_export.cs
 mdr <- mdr_from_samply(base_url = "https://test.mdr.mig-frankfurt.de/rest/api/mdr/",
                        namespace = "mdr")
 
+# debug local
+mdr <- mdr_from_samply(base_url = "https://mdr.diz.uk-erlangen.de/rest/api/mdr/",
+                       namespace = "dqa",
+                       logfile_dir = tempdir())
+
 
 test <- mdr_from_samply(base_url = "https://mdr.miracum.de/rest/api/mdr/",
                        namespace = "miracum1")
