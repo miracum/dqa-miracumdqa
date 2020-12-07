@@ -155,18 +155,6 @@ deployment_to_deploy_repo:
   script:
     - mkdir ci_tmp
     - cd ci_tmp
-    - git clone https://gitlab.miracum.org/miracum/dqa/DIZutils.git
-    - cd DIZutils
-    - DIZutils_tag=$(git describe --tags `git rev-list --tags --max-count=1`) # gets tags across all branches, not just the current branch
-    - cd ../
-    - git clone https://gitlab.miracum.org/miracum/dqa/DQAstats.git
-    - cd DQAstats
-    - DQAstats_tag=$(git describe --tags `git rev-list --tags --max-count=1`) # gets tags across all branches, not just the current branch
-    - cd ../
-    - git clone https://gitlab.miracum.org/miracum/dqa/DQAgui.git
-    - cd DQAgui
-    - DQAgui_tag=$(git describe --tags `git rev-list --tags --max-count=1`) # gets tags across all branches, not just the current branch
-    - cd ../
     - git clone https://gitlab.miracum.org/miracum/dqa/miRacumDQA.git
     - cd miRacumDQA
     - miRacumDQA_tag=$(git describe --tags `git rev-list --tags --max-count=1`) # gets tags across all branches, not just the current branch
@@ -179,20 +167,16 @@ deployment_to_deploy_repo:
     - cd ../
     - git clone https://${GITHUB_USER}:${K8S_SECRET_GITHUB_ACCESS_TOKEN}@gitlab.miracum.org/miracum/dqa/dqatool_deployment.git
     - cd dqatool_deployment
-    - echo "#!/bin/bash" > deployvars.sh
-    - echo "export DIZUTILS_TAG=${DIZutils_tag}" >> deployvars.sh
-    - echo "export DQASTATS_TAG=${DQAstats_tag}" >> deployvars.sh
-    - echo "export DQAGUI_TAG=${DQAgui_tag}" >> deployvars.sh
-    - echo "export MIRACUMDQA_TAG=${miRacumDQA_tag}" >> deployvars.sh
-    - echo "export DEPLOY_TAG=${miRacumDQA_tag_no_prefix}" >> deployvars.sh
     - sed -i -e 's/IMAGE_TAG=[0-9]\.[0-9]\.[0-9]/IMAGE_TAG='"${miRacumDQA_tag_no_prefix}"'/' deploy/.env
-    - git add deployvars.sh deploy/.env
+    - git add deploy/.env
     - git config --global user.email "releasebot@gitlab.miracum.org"
     - git config --global user.name "Release Bot"
     - git commit -m "[Autocommit from miRacumDQA] Version updated to ${miRacumDQA_tag_no_prefix}"
     - git push origin master
     - git tag -a ${miRacumDQA_tag} -m "Release ${miRacumDQA_tag}"
     - git push origin ${miRacumDQA_tag}
+    - cd ../../
+    - rm -rf ci_tmp
   only:
     refs:
       - tags
