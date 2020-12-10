@@ -1,16 +1,15 @@
 variables:
   _R_CHECK_CRAN_INCOMING_: "false"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  CI_IMAGE_NAME: "rocker/verse"
-  CI_IMAGE_TAG: "4.0.0"
+  CI_IMAGE_NAME: "docker.miracum.org/dqa/base_image:development"
   R_PKG_NAME: "miRacumDQA"
 
 default:
-  image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
+  image: ${CI_IMAGE_NAME}
   before_script:
-    - echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
-    - R -e "install.packages('pkgbuild')"
+    - echo ".git" > .dockerignore  # Don't upload the git-folder to the context
     - mkdir -p ci
+
 
 .template_check:
   allow_failure: true # necessary when having development-packages (in remotes-section of DESCRIPTION)
