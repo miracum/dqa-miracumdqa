@@ -10,7 +10,7 @@ variables:
 
 
 stages:
-  - update_base_image
+  - get_base_image
   - build
   - deploy
 
@@ -18,27 +18,18 @@ stages:
 .docker_registry:
   before_script:
     - echo ${REGISTRY_PASSWORD} | docker login -u ${REGISTRY_USERNAME} ${DOCKER_REGISTRY} --password-stdin
-    - git clone https://oauth2:${CI_JOB_TOKEN}@gitlab.miracum.org/miracum/dqa/dqa_base_image.git dqa_base_image
+    - git clone https://oauth2:${CI_JOB_TOKEN}@gitlab.miracum.org/miracum/dqa/dqatool_deployment.git dqa_base_image
     - cd dqa_base_image
   after_script:
     - docker logout ${DOCKER_REGISTRY}
 
 
-# build_new_base_image_dev:
-#   stage: update_base_image
-#   image: docker:git
-#   extends: .docker_registry
-#   script:
-#     - sh deploy_image.sh -t development
-#   except:
-#    refs:
-#      - master
-
-build_new_base_image_latest:
-  stage: update_base_image
+build_new_base_image:
+  stage: get_base_image
   image: docker:git
+  extends: .docker_registry
   script:
-    - sh deploy_image.sh
+    - sh deploy_base_image.sh -t development
   only:
    refs:
      - master
@@ -128,7 +119,6 @@ install:
       - tags
 
 
-
 build_release_image:
   stage: deploy
   when: on_success
@@ -147,7 +137,7 @@ build_release_image:
     - echo "miRacumDQA_tag ${miRacumDQA_tag}"
     - echo "miRacumDQA_tag_no_prefix ${miRacumDQA_tag_no_prefix}"
     - cd ../
-    - git clone https://${GITHUB_USER}:${K8S_SECRET_GITHUB_ACCESS_TOKEN}@gitlab.miracum.org/miracum/dqa/dqatool_deployment.git
+    - git clone https://oauth2:${CI_JOB_TOKEN}@gitlab.miracum.org/miracum/dqa/dqatool_deployment.git dqatool_deployment
     - cd dqatool_deployment
     - sed -i -e 's/IMAGE_TAG=[0-9]\.[0-9]\.[0-9]/IMAGE_TAG='"${miRacumDQA_tag_no_prefix}"'/' deploy/.env
     - git add deploy/.env
