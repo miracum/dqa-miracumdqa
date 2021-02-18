@@ -117,3 +117,21 @@ usethis::use_git_ignore("/.RData")
 usethis::use_git_ignore("!/ci/")
 usethis::use_git_ignore("/.vscode")
 usethis::use_git_ignore("!/.lintr")
+
+## Add citation information:
+# usethis::use_citation()
+citation <- utils::citEntry(
+  ## For entry types see here: https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/bibentry
+  entry    = "Manual",
+  title    = my_desc[[".__enclos_env__"]][["private"]][["data"]][["Title"]][["value"]],
+  author   = my_desc[[".__enclos_env__"]][["private"]][["data"]][["Authors@R"]][["value"]],
+  # journal  = ,
+  year     = format(Sys.Date(), "%Y"),
+  # volume   = ,
+  # number   = ,
+  # pages    = ,
+  url      = my_desc[[".__enclos_env__"]][["private"]][["data"]][["URL"]][["value"]],
+  textVersion = paste(
+    ""
+  )
+)
