@@ -109,6 +109,7 @@ install:
 
 build_release_image:
   stage: deploy
+  image: docker:git
   when: on_success
   before_script:
     - apt-get update && apt-get install git -y --no-install-recommends
