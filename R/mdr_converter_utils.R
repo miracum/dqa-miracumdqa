@@ -43,6 +43,16 @@ source_slot <- function(mdr, sourcesystem, name) {
       "value_threshold" = subs[, get("value_threshold")]
     ))
   }
+  if (!is.na(subs[, get("restricting_date_var")])) {
+    outlist$base <- c(outlist$base, list(
+      "restricting_date_var" = subs[, get("restricting_date_var")]
+    ))
+  }
+  if (!is.na(subs[, get("restricting_date_format")])) {
+    outlist$base <- c(outlist$base, list(
+      "restricting_date_format" = subs[, get("restricting_date_format")]
+    ))
+  }
   if (!is.na(subs[, get("data_map")])) {
     outlist$base <- c(outlist$base, list(
       "data_map" = subs[, get("data_map")]
@@ -96,6 +106,16 @@ source_slot <- function(mdr, sourcesystem, name) {
         "fhir" = helps[get("variable_name") == i,
                        get("fhir")]
       )
+      if (!is.na(helps[, get("restricting_date_var")])) {
+        helpsout[[i]] <- c(helpsout[[i]], list(
+          "restricting_date_var" = helps[, get("restricting_date_var")]
+        ))
+      }
+      if (!is.na(helps[, get("restricting_date_format")])) {
+        helpsout[[i]] <- c(helpsout[[i]], list(
+          "restricting_date_format" = helps[, get("restricting_date_format")]
+        ))
+      }
       if (!is.na(helps[, get("sql_from")])) {
         helpsout[[i]] <- c(helpsout[[i]], list(
           "sql_from" = helps[, get("sql_from")]

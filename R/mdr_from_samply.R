@@ -371,8 +371,8 @@ mdr_from_samply <- function(base_url,
   }
   # change order of columns for better comparability
   neworder <- c("designation", "source_variable_name", "source_table_name",
-                "filter",
-                "source_system_name", "source_system_type", "key",
+                "filter", "source_system_name", "source_system_type",
+                "restricting_date_var", "restricting_date_format", "key",
                 "variable_name", "fhir", "variable_type", "constraints",
                 "value_threshold", "missing_threshold", "dqa_assessment",
                 "definition", "sql_from", "sql_join_on", "sql_join_type",
