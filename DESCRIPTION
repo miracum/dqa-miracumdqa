@@ -24,20 +24,19 @@ LazyData: true
 URL: https://gitlab.miracum.org/miracum/dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum/dqa/miRacumDQA/issues
 Encoding: UTF-8
-Date: 2021-03-08
+Date: 2021-03-30
 Imports: 
+    data.table,
+    DIZutils,
+    influxdbr,
+    jsonlite,
+    openxlsx,
     shiny,
     shinydashboard,
-    jsonlite,
-    data.table,
-    openxlsx,
-    utils,
-    influxdbr,
-    DIZutils
+    utils
 Remotes: 
-    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/v0.1.5/dqagui-v0.1.5.zip
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/developmment/dqagui-developmment.zip
 Suggests: 
-    testthat,
+    lintr,
     processx,
-    lintr
-RoxygenNote: 7.1.1
+    testthat
