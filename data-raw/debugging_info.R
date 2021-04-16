@@ -27,15 +27,19 @@ shiny::shinyAppDir("inst/application/")
 #                 use_env_credentials = FALSE)
 
 # mdr to samply
-miRacumDQA:::mdr_to_samply()
+miRacumDQA:::mdr_to_samply(mdr_filename = "mdr_ohne_p21.csv")
 
 # export from samply
-mdr <- mdr_from_samply()
+base_url = "https://mdr-test.miracum.org/rest/api/mdr/"
+namespace = "dqa"
+mdr <- mdr_from_samply(base_url = base_url,
+                       namespace = namespace,
+                       logfile_dir = logfile_dir)
 data.table::fwrite(mdr, file = "inst/application/_utilities/MDR/samply_export.csv")
 
 
 # debugging ffm
-mdr <- mdr_from_samply(base_url = "https://test.mdr.mig-frankfurt.de/rest/api/mdr/",
+mdr <- mdr_from_samply(base_url = "https://mdr-test.miracum.org/rest/api/mdr/",
                        namespace = "mdr")
 
 # debug local
@@ -44,15 +48,18 @@ mdr <- mdr_from_samply(base_url = "https://mdr.diz.uk-erlangen.de/rest/api/mdr/"
                        logfile_dir = tempdir())
 
 
-test <- mdr_from_samply(base_url = "https://mdr.miracum.de/rest/api/mdr/",
+test <- mdr_from_samply(base_url = "https://mdr-test.miracum.org/rest/api/mdr/",
                        namespace = "miracum1")
 
 
 
-base_url = "https://mdr.miracum.de/rest/api/mdr/"
+base_url = "https://mdr-test.miracum.org/rest/api/mdr/"
 namespace = "dqa"
 master_system_type = "csv"
 master_system_name = "p21csv"
 headless = TRUE
 
-test <- mdr_from_samply(namespace = "miracum1")
+test <-
+  mdr_from_samply(base_url = base_url,
+                  namespace = namespace,
+                  logfile_dir = logfile_dir)
