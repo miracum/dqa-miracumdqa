@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 2.1.1.9002
+Version: 2.1.1.9003
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -24,7 +24,7 @@ LazyData: true
 URL: https://gitlab.miracum.org/miracum/dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum/dqa/miRacumDQA/issues
 Encoding: UTF-8
-Date: 2021-05-03
+Date: 2021-05-05
 Imports: 
     data.table,
     DIZutils,
@@ -37,6 +37,7 @@ Imports:
 Remotes: 
     url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/developmment/dqagui-developmment.zip
 Suggests: 
+    markdown,
     lintr,
     processx,
     testthat

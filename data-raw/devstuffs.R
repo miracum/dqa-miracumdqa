@@ -24,7 +24,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.1.9002")
+my_desc$set_version("2.1.1.9003")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -82,6 +82,7 @@ file = usethis::proj_get())
 usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
+usethis::use_package("markdown", type = "Suggests")
 
 
 
