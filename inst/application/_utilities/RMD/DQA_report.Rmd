@@ -72,6 +72,8 @@ kable_table(rv$checks$etl)
 kable_table(rv$completeness[,c(1,3,5)])
 ```
 
+\newpage
+
 # Conformance Checks
 
 ## Value Conformance
@@ -81,7 +83,6 @@ Value conformance checks (verification) compare for each variable the values of 
 ```{r results='asis'}
 kable_table(rv$checks$value_conformance)
 ```
-
 
 \newpage
 

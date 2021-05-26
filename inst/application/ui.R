@@ -70,6 +70,7 @@ shiny::shinyUI(
           shiny::HTML(
             paste0(
               "Version:",
+              "<br/>R: ", paste(R.Version()[c("major", "minor")], collapse = "."),
               "<br/>DIZutils: ", utils::packageVersion("DIZutils"),
               "<br/>DQAstats: ", utils::packageVersion("DQAstats"),
               "<br/>DQAgui: ", utils::packageVersion("DQAgui"),
