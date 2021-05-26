@@ -56,6 +56,7 @@ render_data_map(rv$datamap$target_data)
 render_data_map(rv$datamap$source_data)
 ```
 
+\newpage
 # Completeness Checks 
 
 ## Validation 
@@ -73,7 +74,6 @@ kable_table(rv$completeness[,c(1,3,5)])
 ```
 
 \newpage
-
 # Conformance Checks
 
 ## Value Conformance
@@ -85,7 +85,6 @@ kable_table(rv$checks$value_conformance)
 ```
 
 \newpage
-
 # Detailed Descriptive Analysis
 
 ```{r results='asis'}
@@ -93,7 +92,6 @@ render_results(rv$results_descriptive, rv$conformance$value_conformance)
 ```
 
 \newpage
-
 # Plausibility Checks
 
 ## Atemporal Plausibility 
@@ -111,7 +109,6 @@ render_uniq_plausis(rv$results_plausibility_unique)
 ```
 
 \newpage
-
 # Appendix
 
 ## R-Package Version 'DQAstats' 
