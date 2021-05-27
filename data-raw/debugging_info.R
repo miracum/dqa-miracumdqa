@@ -27,7 +27,7 @@ shiny::shinyAppDir("inst/application/")
 #                 use_env_credentials = FALSE)
 
 # mdr to samply
-miRacumDQA:::mdr_to_samply(mdr_filename = "mdr_ohne_p21.csv")
+miRacumDQA:::mdr_to_samply(mdr_filename = "mdr.csv")
 
 # export from samply
 base_url = "https://mdr-test.miracum.org/rest/api/mdr/"
