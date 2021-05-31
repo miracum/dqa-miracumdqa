@@ -63,3 +63,22 @@ test <-
   mdr_from_samply(base_url = base_url,
                   namespace = namespace,
                   logfile_dir = logfile_dir)
+
+
+## Test Datamap connection:
+# con_res <- get_influx_connection(list(headless = TRUE, log = list("logfile_dir" = tempdir())))
+# datamap = data.table::data.table(
+#   site = rep("UME", 2),
+#   system = rep("i2b2", 2),
+#   item = c("Fallnummer", "Hauptdiagnosen (ICD)"),
+#   lay_term = c("F\u00E4lle", "Diagnosen"),
+#   n = c(999999, 777777)
+# )
+# influxdbr::influx_write(
+#   con = con_res$con,
+#   db = con_res$config$dbname,
+#   x = datamap,
+#   tag_cols = c("site", "system", "item", "lay_term"),
+#   # tag_cols = c("site", "system", "item", "n"),
+#   measurement = "item_counts"
+# )
