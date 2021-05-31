@@ -173,8 +173,12 @@ send_datamap_to_influx <- function(rv) {
                   "lay_term" := "Laborwerte"]
           dm[get("variable") == "Hauptdiagnosen (ICD)",
                   "lay_term" := "Diagnosen"]
+          dm[get("variable") == "Nebendiagnosen (ICD)",
+             "lay_term" := "Nebendiagnosen"]
           dm[get("variable") == "Prozeduren (OPS)",
                   "lay_term" := "Prozeduren"]
+          dm[get("variable") == "Medikation (OPS)",
+             "lay_term" := "Medikation"]
 
           ## Rename "variable" --> "item":
           data.table::setnames(
@@ -191,7 +195,17 @@ send_datamap_to_influx <- function(rv) {
           dm <- dm[, .SD, .SDcols = c(tag_cols, "n")]
 
           ## Remove rows with NA as lay_terms:
-          # datamap <- datamap[!is.na(get("lay_term")),]
+          DIZutils::feedback(
+            print_this = paste0(
+              "Removing rows '",
+              paste(dm[is.na(get("lay_term")), "item"], collapse = "', '"),
+              "' because these don't have a lay_term specified."
+            ),
+            findme = "d66b56d255",
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless
+          )
+          dm <- dm[!is.na(get("lay_term")),]
 
           # Set up the connection:
           con_res <- get_influx_connection(rv)
