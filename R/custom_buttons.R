@@ -182,7 +182,7 @@ send_datamap_to_influx <- function(rv) {
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
-          dm <- dm[!is.na(get("lay_term")),]
+          dm <- dm[!is.na(get("lay_term")), ]
 
           # Set up the connection:
           con_res <- get_influx_connection(rv)
