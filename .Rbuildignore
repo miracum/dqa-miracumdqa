@@ -10,3 +10,4 @@
 ^\.gitlab-ci\.yml$
 ^\.vscode$
 ^\.lintr$
+^ci/*$
