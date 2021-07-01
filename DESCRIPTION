@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 2.1.1.9011
+Version: 2.1.2
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -35,7 +35,7 @@ Imports:
     shinydashboard,
     utils
 Remotes: 
-    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/developmment/dqagui-developmment.zip
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/v0.1.6/dqagui-v0.1.6.zip
 Suggests: 
     markdown,
     lintr,

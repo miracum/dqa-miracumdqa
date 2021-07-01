@@ -112,29 +112,6 @@ send_datamap_to_influx <- function(rv) {
       # Assign the data
       site <- rv$sitename
       system <- rv$target$system_name
-      # item <- rv$datamap$target_data[, "variable", with = F]
-
-      # print("Datamap:")
-      # print(rv$datamap$target_data)
-      #
-      # # TODO datamap mappings for the symposium
-      # lay_term <- rv$datamap$target_data[, "variable", with = F]
-      # lay_term[get("variable") == "Patientennummer",
-      #          ("variable") := "Patienten"]
-      # lay_term[get("variable") == "Fallnummer",
-      #          ("variable") := "F\u00E4lle"]
-      # lay_term[get("variable") == "Laborwerte (LOINC)",
-      #          ("variable") := "Laborwerte"]
-      # lay_term[get("variable") == "Diagnosen (ICD)",
-      #          ("variable") := "Diagnosen"]
-      # lay_term[get("variable") == "Prozeduren (OPS)",
-      #          ("variable") := "Prozeduren"]
-      #
-      # n <- rv$datamap$target_data[, "n", with = F]
-      #
-      # # The column "variable" needs to be renamed to "item" for influxdb:
-      # colnames(item) <- "item"
-      # colnames(lay_term) <- "lay_term"
 
       if (isTRUE(is.null(site) ||
                  # is.null(item) ||
@@ -262,25 +239,6 @@ send_datamap_to_influx <- function(rv) {
             duration = 10
           )
         }
-        # ,warning = function(cond) {
-        #   # Console feedback:
-        #   DIZutils::feedback(
-        #     paste0("While exporting: datamap --> influxdb: ", cond),
-        #     findme = "010f0daea3",
-        #     type = "Warning",
-        #     logfile_dir = rv$log$logfile_dir,
-        #     headless = rv$headless
-        #   )
-        #   # GUI feedback:
-        #   showNotification(
-        #     paste0(
-        #       "\U2716 Warning while exporting the Datamap.",
-        #       " See the logfile for more information."
-        #     ),
-        #     type = "error",
-        #     duration = 10
-        #   )
-        # }
         )
       }
     }

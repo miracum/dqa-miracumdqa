@@ -1,7 +1,7 @@
 file <-
   "~/git-local/miracum/miracumdqa/inst/application/_utilities/MDR/mdr.csv"
-file_output <-
-  "~/git-local/miracum/miracumdqa/inst/application/_utilities/MDR/mdr_cleanup.csv"
+file_output <- paste0("~/git-local/miracum/miracumdqa/",
+                      "inst/application/_utilities/MDR/mdr_cleanup.csv")
 mdr <- data.table::fread(file = file, stringsAsFactors = FALSE)
 
 ## Remove double-quotation marks: --> "" <--
