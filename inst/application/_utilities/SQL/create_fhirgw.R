@@ -21,7 +21,7 @@ library(data.table)
 
 # read mdr
 mdr <- DQAstats::read_mdr(utils = "inst/application/_utilities/", mdr_filename = "mdr.csv")
-mdr <- mdr[source_system_name=="fhirgw",]
+mdr <- mdr[source_system_name == "fhirgw", ]
 
 
 replace_this <- function(string, replace) {
