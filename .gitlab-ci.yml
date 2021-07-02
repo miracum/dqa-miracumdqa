@@ -27,7 +27,7 @@ build_release_image:
     - echo "miRacumDQA_tag ${miRacumDQA_tag}"
     - echo "miRacumDQA_tag_no_prefix ${miRacumDQA_tag_no_prefix}"
     - cd ../
-    - git clone https://oauth2:${CI_JOB_TOKEN}@gitlab.miracum.org/miracum/dqa/dqatool_deployment.git dqatool_deployment
+    - git clone https://oauth2:${GITLAB_DQATOOL_DEPLOYMENT_TOKEN}@gitlab.miracum.org/miracum/dqa/dqatool_deployment.git dqatool_deployment
     - cd dqatool_deployment
     - sed -i -e 's/IMAGE_TAG=[0-9]\.[0-9]\.[0-9]/IMAGE_TAG='"${miRacumDQA_tag_no_prefix}"'/' deploy/.env
     - git add deploy/.env
