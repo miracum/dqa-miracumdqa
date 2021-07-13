@@ -213,11 +213,11 @@ send_datamap_to_influx <- function(rv) {
             headless = rv$headless
           )
           # GUI feedback:
-          showNotification(
-            "\U2714 Datamap successfully exported",
-            type = "message",
-            duration = 10
-          )
+          if (isTRUE(rv$headless)) {
+            shiny::showNotification("\U2714 Datamap successfully exported",
+                                    type = "message",
+                                    duration = 10)
+          }
           rm(dm)
         },
         error = function(cond) {
@@ -230,14 +230,16 @@ send_datamap_to_influx <- function(rv) {
             headless = rv$headless
           )
           # GUI feedback:
-          showNotification(
-            paste0(
-              "\U2716 Error while exporting the Datamap.",
-              " See the logfile for more information."
-            ),
-            type = "error",
-            duration = 10
-          )
+          if (isTRUE(rv$headless)) {
+            shiny::showNotification(
+              paste0(
+                "\U2716 Error while exporting the Datamap.",
+                " See the logfile for more information."
+              ),
+              type = "error",
+              duration = 10
+            )
+          }
         }
         )
       }
