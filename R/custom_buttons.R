@@ -213,7 +213,7 @@ send_datamap_to_influx <- function(rv) {
             headless = rv$headless
           )
           # GUI feedback:
-          if (isTRUE(rv$headless)) {
+          if (isFALSE(rv$headless)) {
             shiny::showNotification("\U2714 Datamap successfully exported",
                                     type = "message",
                                     duration = 10)
@@ -230,7 +230,7 @@ send_datamap_to_influx <- function(rv) {
             headless = rv$headless
           )
           # GUI feedback:
-          if (isTRUE(rv$headless)) {
+          if (isFALSE(rv$headless)) {
             shiny::showNotification(
               paste0(
                 "\U2716 Error while exporting the Datamap.",

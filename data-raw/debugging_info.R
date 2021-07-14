@@ -19,8 +19,18 @@ DIZutils::set_env_vars(
 launch_dqa_tool(parallel = FALSE)
 
 
-
 shiny::shinyAppDir("inst/application/")
+
+# rv <- DQAstats::dqa(
+#   source_system_name = "i2b2",
+#   target_system_name = "i2b2",
+#   utils_path = system.file("application/_utilities/", package = "miRacumDQA"),
+#   mdr_filename = "mdr.csv",
+#   output_dir = "./output",
+#   logfile_dir = tempdir()
+# );
+# rv[["sitename"]] <- "UME";
+# miRacumDQA:::send_datamap_to_influx(rv)
 
 
 # launch_dqa_tool(config_file = "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml",
