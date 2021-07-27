@@ -299,7 +299,7 @@ WHERE
 }
 
 # mixed, array_first_third
-looplist <- list("dt.hospitalization" = list(var1 = "id", var2 = "hospitalization.extension.valueCodeableConcept.coding.code"))
+looplist <- list("dt.hospitalization" = list(var1 = "id", var2 = "hospitalization.admitSource.coding.code"))
 
 for (i in names(looplist)){
 
@@ -308,7 +308,7 @@ for (i in names(looplist)){
   assign(i, paste0(
     "SELECT
   ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var1,]), ",
-  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var2,], pattern = "2,4"), "
+  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var2,], pattern = "array_third"), "
 FROM
 	", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE

@@ -276,7 +276,7 @@ Entlassungsgrund;hospitalization.dischargeDisposition.coding.code;;resources;fhi
 - 249 Beendigung eines externen Aufenthalts mit Abwesenheit über Mitternacht (BPflV-Bereich, für Pseudo-Fachabteilung 0003) 
 - 259 Entlassung zum Jahresende bei Aufnahme im Vorjahr (für Zwecke der Abrechnung, § 4 PEPPV) ";resources;;;type = 'Encounter' and data ->> 'partOf' is null;;;"{""regex"":[""^(aadvice|exp|home|hosp|oth|other\\-hcf|rehab|snf|alt\\-home|long|psy)$""]}"
 Fallnummer;id;;resources;fhirgw;postgres;;;dt.discharge;encounter_identifier_value;encounter.identifier.value;string;;;0;;resources;;;;;;"{""regex"":[""^([[:alnum:]]){1,}""]}"
-Aufnahmegrund;hospitalization.extension.valueCodeableConcept.coding.code;;resources;fhirgw;postgres;;;dt.hospitalization;encounter_hospitalization_class;encounter.hospitalization.class;string;;;1;"- 01xx Krankenhausbehandlung, vollstationär 
+Aufnahmegrund;hospitalization.admitSource.coding.code;;resources;fhirgw;postgres;;;dt.hospitalization;encounter_hospitalization_class;encounter.hospitalization.class;string;;;1;"- 01xx Krankenhausbehandlung, vollstationär 
 - 02xx Krankenhausbehandlung, vollstationär mit vorausgegangener vorstationärer Behandlung 
 - 03xx Krankenhausbehandlung, teilstationär 
 - 04xx vorstationäre Behandlung ohne anschließende vollstationäre Behandlung 
