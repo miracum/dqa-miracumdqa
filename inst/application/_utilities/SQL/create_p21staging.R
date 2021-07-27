@@ -41,7 +41,7 @@ dt.patient <-
   "SELECT
 	", sel_vars, "
 FROM
-	p21.", mdr.use[source_variable_name=="Patientennummer",source_table_name], "
+	", mdr.use[source_variable_name=="Patientennummer",source_table_name], "
 WHERE
   ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="Patientennummer",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
           "\"\\1\"",
@@ -61,7 +61,7 @@ dt.birthdate <-
     "SELECT
 	", sel_vars, "
 FROM
-	p21.", mdr.use[source_variable_name=="Geburtsjahr",source_table_name], "
+	", mdr.use[source_variable_name=="Geburtsjahr",source_table_name], "
 WHERE
   ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="Geburtsjahr",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
           "\"\\1\"",
@@ -75,10 +75,10 @@ sel_vars <- select_vars(mdr.use)
 
 dt.gender <-
   paste0(
-    "SELECT
+    "SELECT DISTINCT
 	", sel_vars, "
 FROM
-	p21.", mdr.use[source_variable_name=="Geschlecht",source_table_name], "
+	", mdr.use[source_variable_name=="Geschlecht",source_table_name], "
 WHERE
   ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="Geschlecht",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
           "\"\\1\"",
@@ -95,7 +95,7 @@ dt.zipcode <-
     "SELECT
 	", sel_vars, "
 FROM
-	p21.", mdr.use[source_variable_name=="PLZ",source_table_name], "
+	", mdr.use[source_variable_name=="PLZ",source_table_name], "
 WHERE
   ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="PLZ",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
           "\"\\1\"",
@@ -112,7 +112,7 @@ dt.encounter <-
     "SELECT
 	", sel_vars, "
 FROM
-  p21.", mdr.use[source_variable_name=="KH-internes-Kennzeichen",source_table_name], "
+  ", mdr.use[source_variable_name=="KH-internes-Kennzeichen",source_table_name], "
 WHERE
   ", gsub(paste0("(", strsplit(mdr.use[source_variable_name=="KH-internes-Kennzeichen",sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
           "\"\\1\"",
@@ -139,7 +139,7 @@ SELECT
   \"", looplist[[i]]$var1, "\"\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   \"", looplist[[i]]$var2, "\"\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 ORDER BY
   \"", looplist[[i]]$var1, "\";")
   )
@@ -169,7 +169,7 @@ SELECT
   \"", looplist[[i]]$var1, "\"\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   \"", looplist[[i]]$var2, "\"\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
   ", gsub(paste0("(", strsplit(mdr.use[source_variable_name==looplist[[i]]$var2, sql_where], split = " ", fixed = T)[[1]][[1]], ")"),
           "\"\\1\"",
@@ -193,7 +193,7 @@ SELECT
   \"", looplist[[i]]$var1, "\"\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   \"", looplist[[i]]$var2, "\"\tAS\t\"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+  ", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
   \"OPS-Kode\" LIKE '6-00%'
 ORDER BY

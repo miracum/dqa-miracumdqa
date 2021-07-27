@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 2.1.2.9004
+Version: 2.1.2.9005
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
