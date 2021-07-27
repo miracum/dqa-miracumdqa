@@ -109,6 +109,24 @@ select_vars <- function(mdr_use, pattern = NULL, replace = NULL, todate = NULL) 
           )
         }
         # "." if you want to access data
+      } else if (pattern == "2,4") {
+        print("yes")
+        if (grepl("\\.", sel_vars[x])) {
+          sel_vars[x] <- gsub("->>", "->", sel_vars[x])
+          str_sp <- unlist(strsplit(sel_vars[x], ".", fixed = T))
+          sel_vars[x] <- paste0(
+            str_sp[1],
+            "' -> '",
+            str_sp[2],
+            "' -> 0 -> '",
+            str_sp[3],
+            "' -> '",
+            str_sp[4],
+            "' -> 0 ->> '",
+            str_sp[5]
+          )
+        }
+        # "." if you want to access data
       } else if (pattern == "regular") {
         if (grepl("\\.", sel_vars[x])) {
           sel_vars[x] <- gsub("->>", "->", sel_vars[x])
@@ -281,7 +299,7 @@ WHERE
 }
 
 # mixed, array_first_third
-looplist <- list("dt.hospitalization" = list(var1 = "id", var2 = "extension.valueCodeableConcept.coding.code"))
+looplist <- list("dt.hospitalization" = list(var1 = "id", var2 = "hospitalization.extension.valueCodeableConcept.coding.code"))
 
 for (i in names(looplist)){
 
@@ -290,7 +308,7 @@ for (i in names(looplist)){
   assign(i, paste0(
     "SELECT
   ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var1,]), ",
-  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var2,], pattern = "array_first_third"), "
+  ", select_vars(mdr.use[source_variable_name==looplist[[i]]$var2,], pattern = "2,4"), "
 FROM
 	", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
