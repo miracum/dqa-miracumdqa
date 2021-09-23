@@ -31,7 +31,7 @@ dt.patient <-
     "SELECT
 	person_id       AS    \"", mdr.use[source_variable_name=="person_id",variable_name], "\"
 FROM
-	p21_cdm.", mdr.use[source_variable_name=="person_id",source_table_name], "
+	cds_cdm.", mdr.use[source_variable_name=="person_id",source_table_name], "
 ORDER BY
 	person_id;")
 
@@ -44,7 +44,7 @@ dt.birthdate <-
     person_id       AS    \"", mdr.use[source_variable_name=="person_id",variable_name], "\",
     year_of_birth  AS    \"", mdr.use[source_variable_name=="year_of_birth",variable_name], "\"
 FROM
-	p21_cdm.", mdr.use[source_variable_name=="year_of_birth",source_table_name], "
+	cds_cdm.", mdr.use[source_variable_name=="year_of_birth",source_table_name], "
 ORDER BY
 	person_id;")
 
@@ -57,7 +57,7 @@ dt.gender <-
     person_id       AS    \"", mdr.use[source_variable_name=="person_id",variable_name], "\",
     gender_source_value            AS    \"", mdr.use[source_variable_name=="gender_source_value",variable_name], "\"
 FROM
-	p21_cdm.", mdr.use[source_variable_name=="gender_source_value",source_table_name], "
+	cds_cdm.", mdr.use[source_variable_name=="gender_source_value",source_table_name], "
 ORDER BY
 	person_id;")
 
@@ -70,9 +70,9 @@ dt.zipcode <-
     per.person_id       AS    \"", mdr.use[source_variable_name=="person_id",variable_name], "\",
     loc.zip            AS    \"", mdr.use[source_variable_name=="zip",variable_name], "\"
 FROM
-	p21_cdm.", mdr.use[source_variable_name=="person_id",source_table_name], " AS per
+	cds_cdm.", mdr.use[source_variable_name=="person_id",source_table_name], " AS per
 LEFT OUTER JOIN
-  p21_cdm.", mdr.use[source_variable_name=="zip",source_table_name], " AS loc ON
+  cds_cdm.", mdr.use[source_variable_name=="zip",source_table_name], " AS loc ON
   per.", mdr.use[source_variable_name=="zip",sql_join_on], " = loc.", mdr.use[source_variable_name=="zip",sql_join_on], "
 ORDER BY
 	person_id;")
@@ -86,7 +86,7 @@ dt.encounter <-
 	person_id       AS    \"", mdr.use[source_variable_name=="person_id",variable_name], "\",
   visit_occurrence_id     AS    \"", mdr.use[source_variable_name=="visit_occurrence_id",variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
+  cds_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], "
 ORDER BY
   person_id;")
 
@@ -103,7 +103,7 @@ for (i in names(looplist)){
   ", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   ", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+  cds_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
   ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], "
 ORDER BY
@@ -132,12 +132,12 @@ for (i in names(looplist)){
   b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21_cdm.visit_occurrence AS b
+  cds_cdm.visit_occurrence AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
 FROM
-  p21_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], ") AS a ON
+  cds_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], ") AS a ON
   a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
 ORDER BY
   b.", looplist[[i]]$var1, ";")
@@ -160,12 +160,12 @@ for (i in names(looplist)){
   b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21_cdm.visit_occurrence AS b
+  cds_cdm.visit_occurrence AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
 FROM
-  p21_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+  cds_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
   ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ") AS a ON
   a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
@@ -190,12 +190,12 @@ for (i in names(looplist)){
   b.", looplist[[i]]$var1, "    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var1,variable_name], "\",
   a.", looplist[[i]]$var2, "::numeric    AS    \"", mdr.use[source_variable_name==looplist[[i]]$var2,variable_name], "\"
 FROM
-  p21_cdm.visit_occurrence AS b
+  cds_cdm.visit_occurrence AS b
 LEFT OUTER JOIN (
 SELECT
   ", looplist[[i]]$var1, ", ", looplist[[i]]$var2, "
 FROM
-  p21_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
+  cds_cdm.", mdr.use[source_variable_name==looplist[[i]]$var2,source_table_name], "
 WHERE
   ", mdr.use[source_variable_name==looplist[[i]]$var2,sql_where], ") AS a ON
   a.", looplist[[i]]$var1, " = b.", looplist[[i]]$var1, "
@@ -217,9 +217,9 @@ ORDER BY
 #   ob.concept_cd       AS    \"", mdr.use[source_variable_name=="concept_cd",variable_name], "\",
 #   pa.gender_source_value           AS    \"", mdr.use[source_variable_name=="gender_source_value",variable_name], "\"
 # FROM
-#   p21_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], " AS ob
+#   cds_cdm.", mdr.use[source_variable_name=="visit_occurrence_id",source_table_name], " AS ob
 # LEFT OUTER JOIN
-#   p21_cdm.patient_dimension AS pa ON ob.person_id = pa.person_id
+#   cds_cdm.patient_dimension AS pa ON ob.person_id = pa.person_id
 # WHERE
 #   ob.", mdr.use[source_variable_name=="gender_source_value",sql_where], "
 # ORDER BY
