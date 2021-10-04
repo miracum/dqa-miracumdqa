@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 2.1.2.9005
+Version: 2.1.2.9006
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -24,7 +24,7 @@ LazyData: true
 URL: https://gitlab.miracum.org/miracum/dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum/dqa/miRacumDQA/issues
 Encoding: UTF-8
-Date: 2021-07-27
+Date: 2021-10-04
 Imports: 
     data.table,
     DIZutils,
@@ -34,10 +34,3 @@ Imports:
     shiny,
     shinydashboard,
     utils
-Remotes: 
-    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/developmment/dqagui-developmment.zip
-Suggests: 
-    markdown,
-    lintr,
-    processx,
-    testthat
