@@ -34,3 +34,11 @@ Imports:
     shiny,
     shinydashboard,
     utils
+Remotes: 
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/developmment/dqagui-developmment.zip,
+    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip
+Suggests: 
+    markdown,
+    lintr,
+    processx,
+    testthat

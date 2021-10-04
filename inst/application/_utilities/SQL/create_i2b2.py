@@ -6,7 +6,9 @@ import os
 class CreateSQL():
   
   def __init__(self):
-    
+    """
+    Instantiate some basics.
+    """
     self.base_dir = os.path.abspath(os.path.dirname(__file__))
     json_file = "SQL_i2b2.JSON"
     
@@ -19,7 +21,9 @@ class CreateSQL():
     self.json_dict = {}
   
   def __call__(self):
-    
+    """
+    Our main function.
+    """
     self.create_dict()
   
     with open(self.json_path, "w") as outfile:
@@ -32,7 +36,11 @@ class CreateSQL():
   
   
   def create_dict(self):
+    """
+    Create dictionary to dump to JSON file here.
     
+    TODO: add some logic to use mappings from MDR.CSV
+    """
     self.json_dict["dt.patient"] = "SELECT\n\tpatient_num\tAS\t\"patient_identifier_value\"\nFROM\n\ti2b2miracum.patient_dimension\nORDER BY\n\tpatient_num;"
     self.json_dict["dt.gender"] = "SELECT\n\tconcept_cd\tAS\t\"encounter_subject_patient_gender\",\npatient_num\tAS\t\"encounter_subject_patient_identifier_value\"\nFROM\n\ti2b2miracum.observation_fact\nWHERE\n\tconcept_cd LIKE 'DEM|GESCHLECHT%'\nORDER BY\n\tpatient_num;"
     self.json_dict["dt.zipcode"] = "SELECT\n\tpatient_num\tAS\t\"patient_identifier_value\",\nzip_cd\tAS\t\"patient_address_postalCode\"\nFROM\n\ti2b2miracum.patient_dimension\nORDER BY\n\tpatient_num;"
@@ -54,9 +62,6 @@ class CreateSQL():
     self.json_dict["dt.procedure_medication"] = "SELECT\n\tencounter_num\tAS\t\"procedure_encounter_identifier_value\",\n\tconcept_cd\tAS\t\"procedure_code_coding_code\"\nFROM\n\ti2b2miracum.observation_fact\nWHERE\n\tconcept_cd LIKE 'OPS:6-00%'\nORDER BY\n\tencounter_num;"
     self.json_dict["dt.laboratory"] = "SELECT\n\tconcept_cd\tAS\t\"observation_code_coding_code\",\nencounter_num\tAS\t\"encounter_identifier_value\"\nFROM\n\ti2b2miracum.observation_fact\nWHERE\n\tconcept_cd LIKE 'LOINC%';"
 
-
-	
-	
 
 if __name__ == "__main__":
   csql = CreateSQL()
