@@ -17,6 +17,7 @@ my_desc$set_authors(c(
     comment = c(ORCID = "0000-0003-0518-4710")
   ),
   person("Franziska", "Bathelt", role = "ctb"),
+  person("Denis", "Gebele", role = "ctb"),
   person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
   person("Universitätsklinikum Erlangen", role = "cph")
 )) #,
@@ -24,7 +25,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9006")
+my_desc$set_version("2.1.2.9007")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package

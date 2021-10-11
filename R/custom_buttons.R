@@ -12,10 +12,12 @@ button_mdr <-
 
       mdr <- tryCatch(
         expr = {
-          incProgress(
+          shiny::incProgress(
             1,
             detail = "... from Samply.MDR ..."
           )
+          # TODO for debugging -> jumping to local mdr
+          stop()
           base_url <- Sys.getenv("MDR_BASEURL")
           namespace <- Sys.getenv("MDR_NAMESPACE")
           mdr <- mdr_from_samply(
@@ -31,7 +33,7 @@ button_mdr <-
           )
           mdr
         }, error = function(e) {
-          incProgress(
+          shiny::incProgress(
             1,
             detail = "... from local file ..."
           )
