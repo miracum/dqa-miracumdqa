@@ -41,7 +41,7 @@ class CreateSQL():
     
     TODO: add some logic to use mappings from MDR.CSV
     """
-    self.json_dict["dt.patient"] = "SELECT\
+    self.json_dict["Person.Patient.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT\
 	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\"\
 FROM\
 	i2b2miracum.patient_dimension;"
