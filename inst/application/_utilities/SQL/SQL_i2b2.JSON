@@ -1,3 +1,6 @@
 {
-  "Person.Patient.Patienten-Identifikator.Patienten-Identifikator": "SELECT\tDISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\"FROM\ti2b2miracum.patient_dimension;"
+  "Person.Patient.Patienten-Identifikator.Patienten-Identifikator": "SELECT\tDISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\"FROM\ti2b2miracum.patient_dimension;",
+  "Person.Demographie.AdministrativesGeschlecht": "SELECT\tDISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\",\tsex_cd AS \"Person.Demographie.AdministrativesGeschlecht\"FROM\ti2b2miracum.patient_dimension;",
+  "Person.Demographie.Geburtsdatum": "SELECT\tDISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\",\tbirth_date::date AS \"Person.Demographie.Geburtsdatum\"FROM\ti2b2miracum.patient_dimension;",
+  "Person.Demographie.Adresse.PLZ": "SELECT\tDISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\",\tzip_cd AS \"Person.Demographie.Adresse.PLZ\"FROM\ti2b2miracum.patient_dimension;"
 }

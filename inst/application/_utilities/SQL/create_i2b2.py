@@ -46,6 +46,24 @@ class CreateSQL():
 FROM\
 	i2b2miracum.patient_dimension;"
     
+    self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT\
+	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\",\
+	sex_cd AS \"Person.Demographie.AdministrativesGeschlecht\"\
+FROM\
+	i2b2miracum.patient_dimension;"
+    
+    self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT\
+	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\",\
+	birth_date::date AS \"Person.Demographie.Geburtsdatum\"\
+FROM\
+	i2b2miracum.patient_dimension;"
+    
+    self.json_dict["Person.Demographie.Adresse.PLZ"] = "SELECT\
+	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\",\
+	zip_cd AS \"Person.Demographie.Adresse.PLZ\"\
+FROM\
+	i2b2miracum.patient_dimension;"
+    
 
 if __name__ == "__main__":
   csql = CreateSQL()
