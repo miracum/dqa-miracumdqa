@@ -41,29 +41,58 @@ class CreateSQL():
     
     TODO: add some logic to use mappings from MDR.CSV
     """
-    self.json_dict["Person.Patient.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT\
-	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\"\
-FROM\
-	i2b2miracum.patient_dimension;"
+    self.json_dict["Person.Patient.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT \
+	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\" \
+FROM \
+	i2b2miracum.visit_dimension;"
     
-    self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT\
-	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\",\
-	sex_cd AS \"Person.Demographie.AdministrativesGeschlecht\"\
-FROM\
-	i2b2miracum.patient_dimension;"
+    self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
+	mn.patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
+	jn.sex_cd AS \"Person.Demographie.AdministrativesGeschlecht\" \
+FROM \
+	i2b2miracum.visit_dimension AS mn \
+JOIN \
+	i2b2miracum.patient_dimension AS jn \
+ON \
+	mn.patient_num = jn.patient_num;"
     
-    self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT\
-	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\",\
-	birth_date::date AS \"Person.Demographie.Geburtsdatum\"\
-FROM\
-	i2b2miracum.patient_dimension;"
+    self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
+	mn.patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
+	jn.birth_date::date AS \"Person.Demographie.Geburtsdatum\" \
+FROM \
+	i2b2miracum.visit_dimension AS mn \
+JOIN \
+	i2b2miracum.patient_dimension AS jn \
+ON \
+	mn.patient_num = jn.patient_num;"
     
-    self.json_dict["Person.Demographie.Adresse.PLZ"] = "SELECT\
-	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\",\
-	zip_cd AS \"Person.Demographie.Adresse.PLZ\"\
-FROM\
-	i2b2miracum.patient_dimension;"
+    self.json_dict["Person.Demographie.Adresse.PLZ"] = "SELECT \
+	mn.patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
+	jn.zip_cd AS \"Person.Demographie.Adresse.PLZ\" \
+FROM \
+	i2b2miracum.visit_dimension AS mn \
+JOIN \
+	i2b2miracum.patient_dimension AS jn \
+ON \
+	mn.patient_num = jn.patient_num;"
     
+    self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"] = "SELECT \
+	patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
+	encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\" \
+FROM \
+	i2b2miracum.visit_dimension;"
+    
+    self.json_dict["Fall.Einrichtungskontakt.Beginndatum"] = "SELECT \
+	encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+	start_date AS \"Fall.Einrichtungskontakt.Beginndatum\" \
+FROM \
+	i2b2miracum.visit_dimension;"
+    
+    self.json_dict["Fall.Einrichtungskontakt.Enddatum"] = "SELECT \
+	encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+	end_date AS \"Fall.Einrichtungskontakt.Enddatum\" \
+FROM \
+	i2b2miracum.visit_dimension;"
 
 if __name__ == "__main__":
   csql = CreateSQL()

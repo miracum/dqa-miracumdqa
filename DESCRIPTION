@@ -1,33 +1,22 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 2.1.2.9007
-Authors@R: 
-    c(person(given = "Lorenz A.",
-             family = "Kapsner",
-             role = c("cre", "aut"),
-             email = "lorenz.kapsner@uk-erlangen.de",
-             comment = c(ORCID = "0000-0003-1866-860X")),
-      person(given = "Jonathan M.",
-             family = "Mang",
-             role = "aut",
-             comment = c(ORCID = "0000-0003-0518-4710")),
-      person(given = "Franziska",
-             family = "Bathelt",
-             role = "ctb"),
-      person(given = "Denis",
-             family = "Gebele",
-             role = "ctb"),
-      person(given = "MIRACUM - Medical Informatics in Research and Care in University Medicine",
-             role = "fnd"),
-      person(given = "Universitätsklinikum Erlangen",
-             role = "cph"))
+Version: 2.1.2.9008
+Authors@R: c(
+    person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0003-1866-860X")),
+    person("Jonathan M.", "Mang", role = "aut",
+           comment = c(ORCID = "0000-0003-0518-4710")),
+    person("Franziska", "Bathelt", role = "ctb"),
+    person("Denis", "Gebele", role = "ctb"),
+    person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
+    person("Universitätsklinikum Erlangen", role = "cph")
+  )
 Description: The MIRACUM consortium's data quality assessment tool.
 License: GPL-3
-LazyData: true
 URL: https://gitlab.miracum.org/miracum/dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum/dqa/miRacumDQA/issues
 Encoding: UTF-8
-Date: 2021-10-11
+Date: 2021-10-18
 Imports: 
     data.table,
     DIZutils,
@@ -39,10 +28,9 @@ Imports:
     utils
 Remotes: 
     url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/developmment/dqagui-developmment.zip,
-    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip
+    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/feat_new_coreds/dqastats-feat_new_coreds.zip
 Suggests: 
     markdown,
     lintr,
     processx,
     testthat
-RoxygenNote: 7.1.1

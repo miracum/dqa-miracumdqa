@@ -25,7 +25,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9007")
+my_desc$set_version("2.1.2.9008")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -71,7 +71,7 @@ usethis::use_package("DIZutils", type = "Imports")
 
 
 # Development package
-stats_tag <- "development"
+stats_tag <- "feat_new_coreds"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
 gui_tag <-  "developmment" # e.g. "v0.1.6" or "developmment
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
