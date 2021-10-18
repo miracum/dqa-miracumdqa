@@ -34,3 +34,4 @@ Suggests:
     lintr,
     processx,
     testthat
+RoxygenNote: 7.1.2
