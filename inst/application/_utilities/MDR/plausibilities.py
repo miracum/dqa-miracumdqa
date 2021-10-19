@@ -78,7 +78,7 @@ class WritePlausibilities(MDRHandling):
                 }
               }
             },
-            "Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode": {
+            "Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode.1": {
               "name": "Pl.atemporal.Item02",
               "description": "Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.",
               "filter": {
@@ -91,7 +91,7 @@ class WritePlausibilities(MDRHandling):
                 }
               }
             },
-            "Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode": {
+            "Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode.2": {
               "name": "Pl.atemporal.Item03",
               "description": "Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.",
               "filter": {
