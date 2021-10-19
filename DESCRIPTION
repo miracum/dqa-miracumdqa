@@ -26,3 +26,12 @@ Imports:
     shiny,
     shinydashboard,
     utils
+Remotes: 
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/feat_new_coreds/dqagui-feat_new_coreds.zip,
+    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/feat_new_coreds/dqastats-feat_new_coreds.zip
+Suggests: 
+    markdown,
+    lintr,
+    processx,
+    testthat
+RoxygenNote: 7.1.2
