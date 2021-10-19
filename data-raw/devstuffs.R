@@ -73,7 +73,7 @@ usethis::use_package("DIZutils", type = "Imports")
 # Development package
 stats_tag <- "feat_new_coreds"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
-gui_tag <-  "developmment" # e.g. "v0.1.6" or "developmment
+gui_tag <-  "feat_new_coreds" # e.g. "v0.1.6" or "developmment
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
 desc::desc_set_remotes(c(
