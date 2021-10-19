@@ -2,39 +2,37 @@ import json
 import os
 import pandas as pd
 
+from python_mdr_handling import MDRHandling
 
 
-class WriteConstraints():
+
+class WriteConstraints(MDRHandling):
   
-  def __init__(self, csv_separator:str = ";"):
+  def __init__(self):
     """
     Instantiate some basics.
     """
-    self.base_dir = os.path.abspath(os.path.dirname(__file__))
-    mdr_file = "mdr.csv"
+    super().__init__()
     
-    self.mdr_path = os.path.join(
-      self.base_dir,
-      mdr_file
-    )
-    
-    self.mdr = pd.read_csv(
-      filepath_or_buffer=self.mdr_path,
-      sep=csv_separator
-    )
-    
-    print(self.mdr.head())
   
   def __call__(self):
     """
     Our main function.
     """
-    pass
+    self.add_constraints()
     
+    self.write_mdr(filename="mdr.csv")
   
   
   def add_constraints(self):
-    pass
+    
+    self.mdr.loc[
+      (self.mdr.designation == "Person.Demographie.AdministrativesGeschlecht") &
+      (self.mdr.source_system_name == "i2b2") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"value_set": "DEM|GESCHLECHT:m, DEM|GESCHLECHT:w, DEM|GESCHLECHT:x"}
+      )
     
     
 

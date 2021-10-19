@@ -46,15 +46,22 @@ class CreateSQL():
 FROM \
 	i2b2miracum.visit_dimension;"
     
+#     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
+# 	mn.patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
+# 	jn.sex_cd AS \"Person.Demographie.AdministrativesGeschlecht\" \
+# FROM \
+# 	i2b2miracum.visit_dimension AS mn \
+# JOIN \
+# 	i2b2miracum.patient_dimension AS jn \
+# ON \
+# 	mn.patient_num = jn.patient_num;"
     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
-	mn.patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
-	jn.sex_cd AS \"Person.Demographie.AdministrativesGeschlecht\" \
+	encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+	concept_cd AS \"Person.Demographie.AdministrativesGeschlecht\" \
 FROM \
-	i2b2miracum.visit_dimension AS mn \
-JOIN \
-	i2b2miracum.patient_dimension AS jn \
-ON \
-	mn.patient_num = jn.patient_num;"
+	i2b2miracum.observation_fact \
+WHERE \
+	concept_cd LIKE 'DEM|GESCHLECHT%';"
     
     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
 	mn.patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
@@ -93,6 +100,14 @@ FROM \
 	end_date AS \"Fall.Einrichtungskontakt.Enddatum\" \
 FROM \
 	i2b2miracum.visit_dimension;"
+    
+    self.json_dict["Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode"] = "SELECT \
+	encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+	concept_cd AS \"Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode\" \
+FROM \
+	i2b2miracum.observation_fact \
+WHERE \
+	concept_cd LIKE 'ICD10:%';"
 
 if __name__ == "__main__":
   csql = CreateSQL()
