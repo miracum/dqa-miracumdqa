@@ -49,17 +49,15 @@ class CreateSQL():
 # FROM resources \
 # WHERE TYPE = 'Encounter' \
 # ) r1;"
-    self.json_dict["Person.Patient.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT \
-REPLACE(jsonb_path_query(r1.data_r1, '$.subject') ->> 'reference', 'Patient/', '') AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\" \
-FROM ( \
-SELECT * FROM ( \
-SELECT \
-DATA AS data_r1, \
-to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
-FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate \
-WHERE r_intermediate.fhir_start_date >= '2020-01-01' AND r_intermediate.fhir_start_date < '2021-01-01' \
-) r1;"
+#     self.json_dict["Person.Patient.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT \
+# REPLACE(jsonb_path_query(r1.data_r1, '$.subject') ->> 'reference', 'Patient/', '') AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\" \
+# FROM ( \
+# SELECT * FROM ( \
+# SELECT \
+# DATA AS data_r1, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
 #     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
 #     REPLACE(jsonb_path_query(r1.data_r1, '$.subject') ->> 'reference', 'Patient/', '') AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
@@ -86,9 +84,7 @@ SELECT \
 REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate \
-WHERE r_intermediate.fhir_start_date >= '2020-01-01' AND r_intermediate.fhir_start_date < '2021-01-01' \
-) r1, LATERAL ( \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
 SELECT \
 DATA ->> 'gender' AS gender \
 FROM resources r_intermediate \
@@ -106,9 +102,7 @@ SELECT \
 REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate \
-WHERE r_intermediate.fhir_start_date >= '2020-01-01' AND r_intermediate.fhir_start_date < '2021-01-01' \
-) r1, LATERAL ( \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
 SELECT \
 DATA ->> 'birthDate' AS birthdate \
 FROM resources r_intermediate \
@@ -136,9 +130,9 @@ DATA AS jsonbdata, \
 REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate \
-WHERE r_intermediate.fhir_start_date >= '2020-01-01' AND r_intermediate.fhir_start_date < '2021-01-01' \
-) r1;"
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
+    self.json_dict["Person.Patient.Patienten-Identifikator.Patienten-Identifikator"] = self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"]
 
     self.json_dict["Fall.Einrichtungskontakt.Beginndatum"] = "SELECT \
 r1.pid AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
@@ -150,9 +144,7 @@ DATA AS jsonbdata, \
 REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate \
-WHERE r_intermediate.fhir_start_date >= '2020-01-01' AND r_intermediate.fhir_start_date < '2021-01-01' \
-) r1;"
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
 
     self.json_dict["Person.Demographie.Adresse.PLZ"] = "SELECT \
@@ -164,14 +156,29 @@ SELECT \
 REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate \
-WHERE r_intermediate.fhir_start_date >= '2020-01-01' AND r_intermediate.fhir_start_date < '2021-01-01' \
-) r1, LATERAL ( \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
 SELECT \
 jsonb_array_elements(jsonb_path_query(DATA, '$.address')) ->> 'postalCode' AS plz \
 FROM resources r_intermediate \
 WHERE TYPE = 'Patient' AND ( \
 (DATA ->> 'id' = r1.pid) \
+)) r2;"
+
+    self.json_dict["Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode"] = "SELECT \
+r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+r2.icd_code AS \"Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode\" \
+FROM ( \
+SELECT * FROM ( \
+SELECT \
+DATA AS jsonbdata, \
+to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+FROM resources \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+SELECT \
+jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) ->> 'code' AS icd_code \
+FROM resources \
+WHERE TYPE = 'Condition' AND ( \
+(REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id')) \
 )) r2;"
 
 if __name__ == "__main__":

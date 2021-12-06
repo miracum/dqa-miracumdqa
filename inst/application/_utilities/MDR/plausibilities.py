@@ -30,7 +30,6 @@ class WritePlausibilities(MDRHandling):
     
     self.mdr.loc[
       (self.mdr.designation == "Person.Patient.Patienten-Identifikator.Patienten-Identifikator") &
-      (self.mdr.source_system_name == "i2b2") &
       (self.mdr.dqa_assessment == "1"),
       "plausibility_relation"] = json.dumps(
         {
@@ -45,7 +44,6 @@ class WritePlausibilities(MDRHandling):
       
     self.mdr.loc[
       (self.mdr.designation == "Fall.Einrichtungskontakt.Aufnahmenummer") &
-      (self.mdr.source_system_name == "i2b2") &
       (self.mdr.dqa_assessment == "1"),
       "plausibility_relation"] = json.dumps(
         {
@@ -60,7 +58,6 @@ class WritePlausibilities(MDRHandling):
       
     self.mdr.loc[
       (self.mdr.designation == "Person.Demographie.AdministrativesGeschlecht") &
-      (self.mdr.source_system_name == "i2b2") &
       (self.mdr.dqa_assessment == "1"),
       "plausibility_relation"] = json.dumps(
         {
@@ -69,12 +66,14 @@ class WritePlausibilities(MDRHandling):
               "name": "Pl.atemporal.Item01",
               "description": "Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.",
               "filter": {
-                "i2b2": "^(ICD10\\:)O[0-9]"
+                "i2b2": "^(ICD10\\:)O[0-9]",
+                "fhir_gw": "^O[0-9]"
               },
               "join_crit": "Fall.Einrichtungskontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "DEM|GESCHLECHT:w"
+                  "i2b2": "DEM|GESCHLECHT:w",
+                  "fhir_gw": "female"
                 }
               }
             },
@@ -82,12 +81,14 @@ class WritePlausibilities(MDRHandling):
               "name": "Pl.atemporal.Item02",
               "description": "Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.",
               "filter": {
-                "i2b2": "^(ICD10\\:)C5[1-8]"
+                "i2b2": "^(ICD10\\:)C5[1-8]",
+                "fhir_gw": "^C5[1-8]"
               },
               "join_crit": "Fall.Einrichtungskontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "DEM|GESCHLECHT:w"
+                  "i2b2": "DEM|GESCHLECHT:w",
+                  "fhir_gw": "female"
                 }
               }
             },
@@ -95,12 +96,14 @@ class WritePlausibilities(MDRHandling):
               "name": "Pl.atemporal.Item03",
               "description": "Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.",
               "filter": {
-                "i2b2": "^(ICD10\\:)C6[0-3]"
+                "i2b2": "^(ICD10\\:)C6[0-3]",
+                "fhir_gw": "^C6[0-3]"
               },
               "join_crit": "Fall.Einrichtungskontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "DEM|GESCHLECHT:m"
+                  "i2b2": "DEM|GESCHLECHT:m",
+                  "fhir_gw": "male"
                 }
               }
             }

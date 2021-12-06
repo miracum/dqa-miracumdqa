@@ -34,6 +34,14 @@ class WriteConstraints(MDRHandling):
         {"value_set": "DEM|GESCHLECHT:m, DEM|GESCHLECHT:w, DEM|GESCHLECHT:x"}
       )
     
+    self.mdr.loc[
+      (self.mdr.designation == "Person.Demographie.AdministrativesGeschlecht") &
+      (self.mdr.source_system_name == "fhir_gw") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"value_set": "male, female, unknown"}
+      )
+    
     
 
 if __name__ == "__main__":

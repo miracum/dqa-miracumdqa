@@ -41,10 +41,10 @@ class CreateSQL():
     
     TODO: add some logic to use mappings from MDR.CSV
     """
-    self.json_dict["Person.Patient.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT \
-	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\" \
-FROM \
-	i2b2miracum.visit_dimension;"
+#     self.json_dict["Person.Patient.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT \
+# 	DISTINCT patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\" \
+# FROM \
+# 	i2b2miracum.visit_dimension;"
     
 #     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
 # 	mn.patient_num AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
@@ -88,6 +88,8 @@ ON \
 	encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\" \
 FROM \
 	i2b2miracum.visit_dimension;"
+	
+    self.json_dict["Person.Patient.Patienten-Identifikator.Patienten-Identifikator"] = self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"]
     
     self.json_dict["Fall.Einrichtungskontakt.Beginndatum"] = "SELECT \
 	encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
