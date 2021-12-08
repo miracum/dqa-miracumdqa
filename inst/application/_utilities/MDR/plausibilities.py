@@ -72,7 +72,7 @@ class WritePlausibilities(MDRHandling):
               "join_crit": "Fall.Einrichtungskontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "DEM|GESCHLECHT:w",
+                  "i2b2": "female",
                   "fhir_gw": "female"
                 }
               }
@@ -87,7 +87,7 @@ class WritePlausibilities(MDRHandling):
               "join_crit": "Fall.Einrichtungskontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "DEM|GESCHLECHT:w",
+                  "i2b2": "female",
                   "fhir_gw": "female"
                 }
               }
@@ -102,7 +102,7 @@ class WritePlausibilities(MDRHandling):
               "join_crit": "Fall.Einrichtungskontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "DEM|GESCHLECHT:m",
+                  "i2b2": "male",
                   "fhir_gw": "male"
                 }
               }

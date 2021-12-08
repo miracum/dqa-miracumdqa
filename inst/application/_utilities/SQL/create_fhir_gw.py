@@ -76,39 +76,35 @@ class CreateSQL():
 # ) r2 \
 # ON REPLACE(r1.data_r1 -> 'subject' ->> 'reference', 'Patient/', '') = (r2.data_r2 ->> 'id');"
     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
-    r1.pid AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
-    r2.gender AS \"Person.Demographie.AdministrativesGeschlecht\" \
-FROM ( \
-SELECT * FROM ( \
-SELECT \
-REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
+r1.pid AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
+r2.jsonbdata2 ->> 'gender' AS \"Person.Demographie.AdministrativesGeschlecht\" \
+FROM ( SELECT * FROM ( \
+SELECT REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
 SELECT \
-DATA ->> 'gender' AS gender \
-FROM resources r_intermediate \
+DATA AS jsonbdata2 \
+FROM resources \
 WHERE TYPE = 'Patient' AND ( \
-(DATA ->> 'id' = r1.pid) \
-)) r2;"
+(DATA ->> 'id') = r1.pid) \
+) r2;"
 
 
     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
-    r1.pid AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
-    r2.birthdate AS \"Person.Demographie.Geburtsdatum\" \
-FROM ( \
-SELECT * FROM ( \
-SELECT \
-REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
+r1.pid AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
+r2.jsonbdata2 ->> 'birthDate' AS \"Person.Demographie.Geburtsdatum\" \
+FROM ( SELECT * FROM ( \
+SELECT REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
 SELECT \
-DATA ->> 'birthDate' AS birthdate \
-FROM resources r_intermediate \
+DATA AS jsonbdata2 \
+FROM resources \
 WHERE TYPE = 'Patient' AND ( \
-(DATA ->> 'id' = r1.pid) \
-)) r2;"
+(DATA ->> 'id') = r1.pid) \
+) r2;"
 
 
 #     self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"] = "SELECT  \
@@ -146,39 +142,49 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
-
-    self.json_dict["Person.Demographie.Adresse.PLZ"] = "SELECT \
-    r1.pid AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
-    r2.plz AS \"Person.Demographie.Adresse.PLZ\" \
+    self.json_dict["Fall.Einrichtungskontakt.Enddatum"] = "SELECT \
+r1.pid AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
+to_timestamp(jsonb_path_query(r1.jsonbdata, '$.period') ->> 'end', 'YYYY-MM-DDTHH:MI:SS') AS \"Fall.Einrichtungskontakt.Enddatum\" \
 FROM ( \
 SELECT * FROM ( \
+SELECT \
+DATA AS jsonbdata, \
+REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
+to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+FROM resources \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
+
+    self.json_dict["Person.Demographie.Adresse.PLZ"] = "SELECT \
+r1.pid AS \"Person.Patient.Patienten-Identifikator.Patienten-Identifikator\", \
+jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.address')) ->> 'postalCode' AS \"Person.Demographie.Adresse.PLZ\" \
+FROM ( SELECT * FROM ( \
 SELECT \
 REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
 SELECT \
-jsonb_array_elements(jsonb_path_query(DATA, '$.address')) ->> 'postalCode' AS plz \
-FROM resources r_intermediate \
+DATA AS jsonbdata2 \
+FROM resources \
 WHERE TYPE = 'Patient' AND ( \
-(DATA ->> 'id' = r1.pid) \
-)) r2;"
+(DATA ->> 'id') = r1.pid) \
+) r2;"
 
     self.json_dict["Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode"] = "SELECT \
 r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
-r2.icd_code AS \"Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode\" \
-FROM ( \
-SELECT * FROM ( \
+jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Diagnose.ICD10GMDiagnoseKodiert.Vollstu00e4ndigerDiagnosecode\" \
+FROM ( SELECT * FROM ( \
 SELECT \
 DATA AS jsonbdata, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
 SELECT \
-jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) ->> 'code' AS icd_code \
+DATA AS jsonbdata2 \
 FROM resources \
 WHERE TYPE = 'Condition' AND ( \
-(REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id')) \
+REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
 )) r2;"
 
 if __name__ == "__main__":
