@@ -28,3 +28,4 @@ inst/application/_settings/
 !/ci/
 /.vscode
 !/.lintr
+!/NEWS.md

@@ -11,3 +11,4 @@
 ^\.vscode$
 ^\.lintr$
 ^ci/*$
+^NEWS\.md$
