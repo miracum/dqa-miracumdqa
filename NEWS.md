@@ -4,6 +4,7 @@
 
 #### Fixes
 
+* removed custom reset due to shiny errors
 * updated omop sqls
 * distinct gender with patid
 * updated dt.hospitalization
@@ -12,9 +13,10 @@
 * don't display a gui warning if headles==true
 #### Others
 
+* implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...bbba955`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...bbba955)
+Full set of changes: [`v2.1.2...f5070b5`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...f5070b5)
 
 ## v2.1.2 (2021-07-02)
 
