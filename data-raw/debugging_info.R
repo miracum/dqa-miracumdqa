@@ -1,4 +1,4 @@
-launch_dqa_tool(logfile_dir = "~/share/logfiles/")
+#launch_dqa_tool(logfile_dir = "~/share/logfiles/")
 
 
 devtools::load_all()

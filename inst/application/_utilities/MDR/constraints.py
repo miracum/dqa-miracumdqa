@@ -31,7 +31,7 @@ class WriteConstraints(MDRHandling):
       (self.mdr.source_system_name == "i2b2") &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
-        {"value_set": "male, female, unknown"}
+        {"value_set": ["male", "female", "unknown"]}
       )
     
     self.mdr.loc[
@@ -39,7 +39,7 @@ class WriteConstraints(MDRHandling):
       (self.mdr.source_system_name == "fhir_gw") &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
-        {"value_set": "male, female, unknown"}
+        {"value_set": ["male", "female", "unknown"]}
       )
     
     

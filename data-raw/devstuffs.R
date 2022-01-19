@@ -25,7 +25,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9010")
+my_desc$set_version("2.1.2.9011")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -68,19 +68,44 @@ usethis::use_package("openxlsx", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("influxdbr", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")
+usethis::use_package("DQAstats", type = "Imports")
 
 
-# Development package
-stats_tag <- "feat_new_coreds"
-devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
-gui_tag <-  "feat_new_coreds" # e.g. "v0.1.6" or "developmment
+
+# Development packages
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+if (utils_tag == "cran") {
+  remotes::update_packages("DIZutils", upgrade = "always")
+} else{
+  devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
+  desc::desc_set_remotes(c(paste0(
+    "github::miracum/misc-dizutils@", utils_tag
+  )),
+  file = usethis::proj_get())
+}
+
+stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+if (utils_tag == "cran") {
+  remotes::update_packages("DQAstats", upgrade = "always")
+} else{
+  devtools::install_git(
+    url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git",
+    ref = stats_tag,
+    upgrade = "always",
+    quiet = TRUE
+  )
+  desc::desc_set_remotes(c(paste0(
+    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"
+  )),
+  file = usethis::proj_get())
+}
+
+gui_tag <-  "development" # e.g. "v0.1.6" or "developmment
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
 desc::desc_set_remotes(c(
   paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"),
-  paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip")
+    "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip")
 ),
 file = usethis::proj_get())
 
@@ -128,25 +153,6 @@ usethis::use_git_ignore("!/ci/")
 usethis::use_git_ignore("/.vscode")
 usethis::use_git_ignore("!/.lintr")
 usethis::use_git_ignore("!/NEWS.md")
-
-## Add citation information:
-# usethis::use_citation()
-citation <- utils::citEntry(
-  ## For entry types see here: https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/bibentry
-  entry    = "Manual",
-  title    = my_desc[[".__enclos_env__"]][["private"]][["data"]][["Title"]][["value"]],
-  author   = my_desc[[".__enclos_env__"]][["private"]][["data"]][["Authors@R"]][["value"]],
-  # journal  = ,
-  year     = format(Sys.Date(), "%Y"),
-  # volume   = ,
-  # number   = ,
-  # pages    = ,
-  url      = my_desc[[".__enclos_env__"]][["private"]][["data"]][["URL"]][["value"]],
-  textVersion = paste(
-    ""
-  )
-)
-
 
 # create NEWS.md using the python-package "auto-changelog" (must be installed)
 # https://www.conventionalcommits.org/en/v1.0.0/

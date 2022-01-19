@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-01-03)
+## Unreleased (2022-01-19)
 
 #### Fixes
 
@@ -10,8 +10,11 @@
 * updated dt.hospitalization sql in fhir-gw
 * sending data to datamap in headless mode caused crashes
 * don't display a gui warning if headles==true
+#### Others
 
-Full set of changes: [`v2.1.2...5a8f225`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...5a8f225)
+* creating news.md; allow in gitignore; addctoryed to rbuildignore
+
+Full set of changes: [`v2.1.2...bbba955`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...bbba955)
 
 ## v2.1.2 (2021-07-02)
 
