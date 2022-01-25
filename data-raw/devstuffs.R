@@ -70,7 +70,7 @@ usethis::use_package("DIZutils", type = "Imports")
 
 
 # Development package
-gui_tag <-  "developmment" # e.g. "v0.1.6" or "developmment
+gui_tag <-  "development" # e.g. "v0.1.6" or "development
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
 desc::desc_set_remotes(c(paste0(

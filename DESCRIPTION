@@ -35,7 +35,7 @@ Imports:
     shinydashboard,
     utils
 Remotes: 
-    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/developmment/dqagui-developmment.zip
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/developmment/dqagui-development.zip
 Suggests: 
     markdown,
     lintr,
