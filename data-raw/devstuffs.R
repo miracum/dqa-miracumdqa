@@ -25,7 +25,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9011")
+my_desc$set_version("2.1.2.9012")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -70,7 +70,8 @@ usethis::use_package("influxdbr", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")
 usethis::use_package("DQAstats", type = "Imports")
 
-
+# define remotes
+remotes_append_vector <- NULL
 
 # Development packages
 utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
@@ -78,14 +79,19 @@ if (utils_tag == "cran") {
   remotes::update_packages("DIZutils", upgrade = "always")
 } else{
   devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
-  desc::desc_set_remotes(c(paste0(
+
+  add_remotes <- paste0(
     "github::miracum/misc-dizutils@", utils_tag
-  )),
-  file = usethis::proj_get())
+  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
 }
 
 stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
-if (utils_tag == "cran") {
+if (stats_tag == "cran") {
   remotes::update_packages("DQAstats", upgrade = "always")
 } else{
   devtools::install_git(
@@ -94,20 +100,42 @@ if (utils_tag == "cran") {
     upgrade = "always",
     quiet = TRUE
   )
-  desc::desc_set_remotes(c(paste0(
+  add_remotes <- paste0(
     "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"
-  )),
-  file = usethis::proj_get())
+  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
 }
 
-gui_tag <-  "development" # e.g. "v0.1.6" or "developmment
-# https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
-desc::desc_set_remotes(c(
-  paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip")
-),
-file = usethis::proj_get())
+gui_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+if (gui_tag == "cran") {
+  remotes::update_packages("DQAgui", upgrade = "always")
+} else{
+  devtools::install_git(
+    url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git",
+    ref = gui_tag,
+    upgrade = "always"
+  )
+  add_remotes <- paste0(
+    "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"
+  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
+}
+
+# finally, add remotes (if required)
+if (!is.null(remotes_append_vector)) {
+  desc::desc_set_remotes(
+    remotes_append_vector,
+    file = usethis::proj_get()
+  )
+}
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
