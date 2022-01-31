@@ -13,12 +13,14 @@
 * don't display a gui warning if headles==true
 #### Others
 
+* updated data range in license statement
+* revised adding of remotes in devstuffs
 * updated news.md
 * updated news.md
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...a5828c1`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...a5828c1)
+Full set of changes: [`v2.1.2...cda9d94`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...cda9d94)
 
 ## v2.1.2 (2021-07-02)
 
