@@ -19,12 +19,12 @@ import pandas as pd
 
 class MDRHandling():
   
-  def __init__(self, csv_separator:str = ";"):
+  def __init__(self, mdr_file = "mdr.csv", csv_separator:str = ";"):
     """
     Instantiate some basics.
     """
     self.base_dir = os.path.abspath(os.path.dirname(__file__))
-    mdr_file = "mdr.csv"
+    
     
     self.mdr_path = os.path.join(
       self.base_dir,

@@ -24,11 +24,11 @@ from python_mdr_handling import MDRHandling
 
 class WritePlausibilities(MDRHandling):
   
-  def __init__(self):
+  def __init__(self, **kwargs):
     """
     Instantiate some basics.
     """
-    super().__init__()
+    super().__init__(**kwargs)
     
     self.mdr["plausibility_relation"] = ""
     
@@ -39,41 +39,41 @@ class WritePlausibilities(MDRHandling):
     """
     self.add_plausibilities()
     
-    self.write_mdr(filename="mdr.csv")
+    self.write_mdr(filename="mdr_prepared.csv")
   
   
   def add_plausibilities(self):
     
+    # self.mdr.loc[
+    #   (self.mdr.designation == "Person.Patient.Patienten-Identifikator.Patienten-Identifikator") &
+    #   (self.mdr.dqa_assessment == "1"),
+    #   "plausibility_relation"] = json.dumps(
+    #     {
+    #       "uniqueness": {
+    #         "Person.Demographie.Geburtsdatum": {
+    #           "name": "Pl.uniqueness.Item01",
+    #           "description": "Mit jeder Patienten-ID darf nur ein Geburtsjahr assoziiert sein."
+    #         }
+    #       }
+    #     }
+    #   )
+    #   
+    # self.mdr.loc[
+    #   (self.mdr.designation == "Fall.Einrichtungskontakt.Aufnahmenummer") &
+    #   (self.mdr.dqa_assessment == "1"),
+    #   "plausibility_relation"] = json.dumps(
+    #     {
+    #       "uniqueness": {
+    #         "Person.Patient.Patienten-Identifikator.Patienten-Identifikator": {
+    #           "name": "Pl.uniqueness.Item02",
+    #           "description": "Mit jeder Fallnummer darf nur eine Patienten-ID assoziiert sein."
+    #         }
+    #       }
+    #     }
+    #   )
+    #   
     self.mdr.loc[
-      (self.mdr.designation == "Person.Patient.Patienten-Identifikator.Patienten-Identifikator") &
-      (self.mdr.dqa_assessment == "1"),
-      "plausibility_relation"] = json.dumps(
-        {
-          "uniqueness": {
-            "Person.Demographie.Geburtsdatum": {
-              "name": "Pl.uniqueness.Item01",
-              "description": "Mit jeder Patienten-ID darf nur ein Geburtsjahr assoziiert sein."
-            }
-          }
-        }
-      )
-      
-    self.mdr.loc[
-      (self.mdr.designation == "Fall.Einrichtungskontakt.Aufnahmenummer") &
-      (self.mdr.dqa_assessment == "1"),
-      "plausibility_relation"] = json.dumps(
-        {
-          "uniqueness": {
-            "Person.Patient.Patienten-Identifikator.Patienten-Identifikator": {
-              "name": "Pl.uniqueness.Item02",
-              "description": "Mit jeder Fallnummer darf nur eine Patienten-ID assoziiert sein."
-            }
-          }
-        }
-      )
-      
-    self.mdr.loc[
-      (self.mdr.designation == "Person.Demographie.AdministrativesGeschlecht") &
+      (self.mdr.designation == "AdministrativesGeschlecht") &
       (self.mdr.dqa_assessment == "1"),
       "plausibility_relation"] = json.dumps(
         {
@@ -130,5 +130,5 @@ class WritePlausibilities(MDRHandling):
     
 
 if __name__ == "__main__":
-  wrpl = WritePlausibilities()
+  wrpl = WritePlausibilities(mdr_file="mdr_prepared.csv")
   wrpl()

@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-01-31)
+## Unreleased (2022-02-07)
 
 #### Fixes
 
@@ -13,6 +13,7 @@
 * don't display a gui warning if headles==true
 #### Others
 
+* updated news.md
 * updated data range in license statement
 * revised adding of remotes in devstuffs
 * updated news.md
@@ -20,7 +21,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...cda9d94`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...cda9d94)
+Full set of changes: [`v2.1.2...7864a4f`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...7864a4f)
 
 ## v2.1.2 (2021-07-02)
 

@@ -14,6 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+#!/usr/bin/python
+
+
+
+
+
 import json
 import os
 import pandas as pd
@@ -22,7 +28,7 @@ from python_mdr_handling import MDRHandling
 
 
 
-class WriteConstraints(MDRHandling):
+class PrepareMDR(MDRHandling):
   
   def __init__(self, **kwargs):
     """
@@ -35,31 +41,52 @@ class WriteConstraints(MDRHandling):
     """
     Our main function.
     """
-    self.add_constraints()
+    self.prepare_mdr()
     
     self.write_mdr(filename="mdr_prepared.csv")
   
   
-  def add_constraints(self):
+  def prepare_mdr(self):
+    # define names to keep,
+    keep_rows = [
+      "AdministrativesGeschlecht",
+      "Geburtsdatum"
+      ]
     
-    self.mdr.loc[
-      (self.mdr.designation == "AdministrativesGeschlecht") &
-      (self.mdr.source_system_name == "i2b2") &
-      (self.mdr.dqa_assessment == "1"),
-      "constraints"] = json.dumps(
-        {"value_set": ["male", "female", "unknown"]}
-      )
+    # duplicate rows for databases
+    db_names = ["i2b2", "fhir_gw"]
     
-    self.mdr.loc[
-      (self.mdr.designation == "AdministrativesGeschlecht") &
-      (self.mdr.source_system_name == "fhir_gw") &
-      (self.mdr.dqa_assessment == "1"),
-      "constraints"] = json.dumps(
-        {"value_set": ["male", "female", "unknown"]}
-      )
+    pd_dat = [
+      {
+        "designation": x,
+        "source_system_name": y,
+        "source_system_type": z} for x in keep_rows for y in db_names for z in ["postgres"]
+      ]
     
+    merge_df = pd.DataFrame(
+      data = pd_dat
+    )
+    
+    self.mdr.drop(
+      columns = ["source_system_name", "source_system_type"],
+      inplace = True
+    )
+    
+    self.mdr = self.mdr.merge(
+      right = merge_df,
+      how = "inner",
+      on = "designation"
+    )
+  
+    self.mdr.dqa_assessment = "1"
+    self.mdr.key = self.mdr.designation
+
+    self.mdr = self.mdr[self.mdr.designation.isin(keep_rows)]
     
 
 if __name__ == "__main__":
-  wrcs = WriteConstraints(mdr_file="mdr_prepared.csv")
-  wrcs()
+  prep = PrepareMDR(
+    mdr_file="dehub_mdr_clean.csv-20220207_144222.csv",
+    csv_separator="\t"
+  )
+  prep()

@@ -38,6 +38,17 @@ my_desc$set("BugReports",
             "https://gitlab.miracum.org/miracum/dqa/miRacumDQA/issues")
 # License
 my_desc$set("License", "GPL-3")
+
+# Reticulate
+my_desc$set(
+  "Config/reticulate",
+  "\nlist(
+    packages = list(
+      list(package = \"git+https://gitlab.miracum.org/miracum/dqa/dqa-mdr-connector@add_slot_logic\")
+    )
+  )")
+
+
 # Save everyting
 my_desc$write(file = "DESCRIPTION")
 
@@ -69,6 +80,7 @@ usethis::use_package("utils", type = "Imports")
 usethis::use_package("influxdbr", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")
 usethis::use_package("DQAstats", type = "Imports")
+usethis::use_package("reticulate", type = "Imports", min_version = "1.14")
 
 # define remotes
 remotes_append_vector <- NULL
