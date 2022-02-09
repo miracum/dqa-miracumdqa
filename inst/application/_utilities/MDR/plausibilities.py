@@ -39,46 +39,46 @@ class WritePlausibilities(MDRHandling):
     """
     self.add_plausibilities()
     
-    self.write_mdr(filename="mdr_prepared.csv")
+    self.write_mdr(filename="mdr_prepared_and_filled.csv")
   
   
   def add_plausibilities(self):
     
-    # self.mdr.loc[
-    #   (self.mdr.designation == "Person.Patient.Patienten-Identifikator.Patienten-Identifikator") &
-    #   (self.mdr.dqa_assessment == "1"),
-    #   "plausibility_relation"] = json.dumps(
-    #     {
-    #       "uniqueness": {
-    #         "Person.Demographie.Geburtsdatum": {
-    #           "name": "Pl.uniqueness.Item01",
-    #           "description": "Mit jeder Patienten-ID darf nur ein Geburtsjahr assoziiert sein."
-    #         }
-    #       }
-    #     }
-    #   )
-    #   
-    # self.mdr.loc[
-    #   (self.mdr.designation == "Fall.Einrichtungskontakt.Aufnahmenummer") &
-    #   (self.mdr.dqa_assessment == "1"),
-    #   "plausibility_relation"] = json.dumps(
-    #     {
-    #       "uniqueness": {
-    #         "Person.Patient.Patienten-Identifikator.Patienten-Identifikator": {
-    #           "name": "Pl.uniqueness.Item02",
-    #           "description": "Mit jeder Fallnummer darf nur eine Patienten-ID assoziiert sein."
-    #         }
-    #       }
-    #     }
-    #   )
-    #   
     self.mdr.loc[
-      (self.mdr.designation == "AdministrativesGeschlecht") &
+      (self.mdr.designation == "Person.Patient.Patienten-Identifikator.Patienten-Identifikator") &
+      (self.mdr.dqa_assessment == "1"),
+      "plausibility_relation"] = json.dumps(
+        {
+          "uniqueness": {
+            "Person.Demographie.Geburtsdatum": {
+              "name": "Pl.uniqueness.Item01",
+              "description": "Mit jeder Patienten-ID darf nur ein Geburtsjahr assoziiert sein."
+            }
+          }
+        }
+      )
+
+    self.mdr.loc[
+      (self.mdr.designation == "Fall.Einrichtungskontakt.Aufnahmenummer") &
+      (self.mdr.dqa_assessment == "1"),
+      "plausibility_relation"] = json.dumps(
+        {
+          "uniqueness": {
+            "Person.Patient.Patienten-Identifikator.Patienten-Identifikator": {
+              "name": "Pl.uniqueness.Item02",
+              "description": "Mit jeder Fallnummer darf nur eine Patienten-ID assoziiert sein."
+            }
+          }
+        }
+      )
+
+    self.mdr.loc[
+      (self.mdr.designation == "Person.Demographie.AdministrativesGeschlecht") &
       (self.mdr.dqa_assessment == "1"),
       "plausibility_relation"] = json.dumps(
         {
           "atemporal": {
-            "Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode": {
+            "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode": {
               "name": "Pl.atemporal.Item01",
               "description": "Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.",
               "filter": {
@@ -93,7 +93,7 @@ class WritePlausibilities(MDRHandling):
                 }
               }
             },
-            "Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode.1": {
+            "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode.1": {
               "name": "Pl.atemporal.Item02",
               "description": "Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.",
               "filter": {
@@ -108,7 +108,7 @@ class WritePlausibilities(MDRHandling):
                 }
               }
             },
-            "Diagnose.ICD10GMDiagnoseKodiert.VollständigerDiagnosecode.2": {
+            "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode.2": {
               "name": "Pl.atemporal.Item03",
               "description": "Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.",
               "filter": {
@@ -130,5 +130,5 @@ class WritePlausibilities(MDRHandling):
     
 
 if __name__ == "__main__":
-  wrpl = WritePlausibilities(mdr_file="mdr_prepared.csv")
+  wrpl = WritePlausibilities(mdr_file="mdr_prepared_and_filled.csv")
   wrpl()

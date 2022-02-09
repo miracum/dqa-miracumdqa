@@ -1,7 +1,10 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-02-07)
+## Unreleased (2022-02-09)
 
+#### New Features
+
+* working on dehub adaptions; wip
 #### Fixes
 
 * removed custom reset due to shiny errors
@@ -21,7 +24,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...7864a4f`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...7864a4f)
+Full set of changes: [`v2.1.2...5fe6885`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...5fe6885)
 
 ## v2.1.2 (2021-07-02)
 
