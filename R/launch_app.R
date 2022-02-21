@@ -49,25 +49,25 @@ launch_dqa_tool <- function(
 ) {
 
 
-  DIZutils::global_env_hack(
+  DIZtools::assign_to_R_env(
     key = "utils_path",
     val = utils_path,
     pos = 1L
   )
 
-  DIZutils::global_env_hack(
+  DIZtools::assign_to_R_env(
     key = "logfile_dir",
     val = logfile_dir,
     pos = 1L
   )
 
-  DIZutils::global_env_hack(
+  DIZtools::assign_to_R_env(
     key = "parallel",
     val = parallel,
     pos = 1L
   )
 
-  DIZutils::global_env_hack(
+  DIZtools::assign_to_R_env(
     key = "ncores",
     val = ncores,
     pos = 1L

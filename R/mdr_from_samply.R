@@ -69,7 +69,7 @@ mdr_from_samply <- function(base_url,
   }
 
   # clean base url path
-  base_url <- DIZutils::clean_path_name(base_url)
+  base_url <- DIZtools::clean_path_name(base_url)
 
   # set members url
   member_url <- paste0(
@@ -78,7 +78,7 @@ mdr_from_samply <- function(base_url,
     namespace,
     "/members"
   )
-  DIZutils::feedback(
+  DIZtools::feedback(
     print_this = paste0("Member URL: ", member_url),
     findme = "f381e687ca",
     logfile_dir = logfile_dir,
@@ -169,7 +169,7 @@ mdr_from_samply <- function(base_url,
     )
 
     msg <- paste("Dataelement URL:", dataelement_url)
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = msg,
       logjs = isFALSE(headless),
       findme = "d05ebcefef",
@@ -361,7 +361,7 @@ mdr_from_samply <- function(base_url,
         }
       }
     } else {
-      DIZutils::feedback(
+      DIZtools::feedback(
         print_this = paste0("Ignoring", element_id, ". No 'dqa'-slot present"),
         findme = "61aa00fdf7",
         logfile_dir = logfile_dir,

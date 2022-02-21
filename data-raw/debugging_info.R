@@ -9,7 +9,7 @@ utils::assignInNamespace(
   value = button_mdr,
   ns = "DQAgui"
 )
-DIZutils::set_env_vars(
+DIZtools::setenv_file(
   paste0(
     "../",
     list.files(path = "../", pattern = "^env_INTERNAL.*")

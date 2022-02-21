@@ -25,7 +25,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9012")
+my_desc$set_version("2.1.2.9013")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -79,6 +79,7 @@ usethis::use_package("openxlsx", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("influxdbr", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")
+usethis::use_package("DIZtools", type = "Imports")
 usethis::use_package("DQAstats", type = "Imports")
 usethis::use_package("reticulate", type = "Imports", min_version = "1.14")
 
@@ -122,7 +123,7 @@ if (stats_tag == "cran") {
   }
 }
 
-gui_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+gui_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (gui_tag == "cran") {
   remotes::update_packages("DQAgui", upgrade = "always")
 } else{
