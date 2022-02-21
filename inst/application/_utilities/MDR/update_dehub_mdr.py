@@ -32,7 +32,7 @@ if __name__ == "__main__":
         ),
         separator=";",
         api_url="https://dehub-dev.miracum.org/rest/v1/",
-        api_auth_url="https://miracum-fas.unimedizin-mainz.de/auth/realms/miracum/",
+        api_auth_url="https://miracum-fas.unimedizin-mainz.de/auth/realms/miracum/protocol/openid-connect/token",
         namespace_designation="miracum-DQA",
         namespace_definition="Dev-Namespace für DQA-Tool."
     )

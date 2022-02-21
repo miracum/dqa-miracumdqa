@@ -26,9 +26,9 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     gm = GetMDR(
         output_folder="./",
-        output_filename="dehub_mdr_clean.csv",
+        output_filename="dehub_mdr_clean_test.csv",
         api_url="https://dehub-dev.miracum.org/rest/v1/",
-        api_auth_url="https://miracum-fas.unimedizin-mainz.de/auth/realms/miracum/protocol/openid-connect/token",
+        bypass_auth=True,
         namespace_designation="miracum-DQA"
     )
     gm()
