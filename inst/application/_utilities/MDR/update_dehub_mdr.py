@@ -22,7 +22,7 @@ __copyright__ = "Universitätsklinikum Erlangen"
 import logging
 import os
 from dqa_mdr_connector.update_mdr import UpdateMDR
-from dqamdr_config.py import de_fhir_path_list
+from dqamdr_config import de_fhir_path_list
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
@@ -34,7 +34,7 @@ if __name__ == "__main__":
         separator=";",
         api_url="https://dehub-dev.miracum.org/rest/v1/",
         api_auth_url="https://miracum-fas.unimedizin-mainz.de/auth/realms/miracum/protocol/openid-connect/token",
-        de_fhir_path=de_fhir_path_list,
+        de_fhir_paths=de_fhir_path_list,
         namespace_designation="miracum-DQA",
         namespace_definition="Dev-Namespace für DQA-Tool."
     )

@@ -21,14 +21,14 @@ __copyright__ = "Universitätsklinikum Erlangen"
 
 import logging
 from dqa_mdr_connector.get_mdr import GetMDR
-from dqamdr_config.py import de_fhir_path_list
+from dqamdr_config import de_fhir_path_list
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     gm = GetMDR(
         output_folder="./",
         output_filename="dehub_mdr_clean_test.csv",
-        de_fhir_path=de_fhir_path_list,
+        de_fhir_paths=de_fhir_path_list,
         api_url="https://dehub-dev.miracum.org/rest/v1/",
         bypass_auth=True,
         namespace_designation="miracum-DQA"
