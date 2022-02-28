@@ -45,3 +45,7 @@ if __name__ == "__main__":
 # https://rest.demo.dataelementhub.de/v1/
 
 # curl -X GET https://miracum-fas.unimedizin-mainz.de/auth/realms/miracum/.well-known/uma2-configuration
+# https://jwt.io/
+
+# Password setzen:
+# https://miracum-fas.unimedizin-mainz.de/auth/realms/miracum/account/identity
