@@ -32,23 +32,35 @@ button_mdr <-
             1,
             detail = "... from Samply.MDR ..."
           )
-          # TODO for debugging -> jumping to local mdr
-          stop()
           base_url <- Sys.getenv("MDR_BASEURL")
           namespace <- Sys.getenv("MDR_NAMESPACE")
 
+          # get dqa GetMDR-class
           dqa_connector <- reticulate::import(
-            "dqa_mdr_connector",
+            "dqa_mdr_connector.get_mdr",
             delay_load = TRUE
           )
 
-          mdr <- reticulate::
-          mdr <- mdr_from_samply(
-            base_url = base_url,
-            namespace = namespace,
-            headless = headless,
-            logfile_dir = logfile_dir
+          # get list of dataelements
+          de_fhir_path_list <- reticulate::import_from_path(
+            "dqamdr_config",
+            path = system.file("application/_utilities/MDR/",
+                               package = "miRacumDQA")
+          )$de_fhir_path_list
+
+          dqa_con <- dqa_connector$GetMDR(
+            output_folder = tempdir(),
+            output_filename = "mdr.csv",
+            de_fhir_paths = de_fhir_path_list,
+            api_url = base_url,
+            bypass_auth = TRUE,
+            namespace_designation = namespace,
+            return_csv = FALSE
           )
+
+          mdr <- dqa_con() %>%
+            data.table::data.table()
+
           DIZtools::feedback(
             print_this = "Loading MDR from Samply.MDR web API",
             logfile_dir = logfile_dir,
