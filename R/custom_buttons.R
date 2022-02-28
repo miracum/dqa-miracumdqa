@@ -61,6 +61,8 @@ button_mdr <-
           mdr <- dqa_con() %>%
             data.table::data.table()
 
+          mdr[is.na(mdr)] <- ""
+
           DIZtools::feedback(
             print_this = "Loading MDR from Samply.MDR web API",
             logfile_dir = logfile_dir,
