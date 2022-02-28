@@ -36,6 +36,13 @@ button_mdr <-
           stop()
           base_url <- Sys.getenv("MDR_BASEURL")
           namespace <- Sys.getenv("MDR_NAMESPACE")
+
+          dqa_connector <- reticulate::import(
+            "dqa_mdr_connector",
+            delay_load = TRUE
+          )
+
+          mdr <- reticulate::
           mdr <- mdr_from_samply(
             base_url = base_url,
             namespace = namespace,
