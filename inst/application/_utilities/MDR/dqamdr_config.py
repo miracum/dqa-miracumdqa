@@ -1,0 +1,10 @@
+de_fhir_path_list=[
+    "Person.Demographie.AdministrativesGeschlecht",
+    "Person.Demographie.Geburtsdatum",
+    "Person.Demographie.Adresse.Strassenanschrift.PLZ",
+    "Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator",
+    "Fall.Einrichtungskontakt.Aufnahmenummer",
+    "Fall.Einrichtungskontakt.Beginndatum",
+    "Fall.Einrichtungskontakt.Enddatum",
+    "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode"
+]

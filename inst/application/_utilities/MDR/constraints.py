@@ -43,7 +43,7 @@ class WriteConstraints(MDRHandling):
   def add_constraints(self):
     
     self.mdr.loc[
-      (self.mdr.designation == "Person.Demographie.AdministrativesGeschlecht") &
+      (self.mdr.designation == "AdministrativesGeschlecht") &
       (self.mdr.source_system_name == "i2b2") &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
@@ -51,7 +51,7 @@ class WriteConstraints(MDRHandling):
       )
     
     self.mdr.loc[
-      (self.mdr.designation == "Person.Demographie.AdministrativesGeschlecht") &
+      (self.mdr.designation == "AdministrativesGeschlecht") &
       (self.mdr.source_system_name == "fhir_gw") &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(

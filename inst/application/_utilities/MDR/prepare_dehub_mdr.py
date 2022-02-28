@@ -47,17 +47,6 @@ class PrepareMDR(MDRHandling):
   
   
   def prepare_mdr(self):
-    # define names to keep,
-    keep_rows = {
-      "AdministrativesGeschlecht": "Person.Demographie.AdministrativesGeschlecht",
-      "Geburtsdatum": "Person.Demographie.Geburtsdatum",
-      "PLZ": "Person.Demographie.Adresse.PLZ",
-      "Patienten-Identifikator": "Person.Patient.Patienten-Identifikator.Patienten-Identifikator",
-      "Aufnahmenummer": "Fall.Einrichtungskontakt.Aufnahmenummer",
-      "Beginndatum": "Fall.Einrichtungskontakt.Beginndatum",
-      "Enddatum": "Fall.Einrichtungskontakt.Enddatum",
-      "VollstaendigerDiagnosekode": "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode"
-    }
     
     # duplicate rows for databases
     db_names = ["i2b2", "fhir_gw"]
@@ -67,7 +56,7 @@ class PrepareMDR(MDRHandling):
       {
         "designation": x,
         "source_system_name": y,
-        "source_system_type": z} for x in keep_rows.keys() for y in db_names for z in ["postgres"]
+        "source_system_type": z} for x in self.mdr["designation"] for y in db_names for z in ["postgres"]
       ]
     
     merge_df = pd.DataFrame(
@@ -95,17 +84,10 @@ class PrepareMDR(MDRHandling):
     # set some default values
     self.mdr.dqa_assessment = "1"
     
-    # replace designation
-    self.mdr.replace({"designation": keep_rows}, inplace = True)
-    
-    # set keys and variable_name
-    self.mdr.key = self.mdr.designation
-    self.mdr.variable_name = self.mdr.designation
-    
 
 if __name__ == "__main__":
   prep = PrepareMDR(
-    mdr_file="dehub_mdr_clean.csv-20220209_110106.csv",
+    mdr_file="dehub_mdr_clean_test.csv-20220228_082916.csv",
     csv_separator="\t"
   )
   prep()

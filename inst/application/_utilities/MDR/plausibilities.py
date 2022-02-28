@@ -15,9 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
-import os
-import pandas as pd
-
 from python_mdr_handling import MDRHandling
 
 
@@ -45,7 +42,7 @@ class WritePlausibilities(MDRHandling):
   def add_plausibilities(self):
     
     self.mdr.loc[
-      (self.mdr.designation == "Person.Patient.Patienten-Identifikator.Patienten-Identifikator") &
+      (self.mdr.designation == "Patienten-Identifikator") &
       (self.mdr.dqa_assessment == "1"),
       "plausibility_relation"] = json.dumps(
         {
@@ -59,12 +56,12 @@ class WritePlausibilities(MDRHandling):
       )
 
     self.mdr.loc[
-      (self.mdr.designation == "Fall.Einrichtungskontakt.Aufnahmenummer") &
+      (self.mdr.designation == "Aufnahmenummer") &
       (self.mdr.dqa_assessment == "1"),
       "plausibility_relation"] = json.dumps(
         {
           "uniqueness": {
-            "Person.Patient.Patienten-Identifikator.Patienten-Identifikator": {
+            "Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator": {
               "name": "Pl.uniqueness.Item02",
               "description": "Mit jeder Fallnummer darf nur eine Patienten-ID assoziiert sein."
             }
@@ -73,7 +70,7 @@ class WritePlausibilities(MDRHandling):
       )
 
     self.mdr.loc[
-      (self.mdr.designation == "Person.Demographie.AdministrativesGeschlecht") &
+      (self.mdr.designation == "AdministrativesGeschlecht") &
       (self.mdr.dqa_assessment == "1"),
       "plausibility_relation"] = json.dumps(
         {
@@ -130,5 +127,5 @@ class WritePlausibilities(MDRHandling):
     
 
 if __name__ == "__main__":
-  wrpl = WritePlausibilities(mdr_file="mdr_prepared_and_filled.csv")
+  wrpl = WritePlausibilities(mdr_file="mdr_prepared.csv")
   wrpl()
