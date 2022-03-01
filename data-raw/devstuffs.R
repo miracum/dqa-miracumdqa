@@ -104,7 +104,7 @@ if (utils_tag == "cran") {
   }
 }
 
-stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (stats_tag == "cran") {
   remotes::update_packages("DQAstats", upgrade = "always")
 } else{

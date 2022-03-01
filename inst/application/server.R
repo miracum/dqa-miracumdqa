@@ -207,6 +207,7 @@ shiny::shinyServer(
           value = rv$restricting_date$use_it
         )
         shinyjs::disable("moduleConfig-datetime_picker")
+
       }
     })
 

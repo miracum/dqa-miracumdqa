@@ -33,7 +33,7 @@ button_mdr <-
             detail = "... from DEHUB-MDR ..."
           )
           # for debugging
-          stop()
+          #stop()
           base_url <- Sys.getenv("MDR_BASEURL")
           namespace <- Sys.getenv("MDR_NAMESPACE")
 
@@ -65,8 +65,17 @@ button_mdr <-
 
           mdr[is.na(mdr)] <- ""
 
+
+          # TODO debug code with mdr from API: DQAstats::create_helper_vars
+          # https://gitlab.miracum.org/miracum/dqa/dqastats/-/blob/master/R/mdr.R#L283
+          DQAstats::create_helper_vars(
+            mdr = mdr,
+            source_db = "i2b2",
+            target_db = "fhir_gw"
+          )
+
           DIZtools::feedback(
-            print_this = "Loading MDR from Samply.MDR web API",
+            print_this = "Loading MDR from DEHUB-MDR rest API",
             logfile_dir = logfile_dir,
             headless = headless
           )
@@ -82,8 +91,9 @@ button_mdr <-
             headless = headless
           )
           mdr <- DQAstats::read_mdr(
-            utils_path = utils_path,
-            mdr_filename = "mdr.csv"
+            utils_path = utils_path
+            , mdr_filename = "mdr.csv"
+            #, "dehub_mdr_clean_test.csv-20220301_144225.csv"
           )
           mdr
         }, finally = function(f) {
@@ -91,7 +101,6 @@ button_mdr <-
         }
       )
 
-      # For debugging: just comment the lines above (mdr_from_samply)
       # and uncomment the 2 lines below. Doing this, you don't need to
       # switch to DQAgui for testing local changes. However, you still need
       # to "Install and Restart" miRacumDQA!

@@ -4,6 +4,7 @@
 
 #### New Features
 
+* working on adaption of dehub mdr
 * working on mdr downloading
 * connecting dehub mdr via reticulate with r
 * working on dehup adaption
@@ -26,6 +27,7 @@
 * switching from dizutils to diztools
 #### Others
 
+* updated debugging-script
 * comments to upload script
 * updated news.md
 * updated data range in license statement
@@ -35,7 +37,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...9246d51`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...9246d51)
+Full set of changes: [`v2.1.2...cdec8e0`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...cdec8e0)
 
 ## v2.1.2 (2021-07-02)
 

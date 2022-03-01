@@ -36,8 +36,7 @@ if __name__ == "__main__":
         api_auth_url="https://miracum-fas.unimedizin-mainz.de/auth/realms/miracum/protocol/openid-connect/token",
         de_fhir_paths=de_fhir_path_list,
         namespace_designation="miracum-DQA",
-        namespace_definition="Dev-Namespace für DQA-Tool.",
-        download=False
+        namespace_definition="Dev-Namespace für DQA-Tool."
     )
     um()
 
