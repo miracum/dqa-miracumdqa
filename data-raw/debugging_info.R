@@ -16,7 +16,7 @@ DIZtools::setenv_file(
   )
 )
 
-#launch_dqa_tool(parallel = TRUE)
+launch_dqa_tool(parallel = TRUE)
 
 
 shiny::shinyAppDir("inst/application/", options = list(display.mode = "showcase"))
