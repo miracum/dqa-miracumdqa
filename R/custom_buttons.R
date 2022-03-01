@@ -29,9 +29,11 @@ button_mdr <-
       mdr <- tryCatch(
         expr = {
           shiny::incProgress(
-            1,
-            detail = "... from Samply.MDR ..."
+            2/3,
+            detail = "... from DEHUB-MDR ..."
           )
+          # for debugging
+          stop()
           base_url <- Sys.getenv("MDR_BASEURL")
           namespace <- Sys.getenv("MDR_NAMESPACE")
 

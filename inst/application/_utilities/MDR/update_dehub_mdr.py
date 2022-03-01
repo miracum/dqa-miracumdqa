@@ -29,7 +29,7 @@ if __name__ == "__main__":
     um = UpdateMDR(
         csv_file=os.path.join(
             os.path.dirname(__file__),
-            "mdr_prepared_and_filled.csv"
+            "mdr.csv"
         ),
         separator=";",
         api_url="https://dehub-dev.miracum.org/rest/v1/",

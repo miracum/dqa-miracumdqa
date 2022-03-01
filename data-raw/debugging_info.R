@@ -16,10 +16,10 @@ DIZtools::setenv_file(
   )
 )
 
-launch_dqa_tool(parallel = TRUE)
+#launch_dqa_tool(parallel = TRUE)
 
 
-shiny::shinyAppDir("inst/application/")
+shiny::shinyAppDir("inst/application/", options = list(display.mode = "showcase"))
 
 # rv <- DQAstats::dqa(
 #   source_system_name = "i2b2",
@@ -35,60 +35,60 @@ shiny::shinyAppDir("inst/application/")
 
 # launch_dqa_tool(config_file = "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml",
 #                 use_env_credentials = FALSE)
-
-# mdr to samply
-miRacumDQA:::mdr_to_samply(mdr_filename = "mdr.csv")
-
-# export from samply
-base_url = "https://mdr-test.miracum.org/rest/api/mdr/"
-namespace = "dqa"
-mdr <- mdr_from_samply(base_url = base_url,
-                       namespace = namespace,
-                       logfile_dir = logfile_dir)
-data.table::fwrite(mdr, file = "inst/application/_utilities/MDR/samply_export.csv")
-
-
-# debugging ffm
-mdr <- mdr_from_samply(base_url = "https://mdr-test.miracum.org/rest/api/mdr/",
-                       namespace = "mdr")
-
-# debug local
-mdr <- mdr_from_samply(base_url = "https://mdr.diz.uk-erlangen.de/rest/api/mdr/",
-                       namespace = "dqa",
-                       logfile_dir = tempdir())
-
-
-test <- mdr_from_samply(base_url = "https://mdr-test.miracum.org/rest/api/mdr/",
-                       namespace = "miracum1")
-
-
-
-base_url = "https://mdr-test.miracum.org/rest/api/mdr/"
-namespace = "dqa"
-master_system_type = "csv"
-master_system_name = "p21csv"
-headless = TRUE
-
-test <-
-  mdr_from_samply(base_url = base_url,
-                  namespace = namespace,
-                  logfile_dir = logfile_dir)
-
-
-## Test Datamap connection:
-# con_res <- get_influx_connection(list(headless = TRUE, log = list("logfile_dir" = tempdir())))
-# datamap = data.table::data.table(
-#   site = rep("UME", 2),
-#   system = rep("i2b2", 2),
-#   item = c("Fallnummer", "Hauptdiagnosen (ICD)"),
-#   lay_term = c("F\u00E4lle", "Diagnosen"),
-#   n = c(999999, 777777)
-# )
-# influxdbr::influx_write(
-#   con = con_res$con,
-#   db = con_res$config$dbname,
-#   x = datamap,
-#   tag_cols = c("site", "system", "item", "lay_term"),
-#   # tag_cols = c("site", "system", "item", "n"),
-#   measurement = "item_counts"
-# )
+#
+# # mdr to samply
+# miRacumDQA:::mdr_to_samply(mdr_filename = "mdr.csv")
+#
+# # export from samply
+# base_url = "https://mdr-test.miracum.org/rest/api/mdr/"
+# namespace = "dqa"
+# mdr <- mdr_from_samply(base_url = base_url,
+#                        namespace = namespace,
+#                        logfile_dir = logfile_dir)
+# data.table::fwrite(mdr, file = "inst/application/_utilities/MDR/samply_export.csv")
+#
+#
+# # debugging ffm
+# mdr <- mdr_from_samply(base_url = "https://mdr-test.miracum.org/rest/api/mdr/",
+#                        namespace = "mdr")
+#
+# # debug local
+# mdr <- mdr_from_samply(base_url = "https://mdr.diz.uk-erlangen.de/rest/api/mdr/",
+#                        namespace = "dqa",
+#                        logfile_dir = tempdir())
+#
+#
+# test <- mdr_from_samply(base_url = "https://mdr-test.miracum.org/rest/api/mdr/",
+#                        namespace = "miracum1")
+#
+#
+#
+# base_url = "https://mdr-test.miracum.org/rest/api/mdr/"
+# namespace = "dqa"
+# master_system_type = "csv"
+# master_system_name = "p21csv"
+# headless = TRUE
+#
+# test <-
+#   mdr_from_samply(base_url = base_url,
+#                   namespace = namespace,
+#                   logfile_dir = logfile_dir)
+#
+#
+# ## Test Datamap connection:
+# # con_res <- get_influx_connection(list(headless = TRUE, log = list("logfile_dir" = tempdir())))
+# # datamap = data.table::data.table(
+# #   site = rep("UME", 2),
+# #   system = rep("i2b2", 2),
+# #   item = c("Fallnummer", "Hauptdiagnosen (ICD)"),
+# #   lay_term = c("F\u00E4lle", "Diagnosen"),
+# #   n = c(999999, 777777)
+# # )
+# # influxdbr::influx_write(
+# #   con = con_res$con,
+# #   db = con_res$config$dbname,
+# #   x = datamap,
+# #   tag_cols = c("site", "system", "item", "lay_term"),
+# #   # tag_cols = c("site", "system", "item", "n"),
+# #   measurement = "item_counts"
+# # )

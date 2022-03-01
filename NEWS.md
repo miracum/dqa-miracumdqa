@@ -1,9 +1,11 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-02-28)
+## Unreleased (2022-03-01)
 
 #### New Features
 
+* working on mdr downloading
+* connecting dehub mdr via reticulate with r
 * working on dehup adaption
 * working on mdr upload
 * working on dehub adaptions; wip
@@ -33,7 +35,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...4b5ce04`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...4b5ce04)
+Full set of changes: [`v2.1.2...9246d51`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...9246d51)
 
 ## v2.1.2 (2021-07-02)
 
