@@ -12,16 +12,15 @@ This is the repository of the MIRACUM data quality assessment tool (DQA tool).
 You can install the with the following commands. Please make sure to also install the required packages in the correct order.
 
 ``` r
-install.packages("devtools")
-options('repos' = 'https://ftp.fau.de/cran/')
-devtools::install_git("https://gitlab.miracum.org/miracum/dqa/miracumdqa.git")
+install.packages("remotes")
+remotes::install_git("https://gitlab.miracum.org/miracum/dqa/miracumdqa.git")
 ```
 
 # Configuration 
 
 The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`.
 
-A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils/blob/master/README.md).
+A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils#db_connection).
 
 ## Example
 
@@ -32,7 +31,7 @@ library(miRacumDQA)
 launch_dqa_tool()
 ```
 
-To open the shiny application in your webbrowser, go to http://localhost:3838.
+To open the shiny application in your web-browser, go to http://localhost:3838.
 
 # More Infos:
 

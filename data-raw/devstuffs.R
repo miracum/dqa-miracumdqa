@@ -17,6 +17,7 @@ my_desc$set_authors(c(
     comment = c(ORCID = "0000-0003-0518-4710")
   ),
   person("Franziska", "Bathelt", role = "ctb"),
+  person("Denis", "Gebele", role = "ctb"),
   person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
   person("Universitätsklinikum Erlangen", role = "cph")
 )) #,
@@ -24,7 +25,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9006")
+my_desc$set_version("2.1.2.9016")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -37,6 +38,17 @@ my_desc$set("BugReports",
             "https://gitlab.miracum.org/miracum/dqa/miRacumDQA/issues")
 # License
 my_desc$set("License", "GPL-3")
+
+# Reticulate
+my_desc$set(
+  "Config/reticulate",
+  "\nlist(
+    packages = list(
+      list(package = \"git+https://gitlab.miracum.org/miracum/dqa/dqa-mdr-connector@add_slot_logic\")
+    )
+  )")
+
+
 # Save everyting
 my_desc$write(file = "DESCRIPTION")
 
@@ -60,6 +72,7 @@ my_desc$write(file = "DESCRIPTION")
 
 # Imports
 usethis::use_package("shiny", type = "Imports")
+usethis::use_package("magrittr", type = "Imports")
 usethis::use_package("shinydashboard", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("data.table", type = "Imports")
@@ -67,16 +80,76 @@ usethis::use_package("openxlsx", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("influxdbr", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")
+usethis::use_package("DIZtools", type = "Imports")
+usethis::use_package("DQAstats", type = "Imports")
+usethis::use_package("reticulate", type = "Imports", min_version = "1.14")
 
+# define remotes
+remotes_append_vector <- NULL
 
-# Development package
-gui_tag <-  "development" # e.g. "v0.1.6" or "development
-# https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git", ref = gui_tag, upgrade = "always")
-desc::desc_set_remotes(c(paste0(
-  "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip")
-  ),
-file = usethis::proj_get())
+# Development packages
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+if (utils_tag == "cran") {
+  remotes::update_packages("DIZutils", upgrade = "always")
+} else{
+  devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
+
+  add_remotes <- paste0(
+    "github::miracum/misc-dizutils@", utils_tag
+  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
+}
+
+stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+if (stats_tag == "cran") {
+  remotes::update_packages("DQAstats", upgrade = "always")
+} else{
+  devtools::install_git(
+    url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git",
+    ref = stats_tag,
+    upgrade = "always",
+    quiet = TRUE
+  )
+  add_remotes <- paste0(
+    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"
+  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
+}
+
+gui_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+if (gui_tag == "cran") {
+  remotes::update_packages("DQAgui", upgrade = "always")
+} else{
+  devtools::install_git(
+    url = "https://gitlab.miracum.org/miracum/dqa/dqagui.git",
+    ref = gui_tag,
+    upgrade = "always"
+  )
+  add_remotes <- paste0(
+    "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"
+  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
+}
+
+# finally, add remotes (if required)
+if (!is.null(remotes_append_vector)) {
+  desc::desc_set_remotes(
+    remotes_append_vector,
+    file = usethis::proj_get()
+  )
+}
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
@@ -95,6 +168,8 @@ usethis::use_build_ignore("inst/application/_settings/")
 usethis::use_build_ignore(".vscode")
 usethis::use_build_ignore(".lintr")
 usethis::use_build_ignore("ci/*")
+usethis::use_build_ignore("NEWS.md")
+
 usethis::use_git_ignore("inst/application/_settings/")
 usethis::use_git_ignore("inst/application/_utilities/MDR/.~lock.*")
 usethis::use_git_ignore("/*")
@@ -119,21 +194,11 @@ usethis::use_git_ignore("/.RData")
 usethis::use_git_ignore("!/ci/")
 usethis::use_git_ignore("/.vscode")
 usethis::use_git_ignore("!/.lintr")
+usethis::use_git_ignore("!/NEWS.md")
 
-## Add citation information:
-# usethis::use_citation()
-citation <- utils::citEntry(
-  ## For entry types see here: https://www.rdocumentation.org/packages/utils/versions/3.6.2/topics/bibentry
-  entry    = "Manual",
-  title    = my_desc[[".__enclos_env__"]][["private"]][["data"]][["Title"]][["value"]],
-  author   = my_desc[[".__enclos_env__"]][["private"]][["data"]][["Authors@R"]][["value"]],
-  # journal  = ,
-  year     = format(Sys.Date(), "%Y"),
-  # volume   = ,
-  # number   = ,
-  # pages    = ,
-  url      = my_desc[[".__enclos_env__"]][["private"]][["data"]][["URL"]][["value"]],
-  textVersion = paste(
-    ""
-  )
+# create NEWS.md using the python-package "auto-changelog" (must be installed)
+# https://www.conventionalcommits.org/en/v1.0.0/
+# build|ci|docs|feat|fix|perf|refactor|test
+system(
+  command = 'auto-changelog -u -t "miRacumDQA NEWS" --tag-prefix "v" -o "NEWS.md"'
 )

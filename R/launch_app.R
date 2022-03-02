@@ -1,5 +1,5 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool
-# Copyright (C) 2019-2021 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2022 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@
 #' @return The MIRACUM DQA Tool Shiny application.
 #'
 #' @import shiny shinydashboard
+#' @importFrom magrittr "%>%"
 #'
 #' @export
 #'
@@ -49,25 +50,25 @@ launch_dqa_tool <- function(
 ) {
 
 
-  DIZutils::global_env_hack(
+  DIZtools::assign_to_R_env(
     key = "utils_path",
     val = utils_path,
     pos = 1L
   )
 
-  DIZutils::global_env_hack(
+  DIZtools::assign_to_R_env(
     key = "logfile_dir",
     val = logfile_dir,
     pos = 1L
   )
 
-  DIZutils::global_env_hack(
+  DIZtools::assign_to_R_env(
     key = "parallel",
     val = parallel,
     pos = 1L
   )
 
-  DIZutils::global_env_hack(
+  DIZtools::assign_to_R_env(
     key = "ncores",
     val = ncores,
     pos = 1L

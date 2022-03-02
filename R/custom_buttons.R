@@ -1,9 +1,25 @@
+# miRacumDQA - The MIRACUM consortium's data quality assessment tool
+# Copyright (C) 2019-2022 Universitätsklinikum Erlangen
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 button_mdr <-
   function(utils_path,
            mdr_filename,
            logfile_dir,
            headless) {
-    DIZutils::feedback(print_this = "Loading the metadata repository",
+    DIZtools::feedback(print_this = "Loading the metadata repository",
                        logfile_dir = logfile_dir,
                        headless = headless)
     shiny::withProgress(message = "Loading MDR", value = 0, {
@@ -12,37 +28,68 @@ button_mdr <-
 
       mdr <- tryCatch(
         expr = {
-          incProgress(
-            1,
-            detail = "... from Samply.MDR ..."
+          shiny::incProgress(
+            2/3,
+            detail = "... from DEHUB-MDR ..."
           )
+          # for debugging
+          #%stop()
           base_url <- Sys.getenv("MDR_BASEURL")
           namespace <- Sys.getenv("MDR_NAMESPACE")
-          mdr <- mdr_from_samply(
-            base_url = base_url,
-            namespace = namespace,
-            headless = headless,
-            logfile_dir = logfile_dir
+
+          delay_load <- ifelse(
+            reticulate::py_module_available("dqa_mdr_connector"),
+            FALSE,
+            TRUE
           )
-          DIZutils::feedback(
-            print_this = "Loading MDR from Samply.MDR web API",
+
+          # get dqa GetMDR-class
+          dqa_connector <- reticulate::import(
+            "dqa_mdr_connector.get_mdr",
+            delay_load = delay_load
+          )
+
+          # get list of dataelements
+          de_fhir_path_list <- reticulate::import_from_path(
+            "dqamdr_config",
+            path = system.file("application/_utilities/MDR/",
+                               package = "miRacumDQA")
+          )$de_fhir_path_list
+
+          dqa_con <- dqa_connector$GetMDR(
+            output_folder = tempdir(),
+            output_filename = "mdr.csv",
+            de_fhir_paths = de_fhir_path_list,
+            api_url = base_url,
+            bypass_auth = TRUE,
+            namespace_designation = namespace,
+            return_csv = FALSE
+          )
+
+          mdr <- dqa_con() %>%
+            data.table::data.table()
+
+          mdr[mdr == ""] <- NA
+
+          DIZtools::feedback(
+            print_this = "Loading MDR from DEHUB-MDR rest API",
             logfile_dir = logfile_dir,
             headless = headless
           )
           mdr
         }, error = function(e) {
-          incProgress(
+          shiny::incProgress(
             1,
             detail = "... from local file ..."
           )
-          DIZutils::feedback(
+          DIZtools::feedback(
             print_this = "Fallback to load MDR from local file",
             logfile_dir = logfile_dir,
             headless = headless
           )
           mdr <- DQAstats::read_mdr(
-            utils_path = utils_path,
-            mdr_filename = "mdr.csv"
+            utils_path = utils_path
+            , mdr_filename = "mdr.csv"
           )
           mdr
         }, finally = function(f) {
@@ -50,7 +97,6 @@ button_mdr <-
         }
       )
 
-      # For debugging: just comment the lines above (mdr_from_samply)
       # and uncomment the 2 lines below. Doing this, you don't need to
       # switch to DQAgui for testing local changes. However, you still need
       # to "Install and Restart" miRacumDQA!
@@ -71,7 +117,7 @@ button_mdr <-
 #'
 #' @export
 button_send_datamap <- function(rv) {
-  DIZutils::feedback(
+  DIZtools::feedback(
     print_this = "Sending the datamap",
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless
@@ -91,7 +137,7 @@ button_send_datamap <- function(rv) {
 #'
 send_datamap_to_influx <- function(rv) {
   if (isTRUE(is.null(rv$datamap$target_data))) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       print_this = paste0("While exporting: datamap --> influxdb: ",
                           "datamap is empty"),
       findme = "c51c05eeea",
@@ -101,7 +147,7 @@ send_datamap_to_influx <- function(rv) {
     )
   } else {
     if (isTRUE(rv$datamap$exported)) {
-      DIZutils::feedback(
+      DIZtools::feedback(
         "The datamap was already exported. Skipping.",
         findme = "3fd547ccbf",
         logfile_dir = rv$log$logfile_dir,
@@ -117,7 +163,7 @@ send_datamap_to_influx <- function(rv) {
                  # is.null(item) ||
                  is.null(rv$datamap$target_data[, "n"]) ||
                  is.null(system))) {
-        DIZutils::feedback(
+        DIZtools::feedback(
           "One of the inputs for influxdb-export isn't valid.",
           findme = "1bb38be44b",
           logfile_dir = rv$log$logfile_dir,
@@ -172,7 +218,7 @@ send_datamap_to_influx <- function(rv) {
           dm <- dm[, .SD, .SDcols = c(tag_cols, "n")]
 
           ## Remove rows with NA as lay_terms:
-          DIZutils::feedback(
+          DIZtools::feedback(
             print_this = paste0(
               "Removing rows '",
               paste(dm[is.na(get("lay_term")), "item"], collapse = "', '"),
@@ -201,7 +247,7 @@ send_datamap_to_influx <- function(rv) {
           rv$datamap$exported <- TRUE
 
           # Console feedback:
-          DIZutils::feedback(
+          DIZtools::feedback(
             paste0(
               "Successfully finished export:",
               " datamap --> influxdb for elements '",
@@ -222,7 +268,7 @@ send_datamap_to_influx <- function(rv) {
         },
         error = function(cond) {
           # Console feedback:
-          DIZutils::feedback(
+          DIZtools::feedback(
             paste0("While exporting: datamap --> influxdb: ", cond),
             findme = "5ba89e3577",
             type = "Error",
@@ -274,7 +320,7 @@ get_influx_connection <- function(rv) {
     is.null(config$host) ||
     is.null(config$port) || is.null(config$path)
   )) {
-    DIZutils::feedback(
+    DIZtools::feedback(
       paste0(
         "One or more of the necessary input parameters out of ",
         "config_file for influxdb connection is missing."
@@ -288,7 +334,7 @@ get_influx_connection <- function(rv) {
   } else {
     if (isTRUE(is.null(config$user) || config$user == "")) {
       # There is no username --> Authentification seems to be disabled
-      DIZutils::feedback(
+      DIZtools::feedback(
         paste0(
           "There is no username in the config_file. ",
           "Trying to connect without authentification."
@@ -307,7 +353,7 @@ get_influx_connection <- function(rv) {
           verbose = T
         )
 
-      DIZutils::feedback(
+      DIZtools::feedback(
         "Connection established",
         findme = "77dc31289f",
         logfile_dir = rv$log$logfile_dir,
@@ -316,7 +362,7 @@ get_influx_connection <- function(rv) {
 
     } else {
       # Authentification seems to be enabled so use username & password:
-      DIZutils::feedback(
+      DIZtools::feedback(
         paste0(
           "There is a username in the config_file. ",
           "Trying to connect with authentification."
@@ -336,7 +382,7 @@ get_influx_connection <- function(rv) {
           path = config$path,
           verbose = T
         )
-      DIZutils::feedback(
+      DIZtools::feedback(
         "Connection established",
         findme = "d408ca173a",
         logfile_dir = rv$log$logfile_dir,

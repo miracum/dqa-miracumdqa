@@ -1,5 +1,5 @@
 # miRacumDQA - The MIRACUM consortium's data quality assessment tool
-# Copyright (C) 2019-2021 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2022 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,13 +26,6 @@ shiny::shinyUI(
 
         # Include shinyjs in the UI Sidebar
         shinyjs::useShinyjs(),
-        # js reset function
-        # https://stackoverflow.com/questions/25062422/restart-shiny-session
-        shinyjs::extendShinyjs(
-          script = system.file("application/reset.js",
-                               package = "DQAgui"),
-          functions = "reset"
-        ), # Add the js code to the page
 
         #Sidebar Panel
         shinydashboard::sidebarMenu(
