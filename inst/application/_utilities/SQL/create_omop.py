@@ -24,7 +24,7 @@ class CreateSQL():
     Instantiate some basics.
     """
     self.base_dir = os.path.abspath(os.path.dirname(__file__))
-    json_file = "SQL_i2b2.JSON"
+    json_file = "SQL_omop.JSON"
     
     self.json_path = os.path.join(
       self.base_dir,
@@ -70,48 +70,55 @@ class CreateSQL():
 # ON \
 # 	mn.patient_num = jn.patient_num;"
     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
-encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
-jn.sex_cd AS \"Person.Demographie.AdministrativesGeschlecht\" \
-FROM i2b2miracum.visit_dimension AS mn \
-JOIN i2b2miracum.patient_dimension AS jn ON \
-mn.patient_num = jn.patient_num;"
+person_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+gender_source_value AS \"Person.Demographie.AdministrativesGeschlecht\" \
+FROM cds_cdm.person;"
     
     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
-mn.patient_num AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
-jn.birth_date::date AS \"Person.Demographie.Geburtsdatum\" \
-FROM i2b2miracum.visit_dimension AS mn \
-JOIN i2b2miracum.patient_dimension AS jn ON \
-mn.patient_num = jn.patient_num;"
+person_id AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+year_of_birth AS \"Person.Demographie.Geburtsdatum\" \
+FROM cds_cdm.person;"
     
     self.json_dict["Person.Demographie.Adresse.Strassenanschrift.PLZ"] = "SELECT \
-mn.patient_num AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
-jn.zip_cd AS \"Person.Demographie.Adresse.Strassenanschrift.PLZ\" \
-FROM i2b2miracum.visit_dimension AS mn \
-JOIN i2b2miracum.patient_dimension AS jn ON \
-mn.patient_num = jn.patient_num;"
+per.person_id AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+loc.zip AS \"Person.Demographie.Adresse.Strassenanschrift.PLZ\" \
+FROM cds_cdm.person AS per \
+LEFT OUTER JOIN cds_cdm.location AS loc ON \
+per.location_id = loc.location_id;"
     
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"] = "SELECT \
-patient_num AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
-encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\" \
-FROM i2b2miracum.visit_dimension;"
+person_id AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\" \
+FROM cds_cdm.visit_occurrence;"
 	
     self.json_dict["Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator"] = self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"]
     
     self.json_dict["Fall.Einrichtungskontakt.Beginndatum"] = "SELECT \
-encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
-start_date AS \"Fall.Einrichtungskontakt.Beginndatum\" \
-FROM i2b2miracum.visit_dimension;"
+b.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+a.visit_start_date::date AS \"Fall.Einrichtungskontakt.Beginndatum\" \
+FROM cds_cdm.visit_occurrence AS b \
+LEFT OUTER JOIN ( \
+SELECT visit_occurrence_id, visit_start_date \
+FROM cds_cdm.visit_occurrence) AS a ON \
+a.visit_occurrence_id = b.visit_occurrence_id;"
     
     self.json_dict["Fall.Einrichtungskontakt.Enddatum"] = "SELECT \
-encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
-end_date AS \"Fall.Einrichtungskontakt.Enddatum\" \
-FROM i2b2miracum.visit_dimension;"
+b.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+a.visit_end_date::date AS \"Fall.Einrichtungskontakt.Enddatum\" \
+FROM cds_cdm.visit_occurrence AS b \
+LEFT OUTER JOIN ( \
+SELECT visit_occurrence_id, visit_end_date \
+FROM cds_cdm.visit_occurrence) AS a ON \
+a.visit_occurrence_id = b.visit_occurrence_id;"
     
     self.json_dict["Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode"] = "SELECT \
-encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
-concept_cd AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode\" \
-FROM i2b2miracum.observation_fact \
-WHERE concept_cd LIKE 'ICD10:%';"
+b.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+a.condition_source_value AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode\" \
+FROM cds_cdm.visit_occurrence AS b \
+LEFT OUTER JOIN ( \
+SELECT visit_occurrence_id, condition_source_value \
+FROM cds_cdm.condition_occurrence) AS a ON \
+a.visit_occurrence_id = b.visit_occurrence_id"
 
 if __name__ == "__main__":
   csql = CreateSQL()
