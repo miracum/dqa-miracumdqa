@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-03-01)
+## Unreleased (2022-03-02)
 
 #### New Features
 
@@ -12,6 +12,7 @@
 * working on dehub adaptions; wip
 #### Fixes
 
+* working on issue with escaped slashes (wip)
 * updated logic to append old slots when updating; furthermore now only consider wanted datalements
 * updated sql statements to new fhir paths
 * fixed downloading of clean mdr and preparation with dqa specific information
@@ -37,7 +38,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...cdec8e0`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...cdec8e0)
+Full set of changes: [`v2.1.2...96830b8`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...96830b8)
 
 ## v2.1.2 (2021-07-02)
 

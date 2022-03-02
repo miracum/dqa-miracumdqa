@@ -33,14 +33,20 @@ button_mdr <-
             detail = "... from DEHUB-MDR ..."
           )
           # for debugging
-          #stop()
+          #%stop()
           base_url <- Sys.getenv("MDR_BASEURL")
           namespace <- Sys.getenv("MDR_NAMESPACE")
+
+          delay_load <- ifelse(
+            reticulate::py_module_available("dqa_mdr_connector"),
+            FALSE,
+            TRUE
+          )
 
           # get dqa GetMDR-class
           dqa_connector <- reticulate::import(
             "dqa_mdr_connector.get_mdr",
-            delay_load = TRUE
+            delay_load = delay_load
           )
 
           # get list of dataelements
@@ -63,16 +69,7 @@ button_mdr <-
           mdr <- dqa_con() %>%
             data.table::data.table()
 
-          mdr[is.na(mdr)] <- ""
-
-
-          # TODO debug code with mdr from API: DQAstats::create_helper_vars
-          # https://gitlab.miracum.org/miracum/dqa/dqastats/-/blob/master/R/mdr.R#L283
-          DQAstats::create_helper_vars(
-            mdr = mdr,
-            source_db = "i2b2",
-            target_db = "fhir_gw"
-          )
+          mdr[mdr == ""] <- NA
 
           DIZtools::feedback(
             print_this = "Loading MDR from DEHUB-MDR rest API",
@@ -93,7 +90,6 @@ button_mdr <-
           mdr <- DQAstats::read_mdr(
             utils_path = utils_path
             , mdr_filename = "mdr.csv"
-            #, "dehub_mdr_clean_test.csv-20220301_144225.csv"
           )
           mdr
         }, finally = function(f) {
