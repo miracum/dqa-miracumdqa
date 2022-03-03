@@ -1,19 +1,49 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-03-02)
+## Unreleased (2022-03-03)
 
+#### New Features
+
+* working on adaption of dehub mdr
+* working on mdr downloading
+* connecting dehub mdr via reticulate with r
+* working on dehup adaption
+* working on mdr upload
+* working on dehub adaptions; wip
 #### Fixes
 
+* fixed loading mdr from new dehub-dev
+* working on issue with escaped slashes (wip)
+* updated logic to append old slots when updating; furthermore now only consider wanted datalements
+* updated sql statements to new fhir paths
+* fixed downloading of clean mdr and preparation with dqa specific information
 * corrected reference to `DQAgui`
 * typo in dependency `DQAgui`
+* removed custom reset due to shiny errors
 * updated omop sqls
 * distinct gender with patid
 * updated dt.hospitalization
 * updated dt.hospitalization sql in fhir-gw
 * sending data to datamap in headless mode caused crashes
 * don't display a gui warning if headles==true
+#### Refactorings
 
-Full set of changes: [`v2.1.2...0652bdd`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...0652bdd)
+* switching from dizutils to diztools
+#### Others
+
+* updated formatting of i2b2 sql
+* merged feat_new_coreds_python into development
+* updated debugging-script
+* comments to upload script
+* updated news.md
+* updated data range in license statement
+* revised adding of remotes in devstuffs
+* updated news.md
+* updated news.md
+* implementing new value_set (downstream to dqagui/dqastats)
+* creating news.md; allow in gitignore; addctoryed to rbuildignore
+
+Full set of changes: [`v2.1.2...10be45a`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...10be45a)
 
 ## v2.1.2 (2021-07-02)
 
