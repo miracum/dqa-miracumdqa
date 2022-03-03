@@ -91,6 +91,7 @@ launch_dqa_tool <- function(
 
   message(
     paste0(
+      "\nVersion DIZtools: ", utils::packageVersion("DIZtools"),
       "\nVersion DIZutils: ", utils::packageVersion("DIZutils"),
       "\nVersion DQAstats: ", utils::packageVersion("DQAstats"),
       "\nVersion DQAgui: ", utils::packageVersion("DQAgui"),

@@ -65,6 +65,7 @@ shiny::shinyUI(
               "Version:",
               "<br/>R: ", paste(
                 R.Version()[c("major", "minor")], collapse = "."),
+              "<br/>DIZtools: ", utils::packageVersion("DIZtools"),
               "<br/>DIZutils: ", utils::packageVersion("DIZutils"),
               "<br/>DQAstats: ", utils::packageVersion("DQAstats"),
               "<br/>DQAgui: ", utils::packageVersion("DQAgui"),

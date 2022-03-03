@@ -31,6 +31,7 @@
 * switching from dizutils to diztools
 #### Others
 
+* updated news.md
 * updated formatting of i2b2 sql
 * merged feat_new_coreds_python into development
 * updated debugging-script
@@ -43,7 +44,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...10be45a`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...10be45a)
+Full set of changes: [`v2.1.2...5cbd294`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...5cbd294)
 
 ## v2.1.2 (2021-07-02)
 
