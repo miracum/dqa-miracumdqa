@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-03-03)
+## Unreleased (2022-03-07)
 
 #### New Features
 
@@ -31,6 +31,7 @@
 * switching from dizutils to diztools
 #### Others
 
+* added diztools version
 * updated news.md
 * updated formatting of i2b2 sql
 * merged feat_new_coreds_python into development
@@ -44,7 +45,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...5cbd294`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...5cbd294)
+Full set of changes: [`v2.1.2...29ba00b`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...29ba00b)
 
 ## v2.1.2 (2021-07-02)
 

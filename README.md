@@ -16,7 +16,7 @@ install.packages("remotes")
 remotes::install_git("https://gitlab.miracum.org/miracum/dqa/miracumdqa.git")
 ```
 
-# Configuration 
+## Configuration 
 
 The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`.
 
@@ -32,6 +32,25 @@ launch_dqa_tool()
 ```
 
 To open the shiny application in your web-browser, go to http://localhost:3838.
+
+## Adding of new Dataelements to be Analyzed
+
+- MDR: [inst/application/_utilities/MDR/mdr.csv](inst/application/_utilities/MDR/mdr.csv)
+- Update MDR: [https://gitlab.miracum.org/miracum/dqa/miracumdqa/-/blob/development/inst/application/_utilities/MDR/update_dehub_mdr.py](https://gitlab.miracum.org/miracum/dqa/miracumdqa/-/blob/development/inst/application/_utilities/MDR/update_dehub_mdr.py)
+- Plausibilities: [/inst/application/_utilities/MDR/plausibilities.py](/inst/application/_utilities/MDR/plausibilities.py)
+- Constraints: [/inst/application/_utilities/MDR/plausibilities.py](/inst/application/_utilities/MDR/constraints.py)
+- Add SQL-statements:
+  * i2b2: [inst/application/_utilities/SQL/create_i2b2.py](inst/application/_utilities/SQL/create_i2b2.py)
+  * fhir_gw: [inst/application/_utilities/SQL/create_fhir_gw.py](inst/application/_utilities/SQL/create_fhir_gw.py)
+  * omop: [inst/application/_utilities/SQL/create_omop.py](inst/application/_utilities/SQL/create_omop.py)
+
+## MDR-Connection
+
+The MIRACUM DQA-tool is directly connected with the MIRACUM metadata repository (MDR). The python library [`dqa-mdr-connector`](https://github.com/miracum/dqa-mdr-connector) is used (via the fabulous R package [`reticulate`](https://rstudio.github.io/reticulate/)) to download the metadata specifications of the dataelements to be analyzed with the DQA-tool from the MDR.
+
+## `DQAstats`-Wiki
+
+Details on the background and the functioning of the DQA-tool as well as on specific configurations are available form the [`DQAstats` Wiki-page](https://github.com/miracum/dqa-dqastats/wiki).
 
 # More Infos:
 

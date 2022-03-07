@@ -25,7 +25,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9017")
+my_desc$set_version("2.1.2.9018")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -44,7 +44,7 @@ my_desc$set(
   "Config/reticulate",
   "\nlist(
     packages = list(
-      list(package = \"git+https://gitlab.miracum.org/miracum/dqa/dqa-mdr-connector@add_slot_logic\")
+      list(package = \"git+https://github.com/miracum/dqa-mdr-connector\")
     )
   )")
 
@@ -88,7 +88,7 @@ usethis::use_package("reticulate", type = "Imports", min_version = "1.14")
 remotes_append_vector <- NULL
 
 # Development packages
-utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   remotes::update_packages("DIZutils", upgrade = "always")
 } else{
@@ -104,7 +104,7 @@ if (utils_tag == "cran") {
   }
 }
 
-stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (stats_tag == "cran") {
   remotes::update_packages("DQAstats", upgrade = "always")
 } else{
@@ -124,7 +124,7 @@ if (stats_tag == "cran") {
   }
 }
 
-gui_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+gui_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (gui_tag == "cran") {
   remotes::update_packages("DQAgui", upgrade = "always")
 } else{
