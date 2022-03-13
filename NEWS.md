@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-03-07)
+## Unreleased (2022-03-13)
 
 #### New Features
 
@@ -29,6 +29,9 @@
 #### Refactorings
 
 * switching from dizutils to diztools
+#### Docs
+
+* updated readme
 #### Others
 
 * added diztools version
@@ -45,7 +48,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...29ba00b`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...29ba00b)
+Full set of changes: [`v2.1.2...3c38d1c`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...3c38d1c)
 
 ## v2.1.2 (2021-07-02)
 
