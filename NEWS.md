@@ -4,6 +4,7 @@
 
 #### New Features
 
+* added further dataelements
 * working on re-adding omop; added to mdr
 * working on adaption of dehub mdr
 * working on mdr downloading
@@ -50,7 +51,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...e6e738a`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...e6e738a)
+Full set of changes: [`v2.1.2...e98743f`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...e98743f)
 
 ## v2.1.2 (2021-07-02)
 

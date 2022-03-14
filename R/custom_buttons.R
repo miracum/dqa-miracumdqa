@@ -34,7 +34,7 @@ button_mdr <-
             detail = "... from DEHUB-MDR ..."
           )
           # for debugging
-          stop()
+          #stop()
           base_url <- Sys.getenv("MDR_BASEURL")
           namespace <- Sys.getenv("MDR_NAMESPACE")
 

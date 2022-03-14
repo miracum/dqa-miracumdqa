@@ -227,8 +227,43 @@ FROM ( \
 SELECT * FROM ( \
 SELECT \
 DATA AS jsonbdata, \
-to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date, \
-jsonb_array_elements(jsonb_path_query(DATA, '$.serviceType.coding')) ->> 'system' AS code_system \
+to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+FROM resources \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
+
+    self.json_dict["Fall.Einrichtungskontakt.Entlassungsgrund"] = "SELECT \
+r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",  \
+jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'dischargeDisposition' AS \"Fall.Einrichtungskontakt.Entlassungsgrund\" \
+FROM ( \
+SELECT * FROM ( \
+SELECT \
+DATA AS jsonbdata, \
+to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+FROM resources \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
+
+    self.json_dict["Fall.Einrichtungskontakt.Aufnahmeanlass"] = "SELECT \
+r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",  \
+jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'admitSource' AS \"Fall.Einrichtungskontakt.Aufnahmeanlass\" \
+FROM ( \
+SELECT * FROM ( \
+SELECT \
+DATA AS jsonbdata, \
+to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+FROM resources \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
+
+    self.json_dict["Fall.Einrichtungskontakt.Aufnahmegrund"] = "SELECT \
+r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",  \
+r1.jsonbdata ->> 'reasonCode' AS \"Fall.Einrichtungskontakt.Aufnahmegrund\" \
+FROM ( \
+SELECT * FROM ( \
+SELECT \
+DATA AS jsonbdata, \
+to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 

@@ -3,8 +3,13 @@ de_fhir_path_list=[
     "Person.Demographie.Geburtsdatum",
     "Person.Demographie.Adresse.Strassenanschrift.PLZ",
     "Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator",
+    "Fall.Einrichtungskontakt.Aufnahmeanlass",
     "Fall.Einrichtungskontakt.Aufnahmenummer",
+    "Fall.Einrichtungskontakt.Aufnahmegrund",
+    "Fall.Einrichtungskontakt.Entlassungsgrund",
     "Fall.Einrichtungskontakt.Beginndatum",
     "Fall.Einrichtungskontakt.Enddatum",
-    "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode"
+    "Fall.Abteilungskontakt.Fachabteilungsschluessel",
+    "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode",
+    "Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"
 ]

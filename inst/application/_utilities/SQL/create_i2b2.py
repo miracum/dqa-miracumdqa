@@ -129,6 +129,24 @@ encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" \
 FROM i2b2miracum.observation_fact \
 WHERE concept_cd LIKE 'Fall|Fachabteilungsschluessel:%';"
+    
+    self.json_dict["Fall.Einrichtungskontakt.Entlassungsgrund"] = "SELECT \
+encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+concept_cd AS \"Fall.Einrichtungskontakt.Entlassungsgrund\" \
+FROM i2b2miracum.observation_fact \
+WHERE concept_cd LIKE 'Fall|Entlassungsgrund:%';"
+    
+    self.json_dict["Fall.Einrichtungskontakt.Aufnahmeanlass"] = "SELECT \
+encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+concept_cd AS \"Fall.Einrichtungskontakt.Aufnahmeanlass\" \
+FROM i2b2miracum.observation_fact \
+WHERE concept_cd LIKE 'Fall|Aufnahmeanlass:%';"
+    
+    self.json_dict["Fall.Einrichtungskontakt.Aufnahmegrund"] = "SELECT \
+encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+concept_cd AS \"Fall.Einrichtungskontakt.Aufnahmegrund\" \
+FROM i2b2miracum.observation_fact \
+WHERE concept_cd LIKE 'Fall|Aufnahmegrund:%';"
 
 if __name__ == "__main__":
   csql = CreateSQL()
