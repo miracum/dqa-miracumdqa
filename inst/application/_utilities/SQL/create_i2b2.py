@@ -56,9 +56,6 @@ class CreateSQL():
     TODO: add some logic to use mappings from MDR.CSV
     """
     # TODO: https://gitlab.miracum.org/miracum/etl/batch/fhir-to-i2b2/-/blob/master/sql/i2b2-FHIR-Trigger.sql#L929
-    # Fall|Entlassungsgrund
-    # Fall|Aufnahmeanlass
-    # Fall|Aufnahmegrund
     # Fall|Versorgungsfallklasse
     # 
 #     self.json_dict["Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT \
