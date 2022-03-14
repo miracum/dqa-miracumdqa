@@ -36,7 +36,7 @@ class WritePlausibilities(MDRHandling):
     """
     self.add_plausibilities()
     
-    self.write_mdr(filename="mdr_prepared_and_filled.csv")
+    self.write_mdr(filename="mdr.csv")
   
   
   def add_plausibilities(self):
@@ -85,7 +85,7 @@ class WritePlausibilities(MDRHandling):
               "join_crit": "Fall.Einrichtungskontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "female",
+                  "i2b2": "Dem|Sex:female",
                   "fhir_gw": "female"
                 }
               }
@@ -100,7 +100,7 @@ class WritePlausibilities(MDRHandling):
               "join_crit": "Fall.Einrichtungskontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "female",
+                  "i2b2": "Dem|Sex:female",
                   "fhir_gw": "female"
                 }
               }
@@ -115,7 +115,7 @@ class WritePlausibilities(MDRHandling):
               "join_crit": "Fall.Einrichtungskontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "male",
+                  "i2b2": "Dem|Sex:male",
                   "fhir_gw": "male"
                 }
               }
@@ -127,5 +127,5 @@ class WritePlausibilities(MDRHandling):
     
 
 if __name__ == "__main__":
-  wrpl = WritePlausibilities(mdr_file="mdr_prepared.csv")
+  wrpl = WritePlausibilities(mdr_file="mdr.csv")
   wrpl()

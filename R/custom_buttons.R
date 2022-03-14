@@ -21,6 +21,7 @@ button_mdr <-
            headless) {
     DIZtools::feedback(print_this = "Loading the metadata repository",
                        logfile_dir = logfile_dir,
+                       findme = "8dff6a2009",
                        headless = headless)
     shiny::withProgress(message = "Loading MDR", value = 0, {
 
@@ -33,7 +34,7 @@ button_mdr <-
             detail = "... from DEHUB-MDR ..."
           )
           # for debugging
-          #%stop()
+          stop()
           base_url <- Sys.getenv("MDR_BASEURL")
           namespace <- Sys.getenv("MDR_NAMESPACE")
 
@@ -135,6 +136,8 @@ button_send_datamap <- function(rv) {
 #' @param rv The global rv object. rv$datamap and rv$config_file need to
 #'   be valid.
 #'
+#' @import data.table
+#'
 send_datamap_to_influx <- function(rv) {
   if (isTRUE(is.null(rv$datamap$target_data))) {
     DIZtools::feedback(
@@ -188,13 +191,16 @@ send_datamap_to_influx <- function(rv) {
           dm[, ("system") := system]
 
           ## Add another column with specific names:
-          dm[get("variable") == "Patientennummer",
-                  "lay_term" := "Patienten"]
-          dm[get("variable") == "Fallnummer",
+          dm[get("variable") == "Patientennummer" |
+               get("variable") == "Patienten-Identifikator",
+             "lay_term" := "Patienten"]
+          dm[get("variable") == "Fallnummer" |
+               get("variable") == "Aufnahmenummer",
                   "lay_term" := "F\u00E4lle"]
           dm[get("variable") == "Laborwerte (LOINC)",
                   "lay_term" := "Laborwerte"]
-          dm[get("variable") == "Hauptdiagnosen (ICD)",
+          dm[get("variable") == "Hauptdiagnosen (ICD)" |
+               get("variable") == "VollstaendigerDiagnosekode",
                   "lay_term" := "Diagnosen"]
           dm[get("variable") == "Nebendiagnosen (ICD)",
              "lay_term" := "Nebendiagnosen"]

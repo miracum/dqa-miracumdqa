@@ -37,7 +37,7 @@ class WriteConstraints(MDRHandling):
     """
     self.add_constraints()
     
-    self.write_mdr(filename="mdr_prepared_and_filled.csv")
+    self.write_mdr(filename="mdr.csv")
   
   
   def add_constraints(self):
@@ -47,7 +47,7 @@ class WriteConstraints(MDRHandling):
       (self.mdr.source_system_name == "i2b2") &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
-        {"value_set": ["male", "female", "unknown"]}
+        {"value_set": ["Dem|Sex:male", "Dem|Sex:female", "Dem|Sex:unknown"]}
       )
     
     self.mdr.loc[
@@ -58,8 +58,7 @@ class WriteConstraints(MDRHandling):
         {"value_set": ["male", "female", "unknown"]}
       )
     
-    
 
 if __name__ == "__main__":
-  wrcs = WriteConstraints(mdr_file="mdr_prepared_and_filled.csv")
+  wrcs = WriteConstraints(mdr_file="mdr.csv")
   wrcs()

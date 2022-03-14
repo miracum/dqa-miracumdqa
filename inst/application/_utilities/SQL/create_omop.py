@@ -52,39 +52,33 @@ class CreateSQL():
   def create_dict(self):
     """
     Create dictionary to dump to JSON file here.
-    
-    TODO: add some logic to use mappings from MDR.CSV
     """
-#     self.json_dict["Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT \
-# 	DISTINCT patient_num AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\" \
-# FROM \
-# 	i2b2miracum.visit_dimension;"
     
-#     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
-# 	mn.patient_num AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
-# 	jn.sex_cd AS \"Person.Demographie.AdministrativesGeschlecht\" \
-# FROM \
-# 	i2b2miracum.visit_dimension AS mn \
-# JOIN \
-# 	i2b2miracum.patient_dimension AS jn \
-# ON \
-# 	mn.patient_num = jn.patient_num;"
     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
-person_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
-gender_source_value AS \"Person.Demographie.AdministrativesGeschlecht\" \
-FROM cds_cdm.person;"
+mn.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+jn.gender_source_value AS \"Person.Demographie.AdministrativesGeschlecht\" \
+FROM cds_cdm.visit_occurrence AS mn \
+JOIN cds_cdm.person AS jn ON \
+mn.person_id = jn.person_id;"
     
     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
-person_id AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
-year_of_birth AS \"Person.Demographie.Geburtsdatum\" \
-FROM cds_cdm.person;"
+mn.person_id AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+jn.year_of_birth AS \"Person.Demographie.Geburtsdatum\" \
+FROM cds_cdm.visit_occurrence AS mn \
+JOIN cds_cdm.person AS jn ON \
+mn.person_id = jn.person_id;"
     
     self.json_dict["Person.Demographie.Adresse.Strassenanschrift.PLZ"] = "SELECT \
-per.person_id AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
-loc.zip AS \"Person.Demographie.Adresse.Strassenanschrift.PLZ\" \
-FROM cds_cdm.person AS per \
-LEFT OUTER JOIN cds_cdm.location AS loc ON \
-per.location_id = loc.location_id;"
+mn.person_id AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+jn.zip AS \"Person.Demographie.Adresse.Strassenanschrift.PLZ\" \
+FROM cds_cdm.visit_occurrence AS mn \
+JOIN ( \
+  SELECT loc.zip \
+  FROM cds_cdm.person AS per \
+  JOIN cds_cdm.location AS loc ON \
+  per.location_id = loc.location_id \
+) AS jn ON \
+mn.person_id = jn.person_id;"
     
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"] = "SELECT \
 person_id AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \

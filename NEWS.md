@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-03-13)
+## Unreleased (2022-03-14)
 
 #### New Features
 
@@ -48,7 +48,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...3c38d1c`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...3c38d1c)
+Full set of changes: [`v2.1.2...f8fbe92`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...f8fbe92)
 
 ## v2.1.2 (2021-07-02)
 

@@ -71,10 +71,9 @@ class CreateSQL():
 # 	mn.patient_num = jn.patient_num;"
     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
 encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
-jn.sex_cd AS \"Person.Demographie.AdministrativesGeschlecht\" \
-FROM i2b2miracum.visit_dimension AS mn \
-JOIN i2b2miracum.patient_dimension AS jn ON \
-mn.patient_num = jn.patient_num;"
+concept_cd AS \"Person.Demographie.AdministrativesGeschlecht\" \
+FROM i2b2miracum.observation_fact \
+WHERE concept_cd LIKE 'Dem|Sex:%';"
     
     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
 mn.patient_num AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
