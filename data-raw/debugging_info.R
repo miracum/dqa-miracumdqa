@@ -16,12 +16,12 @@ DIZtools::setenv_file(
   )
 )
 
-#options(shiny.trace = TRUE)
-#options(shiny.fullstacktrace = TRUE)
+# options(shiny.trace = TRUE)
+# options(shiny.fullstacktrace = TRUE)
 launch_dqa_tool(parallel = TRUE)
 
 
-shiny::shinyAppDir("inst/application/", options = list(display.mode = "showcase"))
+# shiny::shinyAppDir("inst/application/", options = list(display.mode = "showcase"))
 
 # rv <- DQAstats::dqa(
 #   source_system_name = "i2b2",
@@ -94,3 +94,9 @@ shiny::shinyAppDir("inst/application/", options = list(display.mode = "showcase"
 # #   # tag_cols = c("site", "system", "item", "n"),
 # #   measurement = "item_counts"
 # # )
+
+## For datamap debugging:
+# item_counts,site=ume,lay_term=Patienten,item=Patientennummer,system=i2b2 n=515477
+# item_counts,site=ume,lay_term=Fälle,item=Fallnummer,system=i2b2 n=3060658
+# item_counts,site=ume,lay_term=Diagnosen,item=Hauptdiagnosen\ (ICD),system=i2b2 n=6932622
+# item_counts,site=ume,lay_term=Nebendiagnosen,item=Nebendiagnosen\ (ICD),system=i2b2 n=1234
