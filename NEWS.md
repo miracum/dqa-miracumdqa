@@ -4,6 +4,7 @@
 
 #### New Features
 
+* added more data elements
 * added further dataelements
 * working on re-adding omop; added to mdr
 * working on adaption of dehub mdr
@@ -14,6 +15,7 @@
 * working on dehub adaptions; wip
 #### Fixes
 
+* fixed datatype of fachabteilung
 * re-added data.table import for datamap sending
 * fixed loading mdr from new dehub-dev
 * working on issue with escaped slashes (wip)
@@ -51,7 +53,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...e98743f`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...e98743f)
+Full set of changes: [`v2.1.2...eb0dd6e`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...eb0dd6e)
 
 ## v2.1.2 (2021-07-02)
 
