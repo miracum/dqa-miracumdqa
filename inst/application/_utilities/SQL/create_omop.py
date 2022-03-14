@@ -112,7 +112,18 @@ FROM cds_cdm.visit_occurrence AS b \
 LEFT OUTER JOIN ( \
 SELECT visit_occurrence_id, condition_source_value \
 FROM cds_cdm.condition_occurrence) AS a ON \
-a.visit_occurrence_id = b.visit_occurrence_id"
+a.visit_occurrence_id = b.visit_occurrence_id;"
+
+    
+    
+    self.json_dict["Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"] = "SELECT \
+b.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+a.procedure_source_value AS \"Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode\" \
+FROM cds_cdm.visit_occurrence AS b \
+LEFT OUTER JOIN ( \
+SELECT visit_occurrence_id, procedure_source_value \
+FROM cds_cdm.procedure_occurrence) AS a ON \
+a.visit_occurrence_id = b.visit_occurrence_id;"
 
 if __name__ == "__main__":
   csql = CreateSQL()

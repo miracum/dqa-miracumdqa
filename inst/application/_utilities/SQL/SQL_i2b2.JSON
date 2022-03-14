@@ -6,5 +6,7 @@
   "Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator": "SELECT patient_num AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\" FROM i2b2miracum.visit_dimension;",
   "Fall.Einrichtungskontakt.Beginndatum": "SELECT encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", start_date AS \"Fall.Einrichtungskontakt.Beginndatum\" FROM i2b2miracum.visit_dimension;",
   "Fall.Einrichtungskontakt.Enddatum": "SELECT encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", end_date AS \"Fall.Einrichtungskontakt.Enddatum\" FROM i2b2miracum.visit_dimension;",
-  "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode": "SELECT encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",concept_cd AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode\" FROM i2b2miracum.observation_fact WHERE concept_cd LIKE 'ICD10:%';"
+  "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode": "SELECT encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",concept_cd AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode\" FROM i2b2miracum.observation_fact WHERE concept_cd LIKE 'ICD10:%';",
+  "Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode": "SELECT encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",concept_cd AS \"Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode\" FROM i2b2miracum.observation_fact WHERE concept_cd LIKE 'OPS:%';",
+  "Fall.Abteilungskontakt.Fachabteilungsschluessel": "SELECT encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",concept_cd AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" FROM i2b2miracum.observation_fact WHERE concept_cd LIKE 'Fall|Fachabteilungsschluessel:%';"
 }

@@ -58,6 +58,66 @@ class WriteConstraints(MDRHandling):
         {"value_set": ["male", "female", "unknown"]}
       )
     
+    self.mdr.loc[
+      (self.mdr.designation == "AdministrativesGeschlecht") &
+      (self.mdr.source_system_name == "omop") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"value_set": ["male", "female", "unknown"]}
+      )
+      
+    
+    
+    self.mdr.loc[
+      (self.mdr.designation == "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode") &
+      (self.mdr.source_system_name == "i2b2") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"regex": "^(ICD10\\:)([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$"}
+      )
+      
+    self.mdr.loc[
+      (self.mdr.designation == "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode") &
+      (self.mdr.source_system_name == "fhir_gw") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"regex": "^([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$"}
+      )
+      
+    self.mdr.loc[
+      (self.mdr.designation == "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode") &
+      (self.mdr.source_system_name == "omop") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"regex": "^([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$"}
+      )
+      
+    
+    
+    self.mdr.loc[
+      (self.mdr.designation == "Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode") &
+      (self.mdr.source_system_name == "i2b2") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"regex": "^(OPS\\:)([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"}
+      )
+      
+    self.mdr.loc[
+      (self.mdr.designation == "Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode") &
+      (self.mdr.source_system_name == "fhir_gw") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"regex": "^([[:digit:]]{1})(\\-)?([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)?([[:alnum:]]){1,2})?$"}
+      )
+      
+    self.mdr.loc[
+      (self.mdr.designation == "Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode") &
+      (self.mdr.source_system_name == "omop") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"regex": "^([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"}
+      )
+    
 
 if __name__ == "__main__":
   wrcs = WriteConstraints(mdr_file="mdr.csv")

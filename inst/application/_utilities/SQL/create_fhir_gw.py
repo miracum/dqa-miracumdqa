@@ -203,6 +203,35 @@ WHERE TYPE = 'Condition' AND ( \
 REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
 )) r2;"
 
+    self.json_dict["Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"] = "SELECT \
+r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode\" \
+FROM ( SELECT * FROM ( \
+SELECT \
+DATA AS jsonbdata, \
+to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+FROM resources \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+SELECT \
+DATA AS jsonbdata2 \
+FROM resources \
+WHERE TYPE = 'Procedure' AND ( \
+REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
+)) r2;"
+
+
+    self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "SELECT \
+r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",  \
+jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.serviceType.coding')) ->> 'code' AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" \
+FROM ( \
+SELECT * FROM ( \
+SELECT \
+DATA AS jsonbdata, \
+to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date, \
+jsonb_array_elements(jsonb_path_query(DATA, '$.serviceType.coding')) ->> 'system' AS code_system \
+FROM resources \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
 if __name__ == "__main__":
   csql = CreateSQL()
   csql()

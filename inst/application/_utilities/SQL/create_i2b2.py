@@ -55,6 +55,12 @@ class CreateSQL():
     
     TODO: add some logic to use mappings from MDR.CSV
     """
+    # TODO: https://gitlab.miracum.org/miracum/etl/batch/fhir-to-i2b2/-/blob/master/sql/i2b2-FHIR-Trigger.sql#L929
+    # Fall|Entlassungsgrund
+    # Fall|Aufnahmeanlass
+    # Fall|Aufnahmegrund
+    # Fall|Versorgungsfallklasse
+    # 
 #     self.json_dict["Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator"] = "SELECT \
 # 	DISTINCT patient_num AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\" \
 # FROM \
@@ -111,6 +117,18 @@ encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode\" \
 FROM i2b2miracum.observation_fact \
 WHERE concept_cd LIKE 'ICD10:%';"
+    
+    self.json_dict["Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"] = "SELECT \
+encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+concept_cd AS \"Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode\" \
+FROM i2b2miracum.observation_fact \
+WHERE concept_cd LIKE 'OPS:%';"
+    
+    self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "SELECT \
+encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+concept_cd AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" \
+FROM i2b2miracum.observation_fact \
+WHERE concept_cd LIKE 'Fall|Fachabteilungsschluessel:%';"
 
 if __name__ == "__main__":
   csql = CreateSQL()

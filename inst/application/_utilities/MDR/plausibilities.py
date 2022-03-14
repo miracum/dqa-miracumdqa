@@ -86,7 +86,8 @@ class WritePlausibilities(MDRHandling):
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female"
+                  "fhir_gw": "female",
+                  "omop": "female"
                 }
               }
             },
@@ -101,7 +102,8 @@ class WritePlausibilities(MDRHandling):
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female"
+                  "fhir_gw": "female",
+                  "omop": "female"
                 }
               }
             },
@@ -116,7 +118,8 @@ class WritePlausibilities(MDRHandling):
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male"
+                  "fhir_gw": "male",
+                  "omop": "male"
                 }
               }
             }

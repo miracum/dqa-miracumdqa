@@ -4,6 +4,7 @@
 
 #### New Features
 
+* working on re-adding omop; added to mdr
 * working on adaption of dehub mdr
 * working on mdr downloading
 * connecting dehub mdr via reticulate with r
@@ -12,6 +13,7 @@
 * working on dehub adaptions; wip
 #### Fixes
 
+* re-added data.table import for datamap sending
 * fixed loading mdr from new dehub-dev
 * working on issue with escaped slashes (wip)
 * updated logic to append old slots when updating; furthermore now only consider wanted datalements
@@ -48,7 +50,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...f8fbe92`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...f8fbe92)
+Full set of changes: [`v2.1.2...e6e738a`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...e6e738a)
 
 ## v2.1.2 (2021-07-02)
 

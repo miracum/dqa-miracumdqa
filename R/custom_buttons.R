@@ -116,6 +116,8 @@ button_mdr <-
 #'
 #' @param rv The global rv object. rv$datamap needs to be valid.
 #'
+#' @importFrom data.table ".SD"
+#'
 #' @export
 button_send_datamap <- function(rv) {
   DIZtools::feedback(
@@ -135,8 +137,6 @@ button_send_datamap <- function(rv) {
 #'
 #' @param rv The global rv object. rv$datamap and rv$config_file need to
 #'   be valid.
-#'
-#' @import data.table
 #'
 send_datamap_to_influx <- function(rv) {
   if (isTRUE(is.null(rv$datamap$target_data))) {
