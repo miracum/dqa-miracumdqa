@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-03-14)
+## Unreleased (2022-03-18)
 
 #### New Features
 
@@ -39,6 +39,9 @@
 * updated readme
 #### Others
 
+* updated ci token name
+* removed mdr_legacy.csv
+* updated news.md
 * added diztools version
 * updated news.md
 * updated formatting of i2b2 sql
@@ -52,10 +55,11 @@
 * updated news.md
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
+* first commit after release
 
-Full set of changes: [`v2.1.2...eb0dd6e`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...eb0dd6e)
+Full set of changes: [`v2.1.2...7ff3883`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...7ff3883)
 
-## v2.1.2 (2021-07-02)
+## v2.1.2 (2021-07-01)
 
 #### New Features
 
@@ -76,9 +80,7 @@ Full set of changes: [`v2.1.2...eb0dd6e`](https://gitlab.miracum.org/miracum/dqa
 * added markdown to suggests due to error in knitr
 #### Others
 
-* updated ci token name
 * moved to central ci-config
-* first commit after release
 * linting stuff
 * excluded ci folder from r build
 * preparation for new release
@@ -140,7 +142,7 @@ Full set of changes: [`v2.0.4...v2.0.5`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v2.0.3...v2.0.4`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.0.3...v2.0.4)
 
-## v2.0.3 (2020-01-30)
+## v2.0.3 (2020-01-29)
 
 
 Full set of changes: [`v2.0.2...v2.0.3`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.0.2...v2.0.3)

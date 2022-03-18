@@ -1,10 +1,10 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 2.1.2.9021
+Version: 2.1.2.9022
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
-    person("Jonathan M.", "Mang", role = "aut",
+    person("Jonathan M.", "Mang", , "jonathan.mang@uk-erlangen.de", role = "aut",
            comment = c(ORCID = "0000-0003-0518-4710")),
     person("Franziska", "Bathelt", role = "ctb"),
     person("Denis", "Gebele", role = "ctb"),
@@ -16,7 +16,7 @@ License: GPL-3
 URL: https://gitlab.miracum.org/miracum/dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum/dqa/miRacumDQA/issues
 Encoding: UTF-8
-Date: 2022-03-14
+Date: 2022-03-18
 Config/reticulate: 
  list(
     packages = list(
