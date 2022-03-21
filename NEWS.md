@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-03-14)
+## Unreleased (2022-03-21)
 
 #### New Features
 
@@ -15,6 +15,7 @@
 * working on dehub adaptions; wip
 #### Fixes
 
+* fallback to local mdr file if api does not return sufficient rows
 * fixed datatype of fachabteilung
 * re-added data.table import for datamap sending
 * fixed loading mdr from new dehub-dev
@@ -39,6 +40,8 @@
 * updated readme
 #### Others
 
+* removed mdr_legacy.csv
+* updated news.md
 * added diztools version
 * updated news.md
 * updated formatting of i2b2 sql
@@ -53,7 +56,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...eb0dd6e`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...eb0dd6e)
+Full set of changes: [`v2.1.2...98a632a`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...98a632a)
 
 ## v2.1.2 (2021-07-02)
 

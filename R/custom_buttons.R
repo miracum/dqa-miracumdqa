@@ -33,6 +33,9 @@ button_mdr <-
             2/3,
             detail = "... from DEHUB-MDR ..."
           )
+          DIZtools::feedback(
+            print_this = "Trying to load MDR from DEHUB-MDR rest API",
+            findme = "762de006ae")
           # for debugging
           #stop()
           base_url <- Sys.getenv("MDR_BASEURL")
@@ -78,8 +81,7 @@ button_mdr <-
 
           DIZtools::feedback(
             print_this = "Loaded MDR from DEHUB-MDR rest API",
-            logfile_dir = logfile_dir,
-            headless = headless
+            findme = "5cc7a8517b"
           )
           mdr
         }, error = function(e) {
@@ -88,13 +90,15 @@ button_mdr <-
             detail = "... from local file ..."
           )
           DIZtools::feedback(
-            print_this = "Fallback to load MDR from local file",
-            logfile_dir = logfile_dir,
-            headless = headless
+            print_this =
+              paste0("Fallback to load MDR from local file. Reason: ",
+                     e),
+            type = "Warning",
+            findme = "ab733c2b51"
           )
           mdr <- DQAstats::read_mdr(
-            utils_path = utils_path
-            , mdr_filename = "mdr.csv"
+            utils_path = utils_path,
+            mdr_filename = "mdr.csv"
           )
           mdr
         }, finally = function(f) {
