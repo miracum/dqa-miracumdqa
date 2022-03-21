@@ -72,8 +72,12 @@ button_mdr <-
 
           mdr[mdr == ""] <- NA
 
+          if (nrow(mdr) < 2) {
+            stop("\nMDR loaded from DEHUB has less than 2 rows...\n")
+          }
+
           DIZtools::feedback(
-            print_this = "Loading MDR from DEHUB-MDR rest API",
+            print_this = "Loaded MDR from DEHUB-MDR rest API",
             logfile_dir = logfile_dir,
             headless = headless
           )
