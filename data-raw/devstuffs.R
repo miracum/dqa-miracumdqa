@@ -31,7 +31,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9023")
+my_desc$set_version("2.1.2.9024")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -80,9 +80,7 @@ my_desc$write(file = "DESCRIPTION")
 usethis::use_package("shiny", type = "Imports")
 usethis::use_package("magrittr", type = "Imports")
 usethis::use_package("shinydashboard", type = "Imports")
-usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("data.table", type = "Imports")
-usethis::use_package("openxlsx", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("influxdbr", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")

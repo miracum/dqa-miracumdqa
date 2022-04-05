@@ -124,7 +124,7 @@ button_mdr <-
 #'
 #' @param rv The global rv object. rv$datamap needs to be valid.
 #'
-#' @importFrom data.table ".SD"
+#' @import data.table
 #'
 #' @export
 button_send_datamap <- function(rv) {

@@ -2,7 +2,7 @@
 
 export(button_send_datamap)
 export(launch_dqa_tool)
+import(data.table)
 import(shiny)
 import(shinydashboard)
-importFrom(data.table,".SD")
 importFrom(magrittr,"%>%")
