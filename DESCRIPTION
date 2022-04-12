@@ -34,6 +34,7 @@ Imports:
     shiny,
     shinydashboard,
     utils
+RoxygenNote: 7.1.2
 Remotes: 
     github::miracum/misc-dizutils@development,
     url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip,
@@ -43,4 +44,3 @@ Suggests:
     markdown,
     processx,
     testthat
-RoxygenNote: 7.1.2

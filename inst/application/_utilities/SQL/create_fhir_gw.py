@@ -189,7 +189,7 @@ WHERE TYPE = 'Patient' AND ( \
 
     self.json_dict["Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode"] = "SELECT \
 r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
-jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Diagnose.ICD10GMDiagnoseKodiert.Vollstu00e4ndigerDiagnosecode\" \
+jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode \" \
 FROM ( SELECT * FROM ( \
 SELECT \
 DATA AS jsonbdata, \

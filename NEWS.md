@@ -40,6 +40,7 @@
 * updated readme
 #### Others
 
+* updated misspelled urls from readme and description
 * removed unneeded dependencies; fixed subtitle in markdown
 * updated news.md
 * added error messages and feedback details
@@ -59,7 +60,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...965957c`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...965957c)
+Full set of changes: [`v2.1.2...5610204`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...5610204)
 
 ## v2.1.2 (2021-07-02)
 
