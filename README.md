@@ -1,8 +1,8 @@
 # miRacumDQA  
 
 <!-- badges: start -->
-[![pipeline status](https://gitlab.miracum.org/miracum/dqa/miracumdqa/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/miracumdqa/commits/master)
-[![coverage report](https://gitlab.miracum.org/miracum/dqa/miracumdqa/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/miracumdqa/commits/master)
+[![pipeline status](https://gitlab.miracum.org/miracum/dqa/miracumdqa/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/miracumdqa/-/commits/master)
+[![coverage report](https://gitlab.miracum.org/miracum/dqa/miracumdqa/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/miracumdqa/-/commits/master)
 <!-- badges: end -->
 
 This is the repository of the MIRACUM data quality assessment tool (DQA tool). 
