@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-04-12)
+## Unreleased (2022-04-19)
 
 #### New Features
 
@@ -15,6 +15,7 @@
 * working on dehub adaptions; wip
 #### Fixes
 
+* fixed utf8 typo
 * fallback to local mdr file if api does not return sufficient rows
 * fixed datatype of fachabteilung
 * re-added data.table import for datamap sending
@@ -60,7 +61,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...5610204`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...5610204)
+Full set of changes: [`v2.1.2...b301c25`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...b301c25)
 
 ## v2.1.2 (2021-07-02)
 

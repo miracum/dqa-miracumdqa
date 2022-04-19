@@ -29,60 +29,99 @@ button_mdr <-
 
       mdr <- tryCatch(
         expr = {
-          shiny::incProgress(
-            2/3,
-            detail = "... from DEHUB-MDR ..."
-          )
-          DIZtools::feedback(
-            print_this = "Trying to load MDR from DEHUB-MDR rest API",
-            findme = "762de006ae")
-          # for debugging
-          #stop()
-          base_url <- Sys.getenv("MDR_BASEURL")
-          namespace <- Sys.getenv("MDR_NAMESPACE")
 
-          delay_load <- ifelse(
-            reticulate::py_module_available("dqa_mdr_connector"),
-            FALSE,
-            TRUE
-          )
+          # cache path
+          mdr_cache_path <- file.path(tempdir(), "dqa_mdr_cache.csv")
 
-          # get dqa GetMDR-class
-          dqa_connector <- reticulate::import(
-            "dqa_mdr_connector.get_mdr",
-            delay_load = delay_load
-          )
+          # get timestamp of cached mdr
+          if (file.exists(mdr_cache_path)) {
+            date_cache_created <- file.info(mdr_cache_path)$ctime %>%
+              as.Date()
 
-          # get list of dataelements
-          de_fhir_path_list <- reticulate::import_from_path(
-            "dqamdr_config",
-            path = system.file("application/_utilities/MDR/",
-                               package = "miRacumDQA")
-          )$de_fhir_path_list
-
-          dqa_con <- dqa_connector$GetMDR(
-            output_folder = tempdir(),
-            output_filename = "mdr.csv",
-            de_fhir_paths = de_fhir_path_list,
-            api_url = base_url,
-            bypass_auth = TRUE,
-            namespace_designation = namespace,
-            return_csv = FALSE
-          )
-
-          mdr <- dqa_con() %>%
-            data.table::data.table()
-
-          mdr[mdr == ""] <- NA
-
-          if (nrow(mdr) < 2) {
-            stop("\nMDR loaded from DEHUB has less than 2 rows...\n")
+            if ((as.Date(Sys.time()) - date_cache_created) == 0) {
+              # go with cached mdr
+              load_mdr <- FALSE
+            } else {
+              # load new version, if cache is not from same day
+              load_mdr = TRUE
+            }
+          } else {
+            # if no cache exists, load new mdr
+            load_mdr <- TRUE
           }
 
-          DIZtools::feedback(
-            print_this = "Loaded MDR from DEHUB-MDR rest API",
-            findme = "5cc7a8517b"
-          )
+          # if a new mdr is required from
+          if (isTRUE(load_mdr)) {
+
+            shiny::incProgress(
+              2/3,
+              detail = "... from DEHUB-MDR ..."
+            )
+            DIZtools::feedback(
+              print_this = "Trying to load MDR from DEHUB-MDR rest API",
+              findme = "762de006ae")
+            # for debugging
+            #stop()
+            base_url <- Sys.getenv("MDR_BASEURL")
+            namespace <- Sys.getenv("MDR_NAMESPACE")
+
+            delay_load <- ifelse(
+              reticulate::py_module_available("dqa_mdr_connector"),
+              FALSE,
+              TRUE
+            )
+
+            # get dqa GetMDR-class
+            dqa_connector <- reticulate::import(
+              "dqa_mdr_connector.get_mdr",
+              delay_load = delay_load
+            )
+
+            # get list of dataelements
+            de_fhir_path_list <- reticulate::import_from_path(
+              "dqamdr_config",
+              path = system.file("application/_utilities/MDR/",
+                                 package = "miRacumDQA")
+            )$de_fhir_path_list
+
+            dqa_con <- dqa_connector$GetMDR(
+              output_folder = tempdir(),
+              output_filename = "mdr.csv",
+              de_fhir_paths = de_fhir_path_list,
+              api_url = base_url,
+              bypass_auth = TRUE,
+              namespace_designation = namespace,
+              return_csv = FALSE
+            )
+
+            mdr <- dqa_con() %>%
+              data.table::data.table()
+
+            mdr[mdr == ""] <- NA
+
+            # save MDR cache file
+            data.table::fwrite(
+              x = mdr,
+              file = mdr_cache_path
+            )
+
+            if (nrow(mdr) < 2) {
+              stop("\nMDR loaded from DEHUB has less than 2 rows...\n")
+            }
+
+            DIZtools::feedback(
+              print_this = "Loaded MDR from DEHUB-MDR rest API",
+              findme = "5cc7a8517b"
+            )
+          } else {
+            shiny::incProgress(
+              1,
+              detail = "... from local cache ..."
+            )
+            mdr <- DQAstats::read_mdr(
+              mdr_filename = mdr_cache_path
+            )
+          }
           mdr
         }, error = function(e) {
           shiny::incProgress(
@@ -204,16 +243,16 @@ send_datamap_to_influx <- function(rv) {
              "lay_term" := "Patienten"]
           dm[get("variable") == "Fallnummer" |
                get("variable") == "Aufnahmenummer",
-                  "lay_term" := "F\u00E4lle"]
+             "lay_term" := "F\u00E4lle"]
           dm[get("variable") == "Laborwerte (LOINC)",
-                  "lay_term" := "Laborwerte"]
+             "lay_term" := "Laborwerte"]
           dm[get("variable") == "Hauptdiagnosen (ICD)" |
                get("variable") == "VollstaendigerDiagnosekode",
-                  "lay_term" := "Diagnosen"]
+             "lay_term" := "Diagnosen"]
           dm[get("variable") == "Nebendiagnosen (ICD)",
              "lay_term" := "Nebendiagnosen"]
           dm[get("variable") == "Prozeduren (OPS)",
-                  "lay_term" := "Prozeduren"]
+             "lay_term" := "Prozeduren"]
           dm[get("variable") == "Medikation (OPS)",
              "lay_term" := "Medikation"]
 

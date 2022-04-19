@@ -31,7 +31,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9025")
+my_desc$set_version("2.1.2.9026")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -92,6 +92,22 @@ usethis::use_package("reticulate", type = "Imports", min_version = "1.14")
 remotes_append_vector <- NULL
 
 # Development packages
+tools_tag <- "dev" # e.g. "v0.1.7", "development" or "cran"
+if (tools_tag == "cran") {
+  remotes::update_packages("DIZtools", upgrade = "always")
+} else{
+  devtools::install_github("miracum/misc-diztools", ref = utils_tag)
+
+  add_remotes <- paste0(
+    "github::miracum/misc-diztools@", tools_tag
+  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
+}
+
 utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   remotes::update_packages("DIZutils", upgrade = "always")

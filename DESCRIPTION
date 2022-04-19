@@ -16,7 +16,7 @@ License: GPL-3
 URL: https://gitlab.miracum.org/miracum/dqa/miRacumDQA
 BugReports: https://gitlab.miracum.org/miracum/dqa/miRacumDQA/-/issues
 Encoding: UTF-8
-Date: 2022-04-12
+Date: 2022-04-19
 Config/reticulate: 
  list(
     packages = list(
@@ -34,7 +34,6 @@ Imports:
     shiny,
     shinydashboard,
     utils
-RoxygenNote: 7.1.2
 Remotes: 
     github::miracum/misc-dizutils@development,
     url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip,
@@ -44,3 +43,4 @@ Suggests:
     markdown,
     processx,
     testthat
+RoxygenNote: 7.1.2

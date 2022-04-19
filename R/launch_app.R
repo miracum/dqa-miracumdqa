@@ -27,7 +27,7 @@
 #' @param logfile_dir Is the absolute path to the directory where the logfile
 #'   will be stored. If not path is provided the tempdir() will be used.
 #' @param parallel A boolean. If TRUE (the default value), initializing
-#'   `future::plan("multiprocess")` before running the code.
+#'   `future::plan()` for running the code.
 #' @param ncores A integer. The number of cores to use. Caution: you would
 #'   probably like to choose a low number when operating on large datasets.
 #'   Default: 2.
