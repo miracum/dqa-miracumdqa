@@ -1,9 +1,10 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-04-19)
+## Unreleased (2022-04-20)
 
 #### New Features
 
+* added cache of 1 day for mdr
 * added more data elements
 * added further dataelements
 * working on re-adding omop; added to mdr
@@ -61,7 +62,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...b301c25`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...b301c25)
+Full set of changes: [`v2.1.2...b53cd7f`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...b53cd7f)
 
 ## v2.1.2 (2021-07-02)
 

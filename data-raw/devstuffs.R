@@ -96,7 +96,7 @@ tools_tag <- "dev" # e.g. "v0.1.7", "development" or "cran"
 if (tools_tag == "cran") {
   remotes::update_packages("DIZtools", upgrade = "always")
 } else{
-  devtools::install_github("miracum/misc-diztools", ref = utils_tag)
+  devtools::install_github("miracum/misc-diztools", ref = tools_tag)
 
   add_remotes <- paste0(
     "github::miracum/misc-diztools@", tools_tag
