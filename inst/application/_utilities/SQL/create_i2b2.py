@@ -76,7 +76,8 @@ class CreateSQL():
 encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Person.Demographie.AdministrativesGeschlecht\" \
 FROM i2b2miracum.observation_fact \
-WHERE concept_cd LIKE 'Dem|Sex:%';"
+WHERE concept_cd LIKE 'Dem|Sex:%' AND \
+modifier_cd = '@';"
     
     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
 mn.patient_num AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
@@ -113,37 +114,51 @@ FROM i2b2miracum.visit_dimension;"
 encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode\" \
 FROM i2b2miracum.observation_fact \
-WHERE concept_cd LIKE 'ICD10:%';"
+WHERE concept_cd LIKE 'ICD10:%' AND \
+modifier_cd = '@';"
     
     self.json_dict["Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"] = "SELECT \
 encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode\" \
 FROM i2b2miracum.observation_fact \
-WHERE concept_cd LIKE 'OPS:%';"
+WHERE concept_cd LIKE 'OPS:%' AND \
+modifier_cd = '@';"
     
     self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "SELECT \
 encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" \
 FROM i2b2miracum.observation_fact \
-WHERE concept_cd LIKE 'Fall|Fachabteilungsschluessel:%';"
+WHERE concept_cd LIKE 'Fall|Fachabteilungsschluessel:%' AND \
+modifier_cd = '@';"
     
     self.json_dict["Fall.Einrichtungskontakt.Entlassungsgrund"] = "SELECT \
 encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Fall.Einrichtungskontakt.Entlassungsgrund\" \
 FROM i2b2miracum.observation_fact \
-WHERE concept_cd LIKE 'Fall|Entlassungsgrund:%';"
+WHERE concept_cd LIKE 'Fall|Entlassungsgrund:%' AND \
+modifier_cd = '@';"
     
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmeanlass"] = "SELECT \
 encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Fall.Einrichtungskontakt.Aufnahmeanlass\" \
 FROM i2b2miracum.observation_fact \
-WHERE concept_cd LIKE 'Fall|Aufnahmeanlass:%';"
+WHERE concept_cd LIKE 'Fall|Aufnahmeanlass:%' AND \
+modifier_cd = '@';"
     
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmegrund"] = "SELECT \
 encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Fall.Einrichtungskontakt.Aufnahmegrund\" \
 FROM i2b2miracum.observation_fact \
-WHERE concept_cd LIKE 'Fall|Aufnahmegrund:%';"
+WHERE concept_cd LIKE 'Fall|Aufnahmegrund:%' AND \
+modifier_cd = '@';"
+
+    self.json_dict["Laborbefund.Laboruntersuchung.Code"] = "SELECT \
+encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+concept_cd AS \"Laborbefund.Laboruntersuchung.Code\" \
+FROM i2b2miracum.observation_fact \
+WHERE concept_cd LIKE 'LOINC:%' AND \
+modifier_cd = '@' AND \
+sourcesystem_cd = 'Observation';"
 
 if __name__ == "__main__":
   csql = CreateSQL()

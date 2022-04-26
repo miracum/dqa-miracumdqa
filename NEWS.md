@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-04-20)
+## Unreleased (2022-04-26)
 
 #### New Features
 
@@ -42,6 +42,7 @@
 * updated readme
 #### Others
 
+* updated news.md
 * updated misspelled urls from readme and description
 * removed unneeded dependencies; fixed subtitle in markdown
 * updated news.md
@@ -62,7 +63,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...b53cd7f`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...b53cd7f)
+Full set of changes: [`v2.1.2...6f98857`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...6f98857)
 
 ## v2.1.2 (2021-07-02)
 

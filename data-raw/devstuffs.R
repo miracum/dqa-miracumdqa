@@ -173,9 +173,7 @@ if (!is.null(remotes_append_vector)) {
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
-usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
-usethis::use_package("markdown", type = "Suggests")
 
 
 

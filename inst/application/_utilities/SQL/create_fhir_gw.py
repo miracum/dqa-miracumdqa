@@ -267,6 +267,27 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
+
+    self.json_dict["Laborbefund.Laboruntersuchung.Code"] = "SELECT \
+r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Laborbefund.Laboruntersuchung.Code\" \
+FROM ( SELECT * FROM ( \
+SELECT \
+DATA AS jsonbdata, \
+to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+FROM resources \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+SELECT jsonbdata2 FROM ( \
+SELECT \
+DATA AS jsonbdata2, \
+jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) ->> 'system' AS cd_system \
+FROM resources \
+WHERE TYPE = 'Observation' AND ( \
+REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
+)) AS r3 \
+WHERE r3.cd_system = 'http://loinc.org' \
+) r2;"
+
 if __name__ == "__main__":
   csql = CreateSQL()
   csql()
