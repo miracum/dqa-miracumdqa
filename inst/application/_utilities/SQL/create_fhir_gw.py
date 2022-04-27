@@ -219,17 +219,17 @@ WHERE TYPE = 'Procedure' AND ( \
 REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
 )) r2;"
 
-
-    self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "SELECT \
-r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",  \
-jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.serviceType.coding')) ->> 'code' AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" \
+    self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+r1.code AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" \
 FROM ( \
-SELECT * FROM ( \
+SELECT jsonbdata, service_type ->> 'code' AS code, service_type ->> 'system' AS cd_system FROM ( \
 SELECT \
 DATA AS jsonbdata, \
+jsonb_array_elements(jsonb_path_query(DATA, '$.serviceType.coding')) AS service_type, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
+WHERE r1.cd_system = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/CodeSystem/Fachabteilungsschluessel';"
 
 
     self.json_dict["Fall.Einrichtungskontakt.Entlassungsgrund"] = "SELECT \
@@ -270,22 +270,22 @@ WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
     self.json_dict["Laborbefund.Laboruntersuchung.Code"] = "SELECT \
 r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
-jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Laborbefund.Laboruntersuchung.Code\" \
+r2.code AS \"Laborbefund.Laboruntersuchung.Code\" \
 FROM ( SELECT * FROM ( \
 SELECT \
 DATA AS jsonbdata, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
-SELECT jsonbdata2 FROM ( \
+WHERE TYPE = 'Encounter') AS r_intermediate) r1, LATERAL ( \
+SELECT cd_system ->> 'code' AS code, cd_system ->> 'system' AS cd_system FROM ( \
 SELECT \
 DATA AS jsonbdata2, \
-jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) ->> 'system' AS cd_system \
+jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) AS cd_system \
 FROM resources \
 WHERE TYPE = 'Observation' AND ( \
 REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
 )) AS r3 \
-WHERE r3.cd_system = 'http://loinc.org' \
+WHERE r3.cd_system ->> 'system' = 'http://loinc.org' \
 ) r2;"
 
 if __name__ == "__main__":
