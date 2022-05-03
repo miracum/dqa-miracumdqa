@@ -219,7 +219,8 @@ WHERE TYPE = 'Procedure' AND ( \
 REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
 )) r2;"
 
-    self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+    self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "SELECT \
+r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
 r1.code AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" \
 FROM ( \
 SELECT jsonbdata, service_type ->> 'code' AS code, service_type ->> 'system' AS cd_system FROM ( \
