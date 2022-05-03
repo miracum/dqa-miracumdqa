@@ -280,13 +280,16 @@ WHERE TYPE = 'Encounter') AS r_intermediate) r1, LATERAL ( \
 SELECT cd_system ->> 'code' AS code, cd_system ->> 'system' AS cd_system FROM ( \
 SELECT \
 DATA AS jsonbdata2, \
-jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) AS cd_system \
+jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) AS cd_system, \
+jsonb_array_elements(jsonb_path_query(DATA, '$.category.coding')) AS cd_category \
 FROM resources \
 WHERE TYPE = 'Observation' AND ( \
 REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
 )) AS r3 \
-WHERE r3.cd_system ->> 'system' = 'http://loinc.org' \
+WHERE r3.cd_system ->> 'system' = 'http://loinc.org' AND \
+r3.cd_category ->> 'code' = '26436-6' \
 ) r2;"
+# LOINC 26436-6 = Laboratory studies (set)
 
 if __name__ == "__main__":
   csql = CreateSQL()

@@ -11,5 +11,6 @@ de_fhir_path_list=[
     "Fall.Einrichtungskontakt.Enddatum",
     "Fall.Abteilungskontakt.Fachabteilungsschluessel",
     "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode",
-    "Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"
+    "Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode",
+    "Laborbefund.Laboruntersuchung.Code"
 ]

@@ -77,7 +77,7 @@ button_mdr <-
               delay_load = delay_load
             )
 
-            # get list of dataelements
+            # get list of dataelements to be downloaded from mdr
             de_fhir_path_list <- reticulate::import_from_path(
               "dqamdr_config",
               path = system.file("application/_utilities/MDR/",

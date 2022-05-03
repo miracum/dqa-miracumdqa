@@ -157,8 +157,7 @@ encounter_num AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
 concept_cd AS \"Laborbefund.Laboruntersuchung.Code\" \
 FROM i2b2miracum.observation_fact \
 WHERE concept_cd LIKE 'LOINC:%' AND \
-modifier_cd = '@' AND \
-sourcesystem_cd = 'Observation';"
+modifier_cd = 'LOINC:26436-6';" # LOINC 26436-6 = Laboratory studies (set)
 
 if __name__ == "__main__":
   csql = CreateSQL()
