@@ -91,6 +91,21 @@ class CreateSQL():
 # WHERE TYPE = 'Patient' \
 # ) r2 \
 # ON REPLACE(r1.data_r1 -> 'subject' ->> 'reference', 'Patient/', '') = (r2.data_r2 ->> 'id');"
+#     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
+# r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+# r2.jsonbdata2 ->> 'gender' AS \"Person.Demographie.AdministrativesGeschlecht\" \
+# FROM ( SELECT * FROM ( \
+# SELECT REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+# SELECT \
+# DATA AS jsonbdata2 \
+# FROM resources \
+# WHERE TYPE = 'Patient' AND ( \
+# (DATA ->> 'id') = r1.pid) \
+# ) r2;"
+
     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
 r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
 r2.jsonbdata2 ->> 'gender' AS \"Person.Demographie.AdministrativesGeschlecht\" \
@@ -98,14 +113,30 @@ FROM ( SELECT * FROM ( \
 SELECT REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
+LEFT JOIN ( \
 SELECT \
+fhir_id, \
 DATA AS jsonbdata2 \
 FROM resources \
-WHERE TYPE = 'Patient' AND ( \
-(DATA ->> 'id') = r1.pid) \
-) r2;"
+WHERE TYPE = 'Patient') r2 \
+ON r2.fhir_id = r1.pid;"
 
+
+#     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
+# r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+# r2.jsonbdata2 ->> 'birthDate' AS \"Person.Demographie.Geburtsdatum\" \
+# FROM ( SELECT * FROM ( \
+# SELECT REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+# SELECT \
+# DATA AS jsonbdata2 \
+# FROM resources \
+# WHERE TYPE = 'Patient' AND ( \
+# (DATA ->> 'id') = r1.pid) \
+# ) r2;"
 
     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
 r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
@@ -114,15 +145,17 @@ FROM ( SELECT * FROM ( \
 SELECT REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
+LEFT JOIN ( \
 SELECT \
+fhir_id, \
 DATA AS jsonbdata2 \
 FROM resources \
-WHERE TYPE = 'Patient' AND ( \
-(DATA ->> 'id') = r1.pid) \
-) r2;"
-
-
+WHERE TYPE = 'Patient') r2 \
+ON r2.fhir_id = r1.pid;"
+    
+    
+    
 #     self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"] = "SELECT  \
 # REPLACE(jsonb_path_query(r1.data_r1, '$.subject') ->> 'reference', 'Patient/', '') AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
 # jsonb_path_query(r1.data_r1, '$.period') ->> 'start' AS fhir_start_date, \
@@ -132,13 +165,26 @@ WHERE TYPE = 'Patient' AND ( \
 # FROM resources \
 # WHERE TYPE = 'Encounter' \
 # ) r1;"
+#     self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"] = "SELECT \
+# r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\" \
+# FROM ( \
+# SELECT * FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
+
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"] = "SELECT \
 r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
-r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\" \
+r1.fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
-DATA AS jsonbdata, \
+fhir_id, \
 REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
@@ -146,30 +192,68 @@ WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
     self.json_dict["Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator"] = self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"]
 
+#     self.json_dict["Fall.Einrichtungskontakt.Beginndatum"] = "SELECT \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+# to_timestamp(jsonb_path_query(r1.jsonbdata, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS \"Fall.Einrichtungskontakt.Beginndatum\" \
+# FROM ( \
+# SELECT * FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
     self.json_dict["Fall.Einrichtungskontakt.Beginndatum"] = "SELECT \
-r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
-to_timestamp(jsonb_path_query(r1.jsonbdata, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS \"Fall.Einrichtungskontakt.Beginndatum\" \
+fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+fhir_start_date AS \"Fall.Einrichtungskontakt.Beginndatum\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
-DATA AS jsonbdata, \
-REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
+fhir_id, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
+
+#     self.json_dict["Fall.Einrichtungskontakt.Enddatum"] = "SELECT \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+# to_timestamp(jsonb_path_query(r1.jsonbdata, '$.period') ->> 'end', 'YYYY-MM-DDTHH:MI:SS') AS \"Fall.Einrichtungskontakt.Enddatum\" \
+# FROM ( \
+# SELECT * FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
     self.json_dict["Fall.Einrichtungskontakt.Enddatum"] = "SELECT \
-r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
 to_timestamp(jsonb_path_query(r1.jsonbdata, '$.period') ->> 'end', 'YYYY-MM-DDTHH:MI:SS') AS \"Fall.Einrichtungskontakt.Enddatum\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
+fhir_id, \
 DATA AS jsonbdata, \
-REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
+
+#     self.json_dict["Person.Demographie.Adresse.Strassenanschrift.PLZ"] = "SELECT \
+# r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
+# jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.address')) ->> 'postalCode' AS \"Person.Demographie.Adresse.Strassenanschrift.PLZ\" \
+# FROM ( SELECT * FROM ( \
+# SELECT \
+# REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+# SELECT \
+# DATA AS jsonbdata2 \
+# FROM resources \
+# WHERE TYPE = 'Patient' AND ( \
+# (DATA ->> 'id') = r1.pid) \
+# ) r2;"
 
     self.json_dict["Person.Demographie.Adresse.Strassenanschrift.PLZ"] = "SELECT \
 r1.pid AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
@@ -179,118 +263,231 @@ SELECT \
 REPLACE(jsonb_path_query(DATA, '$.subject') ->> 'reference', 'Patient/', '') AS pid, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
+LEFT JOIN ( \
 SELECT \
+fhir_id, \
 DATA AS jsonbdata2 \
 FROM resources \
-WHERE TYPE = 'Patient' AND ( \
-(DATA ->> 'id') = r1.pid) \
-) r2;"
+WHERE TYPE = 'Patient') r2 \
+ON r2.fhir_id = r1.pid;"
+
+#     self.json_dict["Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode"] = "SELECT \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+# jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode \" \
+# FROM ( SELECT * FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+# SELECT \
+# DATA AS jsonbdata2 \
+# FROM resources \
+# WHERE TYPE = 'Condition' AND ( \
+# REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
+# )) r2;"
 
     self.json_dict["Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode"] = "SELECT \
-r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
-jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode \" \
+r1.fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode\" \
 FROM ( SELECT * FROM ( \
 SELECT \
-DATA AS jsonbdata, \
+fhir_id, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
+LEFT JOIN ( \
 SELECT \
+REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') AS eid, \
 DATA AS jsonbdata2 \
 FROM resources \
-WHERE TYPE = 'Condition' AND ( \
-REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
-)) r2;"
+WHERE TYPE = 'Condition') r2 \
+ON r2.eid = r1.fhir_id;"
+
+
+#     self.json_dict["Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"] = "SELECT \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+# jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode\" \
+# FROM ( SELECT * FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+# SELECT \
+# DATA AS jsonbdata2 \
+# FROM resources \
+# WHERE TYPE = 'Procedure' AND ( \
+# REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
+# )) r2;"
 
     self.json_dict["Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"] = "SELECT \
-r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+r1.fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
 jsonb_array_elements(jsonb_path_query(r2.jsonbdata2, '$.code.coding')) ->> 'code' AS \"Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode\" \
 FROM ( SELECT * FROM ( \
 SELECT \
-DATA AS jsonbdata, \
+fhir_id, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate ) r1, LATERAL ( \
+WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
+LEFT JOIN ( \
 SELECT \
+REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') AS eid, \
 DATA AS jsonbdata2 \
 FROM resources \
-WHERE TYPE = 'Procedure' AND ( \
-REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
-)) r2;"
+WHERE TYPE = 'Procedure') r2 \
+ON r2.eid = r1.fhir_id;"
+
+#     self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "SELECT \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+# r1.code AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" \
+# FROM ( \
+# SELECT jsonbdata, service_type ->> 'code' AS code, service_type ->> 'system' AS cd_system FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# jsonb_array_elements(jsonb_path_query(DATA, '$.serviceType.coding')) AS service_type, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
+# WHERE r1.cd_system = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/CodeSystem/Fachabteilungsschluessel';"
 
     self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "SELECT \
-r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+r1.fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
 r1.code AS \"Fall.Abteilungskontakt.Fachabteilungsschluessel\" \
 FROM ( \
-SELECT jsonbdata, service_type ->> 'code' AS code, service_type ->> 'system' AS cd_system FROM ( \
+SELECT fhir_id, code, cd_system FROM ( \
 SELECT \
-DATA AS jsonbdata, \
-jsonb_array_elements(jsonb_path_query(DATA, '$.serviceType.coding')) AS service_type, \
+fhir_id, \
+jsonb_array_elements(jsonb_path_query(DATA, '$.serviceType.coding')) ->> 'code' AS code, \
+jsonb_array_elements(jsonb_path_query(DATA, '$.serviceType.coding')) ->> 'system' AS cd_system, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
 WHERE r1.cd_system = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/CodeSystem/Fachabteilungsschluessel';"
+    
 
+#     self.json_dict["Fall.Einrichtungskontakt.Entlassungsgrund"] = "SELECT \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",  \
+# jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'dischargeDisposition' AS \"Fall.Einrichtungskontakt.Entlassungsgrund\" \
+# FROM ( \
+# SELECT * FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
     self.json_dict["Fall.Einrichtungskontakt.Entlassungsgrund"] = "SELECT \
-r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",  \
+r1.fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
 jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'dischargeDisposition' AS \"Fall.Einrichtungskontakt.Entlassungsgrund\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
+fhir_id, \
 DATA AS jsonbdata, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
 
+#     self.json_dict["Fall.Einrichtungskontakt.Aufnahmeanlass"] = "SELECT \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+# jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'admitSource' AS \"Fall.Einrichtungskontakt.Aufnahmeanlass\" \
+# FROM ( \
+# SELECT * FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmeanlass"] = "SELECT \
-r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",  \
+r1.fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
 jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'admitSource' AS \"Fall.Einrichtungskontakt.Aufnahmeanlass\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
+fhir_id, \
 DATA AS jsonbdata, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
+#     self.json_dict["Fall.Einrichtungskontakt.Aufnahmegrund"] = "SELECT \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+# r1.jsonbdata ->> 'reasonCode' AS \"Fall.Einrichtungskontakt.Aufnahmegrund\" \
+# FROM ( \
+# SELECT * FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
+
 
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmegrund"] = "SELECT \
-r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",  \
+r1.fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
 r1.jsonbdata ->> 'reasonCode' AS \"Fall.Einrichtungskontakt.Aufnahmegrund\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
+fhir_id, \
 DATA AS jsonbdata, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
+# 
+#     self.json_dict["Laborbefund.Laboruntersuchung.Code"] = "SELECT \
+# r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+# r2.code AS \"Laborbefund.Laboruntersuchung.Code\" \
+# FROM ( SELECT * FROM ( \
+# SELECT \
+# DATA AS jsonbdata, \
+# to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
+# FROM resources \
+# WHERE TYPE = 'Encounter') AS r_intermediate) r1, LATERAL ( \
+# SELECT cd_system ->> 'code' AS code FROM ( \
+# SELECT \
+# DATA AS jsonbdata2, \
+# jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) AS cd_system, \
+# jsonb_array_elements(jsonb_path_query(DATA, '$.category.coding')) AS cd_category \
+# FROM resources \
+# WHERE TYPE = 'Observation' AND ( \
+# REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
+# )) AS r3 \
+# WHERE r3.cd_system ->> 'system' = 'http://loinc.org' AND \
+# r3.cd_category ->> 'code' = '26436-6' \
+# ) r2;"
+# LOINC 26436-6 = Laboratory studies (set)
+
 
     self.json_dict["Laborbefund.Laboruntersuchung.Code"] = "SELECT \
-r1.jsonbdata ->> 'id' AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
+r1.fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
 r2.code AS \"Laborbefund.Laboruntersuchung.Code\" \
 FROM ( SELECT * FROM ( \
 SELECT \
-DATA AS jsonbdata, \
+fhir_id, \
 to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:SS') AS fhir_start_date \
 FROM resources \
-WHERE TYPE = 'Encounter') AS r_intermediate) r1, LATERAL ( \
-SELECT cd_system ->> 'code' AS code, cd_system ->> 'system' AS cd_system FROM ( \
+WHERE TYPE = 'Encounter') AS r_intermediate) r1 \
+LEFT JOIN ( \
+SELECT \
+REPLACE(jsonbdata2 -> 'encounter' ->> 'reference', 'Encounter/', '') AS eid, \
+cd_system ->> 'code' AS code FROM ( \
 SELECT \
 DATA AS jsonbdata2, \
 jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) AS cd_system, \
 jsonb_array_elements(jsonb_path_query(DATA, '$.category.coding')) AS cd_category \
 FROM resources \
-WHERE TYPE = 'Observation' AND ( \
-REPLACE(DATA -> 'encounter' ->> 'reference', 'Encounter/', '') = (r1.jsonbdata ->> 'id') \
-)) AS r3 \
+WHERE TYPE = 'Observation') r3 \
 WHERE r3.cd_system ->> 'system' = 'http://loinc.org' AND \
 r3.cd_category ->> 'code' = '26436-6' \
-) r2;"
-# LOINC 26436-6 = Laboratory studies (set)
+) r2 ON \
+r2.eid = r1.fhir_id;"
+
+
 
 if __name__ == "__main__":
   csql = CreateSQL()
