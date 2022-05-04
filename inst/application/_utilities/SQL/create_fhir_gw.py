@@ -465,7 +465,7 @@ WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
     self.json_dict["Laborbefund.Laboruntersuchung.Code"] = "SELECT \
 r1.fhir_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
-r2.code AS \"Laborbefund.Laboruntersuchung.Code\" \
+r2.cd_system ->> 'code' AS \"Laborbefund.Laboruntersuchung.Code\" \
 FROM ( SELECT * FROM ( \
 SELECT \
 fhir_id, \
@@ -475,7 +475,7 @@ WHERE TYPE = 'Encounter') AS r_intermediate) r1 \
 LEFT JOIN ( \
 SELECT \
 REPLACE(jsonbdata2 -> 'encounter' ->> 'reference', 'Encounter/', '') AS eid, \
-cd_system ->> 'code' AS code FROM ( \
+cd_system FROM ( \
 SELECT \
 DATA AS jsonbdata2, \
 jsonb_array_elements(jsonb_path_query(DATA, '$.code.coding')) AS cd_system, \
