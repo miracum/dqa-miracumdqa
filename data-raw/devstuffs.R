@@ -217,6 +217,12 @@ usethis::use_git_ignore("!/NEWS.md")
 # create NEWS.md using the python-package "auto-changelog" (must be installed)
 # https://www.conventionalcommits.org/en/v1.0.0/
 # build|ci|docs|feat|fix|perf|refactor|test
+
+# https://github.com/gitpython-developers/GitPython/issues/1016#issuecomment-1104114129
+system(
+  command = paste0("git config --global -add safe.directory ", getwd())
+)
+
 system(
   command = 'auto-changelog -u -t "miRacumDQA NEWS" --tag-prefix "v" -o "NEWS.md"'
 )
