@@ -1,9 +1,12 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-04-26)
+## Unreleased (2022-05-09)
 
 #### New Features
 
+* added laboratory values; enhanced sqls for i2b2 and fhir
+* working on fhir sqls
+* adding more dataelements (wip)
 * added cache of 1 day for mdr
 * added more data elements
 * added further dataelements
@@ -16,6 +19,7 @@
 * working on dehub adaptions; wip
 #### Fixes
 
+* fixed error in fachabteilung-fhir sql
 * fixed utf8 typo
 * fallback to local mdr file if api does not return sufficient rows
 * fixed datatype of fachabteilung
@@ -36,12 +40,15 @@
 * don't display a gui warning if headles==true
 #### Refactorings
 
+* enhanced labor-statement
+* reworked fhir sqls
 * switching from dizutils to diztools
 #### Docs
 
 * updated readme
 #### Others
 
+* updated devstuffs to get auto-changelog working again
 * updated news.md
 * updated misspelled urls from readme and description
 * removed unneeded dependencies; fixed subtitle in markdown
@@ -63,7 +70,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...6f98857`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...6f98857)
+Full set of changes: [`v2.1.2...015637d`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...015637d)
 
 ## v2.1.2 (2021-07-02)
 

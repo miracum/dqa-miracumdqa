@@ -31,7 +31,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("2.1.2.9027")
+my_desc$set_version("2.1.2.9028")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -39,9 +39,9 @@ my_desc$set(Description = "The MIRACUM consortium's data quality assessment tool
 # The description of your package
 my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
-my_desc$set("URL", "https://gitlab.miracum.org/miracum/dqa/miRacumDQA")
+my_desc$set("URL", "https://github.com/miracum/dqa-miracumdqa")
 my_desc$set("BugReports",
-            "https://gitlab.miracum.org/miracum/dqa/miRacumDQA/-/issues")
+            "https://github.com/miracum/dqa-miracumdqa/-/issues")
 # License
 my_desc$set("License", "GPL-3")
 
@@ -220,7 +220,7 @@ usethis::use_git_ignore("!/NEWS.md")
 
 # https://github.com/gitpython-developers/GitPython/issues/1016#issuecomment-1104114129
 system(
-  command = paste0("git config --global -add safe.directory ", getwd())
+  command = paste0("git config --global --add safe.directory ", getwd())
 )
 
 system(

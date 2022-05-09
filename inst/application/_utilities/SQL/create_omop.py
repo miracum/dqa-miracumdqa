@@ -55,7 +55,7 @@ class CreateSQL():
     """
     
     self.json_dict["Person.Demographie.AdministrativesGeschlecht"] = "SELECT \
-mn.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+mn.visit_occurrence_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\",\
 jn.gender_source_value AS \"Person.Demographie.AdministrativesGeschlecht\" \
 FROM cds_cdm.visit_occurrence AS mn \
 JOIN cds_cdm.person AS jn ON \
@@ -80,25 +80,25 @@ JOIN ( \
 ) AS jn ON \
 mn.person_id = jn.person_id;"
     
-    self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"] = "SELECT \
+    self.json_dict["Fall.Versorgungsstellenkontakt.Aufnahmenummer"] = "SELECT \
 person_id AS \"Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator\", \
-visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\" \
+visit_occurrence_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\" \
 FROM cds_cdm.visit_occurrence;"
 	
-    self.json_dict["Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator"] = self.json_dict["Fall.Einrichtungskontakt.Aufnahmenummer"]
+    self.json_dict["Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator"] = self.json_dict["Fall.Versorgungsstellenkontakt.Aufnahmenummer"]
     
-    self.json_dict["Fall.Einrichtungskontakt.Beginndatum"] = "SELECT \
-b.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
-a.visit_start_date::date AS \"Fall.Einrichtungskontakt.Beginndatum\" \
+    self.json_dict["Fall.Versorgungsstellenkontakt.Beginndatum"] = "SELECT \
+b.visit_occurrence_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
+a.visit_start_date::date AS \"Fall.Versorgungsstellenkontakt.Beginndatum\" \
 FROM cds_cdm.visit_occurrence AS b \
 LEFT OUTER JOIN ( \
 SELECT visit_occurrence_id, visit_start_date \
 FROM cds_cdm.visit_occurrence) AS a ON \
 a.visit_occurrence_id = b.visit_occurrence_id;"
     
-    self.json_dict["Fall.Einrichtungskontakt.Enddatum"] = "SELECT \
-b.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\", \
-a.visit_end_date::date AS \"Fall.Einrichtungskontakt.Enddatum\" \
+    self.json_dict["Fall.Versorgungsstellenkontakt.Enddatum"] = "SELECT \
+b.visit_occurrence_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
+a.visit_end_date::date AS \"Fall.Versorgungsstellenkontakt.Enddatum\" \
 FROM cds_cdm.visit_occurrence AS b \
 LEFT OUTER JOIN ( \
 SELECT visit_occurrence_id, visit_end_date \
@@ -106,7 +106,7 @@ FROM cds_cdm.visit_occurrence) AS a ON \
 a.visit_occurrence_id = b.visit_occurrence_id;"
     
     self.json_dict["Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode"] = "SELECT \
-b.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+b.visit_occurrence_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\",\
 a.condition_source_value AS \"Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode\" \
 FROM cds_cdm.visit_occurrence AS b \
 LEFT OUTER JOIN ( \
@@ -117,7 +117,7 @@ a.visit_occurrence_id = b.visit_occurrence_id;"
     
     
     self.json_dict["Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"] = "SELECT \
-b.visit_occurrence_id AS \"Fall.Einrichtungskontakt.Aufnahmenummer\",\
+b.visit_occurrence_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\",\
 a.procedure_source_value AS \"Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode\" \
 FROM cds_cdm.visit_occurrence AS b \
 LEFT OUTER JOIN ( \

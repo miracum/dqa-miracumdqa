@@ -118,6 +118,21 @@ class WriteConstraints(MDRHandling):
         {"regex": "^([[:digit:]]{1})(\\-)([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)([[:alnum:]]){1,2})?$"}
       )
     
+    self.mdr.loc[
+      (self.mdr.designation == "KontaktKlasse") &
+      (self.mdr.source_system_name == "i2b2") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"regex": "^(Fall|Versorgungsfallklasse\\:)ambulant|stationaer$"}
+      )
+    self.mdr.loc[
+      (self.mdr.designation == "KontaktKlasse") &
+      (self.mdr.source_system_name == "fhir_gw") &
+      (self.mdr.dqa_assessment == "1"),
+      "constraints"] = json.dumps(
+        {"regex": "^ambulant|stationaer$"}
+      )
+    
 
 if __name__ == "__main__":
   wrcs = WriteConstraints(mdr_file="mdr.csv")
