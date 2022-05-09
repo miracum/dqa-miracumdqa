@@ -18,11 +18,23 @@ shiny::shinyUI(
   shiny::tagList(
     shinydashboard::dashboardPage(
       skin = "black",
+      title = "MIRACUM DQA Tool",
 
       # Application title
-      shinydashboard::dashboardHeader(title = "MIRACUM DQA Tool"),
+      header = shinydashboard::dashboardHeader(
+        title = shiny::tagList(
+          shiny::img(src = paste0(
+            "https://github.com/miracum/dqa-miracumdqa/raw/master",
+            "/man/figures/logo.png"
+          )
+          , height = 46
+          ),
+          "MIRACUM DQA Tool"
+        )
 
-      shinydashboard::dashboardSidebar(
+      ),
+
+      sidebar = shinydashboard::dashboardSidebar(
 
         # Include shinyjs in the UI Sidebar
         shinyjs::useShinyjs(),
@@ -76,7 +88,7 @@ shiny::shinyUI(
         )
       ),
 
-      shinydashboard::dashboardBody(
+      body = shinydashboard::dashboardBody(
 
         # Include shinyjs in the UI Body
         shinyjs::useShinyjs(),
