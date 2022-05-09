@@ -34,7 +34,11 @@ Imports:
     shiny,
     shinydashboard,
     utils
+Remotes: 
+    github::miracum/misc-diztools@dev,
+    github::miracum/misc-dizutils@development,
+    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip,
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/development/dqagui-development.zip
 Suggests: 
     lintr,
     testthat
-RoxygenNote: 7.1.2

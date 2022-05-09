@@ -19,6 +19,7 @@
 * working on dehub adaptions; wip
 #### Fixes
 
+* added data elements to be tested to dqamdr_config.py
 * fixed error in fachabteilung-fhir sql
 * fixed utf8 typo
 * fallback to local mdr file if api does not return sufficient rows
@@ -40,6 +41,7 @@
 * don't display a gui warning if headles==true
 #### Refactorings
 
+* revised sql statements for fhir and i2b2
 * enhanced labor-statement
 * reworked fhir sqls
 * switching from dizutils to diztools
@@ -70,7 +72,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...015637d`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...015637d)
+Full set of changes: [`v2.1.2...066f783`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...066f783)
 
 ## v2.1.2 (2021-07-02)
 
