@@ -29,3 +29,4 @@ inst/application/_settings/
 /.vscode
 !/.lintr
 !/NEWS.md
+!/github/
