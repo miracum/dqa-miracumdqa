@@ -1,10 +1,5 @@
 # miRacumDQA <img src="man/figures/logo.png" align="right" width="120" />
 
-<!-- badges: start -->
-[![pipeline status](https://gitlab.miracum.org/miracum/dqa/miracumdqa/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/miracumdqa/-/commits/master)
-[![coverage report](https://gitlab.miracum.org/miracum/dqa/miracumdqa/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/miracumdqa/-/commits/master)
-<!-- badges: end -->
-
 This is the repository of the MIRACUM data quality assessment tool (DQA tool). The MIRACUM DQA tool is built upon the R packages [`DQAstats`](https://cran.r-project.org/package=DQAstats) and [`DQAgui`](https://cran.r-project.org/package=DQAgui), both available on [CRAN](https://cran.r-project.org).
 
 Besides some customizations for application within the MIRACUM consortium, this repository contains the SQL statements to test the data quality of the MIRACUM research data repositories, as well as a wrapper to import the latest metadata from the centrally deployed [MIRACUM metadata repository (M-MDR)](https://dehub-dev.miracum.org/all-elements), which are required to perform the data quality checks. The latter is an enhancement compared to the default setting of `DQAstats`, which uses a CSV-table as MDR. 
