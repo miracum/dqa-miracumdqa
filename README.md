@@ -16,8 +16,9 @@ The following steps are required to let new data elements in the research data r
   1. Add the required metadata to the CSV-MDR [`inst/application/_utilities/MDR/mdr.csv`](inst/application/_utilities/MDR/mdr.csv).
   2. Provide the required SQL statements to the appropriate python script in [`inst/application/_utilities/SQL`](inst/application/_utilities/SQL) and run the script to update the respective JSON-file that stores all SQL statements for the respective database.
   3. (optionally) Add appropriate value constraints and / or plausibility checks by adding them to the python scripts [`inst/application/_utilities/MDR/constraints.py`](inst/application/_utilities/MDR/constraints.py) and [`inst/application/_utilities/MDR/plausibilities.py`](inst/application/_utilities/MDR/plausibilities.py) and run those scripts as well.
-  4. Update the M-MDR by running the script [`inst/application/_utilities/MDR/update_dehub_mdr.py`](inst/application/_utilities/MDR/update_dehub_mdr.py) (please note that a user authentication is required to updated the centrally deployed metadata repository).
-  5. Create a new version of this `miRacumDQA` R-package and distribute it to all MIRACUM sites (this step is yet required since the updated SQL statements are only shipped with this R package).
+  4. Add the data elements to the list in the file [`inst/application/_utilities/MDR/dqamdr_config.py`](inst/application/_utilities/MDR/dqamdr_config.py).
+  5. Update the M-MDR by running the script [`inst/application/_utilities/MDR/update_dehub_mdr.py`](inst/application/_utilities/MDR/update_dehub_mdr.py) (please note that a user authentication is required to updated the centrally deployed metadata repository).
+  6. Create a new version of this `miRacumDQA` R-package and distribute it to all MIRACUM sites (this step is yet required since the updated SQL statements are only shipped with this R package).
   
 A more detailed description of the steps required to let the DQA tool analyze new data elements is provided in our [Wiki](https://github.com/miracum/dqa-dqastats/wiki).
 
