@@ -14,3 +14,4 @@
 ^NEWS\.md$
 ^Rplots\.pdf$
 ^miRacumDQA\.png$
+^\.github*$

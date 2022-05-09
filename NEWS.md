@@ -50,6 +50,7 @@
 * updated readme
 #### Others
 
+* updated news.md and rbuildignore
 * updated news.md
 * updated devstuffs to get auto-changelog working again
 * updated news.md
@@ -73,7 +74,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...68346a0`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...68346a0)
+Full set of changes: [`v2.1.2...24fd55f`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...24fd55f)
 
 ## v2.1.2 (2021-07-02)
 
