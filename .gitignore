@@ -31,3 +31,4 @@ inst/application/_settings/
 !/NEWS.md
 !/github/
 !/.github/
+!/tic.R
