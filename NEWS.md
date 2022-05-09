@@ -73,9 +73,10 @@
 * updated news.md
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
+* now really added gha
 * added gha
 
-Full set of changes: [`v2.1.2...59884e5`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...59884e5)
+Full set of changes: [`v2.1.2...3ffc27f`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...3ffc27f)
 
 ## v2.1.2 (2021-07-02)
 

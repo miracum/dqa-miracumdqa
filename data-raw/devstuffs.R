@@ -216,7 +216,7 @@ usethis::use_git_ignore("!/ci/")
 usethis::use_git_ignore("/.vscode")
 usethis::use_git_ignore("!/.lintr")
 usethis::use_git_ignore("!/NEWS.md")
-usethis::use_git_ignore("!/github/")
+usethis::use_git_ignore("!/.github/")
 
 # create NEWS.md using the python-package "auto-changelog" (must be installed)
 # https://www.conventionalcommits.org/en/v1.0.0/
