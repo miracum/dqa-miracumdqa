@@ -50,6 +50,7 @@
 * updated readme
 #### Others
 
+* updated news.md
 * updated devstuffs to get auto-changelog working again
 * updated news.md
 * updated misspelled urls from readme and description
@@ -72,7 +73,7 @@
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
 
-Full set of changes: [`v2.1.2...066f783`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...066f783)
+Full set of changes: [`v2.1.2...68346a0`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...68346a0)
 
 ## v2.1.2 (2021-07-02)
 

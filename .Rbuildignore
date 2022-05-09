@@ -12,3 +12,5 @@
 ^\.lintr$
 ^ci/*$
 ^NEWS\.md$
+^Rplots\.pdf$
+^miRacumDQA\.png$

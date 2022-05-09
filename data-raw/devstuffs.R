@@ -41,7 +41,7 @@ my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
 my_desc$set("URL", "https://github.com/miracum/dqa-miracumdqa")
 my_desc$set("BugReports",
-            "https://github.com/miracum/dqa-miracumdqa/-/issues")
+            "https://github.com/miracum/dqa-miracumdqa/issues")
 # License
 my_desc$set("License", "GPL-3")
 
@@ -83,7 +83,7 @@ usethis::use_package("shinydashboard", type = "Imports")
 usethis::use_package("data.table", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("influxdbr", type = "Imports")
-usethis::use_package("DIZutils", type = "Imports")
+usethis::use_package("DIZutils", type = "Imports") # required for version in ui
 usethis::use_package("DIZtools", type = "Imports")
 usethis::use_package("DQAstats", type = "Imports")
 usethis::use_package("reticulate", type = "Imports", min_version = "1.14")
@@ -187,6 +187,8 @@ usethis::use_build_ignore(".vscode")
 usethis::use_build_ignore(".lintr")
 usethis::use_build_ignore("ci/*")
 usethis::use_build_ignore("NEWS.md")
+usethis::use_build_ignore("Rplots.pdf")
+usethis::use_build_ignore("miRacumDQA.png")
 
 usethis::use_git_ignore("inst/application/_settings/")
 usethis::use_git_ignore("inst/application/_utilities/MDR/.~lock.*")
