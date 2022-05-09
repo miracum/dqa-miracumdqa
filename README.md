@@ -1,4 +1,4 @@
-# miRacumDQA  
+# miRacumDQA <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 [![pipeline status](https://gitlab.miracum.org/miracum/dqa/miracumdqa/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/miracumdqa/-/commits/master)

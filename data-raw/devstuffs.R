@@ -188,6 +188,7 @@ usethis::use_build_ignore(".lintr")
 usethis::use_build_ignore("ci/*")
 usethis::use_build_ignore(".github*")
 usethis::use_build_ignore("NEWS.md")
+usethis::use_build_ignore("man/figures")
 usethis::use_build_ignore("Rplots.pdf")
 usethis::use_build_ignore("miRacumDQA.png")
 
@@ -231,3 +232,27 @@ system(
 system(
   command = 'auto-changelog -u -t "miRacumDQA NEWS" --tag-prefix "v" -o "NEWS.md"'
 )
+
+
+# imgurl <- path.expand("~/development/Rpackages/bg5.jpeg")
+# hexSticker::sticker(
+#   subplot = imgurl,
+#   package = "miRacumDQA",
+#   s_width = 0.66,
+#   s_height = 0.66,
+#   s_x = 1,
+#   s_y = 1,
+#   p_size = 14.5,
+#   p_x = 1,
+#   p_y = 1.3,
+#   filename = "man/figures/logo.png",
+#   h_color = "#1b2259", # "#b4f2e9",
+#   p_color = "#1b2259", # "#b4f2e9",
+#   h_size = 0.8,
+#   h_fill = "#36ffd6",
+#   spotlight = TRUE,
+#   #l_width = 6,
+#   #l_height = 6,
+#   white_around_sticker = FALSE,
+#   asp = 1
+# )
