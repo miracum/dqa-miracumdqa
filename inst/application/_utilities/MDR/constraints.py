@@ -123,14 +123,14 @@ class WriteConstraints(MDRHandling):
       (self.mdr.source_system_name == "i2b2") &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
-        {"regex": "^(Fall|Versorgungsfallklasse\\:)ambulant|stationaer$"}
+        {"regex": "^(Fall\\|Versorgungsfallklasse\\:)(ambulant|stationaer|teilstationaer)$"}
       )
     self.mdr.loc[
       (self.mdr.designation == "KontaktKlasse") &
       (self.mdr.source_system_name == "fhir_gw") &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
-        {"regex": "^ambulant|stationaer$"}
+        {"regex": "^(ambulant|stationaer|teilstationaer)$"}
       )
     
 
