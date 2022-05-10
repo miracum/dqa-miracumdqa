@@ -52,6 +52,7 @@
 * updated readme
 #### Others
 
+* updated news.md
 * added tic.R to rbuildignore
 * always applying dqastats::read_mdr on imported mdr to apply all implemented rules
 * added logo to app title
@@ -84,7 +85,7 @@
 * now really added gha
 * added gha
 
-Full set of changes: [`v2.1.2...5058928`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...5058928)
+Full set of changes: [`v2.1.2...e9981e3`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...e9981e3)
 
 ## v2.1.2 (2021-07-02)
 
