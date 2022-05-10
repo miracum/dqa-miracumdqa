@@ -191,6 +191,7 @@ usethis::use_build_ignore("NEWS.md")
 usethis::use_build_ignore("man/figures")
 usethis::use_build_ignore("Rplots.pdf")
 usethis::use_build_ignore("miRacumDQA.png")
+usethis::use_build_ignore("tic.R")
 
 usethis::use_git_ignore("inst/application/_settings/")
 usethis::use_git_ignore("inst/application/_utilities/MDR/.~lock.*")

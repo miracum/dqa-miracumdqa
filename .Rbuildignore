@@ -16,3 +16,4 @@
 ^miRacumDQA\.png$
 ^\.github*$
 ^man/figures$
+^tic\.R$
