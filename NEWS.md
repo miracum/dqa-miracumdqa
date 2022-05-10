@@ -1,9 +1,10 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-05-09)
+## Unreleased (2022-05-10)
 
 #### New Features
 
+* added preparation for logo
 * added laboratory values; enhanced sqls for i2b2 and fhir
 * working on fhir sqls
 * adding more dataelements (wip)
@@ -19,6 +20,7 @@
 * working on dehub adaptions; wip
 #### Fixes
 
+* updated constraints for kontaktklasse
 * added data elements to be tested to dqamdr_config.py
 * fixed error in fachabteilung-fhir sql
 * fixed utf8 typo
@@ -50,6 +52,10 @@
 * updated readme
 #### Others
 
+* added tic.R to rbuildignore
+* always applying dqastats::read_mdr on imported mdr to apply all implemented rules
+* added logo to app title
+* removed badges from readme
 * updated news.md and rbuildignore
 * updated news.md
 * updated devstuffs to get auto-changelog working again
@@ -78,7 +84,7 @@
 * now really added gha
 * added gha
 
-Full set of changes: [`v2.1.2...ebb9f9b`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...ebb9f9b)
+Full set of changes: [`v2.1.2...5058928`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...5058928)
 
 ## v2.1.2 (2021-07-02)
 
