@@ -118,10 +118,12 @@ button_mdr <-
               1,
               detail = "... from local cache ..."
             )
-            mdr <- DQAstats::read_mdr(
-              mdr_filename = mdr_cache_path
-            )
           }
+          # always read from local file in order to apply rules from that
+          # function
+          mdr <- DQAstats::read_mdr(
+            mdr_filename = mdr_cache_path
+          )
           mdr
         }, error = function(e) {
           shiny::incProgress(
