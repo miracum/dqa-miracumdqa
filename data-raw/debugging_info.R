@@ -16,8 +16,8 @@ DIZtools::setenv_file(
   )
 )
 
-# options(shiny.trace = TRUE)
-# options(shiny.fullstacktrace = TRUE)
+options(shiny.trace = TRUE)
+options(shiny.fullstacktrace = TRUE)
 launch_dqa_tool(parallel = TRUE)
 
 
