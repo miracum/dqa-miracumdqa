@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-05-20)
+## v3.0.0 (2022-05-20)
 
 #### New Features
 
@@ -52,6 +52,7 @@
 * updated readme
 #### Others
 
+* updated version to 3.0.0
 * updated news.md
 * updated news.md
 * added tic.R to rbuildignore
@@ -86,7 +87,7 @@
 * now really added gha
 * added gha
 
-Full set of changes: [`v2.1.2...d422726`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...d422726)
+Full set of changes: [`v2.1.2...v3.0.0`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...v3.0.0)
 
 ## v2.1.2 (2021-07-02)
 
