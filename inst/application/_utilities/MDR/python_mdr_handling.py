@@ -25,6 +25,8 @@ class MDRHandling():
     """
     self.base_dir = os.path.abspath(os.path.dirname(__file__))
     
+    self.csv_separator = csv_separator
+    
     
     self.mdr_path = os.path.join(
       self.base_dir,
@@ -33,7 +35,7 @@ class MDRHandling():
     
     self.mdr = pd.read_csv(
       filepath_or_buffer=self.mdr_path,
-      sep=csv_separator,
+      sep=self.csv_separator,
       dtype=str,
       keep_default_na = False # read missings as empty string
     )
@@ -54,7 +56,7 @@ class MDRHandling():
         self.base_dir,
         filename
       ),
-      sep=";",
+      sep=self.csv_separator,
       index = False
     )
     
