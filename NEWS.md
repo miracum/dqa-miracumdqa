@@ -1,5 +1,16 @@
 # miRacumDQA NEWS
 
+## Unreleased (2022-06-02)
+
+#### New Features
+
+* more atemporal plausibilities
+#### Others
+
+* updated dev version
+
+Full set of changes: [`v3.0.0...0a87632`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...0a87632)
+
 ## v3.0.0 (2022-05-20)
 
 #### New Features
