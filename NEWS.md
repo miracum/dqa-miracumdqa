@@ -1,15 +1,18 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-06-02)
+## Unreleased (2022-06-07)
 
 #### New Features
 
 * more atemporal plausibilities
+#### Fixes
+
+* fixed issue with i2b2 plausi regex
 #### Others
 
 * updated dev version
 
-Full set of changes: [`v3.0.0...0a87632`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...0a87632)
+Full set of changes: [`v3.0.0...63d8f75`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...63d8f75)
 
 ## v3.0.0 (2022-05-20)
 
