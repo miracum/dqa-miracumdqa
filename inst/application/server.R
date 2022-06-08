@@ -262,7 +262,7 @@ shiny::shinyServer(
             )
           ),
           shinydashboard::menuItem(
-            text = "Completeness",
+            text = "Completeness Checks",
             tabName = "tab_completeness",
             icon = icon("chart-line")
           ),
