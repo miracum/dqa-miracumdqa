@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-06-08)
+## Unreleased (2022-06-12)
 
 #### New Features
 
@@ -10,11 +10,12 @@
 * fixed issue with i2b2 plausi regex
 #### Others
 
+* changed "Completeness" to "Completeness Checks" in the GUI
 * updated description
 * updated news.md
 * updated dev version
 
-Full set of changes: [`v3.0.0...1b9f024`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...1b9f024)
+Full set of changes: [`v3.0.0...12208e1`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...12208e1)
 
 ## v3.0.0 (2022-05-20)
 
