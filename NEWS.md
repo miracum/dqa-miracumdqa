@@ -4,9 +4,12 @@
 
 #### New Features
 
+* remove schema from sql statements
 * more atemporal plausibilities
 #### Fixes
 
+* update mdr i2b2 start date
+* moving i2b2 to sql-modify; addresses [#33](https://gitlab.miracum.org/miracum/dqa/miracumdqa/issues/33)
 * fixed issue with i2b2 plausi regex
 #### Others
 
@@ -17,7 +20,7 @@
 * updated news.md
 * updated dev version
 
-Full set of changes: [`v3.0.0...e28c12b`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...e28c12b)
+Full set of changes: [`v3.0.0...1ff737c`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...1ff737c)
 
 ## v3.0.0 (2022-05-20)
 
