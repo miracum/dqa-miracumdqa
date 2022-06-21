@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-06-12)
+## Unreleased (2022-06-21)
 
 #### New Features
 
@@ -10,12 +10,14 @@
 * fixed issue with i2b2 plausi regex
 #### Others
 
+* updated gha
+* replaced "data system" with "database"
 * changed "Completeness" to "Completeness Checks" in the GUI
 * updated description
 * updated news.md
 * updated dev version
 
-Full set of changes: [`v3.0.0...12208e1`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...12208e1)
+Full set of changes: [`v3.0.0...e28c12b`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...e28c12b)
 
 ## v3.0.0 (2022-05-20)
 
@@ -69,7 +71,6 @@ Full set of changes: [`v3.0.0...12208e1`](https://gitlab.miracum.org/miracum/dqa
 * updated readme
 #### Others
 
-* updated ci token name
 * updated version to 3.0.0
 * updated news.md
 * updated news.md
@@ -100,7 +101,6 @@ Full set of changes: [`v3.0.0...12208e1`](https://gitlab.miracum.org/miracum/dqa
 * updated news.md
 * implementing new value_set (downstream to dqagui/dqastats)
 * creating news.md; allow in gitignore; addctoryed to rbuildignore
-* first commit after release
 * added tic.R
 * now really really added gha
 * now really added gha
@@ -108,7 +108,7 @@ Full set of changes: [`v3.0.0...12208e1`](https://gitlab.miracum.org/miracum/dqa
 
 Full set of changes: [`v2.1.2...v3.0.0`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.1.2...v3.0.0)
 
-## v2.1.2 (2021-07-01)
+## v2.1.2 (2021-07-02)
 
 #### New Features
 
@@ -129,7 +129,9 @@ Full set of changes: [`v2.1.2...v3.0.0`](https://gitlab.miracum.org/miracum/dqa/
 * added markdown to suggests due to error in knitr
 #### Others
 
+* updated ci token name
 * moved to central ci-config
+* first commit after release
 * linting stuff
 * excluded ci folder from r build
 * preparation for new release
@@ -191,7 +193,7 @@ Full set of changes: [`v2.0.4...v2.0.5`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v2.0.3...v2.0.4`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.0.3...v2.0.4)
 
-## v2.0.3 (2020-01-29)
+## v2.0.3 (2020-01-30)
 
 
 Full set of changes: [`v2.0.2...v2.0.3`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v2.0.2...v2.0.3)

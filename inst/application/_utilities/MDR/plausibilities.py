@@ -141,20 +141,36 @@ class WritePlausibilities(MDRHandling):
             },
             "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode.4": {
               "name": "Pl.atemporal.Item05",
-              "description": "Nur bei weiblichen Patientinnen sind Krankheiten der Mamma [Brustdrüse] (ICD N60-N64) als Krankenhausdiagnose erlaubt.",
+              "description": "Nur bei männlichen Patienten ist Testikuläre Dysfunktion (ICD E29*) als Krankenhausdiagnose erlaubt.",
               "filter": {
-                "i2b2": "^(ICD10\\:)N6[0-4]",
-                "fhir_gw": "^N6[0-4]"
+                "i2b2": "^(ICD10\\:)E29",
+                "fhir_gw": "^E29"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
-                  "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
-                  "omop": "female"
+                  "i2b2": "Dem|Sex:male",
+                  "fhir_gw": "male",
+                  "omop": "male"
                 }
               }
             },
+            # "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode.4": {
+            #   "name": "Pl.atemporal.Item05",
+            #   "description": "Nur bei weiblichen Patientinnen sind Krankheiten der Mamma [Brustdrüse] (ICD N60-N64) als Krankenhausdiagnose erlaubt.",
+            #   "filter": {
+            #     "i2b2": "^(ICD10\\:)N6[0-4]",
+            #     "fhir_gw": "^N6[0-4]"
+            #   },
+            #   "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
+            #   "constraints": {
+            #   "value_set": {
+            #       "i2b2": "Dem|Sex:female",
+            #       "fhir_gw": "female",
+            #       "omop": "female"
+            #     }
+            #   }
+            # },
             "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode.5": {
               "name": "Pl.atemporal.Item06",
               "description": "Nur bei weiblichen Patientinnen sind Entzündliche Krankheiten der weiblichen Beckenorgane (ICD N70-N77) als Krankenhausdiagnose erlaubt.",
@@ -333,10 +349,10 @@ class WritePlausibilities(MDRHandling):
             },
             "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode.16": {
               "name": "Pl.atemporal.Item17",
-              "description": "Nur bei weiblichen Patientinnen sind gutartige Neubildung der Brustdrüse [Mamma] (ICD D24*), Leiomyom des Uterus (ICD D25*), sonstige gutartige Neubildungen des Uterus (ICD D26*), gutartige Neubildung des Ovars (ICD D27*) und gutartige Neubildung sonstiger und nicht näher bezeichneter weiblicher Genitalorgane (ICD D28*) als Krankenhausdiagnose erlaubt.",
+              "description": "Nur bei weiblichen Patientinnen sind Leiomyom des Uterus (ICD D25*), sonstige gutartige Neubildungen des Uterus (ICD D26*), gutartige Neubildung des Ovars (ICD D27*) und gutartige Neubildung sonstiger und nicht näher bezeichneter weiblicher Genitalorgane (ICD D28*) als Krankenhausdiagnose erlaubt.",
               "filter": {
-                "i2b2": "^(ICD10\\:)D2[4-8]",
-                "fhir_gw": "^D2[4-8]"
+                "i2b2": "^(ICD10\\:)D2[5-8]",
+                "fhir_gw": "^D2[5-8]"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
@@ -456,22 +472,6 @@ class WritePlausibilities(MDRHandling):
                   "i2b2": "Dem|Sex:female",
                   "fhir_gw": "female",
                   "omop": "female"
-                }
-              }
-            },
-            "Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode.24": {
-              "name": "Pl.atemporal.Item25",
-              "description": "Nur bei männlichen Patienten ist Testikuläre Dysfunktion (ICD E29*) als Krankenhausdiagnose erlaubt.",
-              "filter": {
-                "i2b2": "^(ICD10\\:)E29",
-                "fhir_gw": "^E29"
-              },
-              "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
-              "constraints": {
-              "value_set": {
-                  "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
-                  "omop": "male"
                 }
               }
             }
