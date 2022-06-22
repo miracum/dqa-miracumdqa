@@ -61,7 +61,7 @@ button_mdr <-
               print_this = "Trying to load MDR from DEHUB-MDR rest API",
               findme = "762de006ae")
             # for debugging
-            stop()
+            #% stop()
             base_url <- Sys.getenv("MDR_BASEURL")
             namespace <- Sys.getenv("MDR_NAMESPACE")
 

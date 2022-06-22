@@ -4,6 +4,7 @@
 
 #### New Features
 
+* updated i2b2 sqls; closes [#33](https://gitlab.miracum.org/miracum/dqa/miracumdqa/issues/33)
 * remove schema from sql statements
 * more atemporal plausibilities
 #### Fixes
@@ -21,7 +22,7 @@
 * updated news.md
 * updated dev version
 
-Full set of changes: [`v3.0.0...a0ddbf6`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...a0ddbf6)
+Full set of changes: [`v3.0.0...1de1b42`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...1de1b42)
 
 ## v3.0.0 (2022-05-20)
 
