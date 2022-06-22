@@ -43,7 +43,7 @@ button_mdr <-
               load_mdr <- FALSE
             } else {
               # load new version, if cache is not from same day
-              load_mdr = TRUE
+              load_mdr <- TRUE
             }
           } else {
             # if no cache exists, load new mdr
@@ -54,14 +54,14 @@ button_mdr <-
           if (isTRUE(load_mdr)) {
 
             shiny::incProgress(
-              2/3,
+              2 / 3,
               detail = "... from DEHUB-MDR ..."
             )
             DIZtools::feedback(
               print_this = "Trying to load MDR from DEHUB-MDR rest API",
               findme = "762de006ae")
             # for debugging
-            #stop()
+            stop()
             base_url <- Sys.getenv("MDR_BASEURL")
             namespace <- Sys.getenv("MDR_NAMESPACE")
 
@@ -405,7 +405,7 @@ get_influx_connection <- function(rv) {
           host = config$host,
           port = config$port,
           path = config$path,
-          verbose = T
+          verbose = TRUE
         )
 
       DIZtools::feedback(
@@ -435,7 +435,7 @@ get_influx_connection <- function(rv) {
           user = config$user,
           pass = config$password,
           path = config$path,
-          verbose = T
+          verbose = TRUE
         )
       DIZtools::feedback(
         "Connection established",

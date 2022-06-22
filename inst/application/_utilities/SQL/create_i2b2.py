@@ -96,8 +96,8 @@ SELECT \
 encounter_num, \
 concept_cd \
 FROM observation_fact \
-WHERE concept_cd LIKE 'Dem|Sex:% 'AND \
-modifier_cd = '@') r2 \
+WHERE concept_cd LIKE 'Dem|Sex:%' AND \
+modifier_cd = '@' ) r2 \
 ON r1.encounter_num = r2.encounter_num;"
     
 #     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \

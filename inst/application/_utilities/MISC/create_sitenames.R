@@ -30,5 +30,5 @@ sitenamelist <- list(
   "Marburg" = "UMR"
 )
 
-jsonlist <- toJSON(sitenamelist, pretty = T, auto_unbox = F)
+jsonlist <- toJSON(sitenamelist, pretty = TRUE, auto_unbox = FALSE)
 writeLines(jsonlist, "./inst/application/_utilities/MISC/sitenames.JSON")

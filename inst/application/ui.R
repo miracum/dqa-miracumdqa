@@ -63,6 +63,26 @@ shiny::shinyUI(
           shiny::actionButton(
             inputId = "reset",
             label = "Reset DQA Tool"
+          ),
+          shiny::tags$hr(),
+          shiny::div(
+            class = "sidebar-menu",
+            style = paste0("white-space: normal; text-align:left; ",
+                           "padding: 9.5px 9.5px 9.5px 9.5px; ",
+                           "margin: 6px 10px 6px 10px; ",
+                           "box-sizing:border-box; heigth: auto;",
+                           "width: 230px;"),
+            shiny::HTML(
+              paste0(
+                shiny::tags$a(
+                  "Help / Instructions",
+                  href = paste0(
+                    "https://github.com/miracum/dqa-dqastats/wiki/DQAgui_intro"
+                  ),
+                  target = "_blank"
+                )
+              )
+            )
           )
         ),
         shiny::div(

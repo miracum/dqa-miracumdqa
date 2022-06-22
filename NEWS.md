@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-06-21)
+## Unreleased (2022-06-22)
 
 #### New Features
 
@@ -14,13 +14,14 @@
 #### Others
 
 * updated gha
+* updated news.md
 * replaced "data system" with "database"
 * changed "Completeness" to "Completeness Checks" in the GUI
 * updated description
 * updated news.md
 * updated dev version
 
-Full set of changes: [`v3.0.0...1ff737c`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...1ff737c)
+Full set of changes: [`v3.0.0...a0ddbf6`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...a0ddbf6)
 
 ## v3.0.0 (2022-05-20)
 

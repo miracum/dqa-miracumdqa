@@ -1,3 +1,4 @@
+# nolint start
 #launch_dqa_tool(logfile_dir = "~/share/logfiles/")
 
 
@@ -100,3 +101,5 @@ launch_dqa_tool(parallel = TRUE)
 # item_counts,site=ume,lay_term=Fälle,item=Fallnummer,system=i2b2 n=3060658
 # item_counts,site=ume,lay_term=Diagnosen,item=Hauptdiagnosen\ (ICD),system=i2b2 n=6932622
 # item_counts,site=ume,lay_term=Nebendiagnosen,item=Nebendiagnosen\ (ICD),system=i2b2 n=1234
+
+# nolint end
