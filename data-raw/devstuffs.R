@@ -32,7 +32,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("3.0.0.9007")
+my_desc$set_version("3.0.1")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -85,16 +85,16 @@ usethis::use_package("data.table", type = "Imports")
 usethis::use_package("utils", type = "Imports")
 usethis::use_package("influxdbr", type = "Imports")
 usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.5")
-usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.0")
-usethis::use_package("DQAstats", type = "Imports", min_version = "0.3.0")
-usethis::use_package("DQAgui", type = "Imports", min_version = "0.2.0")
+usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.1")
+usethis::use_package("DQAstats", type = "Imports", min_version = "0.3.1")
+usethis::use_package("DQAgui", type = "Imports", min_version = "0.2.1")
 usethis::use_package("reticulate", type = "Imports", min_version = "1.14")
 
 # define remotes
 remotes_append_vector <- NULL
 
 # Development packages
-tools_tag <- "dev" # e.g. "v0.1.7", "development" or "cran"
+tools_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (tools_tag == "cran") {
   install.packages("DIZtools")
 } else{
@@ -110,7 +110,7 @@ if (tools_tag == "cran") {
   }
 }
 
-utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   install.packages("DIZutils")
 } else{
@@ -126,7 +126,7 @@ if (utils_tag == "cran") {
   }
 }
 
-stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (stats_tag == "cran") {
   install.packages("DQAstats")
 } else{
@@ -146,7 +146,7 @@ if (stats_tag == "cran") {
   }
 }
 
-gui_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+gui_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (gui_tag == "cran") {
   install.packages("DQAgui")
 } else{
