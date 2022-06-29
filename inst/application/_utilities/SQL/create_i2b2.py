@@ -224,7 +224,8 @@ concept_cd \
 FROM observation_fact \
 WHERE concept_cd LIKE 'ICD10:%' AND \
 modifier_cd = '@' ) r2 \
-ON r1.encounter_num = r2.encounter_num;"
+ON r1.encounter_num = r2.encounter_num \
+WHERE r2.concept_cd IS NOT NULL;"
     
 #     self.json_dict["Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"] = "SELECT \
 # encounter_num AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\",\
@@ -250,7 +251,8 @@ concept_cd \
 FROM observation_fact \
 WHERE concept_cd LIKE 'OPS:%' AND \
 modifier_cd = '@' ) r2 \
-ON r1.encounter_num = r2.encounter_num;"
+ON r1.encounter_num = r2.encounter_num \
+WHERE r2.concept_cd IS NOT NULL;"
     
 #     self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "SELECT \
 # encounter_num AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\",\
@@ -302,7 +304,8 @@ concept_cd \
 FROM observation_fact \
 WHERE concept_cd LIKE 'Fall|Entlassungsgrund:%' AND \
 modifier_cd = '@' ) r2 \
-ON r1.encounter_num = r2.encounter_num;"
+ON r1.encounter_num = r2.encounter_num \
+WHERE r2.concept_cd IS NOT NULL;"
     
 #     self.json_dict["Fall.Einrichtungskontakt.Aufnahmeanlass"] = "SELECT \
 # encounter_num AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\",\
@@ -328,7 +331,8 @@ concept_cd \
 FROM observation_fact \
 WHERE concept_cd LIKE 'Fall|Aufnahmeanlass:%' AND \
 modifier_cd = '@' ) r2 \
-ON r1.encounter_num = r2.encounter_num;"
+ON r1.encounter_num = r2.encounter_num \
+WHERE r2.concept_cd IS NOT NULL;"
     
 #     self.json_dict["Fall.Einrichtungskontakt.Aufnahmegrund"] = "SELECT \
 # encounter_num AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\",\
