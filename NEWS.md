@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-07-04)
+## v3.1.0 (2022-07-04)
 
 #### New Features
 
@@ -18,6 +18,7 @@
 #### Others
 
 * updated gha
+* preparing release v3.1.0
 * updated news.md
 * updated news.md
 * updated news.md
@@ -27,7 +28,7 @@
 * updated news.md
 * updated dev version
 
-Full set of changes: [`v3.0.0...aae3f69`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...aae3f69)
+Full set of changes: [`v3.0.0...v3.1.0`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...v3.1.0)
 
 ## v3.0.0 (2022-05-20)
 

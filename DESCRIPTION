@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 3.1.0
+Version: 3.1.0.9001
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -35,6 +35,12 @@ Imports:
     shiny,
     shinydashboard,
     utils
+Remotes: 
+    github::miracum/misc-diztools@dev,
+    github::miracum/misc-dizutils@development,
+    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip,
+    url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/development/dqagui-development.zip
 Suggests: 
     lintr,
     testthat
+RoxygenNote: 7.2.0
