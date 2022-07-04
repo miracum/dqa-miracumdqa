@@ -1,6 +1,6 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-06-29)
+## Unreleased (2022-07-04)
 
 #### New Features
 
@@ -12,6 +12,9 @@
 * update mdr i2b2 start date
 * moving i2b2 to sql-modify; addresses [#33](https://gitlab.miracum.org/miracum/dqa/miracumdqa/issues/33)
 * fixed issue with i2b2 plausi regex
+#### Refactorings
+
+* updated sqls of i2b2 to exclude null values and to be conform with fhir
 #### Others
 
 * updated gha
@@ -24,7 +27,7 @@
 * updated news.md
 * updated dev version
 
-Full set of changes: [`v3.0.0...461c6d8`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...461c6d8)
+Full set of changes: [`v3.0.0...aae3f69`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.0.0...aae3f69)
 
 ## v3.0.0 (2022-05-20)
 
