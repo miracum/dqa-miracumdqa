@@ -9,11 +9,13 @@
 
 #### Other changes
 
+-   news.md now with autonewsmd package
+    ([e6a2dea](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/tree/e6a2deadb04fb66362570572c1fe8936557c2f8b))
 -   updated dev-tag
     ([95f2b4d](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/tree/95f2b4d535bfde4d951c6db21fb7238f2774d8d6))
 
 Full set of changes:
-[`v3.1.0...dfda09d`](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/compare/v3.1.0...dfda09d)
+[`v3.1.0...e6a2dea`](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/compare/v3.1.0...e6a2dea)
 
 ## v3.1.0 (2022-07-04)
 
