@@ -136,8 +136,11 @@ if (stats_tag == "cran") {
     upgrade = "always",
     quiet = TRUE
   )
+  # add_remotes <- paste0(
+  #   "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"
+  # )
   add_remotes <- paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"
+    "github::miracum/dqa-dqastats@", stats_tag
   )
   if (is.null(remotes_append_vector)) {
     remotes_append_vector <- add_remotes
@@ -155,8 +158,11 @@ if (gui_tag == "cran") {
     ref = gui_tag,
     upgrade = "always"
   )
+  # add_remotes <- paste0(
+  #   "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"
+  # )
   add_remotes <- paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqagui/-/archive/", gui_tag, "/dqagui-", gui_tag, ".zip"
+    "github::miracum/dqa-dqagui@", gui_tag
   )
   if (is.null(remotes_append_vector)) {
     remotes_append_vector <- add_remotes

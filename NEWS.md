@@ -1,6 +1,11 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-08-30)
+## Unreleased (2022-09-05)
+
+#### Refactorings
+
+-   fhir-gw sql encounter without profile
+    ([60d1b20](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/tree/60d1b20f9a668deba1985183b365e736850b8854))
 
 #### CI
 
@@ -15,7 +20,7 @@
     ([95f2b4d](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/tree/95f2b4d535bfde4d951c6db21fb7238f2774d8d6))
 
 Full set of changes:
-[`v3.1.0...e6a2dea`](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/compare/v3.1.0...e6a2dea)
+[`v3.1.0...60d1b20`](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/compare/v3.1.0...60d1b20)
 
 ## v3.1.0 (2022-07-04)
 
