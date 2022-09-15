@@ -31,6 +31,11 @@ if __name__ == "__main__":
             os.path.dirname(__file__),
             "mdr.csv"
         ),
+        sql_dir=os.path.join(
+            os.path.dirname(__file__),
+            "../",
+            "SQL"
+        ),
         separator=";",
         api_url="https://dehub-dev.miracum.org/rest/v1/",
         api_auth_url="https://miracum-fas.unimedizin-mainz.de/auth/realms/miracum/protocol/openid-connect/token",

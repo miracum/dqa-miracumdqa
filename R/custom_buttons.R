@@ -27,7 +27,7 @@ button_mdr <-
 
       # read MDR
 
-      mdr <- tryCatch(
+      tryCatch(
         expr = {
 
           # cache path
@@ -113,6 +113,14 @@ button_mdr <-
               print_this = "Loaded MDR from DEHUB-MDR rest API",
               findme = "5cc7a8517b"
             )
+
+            sqls <- dqa_con$sql_statements
+
+            DIZtools::feedback(
+              print_this = "Loaded SQLs from DEHUB-MDR rest API",
+              findme = "5cc7a8517b"
+            )
+
           } else {
             shiny::incProgress(
               1,
@@ -124,7 +132,6 @@ button_mdr <-
           mdr <- DQAstats::read_mdr(
             mdr_filename = mdr_cache_path
           )
-          mdr
         }, error = function(e) {
           shiny::incProgress(
             1,
@@ -141,9 +148,8 @@ button_mdr <-
             utils_path = utils_path,
             mdr_filename = "mdr.csv"
           )
-          mdr
-        }, finally = function(f) {
-          return(mdr)
+
+          sqls <- NULL
         }
       )
 
@@ -156,7 +162,7 @@ button_mdr <-
       #                          mdr_filename = "mdr.csv")
       # end nolint
     })
-    return(mdr)
+    return(list("mdr" = mdr, "sqls" = sqls))
   }
 
 #' @title button_send_datamap
