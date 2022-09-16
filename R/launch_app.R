@@ -34,9 +34,6 @@
 #'
 #' @return The MIRACUM DQA Tool Shiny application.
 #'
-#' @import shiny shinydashboard
-#' @importFrom magrittr "%>%"
-#'
 #' @export
 #'
 

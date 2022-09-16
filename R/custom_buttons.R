@@ -171,8 +171,6 @@ button_mdr <-
 #'
 #' @param rv The global rv object. rv$datamap needs to be valid.
 #'
-#' @import data.table
-#'
 #' @export
 button_send_datamap <- function(rv) {
   DIZtools::feedback(

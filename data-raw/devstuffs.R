@@ -51,7 +51,7 @@ my_desc$set(
   "Config/reticulate",
   "\nlist(
     packages = list(
-      list(package = \"git+https://github.com/miracum/dqa-mdr-connector\")
+      list(package = \"git+https://github.com/miracum/dqa-mdr-connector@development\")
     )
   )")
 
