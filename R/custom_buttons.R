@@ -116,10 +116,15 @@ button_mdr <-
 
             sqls <- dqa_con$sql_statements
 
-            DIZtools::feedback(
-              print_this = "Loaded SQLs from DEHUB-MDR rest API",
-              findme = "5cc7a8517b"
-            )
+            if (length(sqls) > 0) {
+              DIZtools::feedback(
+                print_this = "Loaded SQLs from DEHUB-MDR rest API",
+                findme = "5cc7f8517b"
+              )
+            } else {
+              sqls <- NULL
+            }
+
 
           } else {
             shiny::incProgress(

@@ -1,9 +1,11 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-09-15)
+## Unreleased (2022-09-16)
 
 #### Refactorings
 
+-   also get sqls from mdr
+    ([a490fb4](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/tree/a490fb454ae1da7ab6391ab4166537a303c33b7a))
 -   added retrieving of sql statements from mdr
     ([0f32a66](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/tree/0f32a668c1272a0e51f6234cb28ad890c789706d))
 -   fhir-gw sql encounter without profile
@@ -28,7 +30,7 @@
     ([95f2b4d](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/tree/95f2b4d535bfde4d951c6db21fb7238f2774d8d6))
 
 Full set of changes:
-[`v3.1.0...0f32a66`](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/compare/v3.1.0...0f32a66)
+[`v3.1.0...a490fb4`](https://gitlab.miracum.org/miracum/dqa/miracumdqa.git/compare/v3.1.0...a490fb4)
 
 ## v3.1.0 (2022-07-04)
 
