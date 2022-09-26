@@ -1,9 +1,16 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-09-19)
+## Unreleased (2022-09-26)
+
+#### New features
+
+-   re-added support for fhir-gw miracum-fhir-profile
+    ([80df21e](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/80df21e0522b503e8fb83bdcdd51b2970460bff5))
 
 #### Refactorings
 
+-   updated sqls to comply with mii fhir profile
+    ([76a8aef](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/76a8aefbe4cba835bee6dd5a951ca415141c282d))
 -   also get sqls from mdr
     ([a490fb4](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/a490fb454ae1da7ab6391ab4166537a303c33b7a))
 -   added retrieving of sql statements from mdr
@@ -22,6 +29,8 @@
 
 #### Other changes
 
+-   updated description
+    ([823c24b](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/823c24bc5f577e8bcbfd81d7d07561c1707e5a00))
 -   included error handling for retrieving sqls
     ([4867e70](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/4867e70563befe7bfc06ce22edf9e69f8da8906a))
 -   updated newsmd
@@ -32,7 +41,7 @@
     ([95f2b4d](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/95f2b4d535bfde4d951c6db21fb7238f2774d8d6))
 
 Full set of changes:
-[`v3.1.0...4867e70`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.1.0...4867e70)
+[`v3.1.0...823c24b`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.1.0...823c24b)
 
 ## v3.1.0 (2022-07-04)
 
