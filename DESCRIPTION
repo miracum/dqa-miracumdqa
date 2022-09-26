@@ -1,6 +1,6 @@
 Package: miRacumDQA
 Title: MIRACUM DQA Tool
-Version: 3.1.0.9004
+Version: 3.1.0.9005
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -16,7 +16,7 @@ License: GPL-3
 URL: https://github.com/miracum/dqa-miracumdqa
 BugReports: https://github.com/miracum/dqa-miracumdqa/issues
 Encoding: UTF-8
-Date: 2022-09-19
+Date: 2022-09-26
 Config/reticulate: 
  list(
     packages = list(
@@ -43,4 +43,3 @@ Remotes:
 Suggests: 
     lintr,
     testthat
-RoxygenNote: 7.2.1

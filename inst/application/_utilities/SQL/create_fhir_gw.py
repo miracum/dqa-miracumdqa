@@ -389,7 +389,7 @@ WHERE r1.cd_system = 'https://www.medizininformatik-initiative.de/fhir/core/modu
 
     self.json_dict["Fall.Einrichtungskontakt.Entlassungsgrund"] = "SELECT \
 r1.fhir_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
-jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'dischargeDisposition' AS \"Fall.Einrichtungskontakt.Entlassungsgrund\" \
+jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization.dischargeDisposition.coding.entlassungsgrund')) ->> 'code' AS \"Fall.Einrichtungskontakt.Entlassungsgrund\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
@@ -414,7 +414,7 @@ WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmeanlass"] = "SELECT \
 r1.fhir_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
-jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'admitSource' AS \"Fall.Einrichtungskontakt.Aufnahmeanlass\" \
+jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization.admitSource.coding.aufnahmeanlass')) ->> 'code' AS \"Fall.Einrichtungskontakt.Aufnahmeanlass\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
@@ -439,7 +439,7 @@ WHERE TYPE = 'Encounter') AS r_intermediate ) r1;"
 
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmegrund"] = "SELECT \
 r1.fhir_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
-r1.jsonbdata ->> 'reasonCode' AS \"Fall.Einrichtungskontakt.Aufnahmegrund\" \
+jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.reasonCode.coding.aufnahmegrund')) ->> 'code' AS \"Fall.Einrichtungskontakt.Aufnahmegrund\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
