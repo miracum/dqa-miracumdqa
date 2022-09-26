@@ -52,7 +52,7 @@ class WriteConstraints(MDRHandling):
     
     self.mdr.loc[
       (self.mdr.designation == "AdministrativesGeschlecht") &
-      (self.mdr.source_system_name == "fhir_gw") &
+      (self.mdr.source_system_name.str.contains("fhir_gw")) &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
         {"value_set": ["male", "female", "unknown"]}
@@ -78,7 +78,7 @@ class WriteConstraints(MDRHandling):
       
     self.mdr.loc[
       (self.mdr.designation == "VollstaendigerDiagnosekode") &
-      (self.mdr.source_system_name == "fhir_gw") &
+      (self.mdr.source_system_name.str.contains("fhir_gw")) &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
         {"regex": "^([[:upper:]]){1}([[:digit:]]{1,2})((\\.)([[:digit:]]{1,2}))?(\\+|\\*|\\!)?$"}
@@ -104,7 +104,7 @@ class WriteConstraints(MDRHandling):
       
     self.mdr.loc[
       (self.mdr.designation == "VollstaendigerProzedurenkode") &
-      (self.mdr.source_system_name == "fhir_gw") &
+      (self.mdr.source_system_name.str.contains("fhir_gw")) &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
         {"regex": "^([[:digit:]]{1})(\\-)?([[:digit:]]{2})([[:lower:]]{1}|([[:digit:]]{1}))((\\.)?([[:alnum:]]){1,2})?$"}
@@ -127,7 +127,7 @@ class WriteConstraints(MDRHandling):
       )
     self.mdr.loc[
       (self.mdr.designation == "KontaktKlasse") &
-      (self.mdr.source_system_name == "fhir_gw") &
+      (self.mdr.source_system_name.str.contains("fhir_gw")) &
       (self.mdr.dqa_assessment == "1"),
       "constraints"] = json.dumps(
         {"regex": "^(ambulant|stationaer|teilstationaer)$"}
