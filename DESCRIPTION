@@ -43,3 +43,4 @@ Remotes:
 Suggests: 
     lintr,
     testthat
+RoxygenNote: 7.2.1
