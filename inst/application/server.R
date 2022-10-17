@@ -20,7 +20,7 @@ shiny::shinyServer(
     # define reactive values here
     rv <- shiny::reactiveValues(
       headless = FALSE,
-      # mdr_filename = mdr_filename,
+      #% mdr_filename = mdr_filename,
       log = list(logfile_dir = DIZtools::clean_path_name(logfile_dir)),
       utilspath = DIZtools::clean_path_name(utils_path),
       current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET"),
@@ -266,9 +266,9 @@ shiny::shinyServer(
             tabName = "tab_completeness",
             icon = icon("chart-line")
           ),
-          #shinydashboard::menuItem("Visualizations",
-          #tabName = "tab_visualizations",
-          #icon = icon("chart-line")),
+          #%shinydashboard::menuItem("Visualizations",
+          #%tabName = "tab_visualizations",
+          #%icon = icon("chart-line")),
           shinydashboard::menuItem(
             text = "Reporting",
             tabName = "tab_report",

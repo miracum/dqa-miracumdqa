@@ -149,12 +149,12 @@ button_mdr <-
             type = "Warning",
             findme = "ab733c2b51"
           )
-          mdr <- DQAstats::read_mdr(
+          mdr <- DQAstats::read_mdr( # nolint
             utils_path = utils_path,
             mdr_filename = "mdr.csv"
           )
 
-          sqls <- NULL
+          sqls <- NULL # nolint
         }
       )
 
@@ -303,7 +303,7 @@ send_datamap_to_influx <- function(rv) {
             db = con_res$config$dbname,
             x = dm,
             tag_cols = tag_cols,
-            # tag_cols = c("site", "system", "item", "n"),
+            #% tag_cols = c("site", "system", "item", "n"),
             measurement = "item_counts"
           )
 

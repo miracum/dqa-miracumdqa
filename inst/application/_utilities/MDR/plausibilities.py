@@ -80,14 +80,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen ist eine ICD-Diagnose aus dem ICD-Kapitel XV (ICD O00-O99) (Schwangerschaft, Geburt und Wochenbett) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)O[0-9]",
-                "fhir_gw": "^O[0-9]",
+                "fhir_gw_miiprofile": "^O[0-9]",
                 "fhir_gw_miracumprofile": "^O[0-9]"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -98,14 +98,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind bösartige Neubildungen der weiblichen Genitalorgane (ICD C51-C58) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)C5[1-8]",
-                "fhir_gw": "^C5[1-8]",
+                "fhir_gw_miiprofile": "^C5[1-8]",
                 "fhir_gw_miracumprofile": "^C5[1-8]"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -116,14 +116,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten sind bösartige Neubildungen der männlichen Genitalorgane (ICD C60-C63) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)C6[0-3]",
-                "fhir_gw": "^C6[0-3]",
+                "fhir_gw_miiprofile": "^C6[0-3]",
                 "fhir_gw_miracumprofile": "^C6[0-3]"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -134,14 +134,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind nichtentzündliche Krankheiten des weiblichen Genitaltraktes (ICD N80-N98) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)N[8-9][0-9]",
-                "fhir_gw": "^N[8-9][0-9]",
+                "fhir_gw_miiprofile": "^N[8-9][0-9]",
                 "fhir_gw_miracumprofile": "^N[8-9][0-9]"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -152,14 +152,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten ist Testikuläre Dysfunktion (ICD E29*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)E29",
-                "fhir_gw": "^E29",
+                "fhir_gw_miiprofile": "^E29",
                 "fhir_gw_miracumprofile": "^E29"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -170,13 +170,13 @@ class WritePlausibilities(MDRHandling):
             #   "description": "Nur bei weiblichen Patientinnen sind Krankheiten der Mamma [Brustdrüse] (ICD N60-N64) als Krankenhausdiagnose erlaubt.",
             #   "filter": {
             #     "i2b2": "^(ICD10\\:)N6[0-4]",
-            #     "fhir_gw": "^N6[0-4]"
+            #     "fhir_gw_miiprofile": "^N6[0-4]"
             #   },
             #   "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
             #   "constraints": {
             #   "value_set": {
             #       "i2b2": "Dem|Sex:female",
-            #       "fhir_gw": "female",
+            #       "fhir_gw_miiprofile": "female",
             #       "omop": "female"
             #     }
             #   }
@@ -186,14 +186,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind Entzündliche Krankheiten der weiblichen Beckenorgane (ICD N70-N77) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)N7[0-7]",
-                "fhir_gw": "^N7[0-7]",
+                "fhir_gw_miiprofile": "^N7[0-7]",
                 "fhir_gw_miracumprofile": "^N7[0-7]"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -204,14 +204,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten sind Krankheiten der männlichen Genitalorgane (ICD N40-N51) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)N((4[0-9])|(5[0-1]))",
-                "fhir_gw": "^N((4[0-9])|(5[0-1]))",
+                "fhir_gw_miiprofile": "^N((4[0-9])|(5[0-1]))",
                 "fhir_gw_miracumprofile": "^N((4[0-9])|(5[0-1]))"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -222,14 +222,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten sind sonstige angeborene Fehlbildungen der männlichen Genitalorgane (ICD Q55*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)Q55",
-                "fhir_gw": "^Q55",
+                "fhir_gw_miiprofile": "^Q55",
                 "fhir_gw_miracumprofile": "^Q55"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -240,14 +240,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten ist Nondescensus testis (ICD Q53*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)Q53",
-                "fhir_gw": "^Q53",
+                "fhir_gw_miiprofile": "^Q53",
                 "fhir_gw_miracumprofile": "^Q53"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -258,14 +258,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten ist Hypospadie (ICD Q54*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)Q54",
-                "fhir_gw": "^Q54",
+                "fhir_gw_miiprofile": "^Q54",
                 "fhir_gw_miracumprofile": "^Q54"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -276,14 +276,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind angeborene Fehlbildungen der Ovarien, der Tubae uterinae und der Ligg. lata uteri (ICD Q50*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)Q50",
-                "fhir_gw": "^Q50",
+                "fhir_gw_miiprofile": "^Q50",
                 "fhir_gw_miracumprofile": "^Q50"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -294,14 +294,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind angeborene Fehlbildungen des Uterus und der Cervix uteri (ICD Q51*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)Q51",
-                "fhir_gw": "^Q51",
+                "fhir_gw_miiprofile": "^Q51",
                 "fhir_gw_miracumprofile": "^Q51"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -312,14 +312,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind sonstige angeborene Fehlbildungen der weiblichen Genitalorgane (ICD Q52*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)Q52",
-                "fhir_gw": "^Q52",
+                "fhir_gw_miiprofile": "^Q52",
                 "fhir_gw_miracumprofile": "^Q52"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -330,14 +330,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind abnorme Befunde in Untersuchungsmaterialien aus den weiblichen Genitalorganen (ICD R87*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)R87",
-                "fhir_gw": "^R87",
+                "fhir_gw_miiprofile": "^R87",
                 "fhir_gw_miracumprofile": "^R87"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -348,14 +348,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten sind abnorme Befunde in Untersuchungsmaterialien aus den männlichen Genitalorganen (ICD R86*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)R86",
-                "fhir_gw": "^R86",
+                "fhir_gw_miiprofile": "^R86",
                 "fhir_gw_miracumprofile": "^R86"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -366,14 +366,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten sind gutartige Neubildung der männlichen Genitalorgane (ICD D29*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)D29",
-                "fhir_gw": "^D29",
+                "fhir_gw_miiprofile": "^D29",
                 "fhir_gw_miracumprofile": "^D29"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -384,14 +384,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind Leiomyom des Uterus (ICD D25*), sonstige gutartige Neubildungen des Uterus (ICD D26*), gutartige Neubildung des Ovars (ICD D27*) und gutartige Neubildung sonstiger und nicht näher bezeichneter weiblicher Genitalorgane (ICD D28*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)D2[5-8]",
-                "fhir_gw": "^D2[5-8]",
+                "fhir_gw_miiprofile": "^D2[5-8]",
                 "fhir_gw_miracumprofile": "^D2[5-8]"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -402,14 +402,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind Neubildung unsicheren oder unbekannten Verhaltens der weiblichen Genitalorgane (ICD D39*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)D39",
-                "fhir_gw": "^D39",
+                "fhir_gw_miiprofile": "^D39",
                 "fhir_gw_miracumprofile": "^D39"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -420,14 +420,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten sind Neubildung unsicheren oder unbekannten Verhaltens der männlichen Genitalorgane (ICD D40*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)D40",
-                "fhir_gw": "^D40",
+                "fhir_gw_miiprofile": "^D40",
                 "fhir_gw_miracumprofile": "^D40"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -438,14 +438,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei männlichen Patienten sind Carcinoma in situ sonstiger und nicht näher bezeichneter Genitalorgane: Penis, Prostata, sonstige und nicht näher bezeichnete männliche Genitalorgane (ICD D07.4-6) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)D07\\.[4-6]",
-                "fhir_gw": "^D07\\.[4-6]",
+                "fhir_gw_miiprofile": "^D07\\.[4-6]",
                 "fhir_gw_miracumprofile": "^D07\\.[4-6]"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:male",
-                  "fhir_gw": "male",
+                  "fhir_gw_miiprofile": "male",
                   "fhir_gw_miracumprofile": "male",
                   "omop": "male"
                 }
@@ -456,14 +456,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind Carcinoma in situ sonstiger und nicht näher bezeichneter Genitalorgane: Endometrium, Vulva, Vagina, sonstige und nicht näher bezeichnete weibliche Genitalorgane (ICD D07.0-3) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)D07\\.[0-3]",
-                "fhir_gw": "^D07\\.[0-3]",
+                "fhir_gw_miiprofile": "^D07\\.[0-3]",
                 "fhir_gw_miracumprofile": "^D07\\.[0-3]"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -474,14 +474,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen ist Tetanus während der Schwangerschaft, der Geburt und des Wochenbettes (ICD A34) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)A34",
-                "fhir_gw": "^A34",
+                "fhir_gw_miiprofile": "^A34",
                 "fhir_gw_miracumprofile": "^A34"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -492,14 +492,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen sind Psychische oder Verhaltensstörungen im Wochenbett, anderenorts nicht klassifiziert (ICD F53) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)F53",
-                "fhir_gw": "^F53",
+                "fhir_gw_miiprofile": "^F53",
                 "fhir_gw_miracumprofile": "^F53"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }
@@ -510,14 +510,14 @@ class WritePlausibilities(MDRHandling):
               "description": "Nur bei weiblichen Patientinnen ist Osteomalazie im Wochenbett (ICD M83.0*) als Krankenhausdiagnose erlaubt.",
               "filter": {
                 "i2b2": "^(ICD10\\:)M83\\.0",
-                "fhir_gw": "^M83\\.0",
+                "fhir_gw_miiprofile": "^M83\\.0",
                 "fhir_gw_miracumprofile": "^M83\\.0"
               },
               "join_crit": "Fall.Versorgungsstellenkontakt.Aufnahmenummer",
               "constraints": {
               "value_set": {
                   "i2b2": "Dem|Sex:female",
-                  "fhir_gw": "female",
+                  "fhir_gw_miiprofile": "female",
                   "fhir_gw_miracumprofile": "female",
                   "omop": "female"
                 }

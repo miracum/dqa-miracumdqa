@@ -29,6 +29,8 @@
 
 #### Other changes
 
+-   updated news.md
+    ([489dd96](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/489dd96ce2700725599c4dc2daffad45e65f644a))
 -   updated description
     ([823c24b](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/823c24bc5f577e8bcbfd81d7d07561c1707e5a00))
 -   included error handling for retrieving sqls
@@ -41,7 +43,7 @@
     ([95f2b4d](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/95f2b4d535bfde4d951c6db21fb7238f2774d8d6))
 
 Full set of changes:
-[`v3.1.0...823c24b`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.1.0...823c24b)
+[`v3.1.0...489dd96`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.1.0...489dd96)
 
 ## v3.1.0 (2022-07-04)
 
