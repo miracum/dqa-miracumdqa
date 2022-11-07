@@ -1,11 +1,18 @@
 # miRacumDQA NEWS
 
-## Unreleased (2022-09-26)
+## Unreleased (2022-11-07)
 
 #### New features
 
+-   duplicated fhir\_gw to address mii- and miracum-profile
+    ([b1aa64e](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/b1aa64e19ffdad0da76dfb288d6ba2d68b39857e))
 -   re-added support for fhir-gw miracum-fhir-profile
     ([80df21e](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/80df21e0522b503e8fb83bdcdd51b2970460bff5))
+
+#### Bug fixes
+
+-   working on getting fhir\_gw statements online
+    ([7390bc1](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/7390bc19b9f099f1e8064a6042cdb1f67e8b5d3b))
 
 #### Refactorings
 
@@ -29,6 +36,8 @@
 
 #### Other changes
 
+-   updated header and versioning in rmd-template
+    ([bec9a53](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/bec9a5382f509c4774c8f974a2b06846cea4487c))
 -   updated news.md
     ([489dd96](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/489dd96ce2700725599c4dc2daffad45e65f644a))
 -   updated description
@@ -43,7 +52,7 @@
     ([95f2b4d](https://gitlab.miracum.org/miracum/dqa/miracumdqa/tree/95f2b4d535bfde4d951c6db21fb7238f2774d8d6))
 
 Full set of changes:
-[`v3.1.0...489dd96`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.1.0...489dd96)
+[`v3.1.0...7390bc1`](https://gitlab.miracum.org/miracum/dqa/miracumdqa/compare/v3.1.0...7390bc1)
 
 ## v3.1.0 (2022-07-04)
 
