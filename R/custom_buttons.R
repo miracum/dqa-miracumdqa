@@ -32,6 +32,7 @@ button_mdr <-
 
           # cache path
           mdr_cache_path <- file.path(tempdir(), "dqa_mdr_cache.csv")
+          sqls_cache_path <- file.path(tempdir(), "dqa_sqls_cache.JSON")
 
           # get timestamp of cached mdr
           if (file.exists(mdr_cache_path)) {
@@ -99,15 +100,15 @@ button_mdr <-
 
             mdr[mdr == ""] <- NA
 
+            if (nrow(mdr) < 2) {
+              stop("\nMDR loaded from DEHUB has less than 2 rows...\n")
+            }
+
             # save MDR cache file
             data.table::fwrite(
               x = mdr,
               file = mdr_cache_path
             )
-
-            if (nrow(mdr) < 2) {
-              stop("\nMDR loaded from DEHUB has less than 2 rows...\n")
-            }
 
             DIZtools::feedback(
               print_this = "Loaded MDR from DEHUB-MDR rest API",
@@ -115,6 +116,12 @@ button_mdr <-
             )
 
             sqls <- dqa_con$sql_statements
+            jsonlite::toJSON(
+              x = sqls,
+              pretty = TRUE,
+              auto_unbox = TRUE
+            ) %>%
+              writeLines(con = sqls_cache_path)
 
             if (length(sqls) > 0) {
               DIZtools::feedback(
@@ -136,6 +143,9 @@ button_mdr <-
           # function
           mdr <- DQAstats::read_mdr(
             mdr_filename = mdr_cache_path
+          )
+          sqls <- jsonlite::fromJSON(
+            txt = sqls_cache_path
           )
         }, error = function(e) {
           shiny::incProgress(

@@ -26,7 +26,7 @@ class CreateSQL():
     Instantiate some basics.
     """
     self.base_dir = os.path.abspath(os.path.dirname(__file__))
-    json_file = "SQL_fhir_gw_miiprofile.JSON"
+    json_file = "SQL_fhir_gw.JSON"
     
     self.json_path = os.path.join(
       self.base_dir,
@@ -122,7 +122,7 @@ DATA AS jsonbdata2 \
 FROM resources \
 WHERE TYPE = 'Patient') r2 \
 ON r2.fhir_id = r1.pid \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 
 #     self.json_dict["Person.Demographie.Geburtsdatum"] = "SELECT \
@@ -156,7 +156,7 @@ DATA AS jsonbdata2 \
 FROM resources \
 WHERE TYPE = 'Patient') r2 \
 ON r2.fhir_id = r1.pid \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
     
     
     
@@ -194,7 +194,7 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 jsonb_array_elements_text(jsonb_path_query(DATA, '$.meta.profile')) AS fhir_profile \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
     self.json_dict["Person.PatientIn.Patienten-Identifikator.Patienten-Identifikator"] = self.json_dict["Fall.Versorgungsstellenkontakt.Aufnahmenummer"]
 
@@ -220,7 +220,7 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 jsonb_array_elements_text(jsonb_path_query(DATA, '$.meta.profile')) AS fhir_profile \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 
 #     self.json_dict["Fall.Versorgungsstellenkontakt.Enddatum"] = "SELECT \
@@ -246,7 +246,7 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 jsonb_array_elements_text(jsonb_path_query(DATA, '$.meta.profile')) AS fhir_profile \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 
 #     self.json_dict["Person.Demographie.Adresse.Strassenanschrift.PLZ"] = "SELECT \
@@ -282,7 +282,7 @@ DATA AS jsonbdata2 \
 FROM resources \
 WHERE TYPE = 'Patient') r2 \
 ON r2.fhir_id = r1.pid \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 #     self.json_dict["Diagnose.ICD10GMDiagnoseKodiert.VollstaendigerDiagnosekode"] = "SELECT \
 # r1.jsonbdata ->> 'id' AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
@@ -317,7 +317,7 @@ DATA AS jsonbdata2 \
 FROM resources \
 WHERE TYPE = 'Condition') r2 \
 ON r2.eid = r1.fhir_id \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 
 #     self.json_dict["Prozedur.OPSProzedurKodiert.VollstaendigerProzedurenkode"] = "SELECT \
@@ -353,7 +353,7 @@ DATA AS jsonbdata2 \
 FROM resources \
 WHERE TYPE = 'Procedure') r2 \
 ON r2.eid = r1.fhir_id \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 #     self.json_dict["Fall.Abteilungskontakt.Fachabteilungsschluessel"] = "SELECT \
 # r1.jsonbdata ->> 'id' AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
@@ -381,8 +381,8 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 jsonb_array_elements_text(jsonb_path_query(DATA, '$.meta.profile')) AS fhir_profile \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
-WHERE r1.cd_system = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/CodeSystem/Fachabteilungsschluessel' \
-AND r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.cd_system = 'https://fhir.miracum.org/core/CodeSystem/fachabteilungen' \
+AND r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
     
 
 #     self.json_dict["Fall.Einrichtungskontakt.Entlassungsgrund"] = "SELECT \
@@ -398,7 +398,7 @@ AND r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/mod
 
     self.json_dict["Fall.Einrichtungskontakt.Entlassungsgrund"] = "SELECT \
 r1.fhir_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
-jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization.dischargeDisposition.coding.entlassungsgrund')) ->> 'code' AS \"Fall.Einrichtungskontakt.Entlassungsgrund\" \
+jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'dischargeDisposition' AS \"Fall.Einrichtungskontakt.Entlassungsgrund\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
@@ -408,7 +408,7 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 jsonb_array_elements_text(jsonb_path_query(DATA, '$.meta.profile')) AS fhir_profile \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 
 #     self.json_dict["Fall.Einrichtungskontakt.Aufnahmeanlass"] = "SELECT \
@@ -424,7 +424,7 @@ WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/m
 
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmeanlass"] = "SELECT \
 r1.fhir_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
-jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization.admitSource.coding.aufnahmeanlass')) ->> 'code' AS \"Fall.Einrichtungskontakt.Aufnahmeanlass\" \
+jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.hospitalization')) ->> 'admitSource' AS \"Fall.Einrichtungskontakt.Aufnahmeanlass\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
@@ -434,7 +434,7 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 jsonb_array_elements_text(jsonb_path_query(DATA, '$.meta.profile')) AS fhir_profile \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 #     self.json_dict["Fall.Einrichtungskontakt.Aufnahmegrund"] = "SELECT \
 # r1.jsonbdata ->> 'id' AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
@@ -450,7 +450,7 @@ WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/m
 
     self.json_dict["Fall.Einrichtungskontakt.Aufnahmegrund"] = "SELECT \
 r1.fhir_id AS \"Fall.Versorgungsstellenkontakt.Aufnahmenummer\", \
-jsonb_array_elements(jsonb_path_query(r1.jsonbdata, '$.reasonCode.coding.aufnahmegrund')) ->> 'code' AS \"Fall.Einrichtungskontakt.Aufnahmegrund\" \
+r1.jsonbdata ->> 'reasonCode' AS \"Fall.Einrichtungskontakt.Aufnahmegrund\" \
 FROM ( \
 SELECT * FROM ( \
 SELECT \
@@ -460,7 +460,7 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 jsonb_array_elements_text(jsonb_path_query(DATA, '$.meta.profile')) AS fhir_profile \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 # 
 #     self.json_dict["Laborbefund.Laboruntersuchung.Code"] = "SELECT \
@@ -511,7 +511,7 @@ WHERE r3.cd_system ->> 'system' = 'http://loinc.org' AND \
 r3.cd_category ->> 'code' = '26436-6' \
 ) r2 ON \
 r2.eid = r1.fhir_id \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 
     self.json_dict["Fall.Versorgungsstellenkontakt.KontaktKlasse"] = "SELECT \
@@ -526,7 +526,7 @@ to_timestamp(jsonb_path_query(DATA, '$.period') ->> 'start', 'YYYY-MM-DDTHH:MI:S
 jsonb_array_elements_text(jsonb_path_query(DATA, '$.meta.profile')) AS fhir_profile \
 FROM resources \
 WHERE TYPE = 'Encounter') AS r_intermediate ) r1 \
-WHERE r1.fhir_profile = 'https://www.medizininformatik-initiative.de/fhir/core/modul-fall/StructureDefinition/KontaktGesundheitseinrichtung';"
+WHERE r1.fhir_profile = 'https://fhir.miracum.org/core/StructureDefinition/Versorgungsfall';"
 
 
 
