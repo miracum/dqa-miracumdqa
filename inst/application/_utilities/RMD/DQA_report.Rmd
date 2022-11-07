@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 title: "Überprüfung der ETL-Strecken zwischen Quellsystem (`r rv$source$system_name`) und Zielsystem (`r rv$target$system_name`)"
 # subtitle: "Betrachteter Zeitraum: `r DQAstats:::get_restricting_date_info(restricting_date = rv$restricting_date, lang = 'de')`"
-author: "Datenqualitätsanalyse des §21-Datensatzes  \nStandort: `r rv$sitename`  \n `r DQAstats:::get_restricting_date_info(restricting_date = rv$restricting_date, lang = 'de')`"
+author: "Datenqualitätsanalyse \nStandort: `r rv$sitename`  \n `r DQAstats:::get_restricting_date_info(restricting_date = rv$restricting_date, lang = 'de')`"
 date: \today
 geometry: 'left=2.5cm,right=2.5cm,top=2cm,bottom=2cm' 
 output: 
@@ -150,16 +150,24 @@ if (!is.null(rv$results_plausibility_unique)) {
 
 # Appendix
 
-## R-Package Version 'DQAstats' 
+## Version
+
+### R-Package Version 'DQAstats' 
 
 ```{r}
 utils::packageVersion("DQAstats")
 ```
 
-## R-Package Version 'DIZutils' 
+### R-Package Version 'DIZutils' 
 
 ```{r}
 utils::packageVersion("DIZutils")
+```
+
+### R-Package Version 'DIZtools' 
+
+```{r}
+utils::packageVersion("DIZtools")
 ```
 
 
