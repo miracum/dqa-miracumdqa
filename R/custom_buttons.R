@@ -159,12 +159,11 @@ button_mdr <-
             type = "Warning",
             findme = "ab733c2b51"
           )
-          mdr <- DQAstats::read_mdr( # nolint
+          mdr <<- DQAstats::read_mdr( # nolint
             utils_path = utils_path,
             mdr_filename = "mdr.csv"
           )
-
-          sqls <- NULL # nolint
+          sqls <<- NULL # nolint
         }
       )
 
