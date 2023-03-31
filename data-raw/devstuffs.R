@@ -32,7 +32,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("3.1.0.9007")
+my_desc$set_version("3.1.0.9008")
 # The title of your package
 my_desc$set(Title = "MIRACUM DQA Tool")
 # The description of your package
@@ -244,7 +244,7 @@ usethis::use_git_ignore("!/tic.R")
 
 an <- autonewsmd::autonewsmd$new(repo_name = packagename)
 an$generate()
-an$write()
+an$write(force = T)
 
 # imgurl <- path.expand("~/development/Rpackages/bg5.jpeg")
 # hexSticker::sticker(

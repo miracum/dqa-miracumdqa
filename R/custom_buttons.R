@@ -27,7 +27,7 @@ button_mdr <-
 
       # read MDR
 
-      tryCatch(
+    trycatch_out <- tryCatch(
         expr = {
 
           # cache path
@@ -132,7 +132,6 @@ button_mdr <-
               sqls <- NULL
             }
 
-
           } else {
             shiny::incProgress(
               1,
@@ -147,6 +146,10 @@ button_mdr <-
           sqls <- jsonlite::fromJSON(
             txt = sqls_cache_path
           )
+
+          ## Return:
+          list(sqls = sqls, mdr = mdr)
+
         }, error = function(e) {
           shiny::incProgress(
             1,
@@ -159,11 +162,13 @@ button_mdr <-
             type = "Warning",
             findme = "ab733c2b51"
           )
-          mdr <<- DQAstats::read_mdr( # nolint
+          mdr <- DQAstats::read_mdr( # nolint
             utils_path = utils_path,
             mdr_filename = "mdr.csv"
           )
-          sqls <<- NULL # nolint
+          sqls <- NULL # nolint
+
+          return(list(sqls = sqls, mdr = mdr))
         }
       )
 
@@ -176,7 +181,7 @@ button_mdr <-
       #                          mdr_filename = "mdr.csv")
       # end nolint
     })
-    return(list("mdr" = mdr, "sqls" = sqls))
+    return(list("mdr" = trycatch_out$mdr, "sqls" = trycatch_out$sqls))
   }
 
 #' @title button_send_datamap
